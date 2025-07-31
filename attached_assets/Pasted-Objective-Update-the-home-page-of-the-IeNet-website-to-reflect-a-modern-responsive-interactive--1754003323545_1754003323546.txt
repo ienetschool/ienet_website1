@@ -1,0 +1,101 @@
+Objective:  
+Update the home page of the IeNet website to reflect a modern, responsive, interactive, and professional design that includes the following critical elements:
+
+---
+
+🔹 General Instructions:
+- Use a modern frontend stack (e.g., HTML5, TailwindCSS or Bootstrap 5, JavaScript/React).
+- Ensure full responsiveness for all devices.
+- All sections must follow a clean layout, semantic structure, and accessibility standards (WCAG AA).
+- Optimize performance for fast load times and SEO best practices.
+
+---
+
+🔧 Required Home Page Components:
+
+1. 🔝 Sticky Top Bar with Mega Menu:
+   - Include logo and site title (IeNet).
+   - Sticky navigation on scroll.
+   - Mega menu structure under "Services" with 2–3 service categories and nested links.
+   - Quick links: Home, Services, Projects, About, Contact.
+   - Right-aligned button: “Get in Touch” → scrolls to contact section.
+
+2. 🎞️ Hero Slider:
+   - Rotating slides with background images or graphics.
+   - Each slide must include:
+     - Heading (e.g., "Innovative IT & Software Solutions")
+     - Short description
+     - CTA button (e.g., “Explore Services”)
+   - Include swipe support for mobile devices.
+
+3. 🏢 About the Company Section:
+   - Left: Image (e.g., team working or abstract tech)
+   - Right: Title + rich paragraph content about IeNet's expertise.
+   - Include bullets or icons showing:
+     - Years of experience
+     - Projects completed
+     - Technologies used
+     - Team size or certifications
+
+4. 🧩 Featured Services Section:
+   - Grid layout of at least 3 core services.
+   - Each card must include:
+     - Icon or image
+     - Service title
+     - Short description
+     - "Learn More" link to service page
+
+5. 📂 Portfolio/Project Showcase Slider:
+   - Carousel of key projects like:
+     - Hospital Management System
+     - Optical Store System
+     - School Management
+   - Each slide includes:
+     - Project title
+     - Thumbnail image
+     - Short description or features
+     - “View Details” CTA link
+
+6. ⭐ Client Reviews/Testimonial Slider:
+   - Rotating or sliding testimonials from clients.
+   - Each includes quote, client name/role, optional avatar.
+   - At least 2 testimonials shown.
+
+7. 📞 Quick Contact Section:
+   - Sticky “Contact Us” button visible on all pages.
+   - Floating button to open a popup form with:
+     - Name, Email, Message fields
+     - Submit → POSTs to backend or logs in dev mode
+
+8. 💬 Live Chat / Quick Chat:
+   - Embed third-party live chat like Tawk.to, Crisp, or use placeholder UI for now.
+   - Icon floats bottom-right, styled to match brand.
+
+9. 🔗 Footer Section:
+   - Four-column layout:
+     - Column 1: Company overview
+     - Column 2: Quick links (Home, About, Services, Contact)
+     - Column 3: Social Media icons (LinkedIn, Facebook, Twitter)
+     - Column 4: Payment Gateway icons/logos (Visa, Mastercard, Stripe, Razorpay)
+   - Footer bottom note: “© IeNet 2025. All Rights Reserved.”
+
+---
+
+📐 Style Notes:
+- Use consistent padding/margins and rounded corners.
+- Apply hover and active states for buttons and links.
+- Use a dark/light color scheme option if possible.
+- Use transitions or animations for sliders, dropdowns, and CTA reveals.
+
+---
+
+✅ Deliverable:
+- A fully functional homepage UI with all elements listed above implemented.
+- Modular components and clean code with comments.
+- Ready to integrate into the IeNet frontend system.
+
+---
+
+Optional:
+Start by building a wireframe layout or component grid, then fill with real content, images, and data placeholders. Focus on mobile responsiveness and visual polish.
+

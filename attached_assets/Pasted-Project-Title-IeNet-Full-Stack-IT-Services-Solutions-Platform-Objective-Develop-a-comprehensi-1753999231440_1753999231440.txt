@@ -1,0 +1,166 @@
+Project Title: IeNet – Full-Stack IT Services & Solutions Platform
+
+Objective:
+Develop a comprehensive, SEO-optimized, enterprise-grade IT and technology services website for "IeNet". The platform should provide a scalable and fully manageable web solution offering IT services across multiple categories. The system must include a hierarchical content architecture (Main Services → Sub-Services → Feature Details), a dynamic project showcase, and a robust admin dashboard with modular controls for content, users, and site-wide settings.
+
+----
+
+FRONTEND REQUIREMENTS:
+Tech Stack: React.js (with TailwindCSS or Bootstrap 5), or Next.js (if SSR/SSG required)
+
+1. Design Principles:
+   - Responsive, mobile-first layout
+   - Clean UI/UX with professional typography, color palette, and iconography
+   - Advanced interaction support: sliders, collapsible sections, animation, micro-interactions
+   - Fast loading performance (Lighthouse score 90+)
+   - Accessibility-compliant (WCAG 2.1 AA minimum)
+
+2. Page Structure (Component-Based):
+   A. Home Page
+      - Service overview, featured projects, testimonials, call-to-action, enquiry form
+      - Live chat integration (custom or third-party)
+
+   B. Services Section
+      - Dynamic multi-level structure: 
+        /services/[main-category]/
+        /services/[main-category]/[sub-service]/
+        /services/[main-category]/[sub-service]/[feature-page]
+      - Each level includes:
+         • Descriptive hero section
+         • Structured content (benefits, tools, use cases, FAQs)
+         • Visual elements: diagrams, charts, icons
+         • Internal links to parent and sibling pages
+         • CTA section (Get Quote / Request Demo)
+         • Breadcrumb navigation
+
+   C. Project Showcase
+      - URL: /projects/
+      - Each showcase includes:
+         • Optical Store Management System
+         • Hospital Management System
+         • School Management System
+         • Hotel, HR & Payroll, Accounting, Office, Social Media Systems
+      - For each project:
+         • Overview and key modules
+         • Screenshots / demo videos
+         • Stack used (tech summary)
+         • Benefits achieved
+         • CTA: Request similar solution
+
+3. UX Enhancements:
+   - Sticky header with mega menu support
+   - Floating CTA / Enquiry Button
+   - Dark/light theme toggle
+   - Quick access footer menu
+   - Form validations, field hints, and tooltips
+
+----
+
+BACKEND REQUIREMENTS:
+Tech Stack: Node.js with Express (or Laravel / Django based on Replit support)
+
+1. Admin Dashboard Features:
+   - Secure admin authentication (JWT / Sessions)
+   - Role-based access control (Admin, Editor)
+   - CRUD Modules:
+     • Service Categories
+     • Sub-Services
+     • Feature Details
+     • Project Showcase Items
+     • Enquiries
+     • Site-wide Settings
+
+2. Dashboard Sections:
+   A. Content Manager
+      - Add/edit/delete services, sub-services, and features
+      - Rich-text editor support
+      - SEO fields per page (Meta Title, Meta Description, Canonical URL)
+      - Internal link builder between related pages
+
+   B. Project Showcase Manager
+      - Add/edit case studies with image galleries, tech stack tags
+      - Embed demo links or videos
+
+   C. Form & Query Manager
+      - View, respond, and export enquiries
+      - Auto-responders and follow-up system (SMTP integration)
+
+   D. Settings Panel
+      - SMTP Configuration (Gmail, SendGrid, Mailgun)
+      - SMS Gateway (Twilio, MSG91 optional)
+      - Email API / Payment Gateway Integration (Stripe, Razorpay)
+      - Schema & SEO: Upload site-wide metadata, JSON-LD
+      - Sitemap Generator
+
+   E. User Management
+      - Add, update, disable users
+      - Assign roles and page/module permissions
+
+   F. Logs & Reports
+      - Enquiry reports
+      - User activity logs
+      - Monthly traffic & SEO reports (optional integration with Google Analytics API)
+
+----
+
+DATABASE REQUIREMENTS:
+Preferred: MongoDB or PostgreSQL
+
+Collections / Tables:
+- Services: { name, slug, description, parent_service_id, SEO_fields }
+- Projects: { title, description, technologies, gallery, video_url, cta_link }
+- Features: { name, sub_service_id, details, SEO }
+- Users: { name, role, email, password_hash }
+- Enquiries: { name, email, message, status, created_at }
+- Settings: { key, value }
+
+----
+
+FUNCTIONAL REQUIREMENTS:
+- Dynamic routing using slugs and service hierarchy
+- Auto-generated breadcrumb trail based on hierarchy
+- Internal linking between service layers (Main ↔ Sub ↔ Feature)
+- RESTful APIs to power frontend from backend CMS
+- Form handler with email notifications (SMTP configurable)
+- Sitemap.xml and robots.txt auto-generation
+
+----
+
+SEO + SCHEMA IMPLEMENTATION:
+- Structured data via JSON-LD (Service, FAQ, Project schema)
+- Meta title, description, and canonical tag per page
+- Image alt attributes and accessibility standards
+- URL structure: clean, lowercase, hyphenated
+- Robots.txt and sitemap.xml
+- Open Graph tags for social media
+
+----
+
+DELIVERABLES:
+1. Fully functional responsive frontend for:
+   - 10+ Main Services
+   - 50+ Sub-Services
+   - 100+ Feature Detail Pages
+   - 8+ Project Showcases
+
+2. Admin dashboard with role-based access, full CRUD, and dynamic SEO
+
+3. Configurable enquiry form and project demo requests
+
+4. Source code + deployment instructions for Replit environment
+
+----
+
+INITIAL TASKS TO START:
+1. Build responsive layout using React + TailwindCSS
+2. Set up dynamic routing for service hierarchy
+3. Build admin panel login and dashboard layout
+4. Create models/schemas for services, projects, features, enquiries
+5. Develop API endpoints to support frontend service rendering
+6. Build 1 sample hierarchy:
+   - Website Development → UI/UX Design → Wireframing & Prototyping
+7. Build Projects section with Optical Store as the first showcase
+8. Add quick contact form and SMTP email sending
+
+Note: Prioritize clean code structure, modular components, and scalability for future services and settings.
+

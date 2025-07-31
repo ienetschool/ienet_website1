@@ -19,8 +19,11 @@ import {
   Mail,
   Cog,
   Database,
-  Activity
+  Activity,
+  ArrowRight,
+  Globe
 } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Landing() {
   return (
@@ -199,9 +202,38 @@ export default function Landing() {
         {/* Client Testimonials */}
         <TestimonialSlider />
 
-        {/* Contact Section */}
-        <section id="contact-section">
-          <ContactSection />
+        {/* Contact CTA Section */}
+        <section id="contact-section" className="py-20 bg-gradient-to-r from-primary to-purple-600">
+          <div className="container mx-auto px-6 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Ready to Transform Your Business?
+            </h2>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8 leading-relaxed">
+              Join hundreds of satisfied clients who have revolutionized their operations with our innovative IT solutions. 
+              Let's discuss how we can help you achieve your technology goals.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/contact">
+                <Button 
+                  size="lg" 
+                  className="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105"
+                >
+                  Get Started Today
+                  <ArrowRight className="ml-2" size={18} />
+                </Button>
+              </Link>
+              <Link href="/services">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-full transition-all duration-300"
+                >
+                  Explore Our Services
+                  <Globe className="ml-2" size={18} />
+                </Button>
+              </Link>
+            </div>
+          </div>
         </section>
       </main>
 

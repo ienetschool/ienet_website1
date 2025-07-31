@@ -1,9 +1,15 @@
 import { db } from "./db";
 import { serviceCategories, services, features, projects, siteSettings } from "@shared/schema";
+import { seedComprehensiveDatabase } from "./comprehensive-seed";
 
 export async function seedDatabase() {
+  // Use the comprehensive seeding function
+  return await seedComprehensiveDatabase();
+}
+
+export async function seedBasicDatabase() {
   try {
-    console.log("Starting database seeding...");
+    console.log("Starting basic database seeding...");
 
     // Clear existing data (in reverse order of dependencies)
     await db.delete(features);

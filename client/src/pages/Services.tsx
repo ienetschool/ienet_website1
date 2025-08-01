@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import ModernHeader from "@/components/layout/ModernHeader";
+import ModernFooter from "@/components/layout/ModernFooter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -49,7 +49,7 @@ export default function Services() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <ModernHeader />
 
       {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 z-40">

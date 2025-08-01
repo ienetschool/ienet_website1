@@ -16,6 +16,9 @@ import Projects from "@/pages/Projects";
 import ProjectDetail from "@/pages/ProjectDetail";
 import Contact from "@/pages/Contact";
 import About from "@/pages/About";
+import FAQ from "@/pages/FAQ";
+import Pricing from "@/pages/Pricing";
+import Blog from "@/pages/Blog";
 import Dashboard from "@/pages/admin/Dashboard";
 
 function Router() {
@@ -34,6 +37,9 @@ function Router() {
           <Route path="/projects/:slug" component={ProjectDetail} />
           <Route path="/contact" component={Contact} />
           <Route path="/about" component={About} />
+          <Route path="/faq" component={FAQ} />
+          <Route path="/pricing" component={Pricing} />
+          <Route path="/blog" component={Blog} />
         </>
       ) : (
         <>
@@ -46,6 +52,9 @@ function Router() {
           <Route path="/projects/:slug" component={ProjectDetail} />
           <Route path="/contact" component={Contact} />
           <Route path="/about" component={About} />
+          <Route path="/faq" component={FAQ} />
+          <Route path="/pricing" component={Pricing} />
+          <Route path="/blog" component={Blog} />
           <Route path="/admin" component={Dashboard} />
         </>
       )}

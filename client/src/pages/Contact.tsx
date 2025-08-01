@@ -1,5 +1,5 @@
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import ModernHeader from "@/components/layout/ModernHeader";
+import ModernFooter from "@/components/layout/ModernFooter";
 import ContactSection from "@/components/sections/ContactSection";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,9 +24,54 @@ import {
 import { Link } from "wouter";
 
 export default function Contact() {
+  const contactMethods = [
+    {
+      icon: Phone,
+      title: "Phone Support",
+      description: "Speak directly with our technical experts",
+      details: ["+1 (555) 123-4567", "Mon-Fri: 9 AM - 6 PM EST"],
+      action: "Call Now"
+    },
+    {
+      icon: Mail,
+      title: "Email Support",
+      description: "Get detailed responses within 2 hours",
+      details: ["info@ienet.com", "24/7 Response"],
+      action: "Send Email"
+    },
+    {
+      icon: MessageCircle,
+      title: "Live Chat",
+      description: "Instant support for urgent inquiries",
+      details: ["Available 24/7", "Average response: 2 minutes"],
+      action: "Start Chat"
+    }
+  ];
+
+  const offices = [
+    {
+      city: "New York",
+      address: "123 Tech Plaza, Manhattan, NY 10001",
+      phone: "+1 (555) 123-4567",
+      email: "ny@ienet.com"
+    },
+    {
+      city: "San Francisco",
+      address: "456 Innovation Drive, SF, CA 94105",
+      phone: "+1 (555) 987-6543",
+      email: "sf@ienet.com"
+    },
+    {
+      city: "London",
+      address: "789 Digital Street, London EC1A 1BB",
+      phone: "+44 20 1234 5678",
+      email: "london@ienet.com"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <ModernHeader />
 
       {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 z-40">

@@ -1,5 +1,5 @@
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import ModernHeader from "@/components/layout/ModernHeader";
+import ModernFooter from "@/components/layout/ModernFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -67,9 +67,64 @@ export default function About() {
     "Custom Software Development"
   ];
 
+  const teamMembers = [
+    {
+      name: "Sarah Johnson",
+      role: "Chief Technology Officer",
+      expertise: "Full-Stack Development, Cloud Architecture",
+      experience: "12+ years",
+      description: "Leads our technical vision and ensures cutting-edge solutions for complex business challenges."
+    },
+    {
+      name: "Michael Chen",
+      role: "Senior DevOps Engineer",
+      expertise: "Infrastructure, Automation, Security",
+      experience: "8+ years",
+      description: "Specializes in scalable infrastructure and automated deployment pipelines."
+    },
+    {
+      name: "Emily Rodriguez",
+      role: "UI/UX Design Lead",
+      expertise: "User Experience, Interface Design",
+      experience: "6+ years",
+      description: "Creates intuitive and engaging user experiences that drive business results."
+    },
+    {
+      name: "David Park",
+      role: "Cybersecurity Specialist",
+      expertise: "Security Architecture, Penetration Testing",
+      experience: "10+ years",
+      description: "Ensures robust security implementations and proactive threat protection."
+    }
+  ];
+
+  const certifications = [
+    "AWS Certified Solutions Architect",
+    "Microsoft Azure Fundamentals",
+    "Google Cloud Professional",
+    "Certified Ethical Hacker (CEH)",
+    "PMP Project Management",
+    "CISSP Security Professional"
+  ];
+
+  const achievements = [
+    {
+      title: "Industry Recognition",
+      description: "Named Top IT Services Provider 2024 by TechReview Magazine"
+    },
+    {
+      title: "Client Satisfaction",
+      description: "98% client retention rate with 5-star average rating"
+    },
+    {
+      title: "Innovation Award",
+      description: "Winner of Digital Innovation Excellence Award 2023"
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <ModernHeader />
 
       {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 z-40">
@@ -335,7 +390,166 @@ export default function About() {
         </section>
       </main>
 
-      <Footer />
+        {/* Team Section */}
+        <section className="py-20 bg-gray-50 dark:bg-gray-800">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                Meet Our Expert Team
+              </h2>
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Our diverse team of technology professionals brings decades of combined experience in delivering enterprise-grade solutions.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {teamMembers.map((member, index) => (
+                <Card key={index} className="text-center group hover:shadow-xl transition-all duration-300">
+                  <CardHeader>
+                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center">
+                      <Users className="text-white" size={32} />
+                    </div>
+                    <CardTitle className="text-xl text-gray-900 dark:text-white">
+                      {member.name}
+                    </CardTitle>
+                    <p className="text-primary font-medium">{member.role}</p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div>
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Expertise</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{member.expertise}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Experience</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{member.experience}</p>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{member.description}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Certifications & Achievements */}
+        <section className="py-20 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="grid lg:grid-cols-2 gap-16">
+              {/* Certifications */}
+              <div>
+                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+                  Professional Certifications
+                </h3>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {certifications.map((cert, index) => (
+                    <div key={index} className="flex items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                      <Award className="text-primary mr-3" size={20} />
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{cert}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Achievements */}
+              <div>
+                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
+                  Recent Achievements
+                </h3>
+                <div className="space-y-6">
+                  {achievements.map((achievement, index) => (
+                    <Card key={index} className="border-l-4 border-primary">
+                      <CardContent className="p-6">
+                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                          {achievement.title}
+                        </h4>
+                        <p className="text-gray-600 dark:text-gray-400">
+                          {achievement.description}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Process Section */}
+        <section className="py-20 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-800 dark:to-gray-700">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                Our Development Process
+              </h2>
+              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                We follow a proven methodology to ensure project success and client satisfaction from concept to deployment.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-4 gap-8">
+              {[
+                { step: "01", title: "Discovery", description: "Understanding your business needs and technical requirements" },
+                { step: "02", title: "Planning", description: "Creating detailed project roadmaps and technical specifications" },
+                { step: "03", title: "Development", description: "Building robust, scalable solutions using best practices" },
+                { step: "04", title: "Deployment", description: "Seamless go-live with ongoing support and maintenance" }
+              ].map((process, index) => (
+                <div key={index} className="text-center">
+                  <div className="relative mb-6">
+                    <div className="w-16 h-16 mx-auto bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold">
+                      {process.step}
+                    </div>
+                    {index < 3 && (
+                      <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-primary/30"></div>
+                    )}
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+                    {process.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {process.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 bg-gradient-to-r from-primary to-purple-600">
+          <div className="container mx-auto px-6 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Ready to Start Your Project?
+            </h2>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8 leading-relaxed">
+              Let's discuss how our experienced team can help transform your business with innovative technology solutions.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/contact">
+                <Button 
+                  size="lg" 
+                  className="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105"
+                >
+                  Get Started Today
+                  <ArrowRight className="ml-2" size={18} />
+                </Button>
+              </Link>
+              <Link href="/services">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-full transition-all duration-300"
+                >
+                  View Our Services
+                  <Eye className="ml-2" size={18} />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+      <ModernFooter />
     </div>
   );
 }

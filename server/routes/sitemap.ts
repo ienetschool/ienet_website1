@@ -227,9 +227,9 @@ function generateHTMLSitemap(urls: Array<{
 // XML Sitemap endpoint
 router.get('/sitemap.xml', async (req, res) => {
   try {
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? 'https://your-domain.replit.app' 
-      : `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}`;
+    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
+      : 'http://localhost:5000';
 
     // Static pages
     const staticUrls = [
@@ -318,9 +318,9 @@ router.get('/sitemap.xml', async (req, res) => {
 // HTML Sitemap endpoint
 router.get('/sitemap', async (req, res) => {
   try {
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? 'https://your-domain.replit.app' 
-      : `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}`;
+    const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+      ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
+      : 'http://localhost:5000';
 
     // Static pages with live status
     const staticPages = [
@@ -401,7 +401,7 @@ router.get('/sitemap', async (req, res) => {
 
     const allPages = [...staticPages, ...dynamicPages].map(page => ({
       ...page,
-      url: `${baseUrl}${page.url}`
+      url: page.url.startsWith('http') ? page.url : `${baseUrl}${page.url}`
     }));
 
     const htmlSitemap = generateHTMLSitemap(allPages);

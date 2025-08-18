@@ -74,7 +74,7 @@ export default function ModernFooter() {
               <div className="flex items-center space-x-3 mb-6">
                 <div className="w-10 h-10 rounded-xl overflow-hidden">
                   <img 
-                    src="/attached_assets/IE vector logo-01_1755535165852.png" 
+                    src="/IE vector logo-01_1755535165852.png" 
                     alt="IeNet Logo" 
                     className="w-full h-full object-contain"
                   />

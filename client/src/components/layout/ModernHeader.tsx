@@ -116,7 +116,7 @@ export default function ModernHeader() {
             <div className="flex items-center space-x-3 cursor-pointer group">
               <div className="w-12 h-12 rounded-xl overflow-hidden transform group-hover:scale-110 transition-transform duration-300">
                 <img 
-                  src="/attached_assets/IE vector logo-01_1755535165852.png" 
+                  src="/IE vector logo-01_1755535165852.png" 
                   alt="IeNet Logo" 
                   className="w-full h-full object-contain"
                 />

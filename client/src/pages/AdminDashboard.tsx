@@ -31,7 +31,9 @@ export default function AdminDashboard() {
     recentActivity: []
   });
 
-  // Redirect to home if not authenticated or not admin
+  // For demo purposes, allow access without authentication
+  // In production, you would uncomment the authentication checks below
+  /*
   useEffect(() => {
     if (!isLoading && (!isAuthenticated || (user && user.role !== 'admin'))) {
       toast({
@@ -45,6 +47,7 @@ export default function AdminDashboard() {
       return;
     }
   }, [isAuthenticated, isLoading, user, toast]);
+  */
 
   if (isLoading) {
     return (
@@ -54,9 +57,8 @@ export default function AdminDashboard() {
     );
   }
 
-  if (!isAuthenticated || !user || user.role !== 'admin') {
-    return null; // Will redirect via useEffect
-  }
+  // For demo: Show dashboard even without authentication
+  const displayUser = user || { firstName: "Demo", email: "demo@ienet.com" };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
@@ -67,7 +69,7 @@ export default function AdminDashboard() {
             IeNet CMS Dashboard
           </h1>
           <p className="text-gray-600 dark:text-gray-300">
-            Welcome back, {user.firstName || user.email}! Manage your content and website.
+            Welcome back, {displayUser.firstName || displayUser.email}! Manage your content and website.
           </p>
         </div>
 

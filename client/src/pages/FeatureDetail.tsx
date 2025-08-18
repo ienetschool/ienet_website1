@@ -111,11 +111,11 @@ export default function FeatureDetail() {
 
   const seoConfig = {
     title: `${feature.name} - ${service.name} | IeNet`,
-    description: `Comprehensive ${feature.name.toLowerCase()} capabilities within our ${service.name.toLowerCase()} service. Advanced implementation with expert support and professional results.`,
-    keywords: `${feature.name.toLowerCase()}, ${service.name.toLowerCase()}, ${category.name.toLowerCase()}, ${featureSlug}, advanced features, professional implementation`,
+    description: `Comprehensive ${feature.name?.toLowerCase() || feature.name} capabilities within our ${service.name?.toLowerCase() || service.name} service. Advanced implementation with expert support and professional results.`,
+    keywords: `${feature.name?.toLowerCase() || feature.name}, ${service.name?.toLowerCase() || service.name}, ${category.name?.toLowerCase() || category.name}, ${featureSlug}, advanced features, professional implementation`,
     openGraph: {
       title: `${feature.name} - ${service.name} | IeNet`,
-      description: `Advanced ${feature.name.toLowerCase()} implementation with comprehensive features and expert support.`,
+      description: `Advanced ${feature.name?.toLowerCase() || feature.name} implementation with comprehensive features and expert support.`,
       type: "website"
     }
   };
@@ -131,7 +131,7 @@ export default function FeatureDetail() {
   const faqSchema = generateFAQSchema([
     {
       question: `What does ${feature.name} include?`,
-      answer: `Our ${feature.name.toLowerCase()} feature provides comprehensive capabilities including implementation, customization, testing, and ongoing support. It's designed to deliver professional results that exceed expectations.`
+      answer: `Our ${feature.name?.toLowerCase() || feature.name} feature provides comprehensive capabilities including implementation, customization, testing, and ongoing support. It's designed to deliver professional results that exceed expectations.`
     },
     {
       question: "How is this feature implemented?",

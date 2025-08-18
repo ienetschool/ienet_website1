@@ -74,13 +74,13 @@ export default function ModernFooter() {
               <div className="flex items-center space-x-3 mb-6">
                 <div className="w-10 h-10 rounded-xl overflow-hidden">
                   <img 
-                    src="/assets/IE vector logo-01_1755535165852.png" 
-                    alt="India Espectacular Logo" 
+                    src="/attached_assets/IE vector logo-01_1755535165852.png" 
+                    alt="IeNet Logo" 
                     className="w-full h-full object-contain"
                   />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">India Espectacular</h3>
+                  <h3 className="text-xl font-bold text-white">IeNet</h3>
                   <p className="text-sm text-gray-400">IT & Business Solutions</p>
                 </div>
               </div>
@@ -200,7 +200,7 @@ export default function ModernFooter() {
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div className="flex items-center space-x-6 mb-4 md:mb-0">
                 <p className="text-gray-400 text-sm">
-                  © {currentYear} India Espectacular. All rights reserved.
+                  © {currentYear} IeNet. All rights reserved.
                 </p>
                 
                 {/* Trust Indicators */}

@@ -399,8 +399,18 @@ router.get('/sitemap', async (req, res) => {
       });
     }
 
+    // Ensure all URLs have proper protocol
     const allPages = [...staticPages, ...dynamicPages].map(page => {
-      const fullUrl = page.url.startsWith('http') ? page.url : `${baseUrl}${page.url}`;
+      let fullUrl;
+      
+      if (page.url.startsWith('http://') || page.url.startsWith('https://')) {
+        fullUrl = page.url;
+      } else if (page.url.startsWith('/')) {
+        fullUrl = `${baseUrl}${page.url}`;
+      } else {
+        fullUrl = `https://${page.url}`;
+      }
+      
       return {
         ...page,
         url: fullUrl

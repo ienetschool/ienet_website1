@@ -11,18 +11,18 @@ export interface SEOConfig {
 }
 
 // Base URL for the website
-export const BASE_URL = typeof window !== 'undefined' ? window.location.origin : 'https://ienet.io';
+export const BASE_URL = typeof window !== 'undefined' ? window.location.origin : '';
 
 // Generate SEO config for Service Category pages
 export function generateServiceCategorySEO(category: any): SEOConfig {
   const title = `${category.name} Services | Professional IT Solutions - IeNet`;
-  const description = `Expert ${category.name.toLowerCase()} services and solutions. Scalable, secure, and optimized for your business needs. Get a free consultation today.`;
+  const description = `Expert ${category.name?.toLowerCase()} services and solutions. Scalable, secure, and optimized for your business needs. Get a free consultation today.`;
   
   return {
     title,
     description,
     keywords: [
-      category.name.toLowerCase(),
+      category.name?.toLowerCase(),
       'IT services',
       'professional solutions',
       'business technology',
@@ -51,14 +51,14 @@ export function generateServiceCategorySEO(category: any): SEOConfig {
 // Generate SEO config for Sub-Service pages
 export function generateSubServiceSEO(service: any, category: any): SEOConfig {
   const title = `${service.name} | ${category.name} Services - IeNet`;
-  const description = `Professional ${service.name.toLowerCase()} solutions with cutting-edge technology. Fast implementation, expert support, and scalable architecture for your business.`;
+  const description = `Professional ${service.name?.toLowerCase()} solutions with cutting-edge technology. Fast implementation, expert support, and scalable architecture for your business.`;
   
   return {
     title,
     description,
     keywords: [
-      service.name.toLowerCase(),
-      category.name.toLowerCase(),
+      service.name?.toLowerCase(),
+      category.name?.toLowerCase(),
       'professional development',
       'custom solutions',
       'enterprise technology',
@@ -87,14 +87,14 @@ export function generateSubServiceSEO(service: any, category: any): SEOConfig {
 // Generate SEO config for Feature Detail pages
 export function generateFeatureSEO(feature: any, service: any, category: any): SEOConfig {
   const title = `${feature.name} | ${service.name} Feature - IeNet`;
-  const description = `Learn about ${feature.name.toLowerCase()} implementation for ${service.name.toLowerCase()}. Technical details, benefits, and best practices for optimal performance.`;
+  const description = `Learn about ${feature.name.toLowerCase()} implementation for ${service.name?.toLowerCase()}. Technical details, benefits, and best practices for optimal performance.`;
   
   return {
     title,
     description,
     keywords: [
       feature.name.toLowerCase(),
-      service.name.toLowerCase(),
+      service.name?.toLowerCase(),
       'technical implementation',
       'best practices',
       'performance optimization',

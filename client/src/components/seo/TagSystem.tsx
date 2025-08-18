@@ -60,20 +60,20 @@ const getRelatedTags = (currentTags: string[] = [], category: string = '') => {
   
   // Add complementary tags
   currentTags.forEach(tag => {
-    if (tag.toLowerCase().includes('react')) {
+    if (tag?.toLowerCase()?.includes('react')) {
       related.push('Next.js', 'SSR', 'PWA', 'Performance');
     }
-    if (tag.toLowerCase().includes('ecommerce')) {
+    if (tag?.toLowerCase()?.includes('ecommerce')) {
       related.push('Payment Gateway', 'Shopify', 'Inventory Management');
     }
-    if (tag.toLowerCase().includes('security')) {
+    if (tag?.toLowerCase()?.includes('security')) {
       related.push('Compliance', 'Encryption', 'Audit');
     }
   });
   
   // Remove duplicates and current tags
   const uniqueRelated = Array.from(new Set(related)).filter(tag => 
-    !currentTags.some(current => current.toLowerCase() === tag.toLowerCase())
+    !currentTags.some(current => current?.toLowerCase() === tag?.toLowerCase())
   ).slice(0, 8);
   
   return uniqueRelated;
@@ -92,7 +92,7 @@ const getTagColor = (tag: string, index: number = 0) => {
   
   // Assign colors based on tag category
   for (const [category, tags] of Object.entries(tagCategories)) {
-    if (tags.some(t => t.toLowerCase() === tag.toLowerCase())) {
+    if (tags.some(t => t?.toLowerCase() === tag?.toLowerCase())) {
       const categoryIndex = Object.keys(tagCategories).indexOf(category);
       return colorSchemes[categoryIndex % colorSchemes.length];
     }
@@ -117,7 +117,7 @@ export function TagSystem({ tags = [], currentCategory = '', showRelatedTags = t
           </div>
           <div className="flex flex-wrap gap-2">
             {tags.map((tag, index) => (
-              <Link key={tag} href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}>
+              <Link key={tag} href={`/tags/${tag?.toLowerCase().replace(/\s+/g, '-')}`}>
                 <Badge
                   variant="outline"
                   className={`${getTagColor(tag, index)} hover:scale-105 transition-transform duration-200 cursor-pointer`}
@@ -140,7 +140,7 @@ export function TagSystem({ tags = [], currentCategory = '', showRelatedTags = t
             </div>
             <div className="flex flex-wrap gap-2 mb-4">
               {relatedTags.map((tag, index) => (
-                <Link key={tag} href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}>
+                <Link key={tag} href={`/tags/${tag?.toLowerCase().replace(/\s+/g, '-')}`}>
                   <Badge
                     variant="secondary"
                     className={`${getTagColor(tag, index + tags.length)} opacity-80 hover:opacity-100 hover:scale-105 transition-all duration-200 cursor-pointer`}
@@ -170,7 +170,7 @@ export function TagSystem({ tags = [], currentCategory = '', showRelatedTags = t
               className="justify-start text-left h-auto py-1 px-2"
               asChild
             >
-              <Link href={`/tags/category/${category.toLowerCase().replace(/\s+/g, '-')}`}>
+              <Link href={`/tags/category/${category?.toLowerCase().replace(/\s+/g, '-')}`}>
                 {category}
               </Link>
             </Button>
@@ -196,7 +196,7 @@ export function TagPage({ tag }: { tag: string }) {
                 </h1>
               </div>
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                Discover all our services, features, and solutions related to {tag.toLowerCase()}.
+                Discover all our services, features, and solutions related to {tag?.toLowerCase()}.
               </p>
             </div>
             

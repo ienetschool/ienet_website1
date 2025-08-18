@@ -109,7 +109,7 @@ export function SEOHead({
           "@type": "ListItem",
           "position": index + 1,
           "name": item.name,
-          "item": `${window.location.origin}${item.url}`
+          "item": item.url.startsWith('http') ? item.url : `${window.location.origin}${item.url}`
         }))
       };
       

@@ -905,6 +905,121 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(activityLogs.createdAt))
       .limit(limit);
   }
+
+  // Performance gamification methods
+  async getUserPerformanceStats(userId: string) {
+    // Check if user has performance stats, if not create default
+    const user = await this.getUser(userId);
+    if (!user) return null;
+
+    // Default stats for new users - in real implementation, this would be stored in DB
+    return {
+      totalPoints: 1250,
+      currentLevel: 5,
+      nextLevelPoints: 1500,
+      completedOptimizations: 2,
+      achievementsUnlocked: 8
+    };
+  }
+
+  async completeOptimization(userId: string, suggestionId: string) {
+    // Award points based on optimization difficulty and impact
+    const pointsMap: Record<string, number> = {
+      'img-compression': 50,
+      'cdn-setup': 75,
+      'css-optimization': 40,
+      'db-optimization': 100,
+      'gzip-compression': 30,
+      'caching-strategy': 60,
+      'js-minification': 35,
+      'preload-resources': 45
+    };
+
+    const pointsEarned = pointsMap[suggestionId] || 25;
+    const currentStats = await this.getUserPerformanceStats(userId);
+    const newTotal = (currentStats?.totalPoints || 0) + pointsEarned;
+    
+    // Check for level up (every 500 points = new level)
+    const currentLevel = Math.floor(newTotal / 500) + 1;
+    const levelUp = currentLevel > (currentStats?.currentLevel || 1);
+    
+    return {
+      pointsEarned,
+      newTotal,
+      levelUp,
+      newLevel: currentLevel
+    };
+  }
+
+  async getUserAchievements(userId: string) {
+    // Return mock achievements - in real implementation, these would be stored in DB
+    return [
+      {
+        id: 'speed-demon',
+        title: 'Speed Demon',
+        description: 'Achieve sub-2s loading times',
+        points: 100,
+        unlocked: true,
+        category: 'Performance'
+      },
+      {
+        id: 'optimization-expert',
+        title: 'Optimization Expert', 
+        description: 'Complete 5 optimizations',
+        points: 150,
+        unlocked: true,
+        category: 'Improvements'
+      },
+      {
+        id: 'perfect-score',
+        title: 'Perfect Score',
+        description: 'Reach 100 performance score',
+        points: 200,
+        unlocked: false,
+        category: 'Excellence'
+      },
+      {
+        id: 'image-optimizer',
+        title: 'Image Optimizer',
+        description: 'Implement image compression',
+        points: 75,
+        unlocked: true,
+        category: 'Images'
+      },
+      {
+        id: 'caching-master',
+        title: 'Caching Master',
+        description: 'Set up efficient caching strategy',
+        points: 125,
+        unlocked: false,
+        category: 'Caching'
+      },
+      {
+        id: 'javascript-ninja',
+        title: 'JavaScript Ninja',
+        description: 'Optimize JavaScript delivery',
+        points: 100,
+        unlocked: true,
+        category: 'JavaScript'
+      },
+      {
+        id: 'css-wizard',
+        title: 'CSS Wizard',
+        description: 'Master CSS optimization',
+        points: 90,
+        unlocked: true,
+        category: 'CSS'
+      },
+      {
+        id: 'database-guru',
+        title: 'Database Guru',
+        description: 'Optimize database performance',
+        points: 175,
+        unlocked: false,
+        category: 'Backend'
+      }
+    ];
+  }
 }
 
 export const storage = new DatabaseStorage();

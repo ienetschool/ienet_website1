@@ -25,6 +25,7 @@ import TermsOfService from "@/pages/TermsOfService";
 import Careers from "@/pages/Careers";
 import SitemapViewer from "@/pages/SitemapViewer";
 import AdminDashboard from "@/pages/AdminDashboard";
+import PerformanceDashboard from "@/pages/PerformanceDashboard";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -71,6 +72,7 @@ function Router() {
           <Route path="/careers" component={Careers} />
           <Route path="/sitemap-viewer" component={SitemapViewer} />
           <Route path="/admin" component={AdminDashboard} />
+          <Route path="/performance" component={PerformanceDashboard} />
         </>
       )}
       <Route component={NotFound} />

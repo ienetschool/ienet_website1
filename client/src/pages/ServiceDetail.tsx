@@ -180,34 +180,100 @@ export default function ServiceDetail() {
                 </p>
               </div>
               
-              <div className="grid lg:grid-cols-2 gap-12">
-                <Card className="p-8 border-none shadow-lg">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4">
-                      <Users className="text-blue-600 dark:text-blue-400" size={24} />
+              <div className="space-y-16">
+                <div className="grid lg:grid-cols-2 gap-12">
+                  <Card className="p-8 border-none shadow-lg">
+                    <div className="flex items-center mb-6">
+                      <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4">
+                        <Users className="text-blue-600 dark:text-blue-400" size={24} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Business Impact & Growth</h3>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Business Impact</h3>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
-                    Our {category.name} services deliver comprehensive digital solutions that transform how your business operates online. 
-                    We specialize in creating modern, responsive, and high-performance applications that engage users and drive measurable results, 
-                    helping you achieve sustainable growth and competitive advantage.
-                  </p>
-                </Card>
+                    <div className="space-y-4">
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                        Our {category.name} services deliver comprehensive digital solutions that transform how your business operates online. 
+                        We specialize in creating modern, responsive, and high-performance applications that engage users and drive measurable results, 
+                        helping you achieve sustainable growth and competitive advantage in today's digital marketplace.
+                      </p>
+                      <div className="space-y-2">
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Increased conversion rates up to 40%</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Reduced operational costs by 30%</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Enhanced user engagement and retention</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
 
-                <Card className="p-8 border-none shadow-lg">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
-                      <Target className="text-green-600 dark:text-green-400" size={24} />
+                  <Card className="p-8 border-none shadow-lg">
+                    <div className="flex items-center mb-6">
+                      <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
+                        <Target className="text-green-600 dark:text-green-400" size={24} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Technical Excellence & Innovation</h3>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Technical Excellence</h3>
+                    <div className="space-y-4">
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                        We combine cutting-edge technology with proven methodologies to ensure your project is completed on time and within budget. 
+                        Our solutions address common challenges like performance optimization, scalability, security, and user experience, 
+                        delivering exceptional results that exceed expectations and industry standards.
+                      </p>
+                      <div className="space-y-2">
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Latest frameworks and technologies</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">99.9% uptime and reliability</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Enterprise-grade security standards</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+                
+                <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Comprehensive {category.name} Solutions</h3>
+                  <div className="prose prose-lg dark:prose-invert max-w-none">
+                    <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-center">
+                      {category.description}
+                    </p>
+                    <div className="grid md:grid-cols-3 gap-6 mt-8">
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Code className="text-blue-600 dark:text-blue-400" size={24} />
+                        </div>
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Custom Development</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Tailored solutions built specifically for your business needs and requirements</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Shield className="text-green-600 dark:text-green-400" size={24} />
+                        </div>
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Enterprise Security</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Advanced security measures to protect your data and user information</p>
+                      </div>
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Clock className="text-purple-600 dark:text-purple-400" size={24} />
+                        </div>
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2">24/7 Support</h4>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Round-the-clock technical support and maintenance services</p>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
-                    We combine cutting-edge technology with proven methodologies to ensure your project is completed on time and within budget. 
-                    Our solutions address common challenges like performance optimization, scalability, security, and user experience, 
-                    delivering exceptional results that exceed expectations.
-                  </p>
-                </Card>
+                </div>
               </div>
             </div>
           </div>

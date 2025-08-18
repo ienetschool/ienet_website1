@@ -184,31 +184,107 @@ export default function SubServiceDetail() {
                 </p>
               </div>
               
-              <div className="grid lg:grid-cols-2 gap-12">
-                <Card className="p-8 border-none shadow-lg">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4">
-                      <Users className="text-blue-600 dark:text-blue-400" size={24} />
+              <div className="space-y-16">
+                <div className="grid lg:grid-cols-2 gap-12">
+                  <Card className="p-8 border-none shadow-lg">
+                    <div className="flex items-center mb-6">
+                      <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4">
+                        <Users className="text-blue-600 dark:text-blue-400" size={24} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Specialized {service?.name} Solutions</h3>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Custom Solutions</h3>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
-                    {service.content || `Our ${service.name} service provides comprehensive solutions tailored to meet your specific business requirements. We combine industry expertise with cutting-edge technology to deliver exceptional results that drive growth, efficiency, and competitive advantage in your market.`}
-                  </p>
-                </Card>
+                    <div className="space-y-4">
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                        {service?.content || `Our ${service?.name} service provides comprehensive solutions tailored to meet your specific business requirements. We combine industry expertise with cutting-edge technology to deliver exceptional results that drive growth, efficiency, and competitive advantage in your market sector.`}
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        With over 8 years of experience in {service?.name?.toLowerCase()}, we understand the unique challenges and opportunities in this field. 
+                        Our team has successfully delivered 200+ projects, serving clients from startups to Fortune 500 companies across various industries.
+                      </p>
+                      <div className="space-y-2">
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Industry-specific expertise and best practices</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Proven track record with measurable results</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Scalable solutions for future growth</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
 
-                <Card className="p-8 border-none shadow-lg">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
-                      <Target className="text-green-600 dark:text-green-400" size={24} />
+                  <Card className="p-8 border-none shadow-lg">
+                    <div className="flex items-center mb-6">
+                      <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
+                        <Target className="text-green-600 dark:text-green-400" size={24} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Strategic Implementation Process</h3>
                     </div>
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Expert Implementation</h3>
+                    <div className="space-y-4">
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                        We utilize modern platforms, tools, and methodologies to ensure your project is built with scalability, performance, and user experience in mind. 
+                        Our strategic approach includes thorough analysis, careful planning, agile development, and comprehensive testing to guarantee optimal results.
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        From initial consultation through deployment and ongoing support, we maintain clear communication and transparency throughout the entire process. 
+                        Our project managers provide regular updates, milestone reports, and direct access to development teams.
+                      </p>
+                      <div className="space-y-2">
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Agile development methodology</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Regular progress updates and demos</span>
+                        </div>
+                        <div className="flex items-center">
+                          <Check className="text-green-500 mr-2" size={16} />
+                          <span className="text-gray-700 dark:text-gray-300">Post-launch support and optimization</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+                
+                <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Why Choose Our {service?.name} Services?</h3>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Shield className="text-blue-600 dark:text-blue-400" size={24} />
+                      </div>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Quality Assurance</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Rigorous testing and quality control processes</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Clock className="text-green-600 dark:text-green-400" size={24} />
+                      </div>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Timely Delivery</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">On-time project completion with milestone tracking</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Users className="text-purple-600 dark:text-purple-400" size={24} />
+                      </div>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Expert Team</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Certified professionals with deep industry knowledge</p>
+                    </div>
+                    <div className="text-center">
+                      <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <MessageCircle className="text-orange-600 dark:text-orange-400" size={24} />
+                      </div>
+                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">24/7 Support</h4>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Continuous support and maintenance services</p>
+                    </div>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
-                    We utilize modern platforms, tools, and methodologies to ensure your project is built with scalability, performance, and user experience in mind. 
-                    From initial consultation through deployment and ongoing support, we maintain clear communication and transparency throughout the entire process.
-                  </p>
-                </Card>
+                </div>
               </div>
             </div>
           </div>

@@ -14,6 +14,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
+import { generateServiceCategorySEO, generateBreadcrumbs, commonFAQs } from "@/utils/seoConfig";
+import { InternalLinkingSection } from "@/components/seo/InternalLinking";
+import { TagSystem } from "@/components/seo/TagSystem";
+import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import { 
   Code, 
   Server, 
@@ -105,8 +110,23 @@ export default function ServiceDetail() {
     );
   }
 
+  // Generate SEO configuration
+  const seoConfig = generateServiceCategorySEO(category);
+  const breadcrumbData = generateBreadcrumbs([{ name: category.name, slug: category.slug }], 'service');
+  const faqSchema = generateFAQSchema(commonFAQs.service);
+
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        {...seoConfig}
+        breadcrumbData={breadcrumbData}
+        structuredData={faqSchema}
+      />
+      <SEOAnalytics 
+        pageType="service"
+        pageName={category.name}
+        category={category.slug}
+      />
       <Header />
 
       {/* Floating CTA Button */}
@@ -690,6 +710,12 @@ export default function ServiceDetail() {
             </div>
           </div>
         </section>
+
+        {/* Internal Linking & Related Services */}
+        <InternalLinkingSection 
+          currentType="service"
+          currentItem={category}
+        />
 
         {/* Bottom CTA Section */}
         <section className="py-16 bg-gradient-to-br from-slate-900 via-gray-800 to-slate-900 text-white">

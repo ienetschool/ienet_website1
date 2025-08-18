@@ -14,6 +14,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
+import { generateSubServiceSEO, generateBreadcrumbs, commonFAQs } from "@/utils/seoConfig";
+import { InternalLinkingSection } from "@/components/seo/InternalLinking";
+import { TagSystem } from "@/components/seo/TagSystem";
+import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import { 
   ArrowRight,
   MessageCircle,
@@ -98,8 +103,27 @@ export default function SubServiceDetail() {
     );
   }
 
+  // Generate SEO configuration
+  const seoConfig = generateSubServiceSEO(service, category);
+  const breadcrumbData = generateBreadcrumbs([
+    { name: category.name, slug: category.slug },
+    { name: service.name, slug: service.slug }
+  ], 'subservice');
+  const faqSchema = generateFAQSchema(commonFAQs.subservice);
+
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        {...seoConfig}
+        breadcrumbData={breadcrumbData}
+        structuredData={faqSchema}
+      />
+      <SEOAnalytics 
+        pageType="subservice"
+        pageName={service.name}
+        category={category.slug}
+        service={service.slug}
+      />
       <ModernHeader />
 
       {/* Floating CTA Button */}

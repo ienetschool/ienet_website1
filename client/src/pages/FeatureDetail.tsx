@@ -14,6 +14,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
+import { generateFeatureSEO, generateBreadcrumbs, commonFAQs } from "@/utils/seoConfig";
+import { InternalLinkingSection } from "@/components/seo/InternalLinking";
+import { TagSystem } from "@/components/seo/TagSystem";
+import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import { 
   ArrowRight,
   MessageCircle,
@@ -98,8 +103,29 @@ export default function FeatureDetail() {
     );
   }
 
+  // Generate SEO configuration
+  const seoConfig = generateFeatureSEO(feature, service, category);
+  const breadcrumbData = generateBreadcrumbs([
+    { name: category.name, slug: category.slug },
+    { name: service.name, slug: service.slug },
+    { name: feature.name, slug: feature.slug }
+  ], 'feature');
+  const faqSchema = generateFAQSchema(commonFAQs.feature);
+
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        {...seoConfig}
+        breadcrumbData={breadcrumbData}
+        structuredData={faqSchema}
+      />
+      <SEOAnalytics 
+        pageType="feature"
+        pageName={feature.name}
+        category={category.slug}
+        service={service.slug}
+        feature={feature.slug}
+      />
       <ModernHeader />
 
       {/* Floating CTA Button */}
@@ -597,58 +623,13 @@ export default function FeatureDetail() {
           </div>
         </section>
 
-        {/* Related Features */}
-        <section className="py-16 bg-gray-50 dark:bg-gray-800">
-          <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Related Features</h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-orange-50 to-red-100 dark:from-orange-900/20 dark:to-red-900/20">
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                      <Lightbulb className="text-white" size={20} />
-                    </div>
-                    <h3 className="text-lg font-bold text-orange-900 dark:text-orange-100 mb-2">Lazy Loading</h3>
-                    <p className="text-orange-800 dark:text-orange-200 text-sm mb-4 leading-relaxed">
-                      Optimize page load times by loading content on demand
-                    </p>
-                    <Button variant="outline" size="sm" className="w-full hover:bg-orange-100 dark:hover:bg-orange-900/30">
-                      Learn More
-                    </Button>
-                  </CardContent>
-                </Card>
-                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-teal-50 to-cyan-100 dark:from-teal-900/20 dark:to-cyan-900/20">
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                      <Server className="text-white" size={20} />
-                    </div>
-                    <h3 className="text-lg font-bold text-teal-900 dark:text-teal-100 mb-2">CDN Integration</h3>
-                    <p className="text-teal-800 dark:text-teal-200 text-sm mb-4 leading-relaxed">
-                      Global content delivery for maximum performance
-                    </p>
-                    <Button variant="outline" size="sm" className="w-full hover:bg-teal-100 dark:hover:bg-teal-900/30">
-                      Learn More
-                    </Button>
-                  </CardContent>
-                </Card>
-                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-rose-50 to-pink-100 dark:from-rose-900/20 dark:to-pink-900/20">
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-600 rounded-xl flex items-center justify-center mb-4 shadow-md">
-                      <Settings className="text-white" size={20} />
-                    </div>
-                    <h3 className="text-lg font-bold text-rose-900 dark:text-rose-100 mb-2">Code Splitting</h3>
-                    <p className="text-rose-800 dark:text-rose-200 text-sm mb-4 leading-relaxed">
-                      Efficient code bundling for faster application loading
-                    </p>
-                    <Button variant="outline" size="sm" className="w-full hover:bg-rose-100 dark:hover:bg-rose-900/30">
-                      Learn More
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          </div>
-        </section>
+        {/* Internal Linking & Related Content */}
+        <InternalLinkingSection 
+          currentType="feature"
+          currentItem={feature}
+          category={category}
+          service={service}
+        />
 
         {/* Bottom CTA / Request Implementation */}
         <section className="py-16 bg-primary text-white">

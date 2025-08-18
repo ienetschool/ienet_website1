@@ -30,6 +30,7 @@ import {
   Users,
   Zap
 } from "lucide-react";
+import { InlineEditor, EditModeToggle } from "@/components/InlineEditor";
 
 export default function ServiceDetail() {
   const { categorySlug } = useParams();
@@ -189,12 +190,23 @@ export default function ServiceDetail() {
         <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
           <div className="container mx-auto px-6">
             <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                {category.name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">Services</span>
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                {category.description || `Comprehensive ${category.name?.toLowerCase() || 'technology'} solutions designed to accelerate your digital transformation and drive business growth.`}
-              </p>
+              <InlineEditor
+                pageType="service"
+                pageId={category.id}
+                field="name"
+                value={`${category.name} Services`}
+                isTitle={true}
+                className="text-5xl font-bold text-gray-900 dark:text-white mb-6"
+              />
+              <InlineEditor
+                pageType="service"
+                pageId={category.id}
+                field="description"
+                value={category.description || `Comprehensive ${category.name?.toLowerCase() || 'technology'} solutions designed to accelerate your digital transformation and drive business growth.`}
+                isRichText={true}
+                className="text-xl text-gray-600 dark:text-gray-300 mb-8"
+                placeholder="Enter service description..."
+              />
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700">
                   Explore Services
@@ -251,19 +263,33 @@ export default function ServiceDetail() {
             <div className="max-w-6xl mx-auto">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div>
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-                    Comprehensive {category.name} Solutions
-                  </h2>
-                  <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                    Our {category.name?.toLowerCase() || 'technology'} expertise spans the full spectrum of modern technology solutions. 
-                    We combine industry best practices with innovative approaches to deliver results that exceed expectations 
-                    and provide measurable business value.
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                    From strategic planning and architecture design to implementation and ongoing optimization, 
-                    our team ensures your {category.name?.toLowerCase() || 'technology'} initiatives align with your business goals 
-                    and drive sustainable growth.
-                  </p>
+                  <InlineEditor
+                    pageType="service"
+                    pageId={category.id}
+                    field="sectionTitle"
+                    value={`Comprehensive ${category.name} Solutions`}
+                    isTitle={true}
+                    className="text-3xl font-bold text-gray-900 dark:text-white mb-6"
+                    placeholder="Enter section title..."
+                  />
+                  <InlineEditor
+                    pageType="service"
+                    pageId={category.id}
+                    field="overviewContent"
+                    value={`Our ${category.name?.toLowerCase() || 'technology'} expertise spans the full spectrum of modern technology solutions. We combine industry best practices with innovative approaches to deliver results that exceed expectations and provide measurable business value.`}
+                    isRichText={true}
+                    className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed"
+                    placeholder="Enter overview content..."
+                  />
+                  <InlineEditor
+                    pageType="service"
+                    pageId={category.id}
+                    field="detailContent"
+                    value={`From strategic planning and architecture design to implementation and ongoing optimization, our team ensures your ${category.name?.toLowerCase() || 'technology'} initiatives align with your business goals and drive sustainable growth.`}
+                    isRichText={true}
+                    className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
+                    placeholder="Enter detailed content..."
+                  />
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button variant="outline" size="lg">
                       View Case Studies
@@ -475,6 +501,9 @@ export default function ServiceDetail() {
       </main>
 
       <ModernFooter />
+      
+      {/* Edit Mode Toggle - Shows only for admin/editor users */}
+      <EditModeToggle />
     </div>
   );
 }

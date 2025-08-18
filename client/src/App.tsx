@@ -29,6 +29,7 @@ import PerformanceDashboard from "@/pages/PerformanceDashboard";
 import ComprehensiveDashboard from "@/pages/ComprehensiveDashboard";
 import DashboardHelper from "@/pages/DashboardHelper";
 import PageBuilder from "@/pages/dashboard/PageBuilder";
+import EditingDemo from "@/components/EditingDemo";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();

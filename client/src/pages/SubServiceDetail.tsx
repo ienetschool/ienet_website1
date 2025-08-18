@@ -32,6 +32,7 @@ import {
   Users,
   Zap
 } from "lucide-react";
+import { InlineEditor, EditModeToggle } from "@/components/InlineEditor";
 
 export default function SubServiceDetail() {
   const { categorySlug, serviceSlug } = useParams();

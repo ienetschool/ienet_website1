@@ -1,539 +1,268 @@
 import type { Express } from "express";
 import { storage } from "../storage";
-import { isAuthenticated } from "../replitAuth";
-
-interface DashboardStats {
-  totalPages: number;
-  totalEnquiries: number;
-  totalUsers: number;
-  monthlyVisits: number;
-  seoScore: number;
-  recentActivity: Array<{
-    id: string;
-    action: string;
-    user: string;
-    timestamp: string;
-    type: 'create' | 'update' | 'delete';
-  }>;
-}
-
-interface SiteSettings {
-  siteName: string;
-  siteDescription: string;
-  logo: string;
-  favicon: string;
-  primaryColor: string;
-  secondaryColor: string;
-  fontFamily: string;
-  enableDarkMode: boolean;
-  maintenanceMode: boolean;
-  googleAnalyticsId: string;
-  googleSearchConsoleId: string;
-}
-
-interface Lead {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  service: string;
-  message: string;
-  source: string;
-  status: 'new' | 'contacted' | 'qualified' | 'closed';
-  createdAt: string;
-}
 
 export function registerDashboardRoutes(app: Express) {
   
-  // Get dashboard statistics
-  app.get('/api/dashboard/stats', async (req, res) => {
+  // Analytics routes
+  app.get('/api/dashboard/analytics', async (req, res) => {
     try {
-      // Get counts from database
-      const totalPages = await storage.getServiceCategories().then(categories => categories.length);
-      const totalEnquiries = await storage.getEnquiries().then(enquiries => 
-        enquiries.filter(e => e.status === 'new').length
-      );
-      const allUsers = await storage.getAllUsers();
-      const totalUsers = allUsers.length;
-      
-      // Mock analytics data - in real implementation, integrate with Google Analytics API
-      const monthlyVisits = Math.floor(Math.random() * 50000) + 10000;
-      const seoScore = Math.floor(Math.random() * 30) + 70;
-
-      // Get recent activity from activity logs
-      const recentActivity = await storage.getActivityLogs(undefined, 10);
-      
-      const stats: DashboardStats = {
-        totalPages,
-        totalEnquiries, 
-        totalUsers,
-        monthlyVisits,
-        seoScore,
-        recentActivity: recentActivity.map(log => ({
-          id: log.id.toString(),
-          action: log.action,
-          user: log.userId || 'system',
-          timestamp: log.createdAt?.toISOString() || new Date().toISOString(),
-          type: log.action.includes('create') ? 'create' as const : 
-                log.action.includes('delete') ? 'delete' as const : 'update' as const
-        }))
-      };
-
-      res.json(stats);
-    } catch (error) {
-      console.error("Error fetching dashboard stats:", error);
-      res.status(500).json({ message: "Failed to fetch dashboard stats" });
-    }
-  });
-
-  // Get site settings
-  app.get('/api/dashboard/settings', async (req, res) => {
-    try {
-      // Get site settings from database
-      const settings = await storage.getSiteSettings();
-      
-      // Transform array to object for easier frontend consumption
-      const settingsObject: Record<string, string> = {};
-      settings.forEach(setting => {
-        settingsObject[setting.key] = setting.value || '';
-      });
-      
-      const siteSettings: SiteSettings = {
-        siteName: settingsObject['siteName'] || 'IeNet',
-        siteDescription: settingsObject['siteDescription'] || '',
-        logo: settingsObject['logoUrl'] || '',
-        favicon: settingsObject['faviconUrl'] || '',
-        primaryColor: settingsObject['primaryColor'] || '#007bff',
-        secondaryColor: settingsObject['secondaryColor'] || '#6c757d',
-        fontFamily: settingsObject['fontFamily'] || 'Inter',
-        enableDarkMode: settingsObject['enableDarkMode'] === 'true',
-        maintenanceMode: settingsObject['maintenanceMode'] === 'true',
-        googleAnalyticsId: settingsObject['googleAnalyticsId'] || '',
-        googleSearchConsoleId: settingsObject['googleSearchConsoleId'] || ''
-      };
-
-      res.json(siteSettings);
-    } catch (error) {
-      console.error("Error fetching site settings:", error);
-      res.status(500).json({ message: "Failed to fetch site settings" });
-    }
-  });
-
-  // Update site settings
-  app.put('/api/dashboard/settings', async (req, res) => {
-    try {
-      const updates = req.body;
-      
-      // Update settings in database
-      await storage.updateSiteSettings(updates);
-      
-      res.json({ message: "Settings updated successfully" });
-    } catch (error) {
-      console.error("Error updating site settings:", error);
-      res.status(500).json({ message: "Failed to update site settings" });
-    }
-  });
-
-  // Get leads/enquiries
-  app.get('/api/dashboard/leads', async (req, res) => {
-    try {
-      const enquiries = await storage.getEnquiries();
-      
-      const leads: Lead[] = enquiries.map(enquiry => ({
-        id: enquiry.id.toString(),
-        name: enquiry.name,
-        email: enquiry.email,
-        phone: enquiry.phone || undefined,
-        service: enquiry.serviceInterest || 'General Inquiry',
-        message: enquiry.message,
-        source: enquiry.source || 'website',
-        status: (enquiry.status as Lead['status']) || 'new',
-        createdAt: enquiry.createdAt?.toISOString() || new Date().toISOString()
-      }));
-
-      res.json(leads);
-    } catch (error) {
-      console.error("Error fetching leads:", error);
-      res.status(500).json({ message: "Failed to fetch leads" });
-    }
-  });
-
-  // Update lead status
-  app.put('/api/dashboard/leads/:id', async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { status } = req.body;
-      
-      await storage.updateEnquiry(parseInt(id), { status });
-      
-      res.json({ message: "Lead status updated successfully" });
-    } catch (error) {
-      console.error("Error updating lead:", error);
-      res.status(500).json({ message: "Failed to update lead" });
-    }
-  });
-
-  // SEO Management Routes
-  app.get('/api/dashboard/seo/pages', async (req, res) => {
-    try {
-      // Get all pages with SEO data
-      const serviceCategories = await storage.getServiceCategories();
-      const services = await storage.getServices();
-      const features = await storage.getFeatures();
-      
-      const pages = [
-        ...serviceCategories.map(cat => ({
-          id: `category-${cat.id}`,
-          title: cat.name,
-          url: `/services/${cat.slug}`,
-          type: 'category',
-          metaTitle: cat.metaTitle,
-          metaDescription: cat.metaDescription,
-          seoScore: Math.floor(Math.random() * 40) + 60
-        })),
-        ...services.map(service => ({
-          id: `service-${service.id}`,
-          title: service.name,
-          url: `/services/${service.slug}`,
-          type: 'service',
-          metaTitle: service.metaTitle,
-          metaDescription: service.metaDescription,
-          seoScore: Math.floor(Math.random() * 40) + 60
-        })),
-        ...features.map(feature => ({
-          id: `feature-${feature.id}`,
-          title: feature.name,
-          url: `/features/${feature.slug}`,
-          type: 'feature',
-          metaTitle: feature.metaTitle,
-          metaDescription: feature.metaDescription,
-          seoScore: Math.floor(Math.random() * 40) + 60
-        }))
-      ];
-
-      res.json(pages);
-    } catch (error) {
-      console.error("Error fetching SEO pages:", error);
-      res.status(500).json({ message: "Failed to fetch SEO pages" });
-    }
-  });
-
-  // Content Management Routes
-  app.get('/api/dashboard/content/sliders', async (req, res) => {
-    try {
-      const sliders = await storage.getSliders();
-      res.json(sliders);
-    } catch (error) {
-      console.error("Error fetching sliders:", error);
-      res.status(500).json({ message: "Failed to fetch sliders" });
-    }
-  });
-
-  app.get('/api/dashboard/content/testimonials', async (req, res) => {
-    try {
-      const testimonials = await storage.getTestimonials();
-      res.json(testimonials);
-    } catch (error) {
-      console.error("Error fetching testimonials:", error);
-      res.status(500).json({ message: "Failed to fetch testimonials" });
-    }
-  });
-
-  // User Management Routes
-  app.get('/api/dashboard/users', async (req, res) => {
-    try {
-      const allUsers = await storage.getAllUsers();
-      
-      // Remove sensitive information
-      const safeUsers = allUsers.map((user: any) => ({
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
-        isActive: user.isActive,
-        createdAt: user.createdAt,
-        lastLoginAt: user.lastLoginAt
-      }));
-
-      res.json(safeUsers);
-    } catch (error) {
-      console.error("Error fetching users:", error);
-      res.status(500).json({ message: "Failed to fetch users" });
-    }
-  });
-
-  // Analytics Integration Routes
-  app.get('/api/dashboard/analytics/overview', async (req, res) => {
-    try {
-      // Mock analytics data - integrate with Google Analytics API in production
+      // Mock analytics data for now - in production, integrate with Google Analytics
       const analyticsData = {
-        pageViews: Math.floor(Math.random() * 100000) + 50000,
-        uniqueVisitors: Math.floor(Math.random() * 50000) + 25000,
-        bounceRate: Math.floor(Math.random() * 30) + 30,
-        avgSessionDuration: Math.floor(Math.random() * 300) + 120,
+        overview: {
+          totalViews: 12547,
+          uniqueVisitors: 8934,
+          bounceRate: 67,
+          avgSessionDuration: "3m 42s",
+          pageViews: 18923,
+          liveVisitors: 23
+        },
+        trends: Array.from({ length: 7 }, (_, i) => ({
+          date: new Date(Date.now() - (6 - i) * 24 * 60 * 60 * 1000).toLocaleDateString(),
+          views: Math.floor(Math.random() * 1000) + 500,
+          visitors: Math.floor(Math.random() * 500) + 200,
+          sessions: Math.floor(Math.random() * 300) + 150
+        })),
         topPages: [
-          { page: '/', views: Math.floor(Math.random() * 10000) + 5000 },
-          { page: '/services', views: Math.floor(Math.random() * 5000) + 2000 },
-          { page: '/about', views: Math.floor(Math.random() * 3000) + 1000 }
+          { page: '/services/website-development', views: 2341, change: 12 },
+          { page: '/services/cybersecurity', views: 1892, change: -5 },
+          { page: '/projects/optical-store', views: 1567, change: 8 },
+          { page: '/about', views: 1234, change: 15 },
+          { page: '/contact', views: 987, change: -2 }
         ],
-        trafficSources: {
-          organic: 45,
-          direct: 30,
-          referral: 15,
-          social: 10
-        }
+        devices: [
+          { type: 'Desktop', percentage: 52, color: '#0088FE' },
+          { type: 'Mobile', percentage: 38, color: '#00C49F' },
+          { type: 'Tablet', percentage: 10, color: '#FFBB28' }
+        ],
+        queryStats: {
+          totalQueries: 45678,
+          slowQueries: 23,
+          avgResponseTime: 142,
+          errorRate: 2.1
+        },
+        schemaErrors: []
       };
 
       res.json(analyticsData);
     } catch (error) {
-      console.error("Error fetching analytics:", error);
-      res.status(500).json({ message: "Failed to fetch analytics data" });
+      console.error('Failed to fetch analytics:', error);
+      res.status(500).json({ error: 'Failed to fetch analytics data' });
     }
   });
 
-  // Security & Maintenance Routes
-  app.get('/api/dashboard/security/logs', async (req, res) => {
+  // Page builder routes
+  app.get('/api/dashboard/pages', async (req, res) => {
     try {
-      const securityLogs = await storage.getActivityLogs(undefined, 50);
-      
-      res.json(securityLogs.map(log => ({
-        id: log.id,
-        action: log.action,
-        userId: log.userId,
-        ipAddress: log.ipAddress,
-        userAgent: log.userAgent,
-        timestamp: log.createdAt
-      })));
+      const pages = await storage.getPageBuilderPages();
+      res.json(pages);
     } catch (error) {
-      console.error("Error fetching security logs:", error);
-      res.status(500).json({ message: "Failed to fetch security logs" });
+      console.error('Failed to fetch pages:', error);
+      res.status(500).json({ error: 'Failed to fetch pages' });
     }
   });
 
-  // Backup & Export Routes
-  app.post('/api/dashboard/backup/create', async (req, res) => {
+  app.get('/api/dashboard/pages/:id/versions', async (req, res) => {
     try {
-      // Import the DatabaseBackup class
-      const { DatabaseBackup } = await import('../backup-database');
-      const backup = new DatabaseBackup();
-      
-      // Create the backup
-      console.log('Starting database backup...');
-      const backupFile = await backup.createBackup();
-      await backup.close();
-      
-      // Get file stats
-      const fs = require('fs');
-      const path = require('path');
-      const stats = fs.statSync(backupFile);
-      const fileSizeInBytes = stats.size;
-      const fileSizeInMB = (fileSizeInBytes / (1024 * 1024)).toFixed(2);
-      const fileName = path.basename(backupFile);
-      
-      const timestamp = new Date().toISOString();
-      const backupData = {
-        id: `backup-${timestamp.replace(/[:.]/g, '-')}`,
-        timestamp,
-        fileName,
-        filePath: backupFile,
-        size: `${fileSizeInMB} MB`,
-        status: 'completed'
-      };
-      
-      console.log(`Database backup created: ${fileName} (${fileSizeInMB} MB)`);
-      
-      res.json({ 
-        message: "Database backup created successfully",
-        backup: backupData
-      });
+      const pageId = parseInt(req.params.id);
+      const versions = await storage.getPageVersions(pageId);
+      res.json(versions);
     } catch (error) {
-      console.error("Error creating backup:", error);
-      res.status(500).json({ message: "Failed to create backup: " + error.message });
+      console.error('Failed to fetch page versions:', error);
+      res.status(500).json({ error: 'Failed to fetch page versions' });
     }
   });
 
-  // Download backup file
-  app.get('/api/dashboard/backup/download/:filename', async (req, res) => {
+  app.put('/api/dashboard/pages/:id', async (req, res) => {
     try {
-      const fs = require('fs');
-      const path = require('path');
-      const filename = req.params.filename;
-      const backupDir = path.join(process.cwd(), 'backups');
-      const filePath = path.join(backupDir, filename);
-      
-      // Check if file exists
-      if (!fs.existsSync(filePath)) {
-        return res.status(404).json({ message: "Backup file not found" });
-      }
-      
-      // Set headers for file download
-      res.setHeader('Content-Type', 'application/sql');
-      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-      
-      // Stream the file
-      const fileStream = fs.createReadStream(filePath);
-      fileStream.pipe(res);
-      
+      const pageId = parseInt(req.params.id);
+      const pageData = req.body;
+      const updatedPage = await storage.updatePageBuilderPage(pageId, pageData);
+      res.json(updatedPage);
     } catch (error) {
-      console.error("Error downloading backup:", error);
-      res.status(500).json({ message: "Failed to download backup" });
+      console.error('Failed to update page:', error);
+      res.status(500).json({ error: 'Failed to update page' });
     }
   });
 
-  // Export leads to CSV
-  app.get('/api/dashboard/export/leads', async (req, res) => {
+  // SEO Manager routes
+  app.get('/api/dashboard/seo/pages', async (req, res) => {
     try {
-      const enquiries = await storage.getEnquiries();
-      
-      // Generate CSV content
-      const csvHeader = 'Name,Email,Phone,Service,Message,Status,Created At\n';
-      const csvContent = enquiries.map(enquiry => 
-        `"${enquiry.name}","${enquiry.email}","${enquiry.phone || ''}","${enquiry.serviceInterest || 'General'}","${enquiry.message}","${enquiry.status}","${enquiry.createdAt}"`
-      ).join('\n');
-      
-      const csv = csvHeader + csvContent;
-      
-      res.setHeader('Content-Type', 'text/csv');
-      res.setHeader('Content-Disposition', 'attachment; filename=leads.csv');
-      res.send(csv);
+      const seoPages = await storage.getSEOPages();
+      res.json(seoPages);
     } catch (error) {
-      console.error("Error exporting leads:", error);
-      res.status(500).json({ message: "Failed to export leads" });
+      console.error('Failed to fetch SEO pages:', error);
+      res.status(500).json({ error: 'Failed to fetch SEO pages' });
     }
   });
 
-  // Pages management endpoints
-  app.get("/api/pages", async (req, res) => {
+  app.get('/api/dashboard/seo/redirects', async (req, res) => {
     try {
-      // For now, return empty array - can be extended to return actual pages from CMS
-      res.json([]);
+      const redirects = await storage.getRedirects();
+      res.json(redirects);
     } catch (error) {
-      console.error("Error fetching pages:", error);
-      res.status(500).json({ message: "Failed to fetch pages" });
+      console.error('Failed to fetch redirects:', error);
+      res.status(500).json({ error: 'Failed to fetch redirects' });
     }
   });
 
-  app.post("/api/pages", async (req, res) => {
+  app.post('/api/dashboard/seo/redirects', async (req, res) => {
     try {
-      // For now, just return success - can be extended to create actual pages
-      res.json({ id: Date.now(), ...req.body, createdAt: new Date(), updatedAt: new Date() });
+      const redirectData = req.body;
+      const redirect = await storage.createRedirect(redirectData);
+      res.json(redirect);
     } catch (error) {
-      console.error("Error creating page:", error);
-      res.status(500).json({ message: "Failed to create page" });
+      console.error('Failed to create redirect:', error);
+      res.status(500).json({ error: 'Failed to create redirect' });
     }
   });
 
-  app.patch("/api/pages/:id", async (req, res) => {
+  app.get('/api/dashboard/seo/schemas', async (req, res) => {
     try {
-      // For now, just return success - can be extended to update actual pages
-      res.json({ id: req.params.id, ...req.body, updatedAt: new Date() });
+      const schemas = await storage.getSchemaMarkups();
+      res.json(schemas);
     } catch (error) {
-      console.error("Error updating page:", error);
-      res.status(500).json({ message: "Failed to update page" });
+      console.error('Failed to fetch schemas:', error);
+      res.status(500).json({ error: 'Failed to fetch schemas' });
     }
   });
 
-  app.delete("/api/pages/:id", async (req, res) => {
+  app.post('/api/dashboard/seo/schemas/:id/validate', async (req, res) => {
     try {
-      // For now, just return success - can be extended to delete actual pages
-      res.json({ message: "Page deleted successfully" });
+      const schemaId = parseInt(req.params.id);
+      const result = await storage.validateSchema(schemaId);
+      res.json(result);
     } catch (error) {
-      console.error("Error deleting page:", error);
-      res.status(500).json({ message: "Failed to delete page" });
+      console.error('Failed to validate schema:', error);
+      res.status(500).json({ error: 'Failed to validate schema' });
     }
   });
 
-  // Services management endpoints  
-  app.get("/api/services", async (req, res) => {
+  app.post('/api/dashboard/seo/crawl/:id', async (req, res) => {
     try {
-      const services = await storage.getServices();
-      res.json(services);
+      const pageId = parseInt(req.params.id);
+      const result = await storage.crawlPage(pageId);
+      res.json(result);
     } catch (error) {
-      console.error("Error fetching services:", error);
-      res.status(500).json({ message: "Failed to fetch services" });
+      console.error('Failed to crawl page:', error);
+      res.status(500).json({ error: 'Failed to crawl page' });
     }
   });
 
-  app.post("/api/services", async (req, res) => {
+  app.get('/api/dashboard/seo/robots', async (req, res) => {
     try {
-      const service = await storage.createService(req.body);
-      res.json(service);
+      const robotsTxt = await storage.getRobotsTxt();
+      res.set('Content-Type', 'text/plain');
+      res.send(robotsTxt);
     } catch (error) {
-      console.error("Error creating service:", error);
-      res.status(500).json({ message: "Failed to create service" });
+      console.error('Failed to fetch robots.txt:', error);
+      res.status(500).send('Failed to fetch robots.txt');
     }
   });
 
-  app.patch("/api/services/:id", async (req, res) => {
+  app.put('/api/dashboard/seo/robots', async (req, res) => {
     try {
-      const service = await storage.updateService(Number(req.params.id), req.body);
-      res.json(service);
+      const robotsTxt = req.body;
+      await storage.updateRobotsTxt(robotsTxt);
+      res.json({ success: true });
     } catch (error) {
-      console.error("Error updating service:", error);
-      res.status(500).json({ message: "Failed to update service" });
+      console.error('Failed to update robots.txt:', error);
+      res.status(500).json({ error: 'Failed to update robots.txt' });
     }
   });
 
-  app.delete("/api/services/:id", async (req, res) => {
+  app.get('/api/dashboard/seo/sitemap', async (req, res) => {
     try {
-      await storage.deleteService(Number(req.params.id));
-      res.json({ message: "Service deleted successfully" });
+      const sitemapXml = await storage.getSitemapXml();
+      res.set('Content-Type', 'application/xml');
+      res.send(sitemapXml);
     } catch (error) {
-      console.error("Error deleting service:", error);
-      res.status(500).json({ message: "Failed to delete service" });
+      console.error('Failed to fetch sitemap:', error);
+      res.status(500).send('Failed to fetch sitemap');
     }
   });
 
-  // Enquiries management endpoints
-  app.get("/api/enquiries", async (req, res) => {
+  app.post('/api/dashboard/seo/sitemap/generate', async (req, res) => {
     try {
-      const enquiries = await storage.getEnquiries();
-      res.json(enquiries);
+      const result = await storage.generateSitemap();
+      res.json(result);
     } catch (error) {
-      console.error("Error fetching enquiries:", error);
-      res.status(500).json({ message: "Failed to fetch enquiries" });
+      console.error('Failed to generate sitemap:', error);
+      res.status(500).json({ error: 'Failed to generate sitemap' });
     }
   });
 
-  app.patch("/api/enquiries/:id", async (req, res) => {
+  // Notifications routes
+  app.get('/api/dashboard/notifications', async (req, res) => {
     try {
-      const enquiry = await storage.updateEnquiry(Number(req.params.id), req.body);
-      res.json(enquiry);
+      const notifications = await storage.getNotifications();
+      res.json(notifications);
     } catch (error) {
-      console.error("Error updating enquiry:", error);
-      res.status(500).json({ message: "Failed to update enquiry" });
+      console.error('Failed to fetch notifications:', error);
+      res.status(500).json({ error: 'Failed to fetch notifications' });
     }
   });
 
-  // Projects management endpoints  
-  app.post("/api/projects", async (req, res) => {
+  app.get('/api/dashboard/notifications/settings', async (req, res) => {
     try {
-      const project = await storage.createProject(req.body);
-      res.json(project);
+      const settings = await storage.getNotificationSettings();
+      res.json(settings);
     } catch (error) {
-      console.error("Error creating project:", error);
-      res.status(500).json({ message: "Failed to create project" });
+      console.error('Failed to fetch notification settings:', error);
+      res.status(500).json({ error: 'Failed to fetch notification settings' });
     }
   });
 
-  app.patch("/api/projects/:id", async (req, res) => {
+  app.put('/api/dashboard/notifications/settings', async (req, res) => {
     try {
-      const project = await storage.updateProject(Number(req.params.id), req.body);
-      res.json(project);
+      const settings = req.body;
+      const updatedSettings = await storage.updateNotificationSettings(settings);
+      res.json(updatedSettings);
     } catch (error) {
-      console.error("Error updating project:", error);
-      res.status(500).json({ message: "Failed to update project" });
+      console.error('Failed to update notification settings:', error);
+      res.status(500).json({ error: 'Failed to update notification settings' });
     }
   });
 
-  app.delete("/api/projects/:id", async (req, res) => {
+  app.put('/api/dashboard/notifications/:id/read', async (req, res) => {
     try {
-      await storage.deleteProject(Number(req.params.id));
-      res.json({ message: "Project deleted successfully" });
+      const notificationId = parseInt(req.params.id);
+      await storage.markNotificationAsRead(notificationId);
+      res.json({ success: true });
     } catch (error) {
-      console.error("Error deleting project:", error);
-      res.status(500).json({ message: "Failed to delete project" });
+      console.error('Failed to mark notification as read:', error);
+      res.status(500).json({ error: 'Failed to mark notification as read' });
+    }
+  });
+
+  app.put('/api/dashboard/notifications/read-all', async (req, res) => {
+    try {
+      await storage.markAllNotificationsAsRead();
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Failed to mark all notifications as read:', error);
+      res.status(500).json({ error: 'Failed to mark all notifications as read' });
+    }
+  });
+
+  app.put('/api/dashboard/notifications/:id/archive', async (req, res) => {
+    try {
+      const notificationId = parseInt(req.params.id);
+      await storage.archiveNotification(notificationId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Failed to archive notification:', error);
+      res.status(500).json({ error: 'Failed to archive notification' });
+    }
+  });
+
+  app.delete('/api/dashboard/notifications/:id', async (req, res) => {
+    try {
+      const notificationId = parseInt(req.params.id);
+      await storage.deleteNotification(notificationId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Failed to delete notification:', error);
+      res.status(500).json({ error: 'Failed to delete notification' });
     }
   });
 }

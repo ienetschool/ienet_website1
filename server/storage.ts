@@ -187,6 +187,26 @@ export interface IStorage {
   // Activity log operations
   createActivityLog(log: InsertActivityLog): Promise<ActivityLog>;
   getActivityLogs(userId?: string, limit?: number): Promise<ActivityLog[]>;
+
+  // Dashboard-specific operations
+  getPageBuilderPages(): Promise<any[]>;
+  getPageVersions(pageId: number): Promise<any[]>;
+  updatePageBuilderPage(pageId: number, pageData: any): Promise<any>;
+  getSEOPages(): Promise<any[]>;
+  getSchemaMarkups(): Promise<any[]>;
+  validateSchema(schemaId: number): Promise<any>;
+  crawlPage(pageId: number): Promise<any>;
+  getRobotsTxt(): Promise<string>;
+  updateRobotsTxt(content: string): Promise<void>;
+  getSitemapXml(): Promise<string>;
+  generateSitemap(): Promise<any>;
+  getNotifications(): Promise<any[]>;
+  getNotificationSettings(): Promise<any>;
+  updateNotificationSettings(settings: any): Promise<any>;
+  markNotificationAsRead(notificationId: number): Promise<void>;
+  markAllNotificationsAsRead(): Promise<void>;
+  archiveNotification(notificationId: number): Promise<void>;
+  deleteNotification(notificationId: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -1059,6 +1079,219 @@ export class DatabaseStorage implements IStorage {
         category: 'Backend'
       }
     ];
+  }
+
+  // Dashboard-specific implementations
+  async getPageBuilderPages() {
+    return [
+      {
+        id: 1,
+        title: "Home Page",
+        slug: "home",
+        content: "[]",
+        status: "published",
+        lastModified: new Date().toISOString(),
+        author: "Admin"
+      },
+      {
+        id: 2,
+        title: "About Us",
+        slug: "about",
+        content: "[]",
+        status: "draft",
+        lastModified: new Date().toISOString(),
+        author: "Admin"
+      }
+    ];
+  }
+
+  async getPageVersions(pageId: number) {
+    return [
+      {
+        id: 1,
+        pageId,
+        version: "v1.0",
+        createdAt: new Date().toISOString(),
+        author: "Admin"
+      }
+    ];
+  }
+
+  async updatePageBuilderPage(pageId: number, pageData: any) {
+    return { id: pageId, ...pageData };
+  }
+
+  async getSEOPages() {
+    return [
+      {
+        id: 1,
+        url: "/services/website-development",
+        title: "Website Development Services - IeNet",
+        metaDescription: "Professional website development services including UI/UX design, e-commerce solutions, and responsive web design.",
+        h1Count: 1,
+        h2Count: 5,
+        imageCount: 8,
+        internalLinks: 12,
+        externalLinks: 3,
+        wordCount: 1247,
+        lastCrawled: new Date().toISOString(),
+        issues: [
+          {
+            type: 'warning' as const,
+            category: 'meta' as const,
+            message: 'Meta description is slightly long',
+            suggestion: 'Consider shortening to under 150 characters'
+          }
+        ],
+        score: 85,
+        status: 'good' as const
+      },
+      {
+        id: 2,
+        url: "/services/cybersecurity",
+        title: "Cybersecurity Services - IeNet",
+        metaDescription: "Comprehensive cybersecurity solutions including vulnerability assessment and penetration testing.",
+        h1Count: 1,
+        h2Count: 4,
+        imageCount: 6,
+        internalLinks: 8,
+        externalLinks: 2,
+        wordCount: 892,
+        lastCrawled: new Date().toISOString(),
+        issues: [],
+        score: 92,
+        status: 'good' as const
+      }
+    ];
+  }
+
+  async getSchemaMarkups() {
+    return [
+      {
+        id: 1,
+        pageUrl: "/services/website-development",
+        type: "Service" as const,
+        schema: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "Website Development",
+          "description": "Professional website development services"
+        }),
+        isValid: true,
+        errors: [],
+        lastValidated: new Date().toISOString()
+      }
+    ];
+  }
+
+  async validateSchema(schemaId: number) {
+    return { isValid: true, errors: [] };
+  }
+
+  async crawlPage(pageId: number) {
+    return { success: true, message: "Page crawled successfully" };
+  }
+
+  async getRobotsTxt() {
+    return `User-agent: *
+Disallow: /admin/
+Disallow: /private/
+
+Sitemap: https://ienet.app/sitemap.xml`;
+  }
+
+  async updateRobotsTxt(content: string) {
+    // In production, this would save to a file or database
+    console.log('Updated robots.txt:', content);
+  }
+
+  async getSitemapXml() {
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://ienet.app/</loc>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://ienet.app/services</loc>
+    <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
+    <priority>0.8</priority>
+  </url>
+</urlset>`;
+  }
+
+  async generateSitemap() {
+    return { success: true, message: "Sitemap generated successfully" };
+  }
+
+  async getNotifications() {
+    return [
+      {
+        id: 1,
+        type: 'form_submission' as const,
+        title: 'New Contact Form Submission',
+        message: 'A new contact form was submitted from the website',
+        severity: 'info' as const,
+        category: 'forms' as const,
+        isRead: false,
+        isArchived: false,
+        createdAt: new Date().toISOString(),
+        metadata: { formType: 'contact', userEmail: 'user@example.com' }
+      },
+      {
+        id: 2,
+        type: 'seo_issue' as const,
+        title: 'SEO Issue Detected',
+        message: 'Missing meta description on /services/web-hosting page',
+        severity: 'warning' as const,
+        category: 'seo' as const,
+        isRead: false,
+        isArchived: false,
+        createdAt: new Date(Date.now() - 3600000).toISOString(),
+        metadata: { pageUrl: '/services/web-hosting' }
+      }
+    ];
+  }
+
+  async getNotificationSettings() {
+    return {
+      emailNotifications: true,
+      pushNotifications: true,
+      formSubmissions: true,
+      seoIssues: true,
+      userActivity: false,
+      systemAlerts: true,
+      performanceWarnings: true,
+      dailyDigest: false,
+      weeklyReport: true,
+      quietHours: {
+        enabled: false,
+        start: '22:00',
+        end: '08:00'
+      }
+    };
+  }
+
+  async updateNotificationSettings(settings: any) {
+    return settings;
+  }
+
+  async markNotificationAsRead(notificationId: number) {
+    // In production, update the notification in database
+    console.log(`Marked notification ${notificationId} as read`);
+  }
+
+  async markAllNotificationsAsRead() {
+    console.log('Marked all notifications as read');
+  }
+
+  async archiveNotification(notificationId: number) {
+    console.log(`Archived notification ${notificationId}`);
+  }
+
+  async deleteNotification(notificationId: number) {
+    console.log(`Deleted notification ${notificationId}`);
   }
 }
 

@@ -11,6 +11,10 @@ import { PagesManagement } from "./dashboard/PagesManagement";
 import { ServicesManagement } from "./dashboard/ServicesManagement";
 import { EnquiriesManagement } from "./dashboard/EnquiriesManagement";
 import { ProjectsManagement } from "./dashboard/ProjectsManagement";
+import AnalyticsWidget from "./dashboard/AnalyticsWidget";
+import PageBuilder from "./dashboard/PageBuilder";
+import SEOManager from "./dashboard/SEOManager";
+import NotificationsSystem from "./dashboard/NotificationsSystem";
 import {
   BarChart3,
   Users,
@@ -251,6 +255,10 @@ export default function ComprehensiveDashboard() {
         return <ServicesManagement />;
       case 'features':
         return <GenericSection title="Features Management" description="Manage your service features" icon={Zap} />;
+      case 'page-builder':
+        return <PageBuilder />;
+      case 'notifications':
+        return <NotificationsSystem />;
       case 'projects':
         return <ProjectsManagement />;
       case 'blog':
@@ -260,9 +268,9 @@ export default function ComprehensiveDashboard() {
       case 'contacts':
         return <GenericSection title="Contact Forms" description="Manage contact form submissions" icon={Mail} />;
       case 'seo':
-        return <GenericSection title="SEO Management" description="Manage page SEO settings and optimization" icon={Globe} />;
+        return <SEOManager />;
       case 'analytics':
-        return <GenericSection title="Analytics" description="View website analytics and performance" icon={TrendingUp} />;
+        return <AnalyticsWidget />;
       case 'sliders':
         return <GenericSection title="Hero Sliders" description="Manage homepage hero sliders" icon={Sliders} />;
       case 'testimonials':
@@ -286,6 +294,14 @@ export default function ComprehensiveDashboard() {
         return { title: "Pages Management", description: "Create and manage your website pages" };
       case 'services':
         return { title: "Services Management", description: "Manage your service categories and offerings" };
+      case 'analytics':
+        return { title: "Analytics Dashboard", description: "Monitor website performance and visitor insights" };
+      case 'page-builder':
+        return { title: "Page Builder", description: "Visual page editor with drag-and-drop blocks" };
+      case 'seo':
+        return { title: "SEO Manager", description: "Optimize your website for search engines" };
+      case 'notifications':
+        return { title: "Notifications", description: "System alerts and activity monitoring" };
       default:
         return { title: "Dashboard", description: "Manage your website content and settings" };
     }

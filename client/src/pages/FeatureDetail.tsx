@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "wouter";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import ModernHeader from "@/components/layout/ModernHeader";
+import ModernFooter from "@/components/layout/ModernFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,10 +17,15 @@ import {
 import { 
   ArrowRight,
   MessageCircle,
-  HelpCircle,
+  Check,
   Settings,
   Zap,
-  Shield
+  Shield,
+  Code,
+  Users,
+  Lightbulb,
+  Target,
+  Wrench
 } from "lucide-react";
 
 export default function FeatureDetail() {
@@ -46,7 +51,7 @@ export default function FeatureDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <Header />
+        <ModernHeader />
         <main className="py-20">
           <div className="container mx-auto px-6">
             <div className="space-y-8">
@@ -65,7 +70,7 @@ export default function FeatureDetail() {
             </div>
           </div>
         </main>
-        <Footer />
+        <ModernFooter />
       </div>
     );
   }
@@ -73,7 +78,7 @@ export default function FeatureDetail() {
   if (!category || !service || !feature) {
     return (
       <div className="min-h-screen bg-background">
-        <Header />
+        <ModernHeader />
         <main className="py-20">
           <div className="container mx-auto px-6 text-center">
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -87,34 +92,14 @@ export default function FeatureDetail() {
             </Button>
           </div>
         </main>
-        <Footer />
+        <ModernFooter />
       </div>
     );
   }
 
-  // Sample FAQs - in a real app, these would come from the database
-  const faqs = [
-    {
-      question: "How long does implementation take?",
-      answer: "Implementation time varies based on complexity and scope, typically ranging from 1-4 weeks for this feature."
-    },
-    {
-      question: "Is ongoing maintenance required?",
-      answer: "We provide ongoing support and maintenance options to ensure optimal performance and security."
-    },
-    {
-      question: "Can this be customized for our needs?",
-      answer: "Yes, all our features can be customized to meet your specific business requirements and workflows."
-    },
-    {
-      question: "What technologies are used?",
-      answer: "We use modern, industry-standard technologies and frameworks to ensure reliability and scalability."
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <ModernHeader />
 
       {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 z-40">
@@ -125,41 +110,6 @@ export default function FeatureDetail() {
       </div>
 
       <main>
-        {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <div className="flex flex-wrap gap-2 mb-4">
-                <Badge variant="outline">{category.name}</Badge>
-                <Badge variant="outline">{service.name}</Badge>
-                <Badge>Feature</Badge>
-              </div>
-              
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                {feature.name}
-              </h1>
-              
-              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
-                {feature.description}
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" asChild>
-                  <Link href="/contact">
-                    Get This Feature
-                    <ArrowRight className="ml-2" size={16} />
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <Link href={`/services/${categorySlug}/${serviceSlug}`}>
-                    Back to {service.name}
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Breadcrumb */}
         <section className="bg-gray-50 dark:bg-gray-800 py-4">
           <div className="container mx-auto px-6">
@@ -197,196 +147,192 @@ export default function FeatureDetail() {
           </div>
         </section>
 
-        {/* Main Content */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        {/* Feature Title Section */}
+        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-16">
           <div className="container mx-auto px-6">
-            <div className="grid lg:grid-cols-3 gap-12">
-              {/* Main Content */}
-              <div className="lg:col-span-2 space-y-8">
-                {/* Feature Description */}
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                {feature.name}
+              </h1>
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                Boost SEO and performance with advanced {feature.name.toLowerCase()}
+              </p>
+              <Button size="lg" className="bg-primary hover:bg-primary/90">
+                Request Implementation
+                <ArrowRight className="ml-2" size={16} />
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* What is [Feature]? */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">What is {feature.name}?</h2>
+              <div className="prose prose-lg dark:prose-invert max-w-none">
+                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                  <strong>Non-technical definition:</strong> {feature.name} is a powerful web development technique that enhances your website's performance 
+                  and search engine visibility. It ensures your content loads quickly and is immediately accessible to both users and search engines, 
+                  providing a superior browsing experience across all devices.
+                </p>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  <strong>Technical definition:</strong> {feature.name} is an advanced rendering strategy that processes web pages on the server before 
+                  sending them to the client browser. This approach generates fully-formed HTML content server-side, enabling immediate content visibility, 
+                  improved SEO crawling, and faster initial page load times compared to traditional client-side rendering methods.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Why It Matters */}
+        <section className="py-16 bg-gray-50 dark:bg-gray-800">
+          <div className="container mx-auto px-6">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Why It Matters</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-lg flex items-center justify-center mb-4">
+                      <Target className="text-emerald-600 dark:text-emerald-400" size={24} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">SEO Benefits</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      Search engines can easily crawl and index your content, leading to better rankings and increased organic traffic.
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
+                      <Zap className="text-blue-600 dark:text-blue-400" size={24} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Faster Initial Load Time</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      Users see content immediately upon page load, reducing bounce rates and improving user engagement.
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-4">
+                      <Users className="text-purple-600 dark:text-purple-400" size={24} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Better UX for Crawlers</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      Search engine bots can efficiently process and understand your website structure and content.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Use Cases */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">When It Works Best</h2>
+              <div className="grid md:grid-cols-3 gap-6">
+                <Card className="text-center">
+                  <CardContent className="p-6">
+                    <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Code className="text-orange-600 dark:text-orange-400" size={24} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Blogs & Content Sites</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      Perfect for content-heavy websites that need excellent SEO performance
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="text-center">
+                  <CardContent className="p-6">
+                    <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Shield className="text-green-600 dark:text-green-400" size={24} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">E-commerce Platforms</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      Essential for product pages that need to rank well in search results
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card className="text-center">
+                  <CardContent className="p-6">
+                    <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Lightbulb className="text-blue-600 dark:text-blue-400" size={24} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Large Content Apps</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      Ideal for applications with extensive content catalogs and databases
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Our Implementation */}
+        <section className="py-16 bg-gray-50 dark:bg-gray-800">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Our Implementation</h2>
+              <div className="grid md:grid-cols-2 gap-8">
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Settings className="mr-2" size={24} />
-                      Feature Overview
+                      <Wrench className="mr-2 text-primary" size={20} />
+                      Tools & Technologies
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="prose dark:prose-invert max-w-none">
-                    <div className="text-gray-600 dark:text-gray-300 leading-relaxed space-y-4">
-                      <p>{feature.content || feature.description}</p>
-                      
-                      {feature.technicalDetails && (
-                        <div>
-                          <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                            Technical Details
-                          </h4>
-                          <p>{feature.technicalDetails}</p>
-                        </div>
-                      )}
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex items-center">
+                        <Check className="text-emerald-500 mr-2" size={16} />
+                        <span className="text-gray-900 dark:text-white">Next.js for React applications</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Check className="text-emerald-500 mr-2" size={16} />
+                        <span className="text-gray-900 dark:text-white">Nuxt.js for Vue.js projects</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Check className="text-emerald-500 mr-2" size={16} />
+                        <span className="text-gray-900 dark:text-white">SvelteKit for Svelte applications</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Check className="text-emerald-500 mr-2" size={16} />
+                        <span className="text-gray-900 dark:text-white">Custom Node.js solutions</span>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
-
-                {/* Benefits */}
-                {feature.benefits && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="flex items-center">
-                        <Zap className="mr-2" size={24} />
-                        Key Benefits
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                        <p>{feature.benefits}</p>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-
-                {/* Implementation Process */}
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
-                      <Shield className="mr-2" size={24} />
+                      <Settings className="mr-2 text-primary" size={20} />
                       Implementation Process
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
-                      {[
-                        {
-                          step: "1",
-                          title: "Requirements Analysis",
-                          description: "We analyze your specific requirements for this feature and how it integrates with your existing systems."
-                        },
-                        {
-                          step: "2", 
-                          title: "Design & Planning",
-                          description: "Our team creates detailed specifications and implementation plans tailored to your environment."
-                        },
-                        {
-                          step: "3",
-                          title: "Development & Integration",
-                          description: "We develop and integrate the feature following best practices and your specifications."
-                        },
-                        {
-                          step: "4",
-                          title: "Testing & Validation",
-                          description: "Comprehensive testing ensures the feature works correctly and meets all requirements."
-                        }
-                      ].map((item, index) => (
-                        <div key={index} className="flex items-start space-x-4">
-                          <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-semibold text-sm">
-                            {item.step}
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
-                              {item.title}
-                            </h4>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm">
-                              {item.description}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* FAQs */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <HelpCircle className="mr-2" size={24} />
-                      Frequently Asked Questions
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6">
-                      {faqs.map((faq, index) => (
-                        <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-4 last:border-b-0 last:pb-0">
-                          <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
-                            {faq.question}
-                          </h4>
-                          <p className="text-gray-600 dark:text-gray-400">
-                            {faq.answer}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* Sidebar */}
-              <div className="space-y-6">
-                {/* Quick Actions */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Get This Feature</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <Button className="w-full" asChild>
-                      <Link href="/contact">
-                        Request Implementation
-                      </Link>
-                    </Button>
-                    <Button variant="outline" className="w-full" asChild>
-                      <Link href="/projects">
-                        See Examples
-                      </Link>
-                    </Button>
-                  </CardContent>
-                </Card>
-
-                {/* Feature Info */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Feature Information</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Service</h4>
-                      <p className="text-gray-600 dark:text-gray-300">{service.name}</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Category</h4>
-                      <p className="text-gray-600 dark:text-gray-300">{category.name}</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Implementation</h4>
-                      <p className="text-gray-600 dark:text-gray-300">1-4 weeks typically</p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white">Maintenance</h4>
-                      <p className="text-gray-600 dark:text-gray-300">Optional ongoing support</p>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Navigation */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Related</CardTitle>
-                  </CardHeader>
-                  <CardContent>
                     <div className="space-y-3">
-                      <Button variant="ghost" className="w-full justify-start" asChild>
-                        <Link href={`/services/${categorySlug}/${serviceSlug}`}>
-                          All {service.name} Features
-                        </Link>
-                      </Button>
-                      <Button variant="ghost" className="w-full justify-start" asChild>
-                        <Link href={`/services/${categorySlug}`}>
-                          All {category.name} Services
-                        </Link>
-                      </Button>
-                      <Button variant="ghost" className="w-full justify-start" asChild>
-                        <Link href="/contact">
-                          Custom Requirements
-                        </Link>
-                      </Button>
+                      <div className="flex items-center">
+                        <Check className="text-emerald-500 mr-2" size={16} />
+                        <span className="text-gray-900 dark:text-white">Performance analysis and optimization</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Check className="text-emerald-500 mr-2" size={16} />
+                        <span className="text-gray-900 dark:text-white">SEO metadata configuration</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Check className="text-emerald-500 mr-2" size={16} />
+                        <span className="text-gray-900 dark:text-white">Caching strategy implementation</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Check className="text-emerald-500 mr-2" size={16} />
+                        <span className="text-gray-900 dark:text-white">Quality testing and validation</span>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
@@ -394,9 +340,112 @@ export default function FeatureDetail() {
             </div>
           </div>
         </section>
+
+        {/* Linked Sub-Services */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Related Services</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card className="hover:shadow-lg transition-shadow duration-300">
+                  <CardContent className="p-6 text-center">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">ReactJS Development</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Modern React applications with SSR capabilities</p>
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/services/${categorySlug}/reactjs-development`}>Learn More</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                <Card className="hover:shadow-lg transition-shadow duration-300">
+                  <CardContent className="p-6 text-center">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">SEO Optimization</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Comprehensive SEO strategies and implementation</p>
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href="/services/digital-marketing/seo-optimization">Learn More</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+                <Card className="hover:shadow-lg transition-shadow duration-300">
+                  <CardContent className="p-6 text-center">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Performance Optimization</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Website speed and performance enhancement</p>
+                    <Button variant="outline" size="sm" asChild>
+                      <Link href={`/services/${categorySlug}/performance-optimization`}>Learn More</Link>
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Related Features */}
+        <section className="py-16 bg-gray-50 dark:bg-gray-800">
+          <div className="container mx-auto px-6">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Related Features</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card className="hover:shadow-lg transition-shadow duration-300">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Lazy Loading</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                      Optimize page load times by loading content on demand
+                    </p>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Learn More
+                    </Button>
+                  </CardContent>
+                </Card>
+                <Card className="hover:shadow-lg transition-shadow duration-300">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">CDN Integration</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                      Global content delivery for maximum performance
+                    </p>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Learn More
+                    </Button>
+                  </CardContent>
+                </Card>
+                <Card className="hover:shadow-lg transition-shadow duration-300">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Code Splitting</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                      Efficient code bundling for faster application loading
+                    </p>
+                    <Button variant="outline" size="sm" className="w-full">
+                      Learn More
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Bottom CTA / Request Implementation */}
+        <section className="py-16 bg-primary text-white">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl font-bold mb-4">Ready to Implement {feature.name}?</h2>
+              <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+                Let our experts integrate {feature.name.toLowerCase()} into your project for enhanced performance and SEO benefits.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" variant="secondary">
+                  Request Implementation
+                  <ArrowRight className="ml-2" size={16} />
+                </Button>
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+                  Schedule Consultation
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
-      <Footer />
+      <ModernFooter />
     </div>
   );
 }

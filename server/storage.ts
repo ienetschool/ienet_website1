@@ -951,6 +951,46 @@ export class DatabaseStorage implements IStorage {
     };
   }
 
+  // Site settings operations
+  async getSiteSettings() {
+    // In a real implementation, this would be stored in a siteSettings table
+    return {
+      siteName: 'IeNet',
+      siteDescription: 'Professional IT Services Platform',
+      logoUrl: '',
+      faviconUrl: '',
+      primaryColor: '#3B82F6',
+      secondaryColor: '#10B981',
+      fontFamily: 'inter',
+      enableDarkMode: false,
+      maintenanceMode: false,
+      googleAnalyticsId: '',
+      googleSearchConsoleId: ''
+    };
+  }
+
+  async updateSiteSettings(updates: any) {
+    // In a real implementation, this would update a siteSettings table
+    console.log('Site settings updated:', updates);
+    return true;
+  }
+
+  async getAllUsers() {
+    // Mock users data - in real implementation, this would come from users table
+    return [
+      {
+        id: '1',
+        email: 'admin@ienet.com',
+        firstName: 'Admin',
+        lastName: 'User',
+        role: 'admin',
+        isActive: true,
+        createdAt: new Date(),
+        lastLoginAt: new Date()
+      }
+    ];
+  }
+
   async getUserAchievements(userId: string) {
     // Return mock achievements - in real implementation, these would be stored in DB
     return [

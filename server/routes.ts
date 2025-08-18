@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { registerCMSRoutes } from "./routes/cms";
 import { registerPerformanceRoutes } from "./routes/performance";
+import { registerDashboardRoutes } from "./routes/dashboard";
 import { 
   insertServiceCategorySchema,
   insertServiceSchema,
@@ -34,6 +35,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register performance dashboard routes  
   registerPerformanceRoutes(app);
+
+  // Register comprehensive dashboard routes
+  registerDashboardRoutes(app);
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {

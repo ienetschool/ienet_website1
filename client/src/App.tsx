@@ -26,6 +26,7 @@ import Careers from "@/pages/Careers";
 import SitemapViewer from "@/pages/SitemapViewer";
 import AdminDashboard from "@/pages/AdminDashboard";
 import PerformanceDashboard from "@/pages/PerformanceDashboard";
+import ComprehensiveDashboard from "@/pages/ComprehensiveDashboard";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -53,6 +54,7 @@ function Router() {
           <Route path="/sitemap-viewer" component={SitemapViewer} />
           <Route path="/performance" component={PerformanceDashboard} />
           <Route path="/admin" component={AdminDashboard} />
+          <Route path="/dashboard" component={ComprehensiveDashboard} />
         </>
       ) : (
         <>
@@ -75,6 +77,7 @@ function Router() {
           <Route path="/sitemap-viewer" component={SitemapViewer} />
           <Route path="/performance" component={PerformanceDashboard} />
           <Route path="/admin" component={AdminDashboard} />
+          <Route path="/dashboard" component={ComprehensiveDashboard} />
         </>
       )}
       <Route component={NotFound} />

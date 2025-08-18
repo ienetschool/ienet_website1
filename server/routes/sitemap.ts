@@ -31,7 +31,7 @@ function generateHTMLSitemap(urls: Array<{
   category: string;
   status: 'active' | 'inactive';
   lastUpdated: string;
-}>) {
+}>, baseUrl: string) {
   const groupedUrls = urls.reduce((acc, item) => {
     if (!acc[item.category]) {
       acc[item.category] = [];
@@ -204,7 +204,7 @@ function generateHTMLSitemap(urls: Array<{
             <div class="url-grid">
                 ${categoryUrls.map(item => `
                 <div class="url-item">
-                    <a href="https://${item.url.replace(/^https?:\/\//, '')}" target="_blank">${item.title}</a>
+                    <a href="${baseUrl}${item.url}" target="_blank">${item.title}</a>
                     <div class="url-meta">
                         <span>Updated: ${item.lastUpdated}</span>
                         <span class="status ${item.status}">${item.status}</span>
@@ -402,33 +402,10 @@ router.get('/sitemap', async (req, res) => {
       });
     }
 
-    // Build complete URLs with protocol - ensure HTTPS
-    const allPages = [...staticPages, ...dynamicPages].map(page => {
-      // Force HTTPS protocol for all URLs
-      let fullUrl;
-      
-      if (page.url.startsWith('https://')) {
-        fullUrl = page.url;
-      } else if (page.url.startsWith('http://')) {
-        fullUrl = page.url.replace('http://', 'https://');
-      } else if (page.url.startsWith('/')) {
-        fullUrl = `${baseUrl}${page.url}`;
-      } else {
-        fullUrl = `https://${page.url}`;
-      }
-      
-      // Ensure we have https:// protocol
-      if (!fullUrl.startsWith('https://') && !fullUrl.startsWith('http://')) {
-        fullUrl = `https://${fullUrl}`;
-      }
-      
-      return {
-        ...page,
-        url: fullUrl
-      };
-    });
+    // Keep URLs as relative paths for proper href construction
+    const allPages = [...staticPages, ...dynamicPages];
 
-    const htmlSitemap = generateHTMLSitemap(allPages);
+    const htmlSitemap = generateHTMLSitemap(allPages, baseUrl);
 
     res.set('Content-Type', 'text/html');
     res.send(htmlSitemap);

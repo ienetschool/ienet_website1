@@ -30,6 +30,7 @@ import ComprehensiveDashboard from "@/pages/ComprehensiveDashboard";
 import DashboardHelper from "@/pages/DashboardHelper";
 import PageBuilder from "@/pages/dashboard/PageBuilder";
 import EditingDemo from "@/components/EditingDemo";
+import UserManagement from "@/pages/UserManagement";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -82,6 +83,7 @@ function Router() {
           <Route path="/sitemap-viewer" component={SitemapViewer} />
           <Route path="/performance" component={PerformanceDashboard} />
           <Route path="/admin" component={AdminDashboard} />
+          <Route path="/users" component={UserManagement} />
           <Route path="/page-builder" component={PageBuilder} />
           <Route path="/dashboard" component={ComprehensiveDashboard} />
           <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />

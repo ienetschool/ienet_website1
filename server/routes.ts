@@ -1,10 +1,11 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupSimpleAuth, isAuthenticated } from "./simple-auth";
 import { registerCMSRoutes } from "./routes/cms";
 import { registerPerformanceRoutes } from "./routes/performance";
 import { registerDashboardRoutes } from "./routes/dashboard";
+import { registerUserRoutes } from "./routes/users";
 import { 
   insertServiceCategorySchema,
   insertServiceSchema,
@@ -28,7 +29,7 @@ import {
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
-  await setupAuth(app);
+  setupSimpleAuth(app);
 
   // Register CMS administration routes
   registerCMSRoutes(app);
@@ -38,6 +39,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register comprehensive dashboard routes
   registerDashboardRoutes(app);
+
+  // Register user management routes
+  registerUserRoutes(app);
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {

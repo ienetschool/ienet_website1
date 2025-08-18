@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import ModernHeader from "@/components/layout/ModernHeader";
 import ModernFooter from "@/components/layout/ModernFooter";
+import TopBar from "@/components/layout/TopBar";
 import HeroSlider from "@/components/sections/HeroSlider";
 import AboutSection from "@/components/sections/AboutSection";
 import ServicesSection from "@/components/sections/ServicesSection";
@@ -28,6 +29,7 @@ import { Link } from "wouter";
 export default function Landing() {
   return (
     <div className="min-h-screen bg-background">
+      <TopBar />
       <ModernHeader />
 
       {/* Floating Quick Contact Button */}

@@ -25,7 +25,8 @@ import {
   MessageCircle,
   Check,
   Clock,
-  Users
+  Users,
+  Target
 } from "lucide-react";
 
 const iconMap = {

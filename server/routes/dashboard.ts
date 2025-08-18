@@ -314,18 +314,70 @@ export function registerDashboardRoutes(app: Express) {
   // Backup & Export Routes
   app.post('/api/dashboard/backup/create', async (req, res) => {
     try {
-      // Create database backup
-      const backupId = Date.now().toString();
+      // Import the DatabaseBackup class
+      const { DatabaseBackup } = await import('../backup-database');
+      const backup = new DatabaseBackup();
       
-      // In production, implement actual backup logic
+      // Create the backup
+      console.log('Starting database backup...');
+      const backupFile = await backup.createBackup();
+      await backup.close();
+      
+      // Get file stats
+      const fs = require('fs');
+      const path = require('path');
+      const stats = fs.statSync(backupFile);
+      const fileSizeInBytes = stats.size;
+      const fileSizeInMB = (fileSizeInBytes / (1024 * 1024)).toFixed(2);
+      const fileName = path.basename(backupFile);
+      
+      const timestamp = new Date().toISOString();
+      const backupData = {
+        id: `backup-${timestamp.replace(/[:.]/g, '-')}`,
+        timestamp,
+        fileName,
+        filePath: backupFile,
+        size: `${fileSizeInMB} MB`,
+        status: 'completed'
+      };
+      
+      console.log(`Database backup created: ${fileName} (${fileSizeInMB} MB)`);
+      
       res.json({ 
-        message: "Backup created successfully", 
-        backupId,
-        timestamp: new Date().toISOString()
+        message: "Database backup created successfully",
+        backup: backupData
       });
     } catch (error) {
       console.error("Error creating backup:", error);
-      res.status(500).json({ message: "Failed to create backup" });
+      res.status(500).json({ message: "Failed to create backup: " + error.message });
+    }
+  });
+
+  // Download backup file
+  app.get('/api/dashboard/backup/download/:filename', async (req, res) => {
+    try {
+      const fs = require('fs');
+      const path = require('path');
+      const filename = req.params.filename;
+      const backupDir = path.join(process.cwd(), 'backups');
+      const filePath = path.join(backupDir, filename);
+      
+      // Check if file exists
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({ message: "Backup file not found" });
+      }
+      
+      // Set headers for file download
+      res.setHeader('Content-Type', 'application/sql');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      
+      // Stream the file
+      const fileStream = fs.createReadStream(filePath);
+      fileStream.pipe(res);
+      
+    } catch (error) {
+      console.error("Error downloading backup:", error);
+      res.status(500).json({ message: "Failed to download backup" });
     }
   });
 

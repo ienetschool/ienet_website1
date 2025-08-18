@@ -85,9 +85,7 @@ export default function ModernFooter() {
                 </div>
               </div>
               
-              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                Leading provider of comprehensive IT and business solutions, delivering innovative technology services to transform businesses across all industries.
-              </p>
+
               
               {/* Contact Information */}
               <div className="space-y-3">

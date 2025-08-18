@@ -112,15 +112,15 @@ export default function ModernFooter() {
               </div>
 
               {/* Certifications */}
-              <div className="mt-6 pt-6 border-t border-gray-800">
+              <div className="mt-6 pt-6 border-t border-gray-300 dark:border-gray-800">
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-1">
                     <Shield className="text-emerald-400" size={16} />
-                    <span className="text-xs text-gray-400">ISO 27001</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">ISO 27001</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <Award className="text-blue-400" size={16} />
-                    <span className="text-xs text-gray-400">AWS Partner</span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">AWS Partner</span>
                   </div>
                 </div>
               </div>
@@ -128,12 +128,12 @@ export default function ModernFooter() {
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
+              <h4 className="text-lg font-semibold mb-6 text-gray-800 dark:text-white">Quick Links</h4>
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.name}>
                     <Link href={link.href}>
-                      <div className="text-gray-300 hover:text-primary transition-colors duration-200 cursor-pointer text-sm">
+                      <div className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors duration-200 cursor-pointer text-sm">
                         {link.name}
                       </div>
                     </Link>
@@ -144,12 +144,12 @@ export default function ModernFooter() {
 
             {/* Our Services */}
             <div>
-              <h4 className="text-lg font-semibold mb-6">Our Services</h4>
+              <h4 className="text-lg font-semibold mb-6 text-gray-800 dark:text-white">Our Services</h4>
               <ul className="space-y-3">
                 {services.map((service) => (
                   <li key={service.name}>
                     <Link href={service.href}>
-                      <div className="text-gray-300 hover:text-primary transition-colors duration-200 cursor-pointer text-sm">
+                      <div className="text-gray-600 dark:text-gray-300 hover:text-primary transition-colors duration-200 cursor-pointer text-sm">
                         {service.name}
                       </div>
                     </Link>
@@ -160,7 +160,7 @@ export default function ModernFooter() {
 
             {/* Contact & Social */}
             <div>
-              <h4 className="text-lg font-semibold mb-6">Connect With Us</h4>
+              <h4 className="text-lg font-semibold mb-6 text-gray-800 dark:text-white">Connect With Us</h4>
               
               {/* Social Media Links */}
               <div className="flex space-x-4 mb-6">
@@ -170,7 +170,7 @@ export default function ModernFooter() {
                     href={social.href} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-all duration-300 hover:scale-110"
+                    className="w-10 h-10 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 hover:scale-110"
                   >
                     <social.icon size={18} />
                   </a>
@@ -179,11 +179,11 @@ export default function ModernFooter() {
 
               {/* Payment Methods */}
               <div>
-                <h5 className="text-sm font-semibold mb-3">We Accept</h5>
+                <h5 className="text-sm font-semibold mb-3 text-gray-800 dark:text-white">We Accept</h5>
                 <div className="grid grid-cols-3 gap-2">
                   {paymentMethods.map((method, index) => (
-                    <div key={index} className="bg-gray-800 rounded px-2 py-1 text-center">
-                      <span className="text-xs text-gray-400">{method.name}</span>
+                    <div key={index} className="bg-gray-200 dark:bg-gray-800 rounded px-2 py-1 text-center">
+                      <span className="text-xs text-gray-600 dark:text-gray-400">{method.name}</span>
                     </div>
                   ))}
                 </div>
@@ -192,19 +192,19 @@ export default function ModernFooter() {
           </div>
         </div>
 
-        <Separator className="bg-gray-800" />
+        <Separator className="bg-gray-300 dark:bg-gray-800" />
         
         {/* Bottom Footer */}
-        <div className="bg-gray-950">
+        <div className="bg-gray-100 dark:bg-gray-950">
           <div className="container mx-auto px-6 py-4">
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div className="flex items-center space-x-6 mb-4 md:mb-0">
-                <p className="text-gray-400 text-sm">
+                <p className="text-gray-600 dark:text-gray-400 text-sm">
                   © {currentYear} IeNet. All rights reserved.
                 </p>
                 
                 {/* Trust Indicators */}
-                <div className="flex items-center space-x-4 text-xs text-gray-500">
+                <div className="flex items-center space-x-4 text-xs text-gray-500 dark:text-gray-500">
                   <div className="flex items-center space-x-1">
                     <CreditCard size={14} />
                     <span>Secure Payments</span>
@@ -221,7 +221,7 @@ export default function ModernFooter() {
                 onClick={scrollToTop}
                 variant="ghost"
                 size="sm"
-                className="text-gray-400 hover:text-primary hover:bg-gray-800 rounded-full w-10 h-10 p-0"
+                className="text-gray-600 dark:text-gray-400 hover:text-primary hover:bg-gray-300 dark:hover:bg-gray-800 rounded-full w-10 h-10 p-0"
                 aria-label="Back to top"
               >
                 <ArrowUp size={16} />

@@ -113,7 +113,7 @@ export default function ModernHeader() {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link href="/">
-            <div className="flex items-center space-x-3 cursor-pointer group">
+            <div className="flex flex-col items-center cursor-pointer group">
               <div className="w-12 h-12 rounded-xl overflow-hidden transform group-hover:scale-110 transition-transform duration-300">
                 <img 
                   src="/IE vector logo-01_1755535165852.png" 
@@ -121,14 +121,9 @@ export default function ModernHeader() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  IeNet
-                </h1>
-                <p className="text-xs text-gray-600 dark:text-gray-400 -mt-1">
-                  IT & Business Solutions
-                </p>
-              </div>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 text-center">
+                IT & Business Solutions
+              </p>
             </div>
           </Link>
 

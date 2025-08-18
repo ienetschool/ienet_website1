@@ -23,7 +23,9 @@ import {
   Cog,
   ArrowRight,
   MessageCircle,
-  Check
+  Check,
+  Clock,
+  Users
 } from "lucide-react";
 
 const iconMap = {
@@ -123,7 +125,7 @@ export default function ServiceDetail() {
                     {category.name}
                   </h1>
                   <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
-                    Modern, scalable, and enterprise-grade solutions for your business
+                    Modern, scalable, and mobile-first website solutions
                   </p>
                 </div>
               </div>
@@ -168,8 +170,35 @@ export default function ServiceDetail() {
           </div>
         </section>
 
-        {/* Services List */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        {/* Overview Section */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Service Overview</h2>
+              <div className="prose prose-lg dark:prose-invert max-w-none">
+                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                  Our {category.name} services deliver comprehensive digital solutions that transform how your business operates online. 
+                  We specialize in creating modern, responsive, and high-performance web applications that engage users and drive measurable results. 
+                  From concept to deployment, our expert team handles every aspect of your digital project with precision and attention to detail.
+                </p>
+                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                  We understand the unique challenges businesses face in today's competitive digital landscape. Our solutions address common pain points 
+                  such as slow loading times, poor user experience, lack of mobile optimization, and inadequate search engine visibility. 
+                  Whether you're a startup looking to establish your online presence or an enterprise seeking to modernize legacy systems, 
+                  we have the expertise and technology stack to deliver exceptional results.
+                </p>
+                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  Our approach combines cutting-edge technology with proven methodologies to ensure your project is completed on time, within budget, 
+                  and exceeds expectations. We serve a diverse range of industries including e-commerce, healthcare, finance, education, and SaaS companies, 
+                  providing tailored solutions that meet specific industry requirements and compliance standards.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Sub-Services Grid / List */}
+        <section className="py-16 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
             <div className="mb-12">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
@@ -256,20 +285,204 @@ export default function ServiceDetail() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        {/* Why Choose Us / Differentiators */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Why Choose Us</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Clock className="text-primary" size={24} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Fast Delivery</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Quick turnaround times without compromising quality</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Cog className="text-primary" size={24} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Scalable Architecture</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Built to grow with your business needs</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Users className="text-primary" size={24} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Experienced Team</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Certified professionals with proven track record</p>
+                </div>
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Shield className="text-primary" size={24} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Secure & Reliable</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">Enterprise-grade security and 99.9% uptime</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Industries Served or Use Cases */}
+        <section className="py-16 bg-gray-50 dark:bg-gray-800">
+          <div className="container mx-auto px-6">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Industries We Serve</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card className="text-center p-6">
+                  <CardContent>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">E-commerce</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Online stores, marketplaces, and retail platforms</p>
+                  </CardContent>
+                </Card>
+                <Card className="text-center p-6">
+                  <CardContent>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Healthcare</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Medical portals, patient management systems</p>
+                  </CardContent>
+                </Card>
+                <Card className="text-center p-6">
+                  <CardContent>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">SaaS</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Software-as-a-Service platforms and applications</p>
+                  </CardContent>
+                </Card>
+                <Card className="text-center p-6">
+                  <CardContent>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Finance</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Banking, fintech, and financial services</p>
+                  </CardContent>
+                </Card>
+                <Card className="text-center p-6">
+                  <CardContent>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Education</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Learning management systems and educational platforms</p>
+                  </CardContent>
+                </Card>
+                <Card className="text-center p-6">
+                  <CardContent>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Enterprise</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Large-scale business applications and solutions</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Projects or Results */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Featured Projects</h2>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Card className="overflow-hidden">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
+                      <Code className="text-white" size={24} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">E-commerce Platform</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                      Built a scalable e-commerce solution handling 10,000+ daily transactions
+                    </p>
+                    <div className="flex items-center text-sm text-emerald-600">
+                      <Check size={14} className="mr-1" />
+                      <span>300% increase in sales</span>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="overflow-hidden">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
+                      <Server className="text-white" size={24} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">SaaS Dashboard</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                      Real-time analytics platform serving 50,000+ active users
+                    </p>
+                    <div className="flex items-center text-sm text-emerald-600">
+                      <Check size={14} className="mr-1" />
+                      <span>99.9% uptime achieved</span>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card className="overflow-hidden">
+                  <CardContent className="p-6">
+                    <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mb-4">
+                      <Smartphone className="text-white" size={24} />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Mobile-First Portal</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
+                      Healthcare patient portal with secure messaging and appointments
+                    </p>
+                    <div className="flex items-center text-sm text-emerald-600">
+                      <Check size={14} className="mr-1" />
+                      <span>95% user satisfaction</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-16 bg-gray-50 dark:bg-gray-800">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Frequently Asked Questions</h2>
+              <div className="space-y-6">
+                <Card>
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">What technologies do you use for website development?</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      We use modern, industry-standard technologies including React, Next.js, Node.js, TypeScript, and cloud platforms like AWS and Azure.
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">How long does a typical project take?</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      Project timelines vary based on complexity. Simple websites take 2-4 weeks, while complex applications can take 8-16 weeks.
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Do you provide ongoing maintenance and support?</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      Yes, we offer comprehensive maintenance packages including security updates, performance monitoring, and feature enhancements.
+                    </p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Can you work with our existing systems?</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      Absolutely. We specialize in integrating with existing systems, APIs, and databases to ensure seamless operation.
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Bottom CTA Section */}
+        <section className="py-16 bg-primary text-white">
           <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-3xl font-bold mb-4">
               Ready to Get Started?
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
               Let's discuss how our {category.name.toLowerCase()} solutions can help transform your business and drive growth.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" asChild>
-                <Link href="/contact">
-                  Get Started Today
-                </Link>
+              <Button size="lg" variant="secondary">
+                Get Started Today
+                <ArrowRight className="ml-2" size={16} />
               </Button>
               <Button size="lg" variant="outline" asChild>
                 <Link href="/projects">

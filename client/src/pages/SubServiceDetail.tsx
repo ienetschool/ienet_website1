@@ -175,7 +175,7 @@ export default function SubServiceDetail() {
         </section>
 
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
+        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20 mt-16">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <Badge variant="outline" className="mb-4">
@@ -284,7 +284,13 @@ export default function SubServiceDetail() {
 
             {features && features.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {features.map((feature: any, index: number) => {
+                {features.filter((feature: any) => 
+                  // Filter out any food-related or irrelevant features
+                  !feature.name.toLowerCase().includes('food') && 
+                  !feature.name.toLowerCase().includes('restaurant') &&
+                  !feature.name.toLowerCase().includes('menu') &&
+                  !feature.name.toLowerCase().includes('kitchen')
+                ).map((feature: any, index: number) => {
                   const colors = [
                     "from-rose-500/20 to-pink-500/20 border-rose-200 dark:border-rose-800 shadow-rose-500/20",
                     "from-orange-500/20 to-amber-500/20 border-orange-200 dark:border-orange-800 shadow-orange-500/20", 
@@ -330,8 +336,9 @@ export default function SubServiceDetail() {
                 <div className="max-w-md mx-auto">
                   <div className="p-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-rose-200 dark:border-rose-800">
                     <Target className="h-12 w-12 text-rose-500 mx-auto mb-4" />
-                    <p className="text-slate-600 dark:text-slate-400 text-lg">Feature details coming soon.</p>
-                    <p className="text-slate-500 dark:text-slate-500 text-sm mt-2">We're preparing comprehensive feature documentation for you.</p>
+                    <p className="text-slate-600 dark:text-slate-400 text-lg">Features being loaded...</p>
+                    <p className="text-slate-500 dark:text-slate-500 text-sm mt-2">Available features: {features?.length || 0}</p>
+                    <p className="text-slate-500 dark:text-slate-500 text-xs mt-1">Service ID: {service?.id}</p>
                   </div>
                 </div>
               </div>
@@ -398,7 +405,15 @@ export default function SubServiceDetail() {
 
             {relatedServices && relatedServices.length > 0 ? (
               <div className="grid md:grid-cols-3 gap-8">
-                {relatedServices.map((relatedService: any, index: number) => {
+                {relatedServices.filter((relatedService: any) => 
+                  // Filter out any food-related or irrelevant services
+                  !relatedService.name.toLowerCase().includes('food') && 
+                  !relatedService.name.toLowerCase().includes('restaurant') &&
+                  !relatedService.name.toLowerCase().includes('menu') &&
+                  !relatedService.name.toLowerCase().includes('kitchen') &&
+                  !relatedService.name.toLowerCase().includes('affiliate marketing') &&
+                  relatedService.categoryId === category?.id  // Ensure same category
+                ).map((relatedService: any, index: number) => {
                   const colors = [
                     "from-teal-500/20 to-cyan-500/20 border-teal-200 dark:border-teal-800 shadow-teal-500/20",
                     "from-blue-500/20 to-indigo-500/20 border-blue-200 dark:border-blue-800 shadow-blue-500/20",

@@ -192,6 +192,8 @@ export interface IStorage {
   getPageBuilderPages(): Promise<any[]>;
   getPageVersions(pageId: number): Promise<any[]>;
   updatePageBuilderPage(pageId: number, pageData: any): Promise<any>;
+  createPageBuilderPage(pageData: any): Promise<any>;
+  deletePageBuilderPage(pageId: number): Promise<void>;
   getSEOPages(): Promise<any[]>;
   getSchemaMarkups(): Promise<any[]>;
   validateSchema(schemaId: number): Promise<any>;
@@ -1292,6 +1294,238 @@ Sitemap: https://ienet.app/sitemap.xml`;
 
   async deleteNotification(notificationId: number) {
     console.log(`Deleted notification ${notificationId}`);
+  }
+
+  // Page Builder operations
+  async getPageBuilderPages() {
+    return [
+      {
+        id: 1,
+        title: 'Home Page',
+        slug: 'home',
+        status: 'published',
+        type: 'page',
+        metaTitle: 'IeNet - Professional IT Services',
+        metaDescription: 'Transform your business with cutting-edge technology solutions from IeNet.',
+        canonicalUrl: 'https://ienet.com/',
+        ogImage: '/images/og-home.jpg',
+        schema: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "IeNet - Professional IT Services",
+          "description": "Transform your business with cutting-edge technology solutions from IeNet.",
+          "url": "https://ienet.com/"
+        }),
+        blocks: [
+          {
+            id: 'block-1',
+            type: 'hero',
+            content: {
+              title: 'Professional IT Services',
+              subtitle: 'Transform your business with cutting-edge technology solutions',
+              ctaText: 'Explore Services',
+              ctaLink: '/services',
+              backgroundImage: '',
+              alignment: 'center'
+            },
+            order: 0
+          },
+          {
+            id: 'block-2',
+            type: 'text',
+            content: {
+              title: 'About IeNet',
+              content: 'We provide comprehensive IT services to help businesses thrive in the digital age. Our expert team delivers innovative solutions tailored to your specific needs.',
+              alignment: 'left'
+            },
+            order: 1
+          },
+          {
+            id: 'block-3',
+            type: 'pricing',
+            content: {
+              plans: [
+                {
+                  name: 'Starter',
+                  price: '$99',
+                  period: 'month',
+                  features: ['Basic Support', 'Web Development', 'Email Setup'],
+                  highlighted: false,
+                  ctaText: 'Get Started'
+                },
+                {
+                  name: 'Professional',
+                  price: '$299',
+                  period: 'month',
+                  features: ['Everything in Starter', 'Cloud Services', 'Security Audit', '24/7 Support'],
+                  highlighted: true,
+                  ctaText: 'Choose Pro'
+                },
+                {
+                  name: 'Enterprise',
+                  price: '$599',
+                  period: 'month',
+                  features: ['Everything in Pro', 'Custom Solutions', 'Dedicated Manager', 'SLA Guarantee'],
+                  highlighted: false,
+                  ctaText: 'Contact Sales'
+                }
+              ]
+            },
+            order: 2
+          }
+        ],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+      },
+      {
+        id: 2,
+        title: 'About Us',
+        slug: 'about',
+        status: 'draft',
+        type: 'page',
+        metaTitle: 'About IeNet - Our Story and Mission',
+        metaDescription: 'Learn about IeNet\'s journey, mission, and the expert team behind our innovative IT solutions.',
+        canonicalUrl: 'https://ienet.com/about',
+        blocks: [
+          {
+            id: 'block-4',
+            type: 'hero',
+            content: {
+              title: 'About IeNet',
+              subtitle: 'Your trusted partner in digital transformation',
+              ctaText: 'Meet Our Team',
+              ctaLink: '/team',
+              backgroundImage: '',
+              alignment: 'center'
+            },
+            order: 0
+          },
+          {
+            id: 'block-5',
+            type: 'testimonial',
+            content: {
+              testimonials: [
+                {
+                  name: 'Sarah Johnson',
+                  company: 'TechCorp Inc.',
+                  content: 'IeNet transformed our entire IT infrastructure. Their expertise and support are unmatched.',
+                  rating: 5,
+                  avatar: 'https://via.placeholder.com/80x80'
+                },
+                {
+                  name: 'Michael Chen',
+                  company: 'StartupXYZ',
+                  content: 'Working with IeNet was the best decision we made for our business. Highly recommended!',
+                  rating: 5,
+                  avatar: 'https://via.placeholder.com/80x80'
+                }
+              ],
+              layout: 'carousel'
+            },
+            order: 1
+          }
+        ],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 3,
+        title: 'Services Overview',
+        slug: 'services',
+        status: 'published',
+        type: 'page',
+        metaTitle: 'IT Services - Web Development, Hosting, Security & More',
+        metaDescription: 'Comprehensive IT services including web development, hosting, cybersecurity, and digital marketing solutions.',
+        canonicalUrl: 'https://ienet.com/services',
+        blocks: [
+          {
+            id: 'block-6',
+            type: 'cta',
+            content: {
+              title: 'Ready to Transform Your Business?',
+              description: 'Join hundreds of satisfied clients who trust IeNet for their IT needs',
+              primaryCta: { text: 'Get Started Today', link: '/contact' },
+              secondaryCta: { text: 'View Our Work', link: '/projects' },
+              backgroundColor: '#3B82F6'
+            },
+            order: 0
+          },
+          {
+            id: 'block-7',
+            type: 'faq',
+            content: {
+              title: 'Frequently Asked Questions',
+              faqs: [
+                {
+                  question: 'What services do you offer?',
+                  answer: 'We offer comprehensive IT services including web development, hosting, cybersecurity, digital marketing, and cloud solutions.'
+                },
+                {
+                  question: 'How long does a typical project take?',
+                  answer: 'Project timelines vary based on complexity, but most web development projects are completed within 4-8 weeks.'
+                },
+                {
+                  question: 'Do you provide ongoing support?',
+                  answer: 'Yes, we offer various support packages including 24/7 monitoring, maintenance, and technical assistance.'
+                }
+              ]
+            },
+            order: 1
+          }
+        ],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        publishedAt: new Date().toISOString()
+      }
+    ];
+  }
+
+  async getPageVersions(pageId: number) {
+    return [
+      {
+        id: 1,
+        pageId: pageId,
+        version: '1.0.0',
+        title: 'Initial version',
+        status: 'published',
+        createdAt: new Date().toISOString(),
+        createdBy: 'admin'
+      },
+      {
+        id: 2,
+        pageId: pageId,
+        version: '1.1.0',
+        title: 'Added pricing section',
+        status: 'draft',
+        createdAt: new Date().toISOString(),
+        createdBy: 'admin'
+      }
+    ];
+  }
+
+  async updatePageBuilderPage(pageId: number, pageData: any) {
+    console.log(`Updating page ${pageId} with data:`, pageData);
+    return {
+      ...pageData,
+      id: pageId,
+      updatedAt: new Date().toISOString()
+    };
+  }
+
+  async createPageBuilderPage(pageData: any) {
+    const newPage = {
+      ...pageData,
+      id: Date.now(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    console.log('Created new page:', newPage);
+    return newPage;
+  }
+
+  async deletePageBuilderPage(pageId: number) {
+    console.log(`Deleted page ${pageId}`);
   }
 }
 

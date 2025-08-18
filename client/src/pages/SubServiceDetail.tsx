@@ -183,19 +183,13 @@ export default function SubServiceDetail() {
                 {category?.name}
               </Badge>
               
-              <InlineEditor
-                type="heading"
-                content={service.name}
-                onSave={(content) => console.log('Save heading:', content)}
-                className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6"
-              />
+              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                {service.name}
+              </h1>
               
-              <InlineEditor
-                type="paragraph"
-                content={service.description || `Professional ${service.name} services designed to transform your business operations and drive growth through innovative technology solutions.`}
-                onSave={(content) => console.log('Save description:', content)}
-                className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto"
-              />
+              <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+                {service.description || `Professional ${service.name} services designed to transform your business operations and drive growth through innovative technology solutions.`}
+              </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80">

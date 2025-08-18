@@ -122,10 +122,10 @@ export default function ModernHeader() {
                 />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white dark:text-white">
+                <h1 className="text-xl font-bold text-gray-900 dark:text-white">
                   IeNet
                 </h1>
-                <p className="text-xs text-white/80 dark:text-white/80 -mt-1">
+                <p className="text-xs text-gray-600 dark:text-gray-300 -mt-1">
                   IT & Business Solutions
                 </p>
               </div>
@@ -146,7 +146,7 @@ export default function ModernHeader() {
                       className={`flex items-center space-x-1 px-4 py-2 rounded-full transition-all duration-300 ${
                         location.startsWith('/services')
                           ? 'text-primary bg-primary/10'
-                          : 'text-white dark:text-white hover:text-primary hover:bg-primary/5'
+                          : 'text-gray-700 dark:text-gray-200 hover:text-primary hover:bg-primary/5'
                       }`}
                     >
                       <span className="font-medium">{item.name}</span>
@@ -204,7 +204,7 @@ export default function ModernHeader() {
                       className={`px-4 py-2 rounded-full font-medium transition-all duration-300 cursor-pointer ${
                         location === item.href
                           ? 'text-primary bg-primary/10'
-                          : 'text-white dark:text-white hover:text-primary hover:bg-primary/5'
+                          : 'text-gray-700 dark:text-gray-200 hover:text-primary hover:bg-primary/5'
                       }`}
                     >
                       {item.isIcon ? <MessageCircle size={16} /> : item.name}
@@ -225,9 +225,9 @@ export default function ModernHeader() {
               className="w-10 h-10 rounded-full p-0 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               {isDarkMode ? (
-                <Sun className="text-white dark:text-white" size={18} />
+                <Sun className="text-gray-600 dark:text-gray-300" size={18} />
               ) : (
-                <Moon className="text-white dark:text-white" size={18} />
+                <Moon className="text-gray-600 dark:text-gray-300" size={18} />
               )}
             </Button>
 
@@ -247,9 +247,9 @@ export default function ModernHeader() {
               className="lg:hidden w-10 h-10 rounded-full p-0"
             >
               {isMobileMenuOpen ? (
-                <X className="text-white dark:text-white" size={20} />
+                <X className="text-gray-700 dark:text-gray-300" size={20} />
               ) : (
-                <Menu className="text-white dark:text-white" size={20} />
+                <Menu className="text-gray-700 dark:text-gray-300" size={20} />
               )}
             </Button>
           </div>

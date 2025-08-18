@@ -1,0 +1,188 @@
+Build a full-featured backend system for a high-performance IT service website with a virtual page builder, integrated SEO, user/role management, and advanced query handling.
+
+📌 Module Requirements & Structure
+🔧 1. Admin Dashboard
+
+Dynamic analytics widget area (Google Analytics + Query Stats)
+
+Overview panels: Total Pages, Leads, Users, Live Visitors, Schema Errors
+
+Notifications system (form submissions, SEO issues, user activity)
+
+🧱 2. Page Builder & Content Management
+
+Visual editor using modular blocks (drag-and-drop support)
+
+Manage content hierarchies:
+
+Main Services → Sub Services → Features
+
+SEO-friendly URL routing with slugs and meta tags
+
+Reusable section blocks (e.g., Hero, FAQ, CTA, Pricing)
+
+Page status: Draft / Published / Archived
+
+Page version history & restore option
+
+🎯 3. SEO Optimization & Schema Manager
+
+Page-level metadata: Title, Meta Description, Canonical URL, OG Tags
+
+Auto-schema generation:
+
+WebPage, Service, FAQPage, Product, Organization
+
+Manual JSON-LD editor + live schema validation
+
+Sitemap.xml generator
+
+robots.txt editor
+
+Redirect Manager (301, 302)
+
+📊 4. Google Tools Integration
+
+Google Analytics 4 & Tag Manager
+
+Search Console API integration for keyword visibility & crawl issues
+
+Auto-submit updated sitemaps
+
+Embed GA & GSC code snippets site-wide
+
+💬 5. Popup Query Form + Lead Tracking
+
+Global query popup embedded on every page
+
+Auto-captures:
+
+Page URL
+
+IP address
+
+Geolocation
+
+UTM Tags
+
+Admin dashboard view:
+
+Lead list, filter, export, assign status
+
+Response email automation
+
+Optional spam protection with reCAPTCHA
+
+👥 6. User & Role Management
+
+Roles:
+
+Admin
+
+SEO Manager
+
+Content Editor
+
+Query Manager
+
+Permissions:
+
+CRUD-based access controls for each module
+
+Login Panel with 2FA + Password Recovery
+
+Activity Logs: login history, edits, IP tracking
+
+🎨 7. Site Design & UI Controls
+
+Theme Editor:
+
+Header/Footer builder
+
+Google Font Selector
+
+Primary/Secondary color config
+
+Slider Manager:
+
+Image, title, subtitle, CTA, sorting
+
+Testimonials Manager:
+
+Avatar, quote, name, role, visibility toggle
+
+Mega Menu Builder:
+
+Multi-column structure with drag/drop
+
+Icons, images, and custom links
+
+🌐 8. Global Settings
+
+Logo/branding setup
+
+Social media link management
+
+Footer column editor
+
+Embedded code block (chat tools, tracking)
+
+📧 9. Email Management
+
+SMTP configuration
+
+Email templates:
+
+Lead confirmation
+
+Admin alerts
+
+Password reset
+
+Activity-based trigger system (send on query, form submit, etc.)
+
+💳 10. Payment Gateway Integration (Optional)
+
+Stripe / Razorpay / PayPal modules
+
+Invoice and receipt generation
+
+Transaction log dashboard
+
+Subscription or plan-based features (if needed)
+
+🔐 11. Security & Maintenance Tools
+
+SSL enforcement
+
+Admin route protection
+
+Login rate limiting
+
+Backup manager (daily/weekly)
+
+Maintenance mode toggle
+
+Admin activity logs
+
+🚀 12. Optional Enhancements
+
+Blog AI Assistant: Generate content using prompts
+
+A/B Testing Utility: Compare hero sections, headlines, CTAs
+
+Dynamic Tag Pages: Auto-generate landing pages based on tag keywords
+
+Language Module: Multi-language site support
+
+API Integrations: CRM sync, Slack, Zapier, etc.
+
+🧩 Development Technologies (Recommended)
+Layer	Technology
+Frontend	React.js / Next.js
+Backend	Node.js (NestJS) / Django / Laravel
+CMS/Builder	Custom or headless (Strapi)
+Database	PostgreSQL / MySQL
+Auth	JWT + Role Middleware
+DevOps	Docker, Nginx, CI/CD
+Hosting	Vercel / DigitalOcean / AWS

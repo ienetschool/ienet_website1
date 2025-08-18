@@ -9,7 +9,9 @@ import {
   boolean,
   integer,
   serial,
-  pgEnum
+  pgEnum,
+  decimal,
+  date
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
@@ -33,7 +35,15 @@ export const users = pgTable("users", {
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
-  role: varchar("role").default("user").notNull(), // 'admin', 'editor', 'user'
+  role: varchar("role").default("user").notNull(), // 'admin', 'seo_manager', 'content_editor', 'query_manager', 'user'
+  permissions: jsonb("permissions"), // JSON object with module permissions
+  isActive: boolean("is_active").default(true),
+  lastLogin: timestamp("last_login"),
+  loginAttempts: integer("login_attempts").default(0),
+  twoFactorEnabled: boolean("two_factor_enabled").default(false),
+  twoFactorSecret: varchar("two_factor_secret"),
+  passwordResetToken: varchar("password_reset_token"),
+  passwordResetExpires: timestamp("password_reset_expires"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -536,3 +546,276 @@ export type PricingPlan = typeof pricingPlans.$inferSelect;
 export type InsertPricingPlan = z.infer<typeof insertPricingPlanSchema>;
 export type ActivityLog = typeof activityLogs.$inferSelect;
 export type InsertActivityLog = z.infer<typeof insertActivityLogSchema>;
+
+// Advanced CMS & Page Builder Tables
+export const pages = pgTable("pages", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: varchar("title").notNull(),
+  slug: varchar("slug").unique().notNull(),
+  content: jsonb("content"), // Page builder blocks as JSON
+  metaTitle: varchar("meta_title"),
+  metaDescription: text("meta_description"),
+  canonicalUrl: varchar("canonical_url"),
+  ogTitle: varchar("og_title"),
+  ogDescription: text("og_description"),
+  ogImage: varchar("og_image"),
+  schema: jsonb("schema"), // JSON-LD schema
+  status: varchar("status").default("draft"), // draft, published, archived
+  publishedAt: timestamp("published_at"),
+  authorId: varchar("author_id").references(() => users.id),
+  parentId: varchar("parent_id"), // For hierarchical pages
+  sortOrder: integer("sort_order").default(0),
+  viewCount: integer("view_count").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const pageVersions = pgTable("page_versions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pageId: varchar("page_id").references(() => pages.id, { onDelete: "cascade" }),
+  version: integer("version").notNull(),
+  title: varchar("title"),
+  content: jsonb("content"),
+  createdBy: varchar("created_by").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const pageBlocks = pgTable("page_blocks", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  type: varchar("type").notNull(), // hero, faq, cta, pricing, text, image, etc.
+  template: jsonb("template"), // Block structure template
+  preview: varchar("preview"), // Preview image URL
+  category: varchar("category"), // hero, content, forms, etc.
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Advanced SEO & Analytics Tables
+export const seoSettings = pgTable("seo_settings", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pageId: varchar("page_id").references(() => pages.id, { onDelete: "cascade" }),
+  focusKeyword: varchar("focus_keyword"),
+  keywordDensity: decimal("keyword_density"),
+  readabilityScore: integer("readability_score"),
+  seoScore: integer("seo_score"),
+  issues: jsonb("issues"), // SEO issues array
+  suggestions: jsonb("suggestions"), // SEO suggestions
+  lastAnalyzed: timestamp("last_analyzed"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const analytics = pgTable("analytics", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pageId: varchar("page_id").references(() => pages.id),
+  date: date("date").notNull(),
+  visitors: integer("visitors").default(0),
+  pageViews: integer("page_views").default(0),
+  bounceRate: decimal("bounce_rate"),
+  avgSessionDuration: integer("avg_session_duration"),
+  topKeywords: jsonb("top_keywords"),
+  referrers: jsonb("referrers"),
+  devices: jsonb("devices"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Advanced Lead Management Tables
+export const leads = pgTable("leads", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  email: varchar("email").notNull(),
+  phone: varchar("phone"),
+  company: varchar("company"),
+  service: varchar("service"),
+  message: text("message"),
+  source: varchar("source"), // page URL where form was submitted
+  ipAddress: varchar("ip_address"),
+  userAgent: varchar("user_agent"),
+  location: jsonb("location"), // Geolocation data
+  utmSource: varchar("utm_source"),
+  utmMedium: varchar("utm_medium"),
+  utmCampaign: varchar("utm_campaign"),
+  utmTerm: varchar("utm_term"),
+  utmContent: varchar("utm_content"),
+  status: varchar("status").default("new"), // new, contacted, qualified, converted, closed
+  priority: varchar("priority").default("medium"), // low, medium, high
+  assignedTo: varchar("assigned_to").references(() => users.id),
+  tags: jsonb("tags"),
+  notes: text("notes"),
+  followUpDate: timestamp("follow_up_date"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const leadActivities = pgTable("lead_activities", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  leadId: varchar("lead_id").references(() => leads.id, { onDelete: "cascade" }),
+  type: varchar("type").notNull(), // call, email, meeting, note
+  subject: varchar("subject"),
+  description: text("description"),
+  userId: varchar("user_id").references(() => users.id),
+  scheduledAt: timestamp("scheduled_at"),
+  completedAt: timestamp("completed_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Advanced Email Management
+export const emailQueue = pgTable("email_queue", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  to: varchar("to").notNull(),
+  from: varchar("from"),
+  subject: varchar("subject").notNull(),
+  body: text("body").notNull(),
+  status: varchar("status").default("pending"), // pending, sent, failed
+  attempts: integer("attempts").default(0),
+  lastAttempt: timestamp("last_attempt"),
+  scheduledAt: timestamp("scheduled_at"),
+  sentAt: timestamp("sent_at"),
+  error: text("error"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Advanced Site Design & UI Tables
+export const advancedSliders = pgTable("advanced_sliders", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: varchar("title").notNull(),
+  subtitle: text("subtitle"),
+  image: varchar("image").notNull(),
+  backgroundVideo: varchar("background_video"),
+  ctaText: varchar("cta_text"),
+  ctaUrl: varchar("cta_url"),
+  ctaStyle: varchar("cta_style").default("primary"), // primary, secondary, outline
+  textAlign: varchar("text_align").default("left"), // left, center, right
+  overlayOpacity: decimal("overlay_opacity").default("0.5"),
+  sortOrder: integer("sort_order").default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const advancedTestimonials = pgTable("advanced_testimonials", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  role: varchar("role"),
+  company: varchar("company"),
+  companyLogo: varchar("company_logo"),
+  avatar: varchar("avatar"),
+  rating: integer("rating").default(5),
+  content: text("content").notNull(),
+  videoUrl: varchar("video_url"), // For video testimonials
+  isActive: boolean("is_active").default(true),
+  isFeatured: boolean("is_featured").default(false),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Advanced Menu System
+export const megaMenuItems = pgTable("mega_menu_items", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  parentId: integer("parent_id").references(() => menuItems.id),
+  title: varchar("title").notNull(),
+  url: varchar("url"),
+  icon: varchar("icon"),
+  image: varchar("image"),
+  description: text("description"),
+  columnIndex: integer("column_index").default(0),
+  sortOrder: integer("sort_order").default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Security & Maintenance
+export const backups = pgTable("backups", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  filename: varchar("filename").notNull(),
+  size: integer("size"),
+  type: varchar("type").default("full"), // full, incremental
+  status: varchar("status").default("completed"), // pending, completed, failed
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const loginAttempts = pgTable("login_attempts", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  email: varchar("email").notNull(),
+  ipAddress: varchar("ip_address").notNull(),
+  userAgent: varchar("user_agent"),
+  success: boolean("success").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Payment Gateway (Optional)
+export const transactions = pgTable("transactions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").references(() => users.id),
+  amount: decimal("amount").notNull(),
+  currency: varchar("currency").default("USD"),
+  status: varchar("status").notNull(), // pending, completed, failed, refunded
+  gateway: varchar("gateway").notNull(), // stripe, paypal, razorpay
+  gatewayTransactionId: varchar("gateway_transaction_id"),
+  description: text("description"),
+  metadata: jsonb("metadata"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// A/B Testing Utility
+export const abTests = pgTable("ab_tests", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  description: text("description"),
+  pageId: varchar("page_id").references(() => pages.id),
+  variantA: jsonb("variant_a"), // Original version
+  variantB: jsonb("variant_b"), // Test version
+  trafficSplit: integer("traffic_split").default(50), // Percentage for variant B
+  isActive: boolean("is_active").default(true),
+  startDate: timestamp("start_date"),
+  endDate: timestamp("end_date"),
+  conversions: jsonb("conversions"), // Conversion tracking data
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Advanced Schema Insert Types
+export const insertPageSchema = createInsertSchema(pages).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  viewCount: true,
+});
+
+export const insertLeadSchema = createInsertSchema(leads).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertAdvancedSliderSchema = createInsertSchema(advancedSliders).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertAdvancedTestimonialSchema = createInsertSchema(advancedTestimonials).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertTransactionSchema = createInsertSchema(transactions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertABTestSchema = createInsertSchema(abTests).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Advanced Export Types
+export type Page = typeof pages.$inferSelect;
+export type InsertPage = z.infer<typeof insertPageSchema>;
+export type Lead = typeof leads.$inferSelect;
+export type InsertLead = z.infer<typeof insertLeadSchema>;
+export type AdvancedSlider = typeof advancedSliders.$inferSelect;
+export type InsertAdvancedSlider = z.infer<typeof insertAdvancedSliderSchema>;
+export type AdvancedTestimonial = typeof advancedTestimonials.$inferSelect;
+export type InsertAdvancedTestimonial = z.infer<typeof insertAdvancedTestimonialSchema>;
+export type Transaction = typeof transactions.$inferSelect;
+export type InsertTransaction = z.infer<typeof insertTransactionSchema>;
+export type ABTest = typeof abTests.$inferSelect;
+export type InsertABTest = z.infer<typeof insertABTestSchema>;

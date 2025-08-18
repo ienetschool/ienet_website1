@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "wouter";
+import { useParams, useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -264,6 +264,7 @@ export default function ComprehensiveDashboard() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const params = useParams<{ section?: string }>();
+  const [location] = useLocation();
 
   // Dashboard stats query
   const { data: stats, isLoading: statsLoading } = useQuery<DashboardStats>({
@@ -279,8 +280,8 @@ export default function ComprehensiveDashboard() {
     );
   }
 
-  // Determine current section and render appropriate content
-  const currentSection = params.section || '';
+  // Extract section from URL path manually since wouter's wildcard might not work as expected
+  const currentSection = location.replace('/dashboard/', '').replace('/dashboard', '') || '';
   
   const getSectionContent = () => {
     switch (currentSection) {
@@ -336,6 +337,10 @@ export default function ComprehensiveDashboard() {
 
   return (
     <DashboardLayout title={title} description={description}>
+      {/* Debug info - will remove later */}
+      <div className="mb-4 p-2 bg-gray-100 dark:bg-gray-800 rounded text-xs">
+        Debug: location="{location}" | section="{currentSection}" | params={JSON.stringify(params)}
+      </div>
       {getSectionContent()}
     </DashboardLayout>
   );

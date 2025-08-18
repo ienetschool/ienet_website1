@@ -51,6 +51,7 @@ function Router() {
           <Route path="/terms-of-service" component={TermsOfService} />
           <Route path="/careers" component={Careers} />
           <Route path="/sitemap-viewer" component={SitemapViewer} />
+          <Route path="/performance" component={PerformanceDashboard} />
         </>
       ) : (
         <>
@@ -71,8 +72,8 @@ function Router() {
           <Route path="/terms-of-service" component={TermsOfService} />
           <Route path="/careers" component={Careers} />
           <Route path="/sitemap-viewer" component={SitemapViewer} />
-          <Route path="/admin" component={AdminDashboard} />
           <Route path="/performance" component={PerformanceDashboard} />
+          <Route path="/admin" component={AdminDashboard} />
         </>
       )}
       <Route component={NotFound} />

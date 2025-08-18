@@ -608,25 +608,27 @@ export default function ServiceDetail() {
 
       <ModernFooter />
 
-      {/* SEO Components */}
-      <SEOAnalytics 
-        pageType="service"
-        pageName={category.name}
-      />
-      <LocalSEO 
-        serviceArea={`${category.name} Services`}
-      />
-      <TagSystem 
-        tags={[category.name, 'IT Services', 'Business Solutions', 'Professional Services']}
-      />
-      
-      {/* Internal Linking System */}
-      <InternalLinking
-        currentType="service"
-        currentItem={category}
-        category={category}
-        relatedItems={services || []}
-      />
+      {/* Hidden SEO Components - Analytics only, no visual output */}
+      <div style={{ display: 'none' }}>
+        <SEOAnalytics 
+          pageType="service"
+          pageName={category.name}
+        />
+        <LocalSEO 
+          serviceArea={`${category.name} Services`}
+        />
+        <TagSystem 
+          tags={[category.name, 'IT Services', 'Business Solutions', 'Professional Services']}
+        />
+        
+        {/* Internal Linking System */}
+        <InternalLinking
+          currentType="service"
+          currentItem={category}
+          category={category}
+          relatedItems={services || []}
+        />
+      </div>
       
       {/* Structured Data for FAQ */}
       <script 

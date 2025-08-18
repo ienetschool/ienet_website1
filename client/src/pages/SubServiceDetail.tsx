@@ -58,9 +58,10 @@ export default function SubServiceDetail() {
   });
 
   const { data: relatedServices } = useQuery({
-    queryKey: ['/api/services', categorySlug],
-    queryFn: () => fetch(`/api/services?categorySlug=${categorySlug}`).then(res => res.json()),
+    queryKey: ['/api/services', category?.id],
+    queryFn: () => fetch(`/api/services?categoryId=${category?.id}`).then(res => res.json()),
     select: (data) => data?.filter((s: any) => s.slug !== serviceSlug).slice(0, 3) || [],
+    enabled: !!category?.id,
   });
 
   // FAQ data
@@ -406,14 +407,13 @@ export default function SubServiceDetail() {
             {relatedServices && relatedServices.length > 0 ? (
               <div className="grid md:grid-cols-3 gap-8">
                 {relatedServices.filter((relatedService: any) => 
-                  // Filter out any food-related or irrelevant services
+                  // Filter out any irrelevant services and ensure same category
                   !relatedService.name.toLowerCase().includes('food') && 
                   !relatedService.name.toLowerCase().includes('restaurant') &&
                   !relatedService.name.toLowerCase().includes('menu') &&
                   !relatedService.name.toLowerCase().includes('kitchen') &&
-                  !relatedService.name.toLowerCase().includes('affiliate marketing') &&
                   relatedService.categoryId === category?.id  // Ensure same category
-                ).map((relatedService: any, index: number) => {
+                ).slice(0, 3).map((relatedService: any, index: number) => {
                   const colors = [
                     "from-teal-500/20 to-cyan-500/20 border-teal-200 dark:border-teal-800 shadow-teal-500/20",
                     "from-blue-500/20 to-indigo-500/20 border-blue-200 dark:border-blue-800 shadow-blue-500/20",
@@ -447,7 +447,14 @@ export default function SubServiceDetail() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <p className="text-muted-foreground">Related services coming soon.</p>
+                <div className="max-w-md mx-auto">
+                  <div className="p-8 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl border border-teal-200 dark:border-teal-800">
+                    <Target className="h-12 w-12 text-teal-500 mx-auto mb-4" />
+                    <p className="text-slate-600 dark:text-slate-400 text-lg">Loading related services...</p>
+                    <p className="text-slate-500 dark:text-slate-500 text-sm mt-2">Available services: {relatedServices?.length || 0}</p>
+                    <p className="text-slate-500 dark:text-slate-500 text-xs mt-1">Category: {category?.name}</p>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -550,26 +557,28 @@ export default function SubServiceDetail() {
         </section>
       </main>
 
-      {/* SEO Components - Move before footer */}
-      <SEOAnalytics 
-        pageType="subservice"
-        pageName={service.name}
-      />
-      <LocalSEO 
-        serviceArea={`${service.name} Services`}
-      />
-      <TagSystem 
-        tags={[service.name, category?.name || '', 'IT Services', 'Business Solutions']}
-      />
-      
-      {/* Internal Linking System */}
-      <InternalLinking
-        currentType="subservice"
-        currentItem={service}
-        category={category}
-        service={service}
-        relatedItems={features || []}
-      />
+      {/* Hidden SEO Components - Analytics only, no visual output */}
+      <div style={{ display: 'none' }}>
+        <SEOAnalytics 
+          pageType="subservice"
+          pageName={service.name}
+        />
+        <LocalSEO 
+          serviceArea={`${service.name} Services`}
+        />
+        <TagSystem 
+          tags={[service.name, category?.name || '', 'IT Services', 'Business Solutions']}
+        />
+        
+        {/* Internal Linking System */}
+        <InternalLinking
+          currentType="subservice"
+          currentItem={service}
+          category={category}
+          service={service}
+          relatedItems={features || []}
+        />
+      </div>
       
       {/* Structured Data for FAQ */}
       <script 

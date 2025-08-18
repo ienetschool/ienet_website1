@@ -23,6 +23,7 @@ import Blog from "@/pages/Blog";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService"; 
 import Careers from "@/pages/Careers";
+import SitemapViewer from "@/pages/SitemapViewer";
 import Dashboard from "@/pages/admin/Dashboard";
 
 function Router() {
@@ -48,6 +49,7 @@ function Router() {
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/terms-of-service" component={TermsOfService} />
           <Route path="/careers" component={Careers} />
+          <Route path="/sitemap-viewer" component={SitemapViewer} />
         </>
       ) : (
         <>
@@ -67,6 +69,7 @@ function Router() {
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/terms-of-service" component={TermsOfService} />
           <Route path="/careers" component={Careers} />
+          <Route path="/sitemap-viewer" component={SitemapViewer} />
           <Route path="/admin" component={Dashboard} />
         </>
       )}

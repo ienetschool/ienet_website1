@@ -53,7 +53,7 @@ export default function SubServiceDetail() {
 
   const { data: features } = useQuery({
     queryKey: ['/api/features', service?.id],
-    queryFn: () => service?.id ? fetch(`/api/features?serviceId=${service.id}`).then(res => res.json()) : Promise.resolve([]),
+    queryFn: () => fetch(`/api/features?serviceId=${service.id}`).then(res => res.json()),
     enabled: !!service?.id,
   });
 
@@ -175,19 +175,7 @@ export default function SubServiceDetail() {
         description={service.metaDescription || `Professional ${service.name} services. Expert implementation, quality assurance, and ongoing support for your business success.`}
         canonical={`/services/${categorySlug}/${serviceSlug}`}
         keywords={`${service.name}, ${category?.name}, IT services, custom development, business solutions, technology consulting`}
-        openGraph={{
-          title: `${service.name} - ${category?.name} | IeNet`,
-          description: service.description || `Professional ${service.name} services for your business`,
-          image: '/images/og-sub-service.jpg',
-          url: `/services/${categorySlug}/${serviceSlug}`,
-          type: 'website'
-        }}
-        twitter={{
-          card: 'summary_large_image',
-          title: `${service.name} - ${category?.name} | IeNet`,
-          description: service.description || `Professional ${service.name} services for your business`,
-          image: '/images/twitter-sub-service.jpg'
-        }}
+
         structuredData={[
           {
             "@context": "https://schema.org",
@@ -384,6 +372,11 @@ We work closely with your team to understand your goals, assess your current inf
               </p>
             </div>
 
+            {/* Debug logging */}
+            {console.log('Debug: service=', service) || 
+             console.log('Debug: features=', features) || 
+             console.log('Debug: features.length=', features?.length)}
+            
             {features && features.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {features.map((feature: any, index: number) => {
@@ -601,12 +594,11 @@ We work closely with your team to understand your goals, assess your current inf
 
       {/* SEO Components */}
       <SEOAnalytics 
-        pageType="sub-service"
+        pageType="subservice"
         pageName={service.name}
       />
       <LocalSEO 
         serviceArea={`${service.name} Services`}
-        businessType="IT Services"
       />
       <TagSystem 
         tags={[service.name, category?.name || '', 'IT Services', 'Business Solutions']}

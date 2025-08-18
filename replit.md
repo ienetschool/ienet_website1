@@ -39,6 +39,7 @@ Major content expansion completed with professional-grade services:
 - ✓ Both XML (/sitemap.xml) and HTML (/sitemap) endpoints accessible with proper content types
 - ✓ Complete integration with routing system for seamless access to sitemap functionality
 - ✓ Professional styling with gradient themes, responsive design, and accessibility features
+- ⚠️ **Known Issue**: HTML sitemap (/sitemap) has URL duplication problem in href attributes causing double domain concatenation in redirects
 
 **Previous Essential Pages Implementation:**
 - ✓ Blog page with comprehensive article showcase, search functionality, and category filtering
@@ -88,6 +89,7 @@ Major content expansion completed with professional-grade services:
 
 Preferred communication style: Simple, everyday language.
 Recent request: Enhanced inner pages with detailed, informative content and comprehensive website structure.
+Technical approach preference: Focus on working solutions rather than extensive debugging of complex issues.
 
 ## System Architecture
 

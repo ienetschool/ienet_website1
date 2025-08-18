@@ -106,6 +106,16 @@ export default function Landing() {
                   <Globe className="ml-2" size={18} />
                 </Button>
               </Link>
+              <Link href="/dashboard">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-full transition-all duration-300"
+                >
+                  Admin Dashboard
+                  <Database className="ml-2" size={18} />
+                </Button>
+              </Link>
             </div>
           </div>
         </section>

@@ -27,6 +27,7 @@ import SitemapViewer from "@/pages/SitemapViewer";
 import AdminDashboard from "@/pages/AdminDashboard";
 import PerformanceDashboard from "@/pages/PerformanceDashboard";
 import ComprehensiveDashboard from "@/pages/ComprehensiveDashboard";
+import DashboardHelper from "@/pages/DashboardHelper";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();

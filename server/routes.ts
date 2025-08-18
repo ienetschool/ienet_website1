@@ -2,18 +2,34 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
+import { registerCMSRoutes } from "./routes/cms";
 import { 
   insertServiceCategorySchema,
   insertServiceSchema,
   insertFeatureSchema,
   insertProjectSchema,
   insertEnquirySchema,
-  insertSiteSettingSchema
+  insertSiteSettingSchema,
+  insertPageComponentSchema,
+  insertSliderSchema,
+  insertTestimonialSchema,
+  insertBlogPostSchema,
+  insertFaqSchema,
+  insertTeamMemberSchema,
+  insertRedirectSchema,
+  insertEmailTemplateSchema,
+  insertAnalyticsEventSchema,
+  insertMenuItemSchema,
+  insertPricingPlanSchema,
+  insertActivityLogSchema
 } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   await setupAuth(app);
+
+  // Register CMS administration routes
+  registerCMSRoutes(app);
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {

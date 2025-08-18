@@ -24,7 +24,7 @@ import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService"; 
 import Careers from "@/pages/Careers";
 import SitemapViewer from "@/pages/SitemapViewer";
-import Dashboard from "@/pages/admin/Dashboard";
+import AdminDashboard from "@/pages/AdminDashboard";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -70,7 +70,7 @@ function Router() {
           <Route path="/terms-of-service" component={TermsOfService} />
           <Route path="/careers" component={Careers} />
           <Route path="/sitemap-viewer" component={SitemapViewer} />
-          <Route path="/admin" component={Dashboard} />
+          <Route path="/admin" component={AdminDashboard} />
         </>
       )}
       <Route component={NotFound} />

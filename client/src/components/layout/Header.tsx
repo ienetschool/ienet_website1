@@ -30,7 +30,8 @@ import {
   Database,
   Cog,
   User,
-  LogOut
+  LogOut,
+  MessageCircle
 } from "lucide-react";
 
 const serviceCategories = [
@@ -137,8 +138,9 @@ export default function Header() {
             <Link href="/about" className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200">
               About
             </Link>
-            <Link href="/contact" className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200">
-              Contact
+            <Link href="/contact" className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200 flex items-center space-x-2">
+              <MessageCircle size={16} />
+              <span>Get in Touch</span>
             </Link>
 
             {/* Auth buttons */}
@@ -222,10 +224,11 @@ export default function Header() {
                   </Link>
                   <Link 
                     href="/contact"
-                    className="block text-lg font-medium"
+                    className="block text-lg font-medium flex items-center space-x-2"
                     onClick={() => setIsOpen(false)}
                   >
-                    Contact
+                    <MessageCircle size={18} />
+                    <span>Get in Touch</span>
                   </Link>
                   
                   {isAuthenticated ? (

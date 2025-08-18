@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import ModernHeader from "@/components/layout/ModernHeader";
+import TopBar from "@/components/layout/TopBar";
 import ModernFooter from "@/components/layout/ModernFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -183,6 +184,7 @@ export default function Projects() {
         serviceArea="Portfolio"
         services={["Web Development", "Cloud Solutions", "Cybersecurity", "E-commerce"]}
       />
+      <TopBar />
       <ModernHeader />
 
       {/* Floating CTA Button */}

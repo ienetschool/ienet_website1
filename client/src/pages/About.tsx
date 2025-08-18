@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import ModernHeader from "@/components/layout/ModernHeader";
+import TopBar from "@/components/layout/TopBar";
 import ModernFooter from "@/components/layout/ModernFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -206,6 +207,7 @@ export default function About() {
         serviceArea="About IeNet"
         services={["IT Consulting", "Web Development", "Cloud Services", "Cybersecurity"]}
       />
+      <TopBar />
       <ModernHeader />
 
       {/* Floating CTA Button */}

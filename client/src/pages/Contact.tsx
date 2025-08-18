@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import ModernHeader from "@/components/layout/ModernHeader";
+import TopBar from "@/components/layout/TopBar";
 import ModernFooter from "@/components/layout/ModernFooter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -150,6 +151,7 @@ export default function Contact() {
         serviceArea="Contact IeNet"
         services={["IT Consulting", "Web Development", "Support Services"]}
       />
+      <TopBar />
       <ModernHeader />
 
       {/* Floating CTA Button */}

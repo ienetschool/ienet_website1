@@ -1,5 +1,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import ModernHeader from "@/components/layout/ModernHeader";
+import TopBar from "@/components/layout/TopBar";
 import ModernFooter from "@/components/layout/ModernFooter";
 import HeroSlider from "@/components/sections/HeroSlider";
 import AboutSection from "@/components/sections/AboutSection";
@@ -18,6 +19,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      <TopBar />
       <ModernHeader />
 
       {/* Floating Quick Contact Button */}

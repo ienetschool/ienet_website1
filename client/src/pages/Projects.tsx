@@ -1,9 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import ModernHeader from "@/components/layout/ModernHeader";
 import ModernFooter from "@/components/layout/ModernFooter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -16,30 +16,35 @@ import {
 } from "@/components/ui/breadcrumb";
 import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
 import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
+import LocalSEO from "@/components/seo/LocalSEO";
 import { TagSystem } from "@/components/seo/TagSystem";
 import { 
   ArrowRight,
   Calendar,
-  Clock,
   ExternalLink,
   Filter,
   Globe,
   MessageCircle,
+  Search,
+  Star,
+  TrendingUp,
+  Users,
   Zap
 } from "lucide-react";
 
 export default function Projects() {
   const { data: projects, isLoading } = useQuery({
     queryKey: ['/api/projects'],
+    queryFn: () => fetch('/api/projects').then(res => res.json()),
   });
 
   const seoConfig = {
-    title: "Our Portfolio - Successful IT Projects & Case Studies | IeNet",
-    description: "Explore our portfolio of successful website development, web hosting, cybersecurity, and IT consulting projects. See real results and client success stories.",
-    keywords: "IeNet portfolio, IT projects, web development case studies, successful implementations, client testimonials",
+    title: "IeNet Portfolio - Successful IT Projects & Case Studies",
+    description: "Explore IeNet's portfolio of successful IT projects including web development, cybersecurity implementations, cloud migrations, and digital transformation case studies.",
+    keywords: "IeNet portfolio, IT projects, case studies, web development projects, cybersecurity implementations, cloud migration success stories, digital transformation",
     openGraph: {
-      title: "Our Portfolio - Successful IT Projects & Case Studies | IeNet",
-      description: "Explore our portfolio of successful website development, web hosting, cybersecurity, and IT consulting projects. See real results and client success stories.",
+      title: "IeNet Portfolio - Successful IT Projects & Case Studies",
+      description: "Discover our proven track record with comprehensive case studies and project showcases.",
       type: "website"
     }
   };
@@ -52,25 +57,116 @@ export default function Projects() {
   const faqSchema = generateFAQSchema([
     {
       question: "What types of projects does IeNet work on?",
-      answer: "We work on a wide range of IT projects including custom web applications, e-commerce platforms, mobile apps, cloud migrations, cybersecurity implementations, and enterprise software solutions."
+      answer: "We work on diverse IT projects including web development, mobile applications, cybersecurity implementations, cloud migrations, e-commerce platforms, and custom software solutions across various industries."
     },
     {
-      question: "Can you show examples of similar projects to mine?",
-      answer: "Yes, our portfolio includes projects across various industries. Contact us to discuss your specific requirements and we'll share relevant case studies that match your needs."
+      question: "Can I see detailed case studies of your projects?",
+      answer: "Yes, our portfolio includes detailed case studies showing project challenges, solutions implemented, technologies used, and measurable results achieved for our clients."
     },
     {
-      question: "What information do you share about client projects?",
-      answer: "We share project outcomes, technologies used, and challenges solved while respecting client confidentiality. Full details are available upon request with proper NDAs."
+      question: "Do you work with businesses of all sizes?",
+      answer: "Absolutely. Our portfolio includes projects for startups, mid-sized companies, and enterprise-level organizations, with solutions scaled appropriately for each client's needs and budget."
     }
   ]);
 
   const projectCategories = [
-    { name: "All Projects", filter: "all", count: (projects as any[])?.length || 0 },
-    { name: "Web Development", filter: "web", count: 8 },
-    { name: "E-commerce", filter: "ecommerce", count: 6 },
-    { name: "Mobile Apps", filter: "mobile", count: 4 },
-    { name: "Enterprise", filter: "enterprise", count: 5 }
+    {
+      name: "Web Development",
+      count: 45,
+      icon: Globe,
+      color: "bg-blue-500"
+    },
+    {
+      name: "Mobile Apps",
+      count: 28,
+      icon: MessageCircle,
+      color: "bg-green-500"
+    },
+    {
+      name: "E-commerce",
+      count: 32,
+      icon: TrendingUp,
+      color: "bg-purple-500"
+    },
+    {
+      name: "Cloud Solutions",
+      count: 38,
+      icon: Zap,
+      color: "bg-orange-500"
+    },
+    {
+      name: "Cybersecurity",
+      count: 22,
+      icon: Star,
+      color: "bg-red-500"
+    },
+    {
+      name: "Custom Software",
+      count: 25,
+      icon: Users,
+      color: "bg-cyan-500"
+    }
   ];
+
+  const featuredProjects = [
+    {
+      id: 1,
+      title: "Enterprise Cloud Migration",
+      client: "Fortune 500 Manufacturing",
+      category: "Cloud Solutions",
+      image: "/api/placeholder/600/400",
+      description: "Complete cloud infrastructure migration reducing operational costs by 40% and improving system reliability to 99.9% uptime.",
+      technologies: ["AWS", "Kubernetes", "Docker", "Terraform"],
+      results: ["40% cost reduction", "99.9% uptime", "50% faster deployments"],
+      timeline: "8 months",
+      team: "12 specialists"
+    },
+    {
+      id: 2,
+      title: "E-commerce Platform Redesign",
+      client: "Retail Chain (500+ stores)",
+      category: "E-commerce",
+      image: "/api/placeholder/600/400",
+      description: "Full platform redesign and optimization resulting in 150% increase in online sales and 60% improvement in user experience.",
+      technologies: ["React", "Node.js", "MongoDB", "Stripe"],
+      results: ["150% sales increase", "60% UX improvement", "2x faster load times"],
+      timeline: "6 months",
+      team: "8 specialists"
+    },
+    {
+      id: 3,
+      title: "Cybersecurity Implementation",
+      client: "Healthcare Network",
+      category: "Cybersecurity",
+      image: "/api/placeholder/600/400",
+      description: "Comprehensive security overhaul ensuring HIPAA compliance and implementing zero-trust architecture for 50+ healthcare facilities.",
+      technologies: ["Zero Trust", "SIEM", "Multi-factor Auth", "Encryption"],
+      results: ["100% HIPAA compliance", "Zero security incidents", "99% threat detection"],
+      timeline: "10 months",
+      team: "15 specialists"
+    }
+  ];
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <ModernHeader />
+        <main className="py-20">
+          <div className="container mx-auto px-6">
+            <div className="space-y-8">
+              <Skeleton className="h-12 w-64" />
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <Skeleton key={i} className="h-80 w-full" />
+                ))}
+              </div>
+            </div>
+          </div>
+        </main>
+        <ModernFooter />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -80,8 +176,12 @@ export default function Projects() {
         structuredData={faqSchema}
       />
       <SEOAnalytics 
-        pageType="project"
-        pageName="Portfolio Overview"
+        pageType="service"
+        pageName="Portfolio"
+      />
+      <LocalSEO 
+        serviceArea="Portfolio"
+        services={["Web Development", "Cloud Solutions", "Cybersecurity", "E-commerce"]}
       />
       <ModernHeader />
 
@@ -99,18 +199,18 @@ export default function Projects() {
           <div className="container mx-auto px-6">
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">Portfolio</span>
+                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">Project Portfolio</span>
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                Explore our successful IT projects and discover how we've helped businesses transform their digital presence with innovative solutions.
+                Discover our proven track record of delivering successful IT solutions across diverse industries. From startups to enterprise clients, see how we transform businesses through technology.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700">
-                  View All Projects
+                  View Case Studies
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
                 <Button size="lg" variant="outline">
-                  Schedule Consultation
+                  Start Your Project
                 </Button>
               </div>
             </div>
@@ -141,158 +241,44 @@ export default function Projects() {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
               <TagSystem 
-                tags={['React', 'Next.js', 'E-commerce', 'Mobile Apps', 'Cloud', 'Security']}
+                tags={['Portfolio', 'Case Studies', 'Successful Projects', 'Client Results', 'IT Solutions']}
                 showRelatedTags={true}
               />
             </div>
           </div>
         </section>
 
-        {/* Project Categories Filter */}
-        <section className="py-8 bg-gray-50 dark:bg-gray-800">
-          <div className="container mx-auto px-6">
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              {projectCategories.map((category) => (
-                <Button
-                  key={category.filter}
-                  variant={category.filter === 'all' ? 'default' : 'outline'}
-                  className="flex items-center space-x-2"
-                >
-                  <Filter size={16} />
-                  <span>{category.name}</span>
-                  <Badge variant="secondary" className="ml-2">
-                    {category.count}
-                  </Badge>
-                </Button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Projects Grid */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        {/* Project Statistics */}
+        <section className="py-16 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
-              {isLoading ? (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {[...Array(6)].map((_, i) => (
-                    <Card key={i} className="overflow-hidden">
-                      <Skeleton className="w-full h-48" />
-                      <CardContent className="p-6">
-                        <Skeleton className="h-6 w-3/4 mb-3" />
-                        <Skeleton className="h-4 w-full mb-4" />
-                        <Skeleton className="h-8 w-1/2" />
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              ) : (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {(projects as any[])?.map((project: any, index: number) => {
-                    const colorVariants = [
-                      'from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20',
-                      'from-emerald-50 to-teal-100 dark:from-emerald-900/20 dark:to-teal-900/20',
-                      'from-violet-50 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20',
-                      'from-orange-50 to-red-100 dark:from-orange-900/20 dark:to-red-900/20',
-                      'from-cyan-50 to-blue-100 dark:from-cyan-900/20 dark:to-blue-900/20',
-                      'from-rose-50 to-pink-100 dark:from-rose-900/20 dark:to-pink-900/20'
-                    ];
-                    
-                    const iconVariants = [
-                      'from-blue-500 to-indigo-600',
-                      'from-emerald-500 to-teal-600',
-                      'from-violet-500 to-purple-600',
-                      'from-orange-500 to-red-600',
-                      'from-cyan-500 to-blue-600',
-                      'from-rose-500 to-pink-600'
-                    ];
-                    
-                    const bgClass = colorVariants[index % colorVariants.length];
-                    const iconClass = iconVariants[index % iconVariants.length];
-                    
-                    const technologies = project.technologies ? JSON.parse(project.technologies) : [];
-                    
-                    return (
-                      <Card key={project.id} className={`hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br ${bgClass} group overflow-hidden`}>
-                        <CardContent className="p-6">
-                          <div className={`w-14 h-14 bg-gradient-to-r ${iconClass} rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                            <Globe className="text-white" size={24} />
-                          </div>
-                          
-                          <div className="mb-4">
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
-                              {project.title}
-                            </h3>
-                            <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
-                              {project.description}
-                            </p>
-                            
-                            <div className="flex flex-wrap gap-1 mb-4">
-                              {technologies.slice(0, 3).map((tech: string) => (
-                                <Badge key={tech} variant="secondary" className="text-xs">
-                                  {tech}
-                                </Badge>
-                              ))}
-                              {technologies.length > 3 && (
-                                <Badge variant="secondary" className="text-xs">
-                                  +{technologies.length - 3}
-                                </Badge>
-                              )}
-                            </div>
-                          </div>
-                          
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center text-xs text-gray-500 dark:text-gray-400">
-                              <Calendar className="mr-1" size={12} />
-                              <span>2024</span>
-                            </div>
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
-                              asChild 
-                              className="group-hover:translate-x-1 transition-transform duration-300"
-                            >
-                              <Link href={`/projects/${project.slug}`}>
-                                View Details
-                                <ExternalLink className="ml-1" size={14} />
-                              </Link>
-                            </Button>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-        </section>
+              <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  Our Track Record
+                </h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300">
+                  Numbers that demonstrate our commitment to delivering exceptional results.
+                </p>
+              </div>
 
-        {/* Results & Statistics */}
-        <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto text-center">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-12">
-                Project Results That Matter
-              </h2>
-              <div className="grid md:grid-cols-4 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                 {[
-                  { label: "Projects Completed", value: "200+", icon: Zap },
-                  { label: "Client Satisfaction", value: "98%", icon: MessageCircle },
-                  { label: "Average Timeline", value: "6-8 weeks", icon: Clock },
-                  { label: "Industries Served", value: "15+", icon: Globe }
+                  { number: "500+", label: "Projects Completed", icon: TrendingUp },
+                  { number: "200+", label: "Happy Clients", icon: Users },
+                  { number: "99.8%", label: "Success Rate", icon: Star },
+                  { number: "24/7", label: "Support Available", icon: MessageCircle }
                 ].map((stat, index) => (
-                  <Card key={index} className="border-none shadow-lg bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm">
-                    <CardContent className="p-6 text-center">
-                      <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <stat.icon className="text-white" size={20} />
+                  <Card key={index} className="text-center bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-800/50 dark:to-gray-900/50 border-none shadow-lg hover:shadow-xl transition-all duration-300">
+                    <CardContent className="p-8">
+                      <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <stat.icon className="text-white" size={24} />
                       </div>
-                      <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
-                        {stat.value}
+                      <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                        {stat.number}
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-300">
+                      <p className="text-gray-600 dark:text-gray-300">
                         {stat.label}
-                      </div>
+                      </p>
                     </CardContent>
                   </Card>
                 ))}
@@ -301,21 +287,201 @@ export default function Projects() {
           </div>
         </section>
 
+        {/* Project Categories */}
+        <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  Project Categories
+                </h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300">
+                  Explore our diverse portfolio organized by technology domain and industry focus.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {projectCategories.map((category, index) => (
+                  <Card key={index} className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border-none shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer">
+                    <CardContent className="p-8 text-center">
+                      <div className={`w-16 h-16 ${category.color} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                        <category.icon className="text-white" size={24} />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                        {category.name}
+                      </h3>
+                      <p className="text-2xl font-bold text-primary mb-2">
+                        {category.count}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
+                        Completed Projects
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Projects */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  Featured Case Studies
+                </h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300">
+                  Detailed case studies showcasing our approach, solutions, and measurable results.
+                </p>
+              </div>
+
+              <div className="space-y-12">
+                {featuredProjects.map((project, index) => (
+                  <Card key={project.id} className="overflow-hidden bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-800/50 dark:to-gray-900/50 border-none shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div className={`grid lg:grid-cols-2 gap-8 ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+                      <div className="aspect-video bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900/20 dark:to-primary-800/20 flex items-center justify-center">
+                        <div className="text-center text-primary-600 dark:text-primary-400">
+                          <Globe size={48} className="mx-auto mb-4" />
+                          <p className="text-sm font-medium">Project Screenshot</p>
+                        </div>
+                      </div>
+                      
+                      <CardContent className="p-8">
+                        <div className="flex items-center justify-between mb-4">
+                          <Badge className="bg-primary/10 text-primary">
+                            {project.category}
+                          </Badge>
+                          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                            <Calendar size={14} className="mr-1" />
+                            {project.timeline}
+                          </div>
+                        </div>
+                        
+                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                          {project.title}
+                        </h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          {project.client}
+                        </p>
+                        
+                        <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                          {project.description}
+                        </p>
+                        
+                        <div className="grid md:grid-cols-2 gap-6 mb-6">
+                          <div>
+                            <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Key Results</h4>
+                            <ul className="space-y-2">
+                              {project.results.map((result, resultIndex) => (
+                                <li key={resultIndex} className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                                  <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                                  {result}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          
+                          <div>
+                            <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Technologies Used</h4>
+                            <div className="flex flex-wrap gap-2">
+                              {project.technologies.map((tech) => (
+                                <Badge key={tech} variant="outline" className="text-xs">
+                                  {tech}
+                                </Badge>
+                              ))}
+                            </div>
+                            <div className="mt-4 text-sm text-gray-600 dark:text-gray-300">
+                              <strong>Team Size:</strong> {project.team}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <Button variant="ghost" size="sm" className="p-0">
+                          View Full Case Study
+                          <ExternalLink className="ml-2" size={14} />
+                        </Button>
+                      </CardContent>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* All Projects Grid */}
+        {projects && projects.length > 0 && (
+          <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+            <div className="container mx-auto px-6">
+              <div className="max-w-6xl mx-auto">
+                <div className="text-center mb-16">
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                    All Projects
+                  </h2>
+                  <p className="text-lg text-gray-600 dark:text-gray-300">
+                    Browse our complete portfolio of successful project implementations.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {projects.map((project: any) => (
+                    <Card key={project.id} className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border-none shadow-lg hover:shadow-xl transition-all duration-300 group">
+                      <CardHeader>
+                        <div className="flex items-center justify-between mb-2">
+                          <Badge variant="secondary">{project.category || 'Web Development'}</Badge>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            {new Date(project.createdAt).getFullYear()}
+                          </div>
+                        </div>
+                        <CardTitle className="line-clamp-2 group-hover:text-primary transition-colors">
+                          {project.title}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+                          {project.description}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <Button variant="ghost" size="sm" asChild className="p-0">
+                            <Link href={`/projects/${project.slug}`}>
+                              View Details
+                              <ArrowRight className="ml-1" size={14} />
+                            </Link>
+                          </Button>
+                          {project.demoUrl && (
+                            <Button variant="outline" size="sm" asChild>
+                              <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                                <ExternalLink size={14} />
+                              </a>
+                            </Button>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* CTA Section */}
         <section className="py-16 bg-primary text-white">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
+              <h2 className="text-3xl font-bold mb-4">Ready to Start Your Success Story?</h2>
               <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                Join our portfolio of successful projects. Let's discuss your requirements and create something amazing together.
+                Join our portfolio of successful projects. Let our expert team deliver exceptional results for your business with proven methodologies and cutting-edge technology.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" variant="secondary">
-                  Get Project Quote
+                  Start Your Project
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
                 <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-                  Schedule Discovery Call
+                  Schedule Consultation
                 </Button>
               </div>
             </div>

@@ -1,9 +1,10 @@
+import { Link } from "wouter";
 import ModernHeader from "@/components/layout/ModernHeader";
 import ModernFooter from "@/components/layout/ModernFooter";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
+import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -11,126 +12,207 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
+import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
+import LocalSEO from "@/components/seo/LocalSEO";
+import { TagSystem } from "@/components/seo/TagSystem";
 import { 
-  MessageCircle,
-  Target,
-  Eye,
+  ArrowRight,
   Award,
-  Users,
+  Building2,
   Clock,
-  CheckCircle,
-  TrendingUp,
+  Globe,
+  Heart,
+  MessageCircle,
   Shield,
+  Star,
+  Target,
+  TrendingUp,
+  Users,
   Zap
 } from "lucide-react";
-import { Link } from "wouter";
 
 export default function About() {
+  const seoConfig = {
+    title: "About IeNet - Leading IT Services & Digital Solutions Company",
+    description: "Learn about IeNet's mission to deliver innovative IT solutions. Our expert team provides web development, cybersecurity, cloud services, and digital transformation consulting worldwide.",
+    keywords: "IeNet about, IT services company, digital solutions, web development team, cybersecurity experts, cloud consulting, technology company",
+    openGraph: {
+      title: "About IeNet - Leading IT Services & Digital Solutions Company",
+      description: "Discover IeNet's commitment to delivering innovative IT solutions with expert team and proven track record.",
+      type: "website"
+    }
+  };
+
+  const breadcrumbData = [
+    { name: "Home", url: "/" },
+    { name: "About Us", url: "/about" }
+  ];
+
+  const faqSchema = generateFAQSchema([
+    {
+      question: "When was IeNet founded?",
+      answer: "IeNet was founded with the vision of bridging the gap between complex technology and business success, helping organizations leverage digital solutions for growth and efficiency."
+    },
+    {
+      question: "What makes IeNet different?",
+      answer: "Our commitment to personalized service, cutting-edge technology expertise, and proven track record of delivering measurable results sets us apart in the IT services industry."
+    },
+    {
+      question: "Where is IeNet located?",
+      answer: "We operate globally with teams strategically located to serve clients worldwide, offering both remote and on-site services to meet diverse business needs."
+    }
+  ]);
+
   const stats = [
-    { label: "Years of Experience", value: "10+", icon: Clock },
-    { label: "Projects Completed", value: "200+", icon: CheckCircle },
-    { label: "Happy Clients", value: "150+", icon: Users },
-    { label: "Team Members", value: "25+", icon: Users },
+    {
+      number: "500+",
+      label: "Projects Completed",
+      icon: Target
+    },
+    {
+      number: "200+",
+      label: "Happy Clients",
+      icon: Users
+    },
+    {
+      number: "50+",
+      label: "Expert Team Members",
+      icon: Building2
+    },
+    {
+      number: "99.9%",
+      label: "Uptime Guarantee",
+      icon: Shield
+    }
   ];
 
   const values = [
     {
-      icon: Target,
+      icon: Star,
       title: "Excellence",
-      description: "We strive for excellence in every project, delivering solutions that exceed expectations and drive real business value."
+      description: "We strive for excellence in every project, delivering solutions that exceed expectations and drive meaningful results.",
+      gradient: "from-yellow-500 to-orange-600"
     },
     {
-      icon: Shield,
-      title: "Security",
-      description: "Security is paramount in everything we do. We implement robust security measures to protect your data and systems."
+      icon: Heart,
+      title: "Client Focus",
+      description: "Our clients' success is our priority. We build lasting partnerships through transparent communication and dedicated support.",
+      gradient: "from-red-500 to-pink-600"
     },
     {
       icon: Zap,
       title: "Innovation",
-      description: "We embrace cutting-edge technologies and innovative approaches to solve complex business challenges."
+      description: "We embrace cutting-edge technologies and innovative approaches to solve complex business challenges efficiently.",
+      gradient: "from-blue-500 to-indigo-600"
     },
     {
-      icon: Users,
-      title: "Collaboration",
-      description: "We believe in transparent communication and collaborative partnerships with our clients throughout every project."
+      icon: Shield,
+      title: "Trust & Security",
+      description: "Security and reliability are fundamental to everything we do. We protect your data and ensure business continuity.",
+      gradient: "from-green-500 to-emerald-600"
+    },
+    {
+      icon: Globe,
+      title: "Global Reach",
+      description: "With a worldwide presence, we provide consistent quality service regardless of location or time zone.",
+      gradient: "from-cyan-500 to-teal-600"
+    },
+    {
+      icon: TrendingUp,
+      title: "Growth Mindset",
+      description: "We're committed to continuous learning and improvement, staying ahead of technology trends and industry best practices.",
+      gradient: "from-purple-500 to-violet-600"
     }
   ];
 
-  const services = [
-    "Website Design & Development",
-    "Web Hosting & Infrastructure",
-    "Cybersecurity Solutions",
-    "Mobile App Development",
-    "Database Management",
-    "DevOps & Automation",
-    "Cloud Solutions",
-    "Custom Software Development"
-  ];
-
-  const teamMembers = [
+  const leadership = [
     {
-      name: "Sarah Johnson",
+      name: "Sarah Chen",
+      role: "Chief Executive Officer",
+      bio: "Visionary leader with 15+ years in technology strategy and digital transformation.",
+      expertise: ["Strategic Planning", "Digital Transformation", "Team Leadership"]
+    },
+    {
+      name: "Michael Rodriguez",
       role: "Chief Technology Officer",
-      expertise: "Full-Stack Development, Cloud Architecture",
-      experience: "12+ years",
-      description: "Leads our technical vision and ensures cutting-edge solutions for complex business challenges."
+      bio: "Technical expert specializing in cloud architecture and enterprise solutions.",
+      expertise: ["Cloud Architecture", "System Design", "Technology Innovation"]
     },
     {
-      name: "Michael Chen",
-      role: "Senior DevOps Engineer",
-      expertise: "Infrastructure, Automation, Security",
-      experience: "8+ years",
-      description: "Specializes in scalable infrastructure and automated deployment pipelines."
+      name: "Emily Johnson",
+      role: "VP of Engineering",
+      bio: "Engineering leader focused on building scalable solutions and high-performing teams.",
+      expertise: ["Software Engineering", "Team Management", "Quality Assurance"]
     },
     {
-      name: "Emily Rodriguez",
-      role: "UI/UX Design Lead",
-      expertise: "User Experience, Interface Design",
-      experience: "6+ years",
-      description: "Creates intuitive and engaging user experiences that drive business results."
-    },
-    {
-      name: "David Park",
-      role: "Cybersecurity Specialist",
-      expertise: "Security Architecture, Penetration Testing",
-      experience: "10+ years",
-      description: "Ensures robust security implementations and proactive threat protection."
+      name: "David Kim",
+      role: "Head of Cybersecurity",
+      bio: "Security specialist with extensive experience in enterprise security and compliance.",
+      expertise: ["Cybersecurity", "Risk Management", "Compliance"]
     }
   ];
 
-  const certifications = [
-    "AWS Certified Solutions Architect",
-    "Microsoft Azure Fundamentals",
-    "Google Cloud Professional",
-    "Certified Ethical Hacker (CEH)",
-    "PMP Project Management",
-    "CISSP Security Professional"
-  ];
-
-  const achievements = [
+  const timeline = [
     {
-      title: "Industry Recognition",
-      description: "Named Top IT Services Provider 2024 by TechReview Magazine"
+      year: "2018",
+      title: "Company Founded",
+      description: "IeNet established with a mission to bridge technology and business success."
     },
     {
-      title: "Client Satisfaction",
-      description: "98% client retention rate with 5-star average rating"
+      year: "2019",
+      title: "First Major Clients",
+      description: "Successfully delivered enterprise solutions for leading companies across multiple industries."
     },
     {
-      title: "Innovation Award",
-      description: "Winner of Digital Innovation Excellence Award 2023"
+      year: "2020",
+      title: "Remote Expansion",
+      description: "Adapted to global changes by enhancing remote service capabilities and expanding our team."
+    },
+    {
+      year: "2021",
+      title: "Cloud Expertise",
+      description: "Became certified partners with major cloud providers and launched advanced cloud services."
+    },
+    {
+      year: "2022",
+      title: "Security Focus",
+      description: "Expanded cybersecurity offerings with dedicated security team and advanced threat protection."
+    },
+    {
+      year: "2023",
+      title: "AI Integration",
+      description: "Integrated AI and machine learning capabilities into our service offerings and internal operations."
+    },
+    {
+      year: "2024",
+      title: "Global Presence",
+      description: "Established operations in multiple countries with 24/7 support and localized services."
     }
   ];
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead 
+        {...seoConfig}
+        breadcrumbData={breadcrumbData}
+        structuredData={faqSchema}
+      />
+      <SEOAnalytics 
+        pageType="service"
+        pageName="About Us"
+      />
+      <LocalSEO 
+        serviceArea="About IeNet"
+        services={["IT Consulting", "Web Development", "Cloud Services", "Cybersecurity"]}
+      />
       <ModernHeader />
 
       {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 z-40">
         <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
           <MessageCircle size={20} />
-          <span className="hidden sm:block">Get Quote</span>
+          <span className="hidden sm:block">Contact Us</span>
         </Button>
       </div>
 
@@ -143,14 +225,23 @@ export default function About() {
                 About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">IeNet</span>
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                We are a forward-thinking IT services company dedicated to transforming businesses through innovative technology solutions and exceptional service delivery.
+                We're a team of passionate technology experts dedicated to delivering innovative IT solutions that drive business success and digital transformation worldwide.
               </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700">
+                  Our Services
+                  <ArrowRight className="ml-2" size={16} />
+                </Button>
+                <Button size="lg" variant="outline">
+                  Meet Our Team
+                </Button>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Breadcrumb */}
-        <section className="bg-gray-50 dark:bg-gray-800 py-4">
+        <section className="bg-gray-50 dark:bg-gray-800 py-4 relative z-40 mt-0">
           <div className="container mx-auto px-6">
             <Breadcrumb>
               <BreadcrumbList>
@@ -161,393 +252,261 @@ export default function About() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>About</BreadcrumbPage>
+                  <BreadcrumbPage>About Us</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </section>
 
-        {/* Company Overview */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        {/* Tag System */}
+        <section className="py-12 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-                  Empowering Businesses Through Technology
-                </h2>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-                  Since our founding, IeNet has been at the forefront of digital transformation, helping businesses of all sizes leverage technology to achieve their goals. We combine deep technical expertise with a thorough understanding of business processes to deliver solutions that drive real results.
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-                  Our team of experienced professionals specializes in creating custom software solutions, robust web applications, and comprehensive IT infrastructure that scales with your business growth. We pride ourselves on our commitment to quality, security, and customer satisfaction.
-                </p>
-                <Button asChild size="lg">
-                  <Link href="/contact">
-                    Work With Us
-                  </Link>
-                </Button>
-              </div>
-              <div className="relative">
-                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8">
-                  <div className="grid grid-cols-2 gap-6">
-                    {stats.map((stat, index) => (
-                      <div key={index} className="text-center">
-                        <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-3">
-                          <stat.icon className="text-primary" size={24} />
-                        </div>
-                        <div className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">{stat.label}</div>
+            <div className="max-w-4xl mx-auto">
+              <TagSystem 
+                tags={['About IeNet', 'IT Company', 'Technology Experts', 'Digital Solutions', 'Innovation']}
+                showRelatedTags={true}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Stats Section */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {stats.map((stat, index) => (
+                  <Card key={index} className="text-center bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-800/50 dark:to-gray-900/50 border-none shadow-lg hover:shadow-xl transition-all duration-300">
+                    <CardContent className="p-8">
+                      <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <stat.icon className="text-white" size={24} />
                       </div>
-                    ))}
-                  </div>
-                </div>
+                      <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                        {stat.number}
+                      </div>
+                      <p className="text-gray-600 dark:text-gray-300">
+                        {stat.label}
+                      </p>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </div>
           </div>
         </section>
 
         {/* Mission & Vision */}
-        <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
           <div className="container mx-auto px-6">
-            <div className="grid md:grid-cols-2 gap-8">
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Target className="mr-2 text-primary" size={24} />
-                    Our Mission
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    To empower businesses with innovative, secure, and scalable technology solutions that drive growth, improve efficiency, and create competitive advantages in the digital landscape. We are committed to delivering exceptional value through our expertise, dedication, and customer-centric approach.
+            <div className="max-w-6xl mx-auto">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+                    Our Mission & Vision
+                  </h2>
+                  <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                    At IeNet, we believe that technology should empower businesses, not complicate them. Our mission is to 
+                    bridge the gap between complex technological capabilities and practical business solutions that drive 
+                    real-world results.
                   </p>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Eye className="mr-2 text-emerald-600" size={24} />
-                    Our Vision
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                    To be the leading technology partner for businesses seeking digital transformation, recognized for our innovation, reliability, and the lasting impact we create. We envision a future where technology seamlessly integrates with business processes to unlock unlimited potential.
+                  <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                    We envision a world where every organization, regardless of size or industry, has access to 
+                    enterprise-grade technology solutions that enable growth, efficiency, and innovation. Through 
+                    our comprehensive services and expert guidance, we're making this vision a reality one client at a time.
                   </p>
-                </CardContent>
-              </Card>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-start">
+                      <Target className="text-primary mr-3 mt-1" size={20} />
+                      <div>
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Strategic Focus</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Delivering solutions aligned with business objectives and measurable outcomes.</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start">
+                      <Award className="text-primary mr-3 mt-1" size={20} />
+                      <div>
+                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Quality Excellence</h3>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">Maintaining the highest standards in every project through rigorous processes and continuous improvement.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+                    Why Choose IeNet?
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-primary rounded-full mr-4"></div>
+                      <span className="text-gray-700 dark:text-gray-300">Proven track record with 500+ successful projects</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-primary rounded-full mr-4"></div>
+                      <span className="text-gray-700 dark:text-gray-300">Expert team with diverse technology specializations</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-primary rounded-full mr-4"></div>
+                      <span className="text-gray-700 dark:text-gray-300">24/7 support and maintenance services</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-primary rounded-full mr-4"></div>
+                      <span className="text-gray-700 dark:text-gray-300">Transparent pricing and project management</span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-3 h-3 bg-primary rounded-full mr-4"></div>
+                      <span className="text-gray-700 dark:text-gray-300">Security-first approach with compliance expertise</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Core Values */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        <section className="py-16 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                Our Core Values
-              </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                These fundamental principles guide our work and define how we interact with clients, partners, and each other.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {values.map((value, index) => (
-                <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                  <CardContent className="p-6">
-                    <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                      <value.icon className="text-primary" size={28} />
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-                      {value.title}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
-                      {value.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Services Overview */}
-        <section className="py-20 bg-gray-50 dark:bg-gray-800">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-12">
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                  What We Do
+                  Our Core Values
                 </h2>
-                <p className="text-xl text-gray-600 dark:text-gray-300">
-                  We offer a comprehensive range of IT services to meet all your technology needs.
+                <p className="text-lg text-gray-600 dark:text-gray-300">
+                  The principles that guide everything we do and every decision we make.
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                {services.map((service, index) => (
-                  <div key={index} className="flex items-center space-x-3 p-4 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
-                    <CheckCircle className="text-emerald-500" size={20} />
-                    <span className="text-gray-700 dark:text-gray-300 font-medium">{service}</span>
-                  </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {values.map((value, index) => (
+                  <Card key={index} className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-800/50 dark:to-gray-900/50 group overflow-hidden">
+                    <CardContent className="p-8 text-center">
+                      <div className={`w-16 h-16 bg-gradient-to-r ${value.gradient} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                        <value.icon className="text-white" size={24} />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+                        {value.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                        {value.description}
+                      </p>
+                    </CardContent>
+                  </Card>
                 ))}
-              </div>
-
-              <div className="text-center mt-8">
-                <Button asChild size="lg">
-                  <Link href="/services">
-                    Explore All Services
-                  </Link>
-                </Button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Why Choose Us */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        {/* Leadership Team */}
+        <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
           <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                Why Choose IeNet?
-              </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                We bring unique value to every project through our experience, expertise, and commitment to excellence.
-              </p>
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  Leadership Team
+                </h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300">
+                  Meet the experienced professionals leading our mission to deliver exceptional IT solutions.
+                </p>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {leadership.map((leader, index) => (
+                  <Card key={index} className="text-center bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border-none shadow-lg hover:shadow-xl transition-all duration-300">
+                    <CardContent className="p-6">
+                      <div className="w-20 h-20 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-lg">
+                        {leader.name.split(' ').map(n => n[0]).join('')}
+                      </div>
+                      <h3 className="font-bold text-gray-900 dark:text-white mb-1">
+                        {leader.name}
+                      </h3>
+                      <p className="text-sm text-primary mb-3">
+                        {leader.role}
+                      </p>
+                      <p className="text-xs text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
+                        {leader.bio}
+                      </p>
+                      <div className="flex flex-wrap gap-1 justify-center">
+                        {leader.expertise.map((skill) => (
+                          <Badge key={skill} variant="secondary" className="text-xs">
+                            {skill}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
             </div>
+          </div>
+        </section>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Award className="mr-2 text-yellow-500" size={24} />
-                    Proven Expertise
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    With over a decade of experience and 200+ successful projects, we have the proven track record and deep expertise to handle projects of any complexity.
-                  </p>
-                </CardContent>
-              </Card>
+        {/* Company Timeline */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  Our Journey
+                </h2>
+                <p className="text-lg text-gray-600 dark:text-gray-300">
+                  Key milestones in our evolution from startup to industry leader.
+                </p>
+              </div>
 
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <TrendingUp className="mr-2 text-blue-500" size={24} />
-                    Scalable Solutions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Our solutions are built to grow with your business. We design architectures that can scale seamlessly as your requirements evolve and expand.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Zap className="mr-2 text-purple-500" size={24} />
-                    Fast Delivery
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    We understand the importance of time-to-market. Our agile development process ensures rapid delivery without compromising on quality.
-                  </p>
-                </CardContent>
-              </Card>
+              <div className="space-y-8">
+                {timeline.map((milestone, index) => (
+                  <div key={index} className="flex items-start">
+                    <div className="w-24 flex-shrink-0 text-right mr-8">
+                      <div className="inline-block bg-gradient-to-r from-primary-500 to-primary-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        {milestone.year}
+                      </div>
+                    </div>
+                    <div className="w-4 flex-shrink-0 relative">
+                      <div className="w-4 h-4 bg-primary rounded-full"></div>
+                      {index < timeline.length - 1 && (
+                        <div className="w-0.5 h-8 bg-primary/30 mx-auto mt-2"></div>
+                      )}
+                    </div>
+                    <div className="ml-8 pb-8">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                        {milestone.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-300">
+                        {milestone.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-primary">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to Transform Your Business?
-            </h2>
-            <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-              Let's discuss how our expertise can help you achieve your technology goals and drive your business forward.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                <Link href="/contact">
+        <section className="py-16 bg-primary text-white">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl font-bold mb-4">Ready to Work With Us?</h2>
+              <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+                Join hundreds of satisfied clients who trust IeNet to deliver innovative IT solutions that drive their business forward.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" variant="secondary">
                   Start Your Project
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" asChild>
-                <Link href="/projects">
-                  View Our Work
-                </Link>
-              </Button>
+                  <ArrowRight className="ml-2" size={16} />
+                </Button>
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
+                  Schedule Consultation
+                </Button>
+              </div>
             </div>
           </div>
         </section>
       </main>
-
-        {/* Team Section */}
-        <section className="py-20 bg-gray-50 dark:bg-gray-800">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                Meet Our Expert Team
-              </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                Our diverse team of technology professionals brings decades of combined experience in delivering enterprise-grade solutions.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {teamMembers.map((member, index) => (
-                <Card key={index} className="text-center group hover:shadow-xl transition-all duration-300">
-                  <CardHeader>
-                    <div className="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-primary-500 to-primary-700 rounded-full flex items-center justify-center">
-                      <Users className="text-white" size={32} />
-                    </div>
-                    <CardTitle className="text-xl text-gray-900 dark:text-white">
-                      {member.name}
-                    </CardTitle>
-                    <p className="text-primary font-medium">{member.role}</p>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Expertise</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{member.expertise}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Experience</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">{member.experience}</p>
-                      </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{member.description}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Certifications & Achievements */}
-        <section className="py-20 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="grid lg:grid-cols-2 gap-16">
-              {/* Certifications */}
-              <div>
-                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-                  Professional Certifications
-                </h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {certifications.map((cert, index) => (
-                    <div key={index} className="flex items-center p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                      <Award className="text-primary mr-3" size={20} />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{cert}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Achievements */}
-              <div>
-                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-                  Recent Achievements
-                </h3>
-                <div className="space-y-6">
-                  {achievements.map((achievement, index) => (
-                    <Card key={index} className="border-l-4 border-primary">
-                      <CardContent className="p-6">
-                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                          {achievement.title}
-                        </h4>
-                        <p className="text-gray-600 dark:text-gray-400">
-                          {achievement.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Process Section */}
-        <section className="py-20 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-800 dark:to-gray-700">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                Our Development Process
-              </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                We follow a proven methodology to ensure project success and client satisfaction from concept to deployment.
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-4 gap-8">
-              {[
-                { step: "01", title: "Discovery", description: "Understanding your business needs and technical requirements" },
-                { step: "02", title: "Planning", description: "Creating detailed project roadmaps and technical specifications" },
-                { step: "03", title: "Development", description: "Building robust, scalable solutions using best practices" },
-                { step: "04", title: "Deployment", description: "Seamless go-live with ongoing support and maintenance" }
-              ].map((process, index) => (
-                <div key={index} className="text-center">
-                  <div className="relative mb-6">
-                    <div className="w-16 h-16 mx-auto bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold">
-                      {process.step}
-                    </div>
-                    {index < 3 && (
-                      <div className="hidden md:block absolute top-8 left-full w-full h-0.5 bg-primary/30"></div>
-                    )}
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                    {process.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {process.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-r from-primary to-purple-600">
-          <div className="container mx-auto px-6 text-center">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to Start Your Project?
-            </h2>
-            <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8 leading-relaxed">
-              Let's discuss how our experienced team can help transform your business with innovative technology solutions.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact">
-                <Button 
-                  size="lg" 
-                  className="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105"
-                >
-                  Get Started Today
-                  <ArrowRight className="ml-2" size={18} />
-                </Button>
-              </Link>
-              <Link href="/services">
-                <Button 
-                  size="lg" 
-                  variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-full transition-all duration-300"
-                >
-                  View Our Services
-                  <Eye className="ml-2" size={18} />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
 
       <ModernFooter />
     </div>

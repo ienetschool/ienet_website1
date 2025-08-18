@@ -122,12 +122,23 @@ export default function ServiceDetail() {
                   <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
                     {category.name}
                   </h1>
-                  <Badge className="mt-2">Service Category</Badge>
+                  <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
+                    Modern, scalable, and enterprise-grade solutions for your business
+                  </p>
                 </div>
               </div>
-              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed">
+              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
                 {category.description}
               </p>
+              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <Button size="lg" className="bg-primary hover:bg-primary/90">
+                  Request Consultation
+                  <ArrowRight size={16} className="ml-2" />
+                </Button>
+                <Button size="lg" variant="outline">
+                  View Portfolio
+                </Button>
+              </div>
             </div>
           </div>
         </section>

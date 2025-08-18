@@ -44,6 +44,7 @@ function Router() {
           <Route path="/services/:categorySlug" component={ServiceDetail} />
           <Route path="/services/:categorySlug/:serviceSlug" component={SubServiceDetail} />
           <Route path="/services/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
+          <Route path="/features/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
           <Route path="/projects" component={Projects} />
           <Route path="/projects/:slug" component={ProjectDetail} />
           <Route path="/industries" component={Industries} />
@@ -69,6 +70,7 @@ function Router() {
           <Route path="/services/:categorySlug" component={ServiceDetail} />
           <Route path="/services/:categorySlug/:serviceSlug" component={SubServiceDetail} />
           <Route path="/services/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
+          <Route path="/features/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
           <Route path="/projects" component={Projects} />
           <Route path="/projects/:slug" component={ProjectDetail} />
           <Route path="/industries" component={Industries} />

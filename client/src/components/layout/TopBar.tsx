@@ -71,8 +71,8 @@ export default function TopBar() {
             {isAuthenticated ? (
               <div className="flex items-center space-x-2">
                 <User size={14} className="text-primary" />
-                <span className="text-xs">Welcome, {user?.firstName || user?.email}</span>
-                {(user?.role === 'admin' || user?.role === 'editor') && (
+                <span className="text-xs">Welcome, {(user as any)?.firstName || (user as any)?.email}</span>
+                {((user as any)?.role === 'admin' || (user as any)?.role === 'editor') && (
                   <a href="/admin" className="text-primary hover:text-primary-foreground text-xs">
                     Admin
                   </a>

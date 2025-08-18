@@ -188,110 +188,163 @@ export default function FeatureDetail() {
               </div>
               
               <div className="space-y-16">
-                <div className="grid lg:grid-cols-2 gap-12">
-                  <Card className="p-8 border-none shadow-lg">
+                {/* Four-Section Layout with Unique Purple/Orange Theme for Tier 3 */}
+                <div className="grid lg:grid-cols-2 gap-8">
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-purple-50 to-violet-100 dark:from-purple-900/20 dark:to-violet-900/20">
                     <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4">
-                        <Users className="text-blue-600 dark:text-blue-400" size={24} />
+                      <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-violet-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Users className="text-white" size={26} />
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Business Value & ROI</h3>
+                      <h3 className="text-2xl font-bold text-purple-900 dark:text-purple-100">Business Value & ROI</h3>
                     </div>
                     <div className="space-y-4">
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                      <p className="text-purple-800 dark:text-purple-200 leading-relaxed text-lg">
                         {feature?.name} is a powerful web development technique that enhances your website's performance 
-                        and search engine visibility. It ensures your content loads quickly and is immediately accessible to both users and search engines, 
-                        providing a superior browsing experience that converts visitors into customers and drives measurable business growth.
+                        and search engine visibility. It ensures your content loads quickly and is immediately accessible to both users and search engines.
                       </p>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                      <p className="text-purple-700 dark:text-purple-300 leading-relaxed">
                         Businesses implementing {feature?.name?.toLowerCase()} typically see a 25-40% improvement in search engine rankings, 
-                        35% faster page load times, and up to 20% increase in conversion rates. This translates to higher revenue, 
-                        better user engagement, and stronger competitive positioning in your market.
+                        35% faster page load times, and up to 20% increase in conversion rates.
                       </p>
-                      <div className="space-y-2">
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Improved SEO rankings and organic traffic</span>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-violet-600 mr-3" size={18} />
+                          <span className="text-purple-900 dark:text-purple-100 font-medium">Improved SEO rankings and organic traffic</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Enhanced user experience and engagement</span>
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-violet-600 mr-3" size={18} />
+                          <span className="text-purple-900 dark:text-purple-100 font-medium">Enhanced user experience and engagement</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Increased conversion rates and revenue</span>
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-violet-600 mr-3" size={18} />
+                          <span className="text-purple-900 dark:text-purple-100 font-medium">Increased conversion rates and revenue</span>
                         </div>
                       </div>
                     </div>
                   </Card>
 
-                  <Card className="p-8 border-none shadow-lg">
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-orange-50 to-amber-100 dark:from-orange-900/20 dark:to-amber-900/20">
                     <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
-                        <Code className="text-green-600 dark:text-green-400" size={24} />
+                      <div className="w-14 h-14 bg-gradient-to-r from-orange-500 to-amber-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Code className="text-white" size={26} />
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Technical Architecture & Implementation</h3>
+                      <h3 className="text-2xl font-bold text-orange-900 dark:text-orange-100">Technical Architecture & Implementation</h3>
                     </div>
                     <div className="space-y-4">
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                      <p className="text-orange-800 dark:text-orange-200 leading-relaxed text-lg">
                         {feature?.name} is an advanced rendering strategy that processes web pages on the server before 
-                        sending them to the client browser. This approach generates fully-formed HTML content server-side, enabling immediate content visibility, 
-                        improved SEO crawling, and significantly faster initial page load times compared to traditional client-side rendering.
+                        sending them to the client browser. This approach generates fully-formed HTML content server-side.
                       </p>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                      <p className="text-orange-700 dark:text-orange-300 leading-relaxed">
                         Our implementation leverages modern server-side technologies including Node.js, React Server Components, 
-                        and advanced caching mechanisms. We optimize for Core Web Vitals, implement progressive enhancement, 
-                        and ensure backward compatibility across all browsers and devices.
+                        and advanced caching mechanisms. We optimize for Core Web Vitals and ensure backward compatibility.
                       </p>
-                      <div className="space-y-2">
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Server-side rendering with hydration</span>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-amber-600 mr-3" size={18} />
+                          <span className="text-orange-900 dark:text-orange-100 font-medium">Server-side rendering with hydration</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Advanced caching and CDN optimization</span>
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-amber-600 mr-3" size={18} />
+                          <span className="text-orange-900 dark:text-orange-100 font-medium">Advanced caching and CDN optimization</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Cross-browser compatibility guaranteed</span>
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-amber-600 mr-3" size={18} />
+                          <span className="text-orange-900 dark:text-orange-100 font-medium">Cross-browser compatibility guaranteed</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+
+                <div className="grid lg:grid-cols-2 gap-8">
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/20 dark:to-green-900/20">
+                    <div className="flex items-center mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-r from-emerald-500 to-green-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Target className="text-white" size={26} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-emerald-900 dark:text-emerald-100">Performance Optimization</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-emerald-800 dark:text-emerald-200 leading-relaxed text-lg">
+                        Advanced performance metrics including First Contentful Paint (FCP), Largest Contentful Paint (LCP), 
+                        and Cumulative Layout Shift (CLS) optimization for superior user experience and search engine rankings.
+                      </p>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-green-200/50 dark:border-green-700/50">
+                          <Check className="text-green-600 mr-3" size={18} />
+                          <span className="text-emerald-900 dark:text-emerald-100 font-medium">Core Web Vitals optimization</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-green-200/50 dark:border-green-700/50">
+                          <Check className="text-green-600 mr-3" size={18} />
+                          <span className="text-emerald-900 dark:text-emerald-100 font-medium">Lighthouse score improvements</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-green-200/50 dark:border-green-700/50">
+                          <Check className="text-green-600 mr-3" size={18} />
+                          <span className="text-emerald-900 dark:text-emerald-100 font-medium">Mobile performance optimization</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-rose-50 to-red-100 dark:from-rose-900/20 dark:to-red-900/20">
+                    <div className="flex items-center mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-r from-rose-500 to-red-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Zap className="text-white" size={26} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-rose-900 dark:text-rose-100">SEO & Scalability</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-rose-800 dark:text-rose-200 leading-relaxed text-lg">
+                        Complete search engine optimization including meta tags, structured data, XML sitemaps, 
+                        and technical SEO best practices combined with future-proof scalable architecture.
+                      </p>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-red-200/50 dark:border-red-700/50">
+                          <Check className="text-red-600 mr-3" size={18} />
+                          <span className="text-rose-900 dark:text-rose-100 font-medium">Technical SEO implementation</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-red-200/50 dark:border-red-700/50">
+                          <Check className="text-red-600 mr-3" size={18} />
+                          <span className="text-rose-900 dark:text-rose-100 font-medium">Structured data markup</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-red-200/50 dark:border-red-700/50">
+                          <Check className="text-red-600 mr-3" size={18} />
+                          <span className="text-rose-900 dark:text-rose-100 font-medium">Scalable infrastructure design</span>
                         </div>
                       </div>
                     </div>
                   </Card>
                 </div>
                 
-                <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Comprehensive {feature?.name} Analysis</h3>
+                <div className="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 rounded-3xl p-10 shadow-2xl text-white">
+                  <div className="text-center mb-10">
+                    <h3 className="text-3xl font-bold mb-4">Comprehensive {feature?.name} Analysis</h3>
+                    <p className="text-purple-100 text-xl max-w-4xl mx-auto leading-relaxed">
+                      Understanding this powerful web development technique from both business and technical perspectives
+                    </p>
+                  </div>
                   <div className="grid md:grid-cols-3 gap-8">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Target className="text-blue-600 dark:text-blue-400" size={24} />
+                    <div className="text-center bg-white/10 backdrop-blur rounded-2xl p-6">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Target className="text-white" size={32} />
                       </div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Performance Optimization</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">
-                        Advanced performance metrics including First Contentful Paint (FCP), Largest Contentful Paint (LCP), 
-                        and Cumulative Layout Shift (CLS) optimization for superior user experience.
-                      </p>
+                      <h4 className="font-bold text-xl mb-3">Performance Optimization</h4>
+                      <p className="text-purple-100">Advanced performance metrics and Core Web Vitals optimization for superior user experience</p>
                     </div>
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Shield className="text-green-600 dark:text-green-400" size={24} />
+                    <div className="text-center bg-white/10 backdrop-blur rounded-2xl p-6">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Shield className="text-white" size={32} />
                       </div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">SEO Excellence</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">
-                        Complete search engine optimization including meta tags, structured data, XML sitemaps, 
-                        and technical SEO best practices for maximum organic visibility.
-                      </p>
+                      <h4 className="font-bold text-xl mb-3">SEO Excellence</h4>
+                      <p className="text-purple-100">Complete search engine optimization with technical SEO best practices</p>
                     </div>
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Zap className="text-purple-600 dark:text-purple-400" size={24} />
+                    <div className="text-center bg-white/10 backdrop-blur rounded-2xl p-6">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Zap className="text-white" size={32} />
                       </div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Scalable Architecture</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">
-                        Future-proof implementation designed to handle growing traffic, content expansion, 
-                        and evolving business requirements with minimal maintenance overhead.
-                      </p>
+                      <h4 className="font-bold text-xl mb-3">Scalable Architecture</h4>
+                      <p className="text-purple-100">Future-proof implementation designed for growth and evolving requirements</p>
                     </div>
                   </div>
                 </div>

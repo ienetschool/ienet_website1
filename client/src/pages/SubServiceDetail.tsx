@@ -185,103 +185,160 @@ export default function SubServiceDetail() {
               </div>
               
               <div className="space-y-16">
-                <div className="grid lg:grid-cols-2 gap-12">
-                  <Card className="p-8 border-none shadow-lg">
+                {/* Four-Section Layout with Unique Green Theme for Tier 2 */}
+                <div className="grid lg:grid-cols-2 gap-8">
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-emerald-900/20 dark:to-teal-900/20">
                     <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4">
-                        <Users className="text-blue-600 dark:text-blue-400" size={24} />
+                      <div className="w-14 h-14 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Users className="text-white" size={26} />
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Specialized {service?.name} Solutions</h3>
+                      <h3 className="text-2xl font-bold text-emerald-900 dark:text-emerald-100">Specialized {service?.name} Solutions</h3>
                     </div>
                     <div className="space-y-4">
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
-                        {service?.content || `Our ${service?.name} service provides comprehensive solutions tailored to meet your specific business requirements. We combine industry expertise with cutting-edge technology to deliver exceptional results that drive growth, efficiency, and competitive advantage in your market sector.`}
+                      <p className="text-emerald-800 dark:text-emerald-200 leading-relaxed text-lg">
+                        {service?.content || `Our ${service?.name} service provides comprehensive solutions tailored to meet your specific business requirements. We combine industry expertise with cutting-edge technology to deliver exceptional results.`}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                      <p className="text-emerald-700 dark:text-emerald-300 leading-relaxed">
                         With over 8 years of experience in {service?.name?.toLowerCase()}, we understand the unique challenges and opportunities in this field. 
-                        Our team has successfully delivered 200+ projects, serving clients from startups to Fortune 500 companies across various industries.
+                        Our team has successfully delivered 200+ projects across various industries.
                       </p>
-                      <div className="space-y-2">
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Industry-specific expertise and best practices</span>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-teal-600 mr-3" size={18} />
+                          <span className="text-emerald-900 dark:text-emerald-100 font-medium">Industry-specific expertise and best practices</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Proven track record with measurable results</span>
-                        </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Scalable solutions for future growth</span>
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-teal-600 mr-3" size={18} />
+                          <span className="text-emerald-900 dark:text-emerald-100 font-medium">Proven track record with measurable results</span>
                         </div>
                       </div>
                     </div>
                   </Card>
 
-                  <Card className="p-8 border-none shadow-lg">
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-teal-50 to-green-100 dark:from-teal-900/20 dark:to-green-900/20">
                     <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
-                        <Target className="text-green-600 dark:text-green-400" size={24} />
+                      <div className="w-14 h-14 bg-gradient-to-r from-teal-500 to-green-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Target className="text-white" size={26} />
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Strategic Implementation Process</h3>
+                      <h3 className="text-2xl font-bold text-teal-900 dark:text-teal-100">Strategic Implementation Process</h3>
                     </div>
                     <div className="space-y-4">
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                      <p className="text-teal-800 dark:text-teal-200 leading-relaxed text-lg">
                         We utilize modern platforms, tools, and methodologies to ensure your project is built with scalability, performance, and user experience in mind. 
-                        Our strategic approach includes thorough analysis, careful planning, agile development, and comprehensive testing to guarantee optimal results.
+                        Our strategic approach includes thorough analysis and comprehensive testing.
                       </p>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                        From initial consultation through deployment and ongoing support, we maintain clear communication and transparency throughout the entire process. 
-                        Our project managers provide regular updates, milestone reports, and direct access to development teams.
+                      <p className="text-teal-700 dark:text-teal-300 leading-relaxed">
+                        From initial consultation through deployment and ongoing support, we maintain clear communication and transparency throughout the entire process.
                       </p>
-                      <div className="space-y-2">
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Agile development methodology</span>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-emerald-600 mr-3" size={18} />
+                          <span className="text-teal-900 dark:text-teal-100 font-medium">Agile development methodology</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Regular progress updates and demos</span>
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-emerald-600 mr-3" size={18} />
+                          <span className="text-teal-900 dark:text-teal-100 font-medium">Regular progress updates and demos</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Post-launch support and optimization</span>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+
+                <div className="grid lg:grid-cols-2 gap-8">
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-sky-50 to-blue-100 dark:from-sky-900/20 dark:to-blue-900/20">
+                    <div className="flex items-center mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-r from-sky-500 to-blue-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Shield className="text-white" size={26} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-sky-900 dark:text-sky-100">Quality Assurance & Testing</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-sky-800 dark:text-sky-200 leading-relaxed text-lg">
+                        Comprehensive quality assurance processes including automated testing, manual QA reviews, 
+                        performance optimization, and cross-platform compatibility verification to ensure flawless delivery.
+                      </p>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-blue-200/50 dark:border-blue-700/50">
+                          <Check className="text-blue-600 mr-3" size={18} />
+                          <span className="text-sky-900 dark:text-sky-100 font-medium">Automated testing suites</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-blue-200/50 dark:border-blue-700/50">
+                          <Check className="text-blue-600 mr-3" size={18} />
+                          <span className="text-sky-900 dark:text-sky-100 font-medium">Manual QA verification</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-blue-200/50 dark:border-blue-700/50">
+                          <Check className="text-blue-600 mr-3" size={18} />
+                          <span className="text-sky-900 dark:text-sky-100 font-medium">Performance optimization</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20">
+                    <div className="flex items-center mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-r from-amber-500 to-orange-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <MessageCircle className="text-white" size={26} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-amber-900 dark:text-amber-100">Communication & Collaboration</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-amber-800 dark:text-amber-200 leading-relaxed text-lg">
+                        Seamless communication channels with dedicated project managers, real-time updates, 
+                        collaborative platforms, and regular stakeholder meetings to ensure complete alignment.
+                      </p>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-orange-200/50 dark:border-orange-700/50">
+                          <Check className="text-orange-600 mr-3" size={18} />
+                          <span className="text-amber-900 dark:text-amber-100 font-medium">Dedicated project manager</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-orange-200/50 dark:border-orange-700/50">
+                          <Check className="text-orange-600 mr-3" size={18} />
+                          <span className="text-amber-900 dark:text-amber-100 font-medium">Real-time progress tracking</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-orange-200/50 dark:border-orange-700/50">
+                          <Check className="text-orange-600 mr-3" size={18} />
+                          <span className="text-amber-900 dark:text-amber-100 font-medium">Weekly stakeholder meetings</span>
                         </div>
                       </div>
                     </div>
                   </Card>
                 </div>
                 
-                <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Why Choose Our {service?.name} Services?</h3>
+                <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-green-600 rounded-3xl p-10 shadow-2xl text-white">
+                  <div className="text-center mb-10">
+                    <h3 className="text-3xl font-bold mb-4">Why Choose Our {service?.name} Services?</h3>
+                    <p className="text-emerald-100 text-xl max-w-4xl mx-auto leading-relaxed">
+                      Professional {service?.name?.toLowerCase()} services designed to accelerate your business success with proven methodologies
+                    </p>
+                  </div>
                   <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Shield className="text-blue-600 dark:text-blue-400" size={24} />
+                    <div className="text-center bg-white/10 backdrop-blur rounded-2xl p-6">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Shield className="text-white" size={32} />
                       </div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Quality Assurance</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Rigorous testing and quality control processes</p>
+                      <h4 className="font-bold text-xl mb-3">Quality Assurance</h4>
+                      <p className="text-emerald-100">Rigorous testing and quality control processes</p>
                     </div>
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Clock className="text-green-600 dark:text-green-400" size={24} />
+                    <div className="text-center bg-white/10 backdrop-blur rounded-2xl p-6">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Clock className="text-white" size={32} />
                       </div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Timely Delivery</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">On-time project completion with milestone tracking</p>
+                      <h4 className="font-bold text-xl mb-3">Timely Delivery</h4>
+                      <p className="text-emerald-100">On-time project completion with milestone tracking</p>
                     </div>
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Users className="text-purple-600 dark:text-purple-400" size={24} />
+                    <div className="text-center bg-white/10 backdrop-blur rounded-2xl p-6">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Users className="text-white" size={32} />
                       </div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Expert Team</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Certified professionals with deep industry knowledge</p>
+                      <h4 className="font-bold text-xl mb-3">Expert Team</h4>
+                      <p className="text-emerald-100">Certified professionals with deep industry knowledge</p>
                     </div>
-                    <div className="text-center">
-                      <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <MessageCircle className="text-orange-600 dark:text-orange-400" size={24} />
+                    <div className="text-center bg-white/10 backdrop-blur rounded-2xl p-6">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <MessageCircle className="text-white" size={32} />
                       </div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">24/7 Support</h4>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Continuous support and maintenance services</p>
+                      <h4 className="font-bold text-xl mb-3">24/7 Support</h4>
+                      <p className="text-emerald-100">Continuous support and maintenance services</p>
                     </div>
                   </div>
                 </div>

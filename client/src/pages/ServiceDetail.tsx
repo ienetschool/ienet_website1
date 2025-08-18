@@ -181,96 +181,155 @@ export default function ServiceDetail() {
               </div>
               
               <div className="space-y-16">
-                <div className="grid lg:grid-cols-2 gap-12">
-                  <Card className="p-8 border-none shadow-lg">
+                {/* Four-Section Layout with Unique Blue Theme for Tier 1 */}
+                <div className="grid lg:grid-cols-2 gap-8">
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20">
                     <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4">
-                        <Users className="text-blue-600 dark:text-blue-400" size={24} />
+                      <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Users className="text-white" size={26} />
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Business Impact & Growth</h3>
+                      <h3 className="text-2xl font-bold text-blue-900 dark:text-blue-100">Business Impact & Growth</h3>
                     </div>
                     <div className="space-y-4">
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                      <p className="text-blue-800 dark:text-blue-200 leading-relaxed text-lg">
                         Our {category.name} services deliver comprehensive digital solutions that transform how your business operates online. 
-                        We specialize in creating modern, responsive, and high-performance applications that engage users and drive measurable results, 
-                        helping you achieve sustainable growth and competitive advantage in today's digital marketplace.
+                        We specialize in creating modern, responsive, and high-performance applications that engage users and drive measurable results.
                       </p>
-                      <div className="space-y-2">
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Increased conversion rates up to 40%</span>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-emerald-600 mr-3" size={18} />
+                          <span className="text-blue-900 dark:text-blue-100 font-medium">Increased conversion rates up to 40%</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Reduced operational costs by 30%</span>
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-emerald-600 mr-3" size={18} />
+                          <span className="text-blue-900 dark:text-blue-100 font-medium">Reduced operational costs by 30%</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Enhanced user engagement and retention</span>
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-emerald-600 mr-3" size={18} />
+                          <span className="text-blue-900 dark:text-blue-100 font-medium">Enhanced user engagement and retention</span>
                         </div>
                       </div>
                     </div>
                   </Card>
 
-                  <Card className="p-8 border-none shadow-lg">
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-indigo-50 to-purple-100 dark:from-indigo-900/20 dark:to-purple-900/20">
                     <div className="flex items-center mb-6">
-                      <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
-                        <Target className="text-green-600 dark:text-green-400" size={24} />
+                      <div className="w-14 h-14 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Target className="text-white" size={26} />
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Technical Excellence & Innovation</h3>
+                      <h3 className="text-2xl font-bold text-indigo-900 dark:text-indigo-100">Technical Excellence & Innovation</h3>
                     </div>
                     <div className="space-y-4">
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                      <p className="text-indigo-800 dark:text-indigo-200 leading-relaxed text-lg">
                         We combine cutting-edge technology with proven methodologies to ensure your project is completed on time and within budget. 
-                        Our solutions address common challenges like performance optimization, scalability, security, and user experience, 
-                        delivering exceptional results that exceed expectations and industry standards.
+                        Our solutions address performance optimization, scalability, security, and user experience challenges.
                       </p>
-                      <div className="space-y-2">
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Latest frameworks and technologies</span>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-emerald-600 mr-3" size={18} />
+                          <span className="text-indigo-900 dark:text-indigo-100 font-medium">Latest frameworks and technologies</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">99.9% uptime and reliability</span>
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-emerald-600 mr-3" size={18} />
+                          <span className="text-indigo-900 dark:text-indigo-100 font-medium">99.9% uptime and reliability</span>
                         </div>
-                        <div className="flex items-center">
-                          <Check className="text-green-500 mr-2" size={16} />
-                          <span className="text-gray-700 dark:text-gray-300">Enterprise-grade security standards</span>
+                        <div className="flex items-center bg-white/50 dark:bg-black/20 rounded-lg p-3">
+                          <Check className="text-emerald-600 mr-3" size={18} />
+                          <span className="text-indigo-900 dark:text-indigo-100 font-medium">Enterprise-grade security standards</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+
+                <div className="grid lg:grid-cols-2 gap-8">
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-orange-50 to-red-100 dark:from-orange-900/20 dark:to-red-900/20">
+                    <div className="flex items-center mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Shield className="text-white" size={26} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-orange-900 dark:text-orange-100">Security & Reliability</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-orange-800 dark:text-orange-200 leading-relaxed text-lg">
+                        Enterprise-level security implementations with comprehensive data protection, secure authentication systems, 
+                        and compliance with industry standards including GDPR, HIPAA, and SOC 2 requirements.
+                      </p>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-red-200/50 dark:border-red-700/50">
+                          <Check className="text-red-600 mr-3" size={18} />
+                          <span className="text-orange-900 dark:text-orange-100 font-medium">End-to-end encryption</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-red-200/50 dark:border-red-700/50">
+                          <Check className="text-red-600 mr-3" size={18} />
+                          <span className="text-orange-900 dark:text-orange-100 font-medium">Regular security audits</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-red-200/50 dark:border-red-700/50">
+                          <Check className="text-red-600 mr-3" size={18} />
+                          <span className="text-orange-900 dark:text-orange-100 font-medium">Compliance certifications</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+
+                  <Card className="p-8 border-none shadow-xl bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20">
+                    <div className="flex items-center mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                        <Clock className="text-white" size={26} />
+                      </div>
+                      <h3 className="text-2xl font-bold text-violet-900 dark:text-violet-100">Support & Maintenance</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <p className="text-violet-800 dark:text-violet-200 leading-relaxed text-lg">
+                        Comprehensive 24/7 support with dedicated account managers, proactive monitoring, 
+                        regular updates, and immediate response to critical issues with guaranteed SLA compliance.
+                      </p>
+                      <div className="space-y-3">
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-purple-200/50 dark:border-purple-700/50">
+                          <Check className="text-purple-600 mr-3" size={18} />
+                          <span className="text-violet-900 dark:text-violet-100 font-medium">24/7 monitoring and support</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-purple-200/50 dark:border-purple-700/50">
+                          <Check className="text-purple-600 mr-3" size={18} />
+                          <span className="text-violet-900 dark:text-violet-100 font-medium">Dedicated account manager</span>
+                        </div>
+                        <div className="flex items-center bg-white/60 dark:bg-black/30 rounded-lg p-3 border border-purple-200/50 dark:border-purple-700/50">
+                          <Check className="text-purple-600 mr-3" size={18} />
+                          <span className="text-violet-900 dark:text-violet-100 font-medium">Guaranteed SLA response times</span>
                         </div>
                       </div>
                     </div>
                   </Card>
                 </div>
                 
-                <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-lg">
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Comprehensive {category.name} Solutions</h3>
-                  <div className="prose prose-lg dark:prose-invert max-w-none">
-                    <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed text-center">
+                <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 rounded-3xl p-10 shadow-2xl text-white">
+                  <div className="text-center mb-10">
+                    <h3 className="text-3xl font-bold mb-4">Comprehensive {category.name} Solutions</h3>
+                    <p className="text-blue-100 text-xl max-w-4xl mx-auto leading-relaxed">
                       {category.description}
                     </p>
-                    <div className="grid md:grid-cols-3 gap-6 mt-8">
-                      <div className="text-center">
-                        <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Code className="text-blue-600 dark:text-blue-400" size={24} />
-                        </div>
-                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Custom Development</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Tailored solutions built specifically for your business needs and requirements</p>
+                  </div>
+                  <div className="grid md:grid-cols-3 gap-8">
+                    <div className="text-center bg-white/10 backdrop-blur rounded-2xl p-6">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Code className="text-white" size={32} />
                       </div>
-                      <div className="text-center">
-                        <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Shield className="text-green-600 dark:text-green-400" size={24} />
-                        </div>
-                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Enterprise Security</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Advanced security measures to protect your data and user information</p>
+                      <h4 className="font-bold text-xl mb-3">Custom Development</h4>
+                      <p className="text-blue-100">Tailored solutions built specifically for your business needs and requirements</p>
+                    </div>
+                    <div className="text-center bg-white/10 backdrop-blur rounded-2xl p-6">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Shield className="text-white" size={32} />
                       </div>
-                      <div className="text-center">
-                        <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <Clock className="text-purple-600 dark:text-purple-400" size={24} />
-                        </div>
-                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2">24/7 Support</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">Round-the-clock technical support and maintenance services</p>
+                      <h4 className="font-bold text-xl mb-3">Enterprise Security</h4>
+                      <p className="text-blue-100">Advanced security measures to protect your data and user information</p>
+                    </div>
+                    <div className="text-center bg-white/10 backdrop-blur rounded-2xl p-6">
+                      <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <Users className="text-white" size={32} />
                       </div>
+                      <h4 className="font-bold text-xl mb-3">Expert Team</h4>
+                      <p className="text-blue-100">Certified professionals with deep industry knowledge and experience</p>
                     </div>
                   </div>
                 </div>

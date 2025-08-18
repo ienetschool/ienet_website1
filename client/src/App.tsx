@@ -55,6 +55,7 @@ function Router() {
           <Route path="/performance" component={PerformanceDashboard} />
           <Route path="/admin" component={AdminDashboard} />
           <Route path="/dashboard" component={ComprehensiveDashboard} />
+          <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />
         </>
       ) : (
         <>
@@ -78,6 +79,7 @@ function Router() {
           <Route path="/performance" component={PerformanceDashboard} />
           <Route path="/admin" component={AdminDashboard} />
           <Route path="/dashboard" component={ComprehensiveDashboard} />
+          <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />
         </>
       )}
       <Route component={NotFound} />

@@ -37,9 +37,12 @@ import {
   Settings
 } from "lucide-react";
 import { InlineEditor, EditModeToggle } from "@/components/InlineEditor";
+import ContactModal from "@/components/modals/ContactModal";
+import { useContactModal } from "@/hooks/useContactModal";
 
 export default function SubServiceDetail() {
   const { categorySlug, serviceSlug } = useParams();
+  const { isOpen, openModal, closeModal, modalOptions } = useContactModal();
   
   const { data: category } = useQuery({
     queryKey: ['/api/service-categories', categorySlug],
@@ -144,7 +147,10 @@ export default function SubServiceDetail() {
       {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 z-40">
         <Button 
-          onClick={() => window.location.href = '/contact'}
+          onClick={() => openModal({
+            subject: `Get Quote for ${service?.name}`,
+            message: `I'm interested in ${service?.name} services. Please provide a detailed quote and consultation.`
+          })}
           className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2"
         >
           <MessageCircle size={20} />
@@ -197,7 +203,10 @@ export default function SubServiceDetail() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
                   size="lg" 
-                  onClick={() => window.location.href = '/contact'}
+                  onClick={() => openModal({
+                    subject: `Get Started with ${service?.name}`,
+                    message: `I'm ready to get started with ${service?.name} services. Please contact me to begin the process.`
+                  })}
                   className="bg-gradient-to-r from-primary to-primary/80"
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
@@ -551,7 +560,10 @@ export default function SubServiceDetail() {
                 <Button 
                   size="lg" 
                   variant="secondary"
-                  onClick={() => window.location.href = '/contact'}
+                  onClick={() => openModal({
+                    subject: `Schedule Consultation for ${service?.name}`,
+                    message: `I'm interested in ${service?.name} and would like to schedule a consultation to discuss implementation details.`
+                  })}
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Schedule Consultation
@@ -570,6 +582,16 @@ export default function SubServiceDetail() {
           </div>
         </section>
       </main>
+
+      <ModernFooter />
+
+      {/* Contact Modal */}
+      <ContactModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        defaultSubject={modalOptions.subject}
+        defaultMessage={modalOptions.message}
+      />
 
       {/* Hidden SEO Components - Analytics only, no visual output */}
       <div style={{ display: 'none' }}>

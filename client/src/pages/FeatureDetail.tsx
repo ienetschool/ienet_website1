@@ -19,6 +19,8 @@ import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import LocalSEO from "@/components/seo/LocalSEO";
 import { TagSystem } from "@/components/seo/TagSystem";
 import { InternalLinking } from "@/components/seo/InternalLinking";
+import ContactModal from "@/components/modals/ContactModal";
+import { useContactModal } from "@/hooks/useContactModal";
 import { 
   ArrowRight,
   CheckCircle,
@@ -41,6 +43,7 @@ import {
 
 export default function FeatureDetail() {
   const { categorySlug, serviceSlug, featureSlug } = useParams();
+  const { isOpen, openModal, closeModal, modalOptions } = useContactModal();
   
   const { data: category } = useQuery({
     queryKey: ['/api/service-categories', categorySlug],
@@ -565,7 +568,10 @@ export default function FeatureDetail() {
                 <Button 
                   size="lg" 
                   variant="secondary"
-                  onClick={() => window.location.href = '/contact'}
+                  onClick={() => openModal({
+                    subject: `Schedule Consultation for ${feature.name}`,
+                    message: `I'm interested in implementing ${feature.name} for my project. Please contact me to schedule a consultation.`
+                  })}
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Schedule Consultation
@@ -573,7 +579,10 @@ export default function FeatureDetail() {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  onClick={() => window.location.href = '/contact'}
+                  onClick={() => openModal({
+                    subject: `Get Quote for ${feature.name}`,
+                    message: `I would like to receive a quote for ${feature.name} implementation. Please provide pricing details.`
+                  })}
                   className="bg-transparent border-white text-white hover:bg-white hover:text-primary"
                 >
                   <DollarSign className="mr-2 h-5 w-5" />
@@ -606,6 +615,14 @@ export default function FeatureDetail() {
         category={category}
         service={service}
         relatedItems={relatedFeatures || []}
+      />
+
+      {/* Contact Modal */}
+      <ContactModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        defaultSubject={modalOptions.subject}
+        defaultMessage={modalOptions.message}
       />
     </div>
   );

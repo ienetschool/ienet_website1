@@ -36,9 +36,12 @@ import {
   DollarSign
 } from "lucide-react";
 import { InlineEditor, EditModeToggle } from "@/components/InlineEditor";
+import ContactModal from "@/components/modals/ContactModal";
+import { useContactModal } from "@/hooks/useContactModal";
 
 export default function ServiceDetail() {
   const { categorySlug } = useParams();
+  const { isOpen, openModal, closeModal, modalOptions } = useContactModal();
   
   const { data: category, isLoading } = useQuery({
     queryKey: ['/api/service-categories', categorySlug],
@@ -211,7 +214,10 @@ export default function ServiceDetail() {
       {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 z-40">
         <Button 
-          onClick={() => window.location.href = '/contact'}
+          onClick={() => openModal({
+            subject: `Get Quote for ${category?.name} Services`,
+            message: `I'm interested in ${category?.name} services. Please provide a detailed quote and consultation.`
+          })}
           className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2"
         >
           <MessageCircle size={20} />
@@ -252,7 +258,10 @@ export default function ServiceDetail() {
               </p>
               <Button 
                 size="lg" 
-                onClick={() => window.location.href = '/contact'}
+                onClick={() => openModal({
+                  subject: `Request Consultation for ${category?.name}`,
+                  message: `I would like to schedule a consultation to discuss ${category?.name} services for my business. Please contact me at your earliest convenience.`
+                })}
                 className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
               >
                 Request Consultation
@@ -602,7 +611,10 @@ export default function ServiceDetail() {
                 <Button 
                   size="lg" 
                   variant="secondary"
-                  onClick={() => window.location.href = '/contact'}
+                  onClick={() => openModal({
+                    subject: `Schedule Consultation for ${category?.name}`,
+                    message: `I'm ready to transform my business with ${category?.name} services. Please schedule a consultation to discuss my requirements.`
+                  })}
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Schedule Consultation
@@ -623,6 +635,14 @@ export default function ServiceDetail() {
       </main>
 
       <ModernFooter />
+
+      {/* Contact Modal */}
+      <ContactModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        defaultSubject={modalOptions.subject}
+        defaultMessage={modalOptions.message}
+      />
 
       {/* Hidden SEO Components - Analytics only, no visual output */}
       <div style={{ display: 'none' }}>

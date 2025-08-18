@@ -300,7 +300,7 @@ export const analyticsEvents = pgTable("analytics_events", {
 export const menuItems = pgTable("menu_items", {
   id: serial("id").primaryKey(),
   menuLocation: varchar("menu_location", { length: 100 }).notNull(), // 'header', 'footer', 'sidebar'
-  parentId: integer("parent_id").references(() => menuItems.id),
+  parentId: integer("parent_id"),
   title: varchar("title", { length: 255 }).notNull(),
   url: varchar("url", { length: 500 }),
   icon: varchar("icon", { length: 100 }),

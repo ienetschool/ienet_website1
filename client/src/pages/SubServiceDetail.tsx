@@ -109,11 +109,11 @@ export default function SubServiceDetail() {
 
   const seoConfig = {
     title: `${service.name} - ${category.name} | IeNet`,
-    description: `Professional ${service.name.toLowerCase()} services as part of our comprehensive ${category.name.toLowerCase()} solutions. Expert implementation, customization, and support.`,
-    keywords: `${service.name.toLowerCase()}, ${category.name.toLowerCase()}, ${categorySlug}, ${serviceSlug}, IT services, professional consulting`,
+    description: `Professional ${service.name?.toLowerCase() || 'service'} services as part of our comprehensive ${category.name?.toLowerCase() || 'technology'} solutions. Expert implementation, customization, and support.`,
+    keywords: `${service.name?.toLowerCase() || 'service'}, ${category.name?.toLowerCase() || 'technology'}, ${categorySlug}, ${serviceSlug}, IT services, professional consulting`,
     openGraph: {
       title: `${service.name} - ${category.name} | IeNet`,
-      description: `Professional ${service.name.toLowerCase()} services with expert implementation and support.`,
+      description: `Professional ${service.name?.toLowerCase() || 'service'} services with expert implementation and support.`,
       type: "website"
     }
   };
@@ -128,7 +128,7 @@ export default function SubServiceDetail() {
   const faqSchema = generateFAQSchema([
     {
       question: `What does ${service.name} include?`,
-      answer: `Our ${service.name.toLowerCase()} service includes comprehensive consulting, implementation, customization, and ongoing support tailored to your specific business requirements.`
+      answer: `Our ${service.name?.toLowerCase() || 'service'} service includes comprehensive consulting, implementation, customization, and ongoing support tailored to your specific business requirements.`
     },
     {
       question: "How do you ensure quality?",
@@ -230,7 +230,7 @@ export default function SubServiceDetail() {
                 {service.name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-800">Solutions</span>
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                {service.description || `Professional ${service.name.toLowerCase()} services designed to deliver exceptional results and drive your business forward with cutting-edge technology solutions.`}
+                {service.description || `Professional ${service.name?.toLowerCase() || 'service'} services designed to deliver exceptional results and drive your business forward with cutting-edge technology solutions.`}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700">
@@ -392,7 +392,7 @@ export default function SubServiceDetail() {
                   {service.name} Features & Capabilities
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Explore the comprehensive features and capabilities included in our {service.name.toLowerCase()} service.
+                  Explore the comprehensive features and capabilities included in our {service.name?.toLowerCase() || 'professional'} service.
                 </p>
               </div>
 
@@ -434,7 +434,7 @@ export default function SubServiceDetail() {
                               {feature.name}
                             </h3>
                             <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
-                              {feature.description || `Comprehensive ${feature.name.toLowerCase()} capabilities designed to enhance your ${service.name.toLowerCase()} implementation.`}
+                              {feature.description || `Comprehensive ${feature.name?.toLowerCase() || 'feature'} capabilities designed to enhance your ${service.name?.toLowerCase() || 'service'} implementation.`}
                             </p>
                             
                             <div className="flex flex-wrap gap-2 mb-4">
@@ -552,7 +552,7 @@ export default function SubServiceDetail() {
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
               <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                Let our experts implement {service.name.toLowerCase()} solutions that drive your business forward with measurable results.
+                Let our experts implement {service.name?.toLowerCase() || 'professional'} solutions that drive your business forward with measurable results.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" variant="secondary">

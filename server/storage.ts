@@ -208,39 +208,42 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getFeature(categorySlug: string, serviceSlug: string, featureSlug: string): Promise<Feature | undefined> {
-    const [result] = await db
-      .select({
-        id: features.id,
-        serviceId: features.serviceId,
-        name: features.name,
-        slug: features.slug,
-        description: features.description,
-        metaTitle: features.metaTitle,
-        metaDescription: features.metaDescription,
-        content: features.content,
-        technicalDetails: features.technicalDetails,
-        businessValue: features.businessValue,
-        tags: features.tags,
-        benefits: features.benefits,
-        isActive: features.isActive,
-        sortOrder: features.sortOrder,
-        createdAt: features.createdAt,
-        updatedAt: features.updatedAt
-      })
-      .from(features)
-      .innerJoin(services, eq(features.serviceId, services.id))
-      .innerJoin(serviceCategories, eq(services.categoryId, serviceCategories.id))
-      .where(
-        and(
-          eq(serviceCategories.slug, categorySlug),
-          eq(services.slug, serviceSlug),
-          eq(features.slug, featureSlug),
-          eq(features.isActive, true),
-          eq(services.isActive, true),
-          eq(serviceCategories.isActive, true)
-        )
-      );
-    return result;
+    try {
+      const [result] = await db
+        .select({
+          id: features.id,
+          serviceId: features.serviceId,
+          name: features.name,
+          slug: features.slug,
+          description: features.description,
+          metaTitle: features.metaTitle,
+          metaDescription: features.metaDescription,
+          content: features.content,
+          technicalDetails: features.technicalDetails,
+          benefits: features.benefits,
+          isActive: features.isActive,
+          sortOrder: features.sortOrder,
+          createdAt: features.createdAt,
+          updatedAt: features.updatedAt
+        })
+        .from(features)
+        .innerJoin(services, eq(features.serviceId, services.id))
+        .innerJoin(serviceCategories, eq(services.categoryId, serviceCategories.id))
+        .where(
+          and(
+            eq(serviceCategories.slug, categorySlug),
+            eq(services.slug, serviceSlug),
+            eq(features.slug, featureSlug),
+            eq(features.isActive, true),
+            eq(services.isActive, true),
+            eq(serviceCategories.isActive, true)
+          )
+        );
+      return result;
+    } catch (error) {
+      console.error('Error in getFeature:', error);
+      return undefined;
+    }
   }
 
   async getFeatureById(id: number): Promise<Feature | undefined> {

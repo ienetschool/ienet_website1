@@ -101,11 +101,11 @@ export default function ServiceDetail() {
 
   const seoConfig = {
     title: `${category.name} - Professional IT Services | IeNet`,
-    description: `Comprehensive ${category.name.toLowerCase()} services including expert consulting, implementation, and support. Trusted by businesses worldwide for reliable IT solutions.`,
-    keywords: `${category.name.toLowerCase()}, IT services, ${categorySlug}, professional consulting, implementation, support`,
+    description: `Comprehensive ${category.name?.toLowerCase() || 'technology'} services including expert consulting, implementation, and support. Trusted by businesses worldwide for reliable IT solutions.`,
+    keywords: `${category.name?.toLowerCase() || 'technology'}, IT services, ${categorySlug}, professional consulting, implementation, support`,
     openGraph: {
       title: `${category.name} - Professional IT Services | IeNet`,
-      description: `Comprehensive ${category.name.toLowerCase()} services including expert consulting, implementation, and support.`,
+      description: `Comprehensive ${category.name?.toLowerCase() || 'technology'} services including expert consulting, implementation, and support.`,
       type: "website"
     }
   };
@@ -118,8 +118,8 @@ export default function ServiceDetail() {
 
   const faqSchema = generateFAQSchema([
     {
-      question: `What ${category.name.toLowerCase()} services do you provide?`,
-      answer: `We provide comprehensive ${category.name.toLowerCase()} services including consulting, implementation, customization, and ongoing support. Our expert team delivers solutions tailored to your specific business needs.`
+      question: `What ${category.name?.toLowerCase() || 'technology'} services do you provide?`,
+      answer: `We provide comprehensive ${category.name?.toLowerCase() || 'technology'} services including consulting, implementation, customization, and ongoing support. Our expert team delivers solutions tailored to your specific business needs.`
     },
     {
       question: "How long do projects typically take?",
@@ -193,7 +193,7 @@ export default function ServiceDetail() {
                 {category.name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">Services</span>
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                {category.description || `Comprehensive ${category.name.toLowerCase()} solutions designed to accelerate your digital transformation and drive business growth.`}
+                {category.description || `Comprehensive ${category.name?.toLowerCase() || 'technology'} solutions designed to accelerate your digital transformation and drive business growth.`}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700">
@@ -348,7 +348,7 @@ export default function ServiceDetail() {
                               {service.name}
                             </h3>
                             <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
-                              {service.description || `Comprehensive ${service.name.toLowerCase()} solutions tailored to your business needs and technical requirements.`}
+                              {service.description || `Comprehensive ${service.name?.toLowerCase() || 'service'} solutions tailored to your business needs and technical requirements.`}
                             </p>
                             
                             <div className="flex flex-wrap gap-2 mb-4">
@@ -423,7 +423,7 @@ export default function ServiceDetail() {
                     Related Success Stories
                   </h2>
                   <p className="text-gray-600 dark:text-gray-300">
-                    See how we've helped other businesses with similar {category.name.toLowerCase()} challenges.
+                    See how we've helped other businesses with similar {category.name?.toLowerCase() || 'technology'} challenges.
                   </p>
                 </div>
                 
@@ -458,7 +458,7 @@ export default function ServiceDetail() {
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
               <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                Let's discuss how our {category.name.toLowerCase()} expertise can drive your business forward with innovative solutions.
+                Let's discuss how our {category.name?.toLowerCase() || 'technology'} expertise can drive your business forward with innovative solutions.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" variant="secondary">

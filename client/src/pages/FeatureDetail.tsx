@@ -344,13 +344,13 @@ export default function FeatureDetail() {
                     Advanced {feature.name} Implementation
                   </h2>
                   <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                    Our {feature.name.toLowerCase()} feature represents the pinnacle of modern {service.name.toLowerCase()} 
+                    Our {feature.name?.toLowerCase() || 'advanced'} feature represents the pinnacle of modern {service.name?.toLowerCase() || 'service'} 
                     implementation. Designed with enterprise-grade requirements in mind, it delivers exceptional performance, 
                     security, and scalability that grows with your business needs.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
                     Every aspect of this feature has been meticulously crafted to provide maximum value, from initial 
-                    implementation through ongoing optimization. Our team ensures that your {feature.name.toLowerCase()} 
+                    implementation through ongoing optimization. Our team ensures that your {feature.name?.toLowerCase() || 'feature'} 
                     implementation not only meets current requirements but also provides a foundation for future enhancements 
                     and scaling opportunities.
                   </p>
@@ -524,7 +524,7 @@ export default function FeatureDetail() {
                     Related Features
                   </h2>
                   <p className="text-gray-600 dark:text-gray-300">
-                    Explore other powerful features in our {service.name.toLowerCase()} service.
+                    Explore other powerful features in our {service.name?.toLowerCase() || 'professional'} service.
                   </p>
                 </div>
                 
@@ -536,7 +536,7 @@ export default function FeatureDetail() {
                           {relatedFeature.name}
                         </h3>
                         <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-                          {relatedFeature.description || `Advanced ${relatedFeature.name.toLowerCase()} capabilities for enhanced functionality.`}
+                          {relatedFeature.description || `Advanced ${relatedFeature.name?.toLowerCase() || 'feature'} capabilities for enhanced functionality.`}
                         </p>
                         <Button variant="ghost" size="sm" asChild className="p-0">
                           <Link href={`/services/${categorySlug}/${serviceSlug}/${relatedFeature.slug}`}>
@@ -559,7 +559,7 @@ export default function FeatureDetail() {
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-4">Ready to Implement {feature.name}?</h2>
               <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                Let our experts implement advanced {feature.name.toLowerCase()} capabilities that deliver exceptional results and exceed your expectations.
+                Let our experts implement advanced {feature.name?.toLowerCase() || 'feature'} capabilities that deliver exceptional results and exceed your expectations.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" variant="secondary">

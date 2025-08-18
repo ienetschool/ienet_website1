@@ -298,33 +298,114 @@ export default function ServiceDetail() {
           </div>
         </section>
 
-        {/* Overview Section */}
-        <section className="py-16 bg-muted/30">
+        {/* Service Overview - Multi-Color Sections (Tier 1 Design) */}
+        <section className="py-20 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900 dark:to-purple-900">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8 text-center">Overview</h2>
-              <div className="prose prose-lg max-w-none text-center">
-                <InlineEditor
-                  pageType="service"
-                  pageId={category.id}
-                  field="overview"
-                  value={`Our ${category.name} services are designed to address the complex challenges facing modern businesses. We understand that every organization has unique requirements, which is why we offer comprehensive solutions that can be tailored to your specific needs and industry requirements.
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+                Service Overview
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Comprehensive {category.name} solutions for modern businesses
+              </p>
+            </div>
 
-Whether you're a startup looking to establish your digital presence or an enterprise seeking to modernize your existing systems, our expert team brings years of experience and cutting-edge technology to deliver solutions that drive real business results. We focus on creating scalable, secure, and user-friendly solutions that grow with your business.`}
-                  isRichText={true}
-                  className="text-muted-foreground leading-relaxed"
-                />
+            <div className="grid lg:grid-cols-2 gap-8 mb-16">
+              {/* Industry Expertise */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 to-indigo-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-violet-200/50 dark:border-violet-800/50 hover:shadow-2xl hover:shadow-violet-500/20 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-3 bg-gradient-to-br from-violet-500 to-indigo-500 rounded-xl text-white">
+                      <Star className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-violet-900 dark:text-violet-100">Industry Expertise</h3>
+                  </div>
+                  <InlineEditor
+                    pageType="service"
+                    pageId={category.id}
+                    field="industry_expertise"
+                    value={`Our ${category.name} services are designed to address the complex challenges facing modern businesses. We understand that every organization has unique requirements, which is why we offer comprehensive solutions tailored to your specific industry needs.`}
+                    isRichText={true}
+                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* Technology Leadership */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-cyan-200/50 dark:border-cyan-800/50 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-3 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl text-white">
+                      <Code className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-cyan-900 dark:text-cyan-100">Technology Leadership</h3>
+                  </div>
+                  <InlineEditor
+                    pageType="service"
+                    pageId={category.id}
+                    field="technology_leadership"
+                    value={`Whether you're a startup looking to establish your digital presence or an enterprise seeking to modernize existing systems, our expert team brings cutting-edge technology to deliver solutions that drive real business results.`}
+                    isRichText={true}
+                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* Scalable Architecture */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-emerald-200/50 dark:border-emerald-800/50 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-3 bg-gradient-to-br from-emerald-500 to-green-500 rounded-xl text-white">
+                      <TrendingUp className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-emerald-900 dark:text-emerald-100">Scalable Architecture</h3>
+                  </div>
+                  <InlineEditor
+                    pageType="service"
+                    pageId={category.id}
+                    field="scalable_architecture"
+                    value={`We focus on creating scalable, secure, and user-friendly solutions that grow with your business. Our architecture approach ensures long-term sustainability and seamless integration with your existing infrastructure.`}
+                    isRichText={true}
+                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* Customer Success */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-amber-200/50 dark:border-amber-800/50 hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-3 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl text-white">
+                      <Users className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-amber-900 dark:text-amber-100">Customer Success</h3>
+                  </div>
+                  <InlineEditor
+                    pageType="service"
+                    pageId={category.id}
+                    field="customer_success"
+                    value={`Our commitment extends beyond project delivery with comprehensive support, training, and optimization services. We partner with you to ensure ongoing success and continuous improvement of your technology solutions.`}
+                    isRichText={true}
+                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Sub-Services Grid */}
-        <section className="py-20">
+        <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-50 dark:from-slate-900 dark:to-gray-900">
           <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Our {category.name} Services</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-600 to-gray-600 bg-clip-text text-transparent">
+                Our {category.name} Services
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Explore our comprehensive range of specialized services designed to meet your unique business needs
               </p>
             </div>
@@ -332,43 +413,44 @@ Whether you're a startup looking to establish your digital presence or an enterp
             {services && services.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {services.map((service: any, index: number) => {
-                  // Color rotation for visual variety
+                  // Enhanced color rotation for Tier 1 services
                   const colors = [
-                    "from-blue-500/10 to-cyan-500/10 border-blue-200 dark:border-blue-800",
-                    "from-purple-500/10 to-pink-500/10 border-purple-200 dark:border-purple-800", 
-                    "from-green-500/10 to-emerald-500/10 border-green-200 dark:border-green-800",
-                    "from-orange-500/10 to-red-500/10 border-orange-200 dark:border-orange-800",
-                    "from-teal-500/10 to-blue-500/10 border-teal-200 dark:border-teal-800",
-                    "from-indigo-500/10 to-purple-500/10 border-indigo-200 dark:border-indigo-800"
+                    "from-violet-500/20 to-purple-500/20 border-violet-200 dark:border-violet-800 shadow-violet-500/20",
+                    "from-cyan-500/20 to-blue-500/20 border-cyan-200 dark:border-cyan-800 shadow-cyan-500/20", 
+                    "from-emerald-500/20 to-green-500/20 border-emerald-200 dark:border-emerald-800 shadow-emerald-500/20",
+                    "from-amber-500/20 to-orange-500/20 border-amber-200 dark:border-amber-800 shadow-amber-500/20",
+                    "from-rose-500/20 to-pink-500/20 border-rose-200 dark:border-rose-800 shadow-rose-500/20",
+                    "from-indigo-500/20 to-blue-500/20 border-indigo-200 dark:border-indigo-800 shadow-indigo-500/20"
                   ];
                   const colorClass = colors[index % colors.length];
 
                   return (
-                    <Card key={service.id} className={`relative group hover:shadow-lg transition-all duration-300 bg-gradient-to-br ${colorClass} hover:scale-[1.02]`}>
-                      <CardContent className="p-6">
-                        <div className="flex items-start gap-4 mb-4">
-                          <div className="p-2 bg-primary/10 rounded-lg">
-                            <Code className="h-6 w-6 text-primary" />
+                    <div key={service.id} className="relative group">
+                      <div className={`absolute inset-0 bg-gradient-to-br ${colorClass.split(' ')[0]} ${colorClass.split(' ')[1]} rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-60`} />
+                      <div className={`relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border ${colorClass.split(' ')[2]} ${colorClass.split(' ')[3]} hover:shadow-2xl hover:${colorClass.split(' ')[4]} transition-all duration-300 group-hover:scale-105`}>
+                        <div className="flex items-start gap-4 mb-6">
+                          <div className={`p-3 bg-gradient-to-br ${colorClass.split(' ')[0].replace('/20', '')} ${colorClass.split(' ')[1].replace('/20', '')} rounded-xl text-white shadow-lg`}>
+                            <Code className="h-8 w-8" />
                           </div>
                           <div className="flex-1">
-                            <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                            <h3 className="text-xl font-bold mb-3 text-slate-800 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
                               {service.name}
                             </h3>
                           </div>
                         </div>
                         
-                        <p className="text-muted-foreground mb-4 leading-relaxed">
+                        <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
                           {service.description || service.shortDescription || 'Professional service tailored to your business needs'}
                         </p>
                         
-                        <Button asChild variant="outline" className="w-full group">
+                        <Button asChild variant="outline" size="sm" className="w-full group/btn bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 text-white border-0 hover:shadow-lg transition-all duration-300">
                           <Link href={`/services/${categorySlug}/${service.slug}`}>
                             Explore Service
-                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
                           </Link>
                         </Button>
-                      </CardContent>
-                    </Card>
+                      </div>
+                    </div>
                   );
                 })}
               </div>
@@ -523,7 +605,6 @@ Whether you're a startup looking to establish your digital presence or an enterp
       />
       <LocalSEO 
         serviceArea={`${category.name} Services`}
-        businessType="IT Services"
       />
       <TagSystem 
         tags={[category.name, 'IT Services', 'Business Solutions', 'Technology']}

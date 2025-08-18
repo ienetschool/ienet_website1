@@ -25,7 +25,8 @@ import {
   Users,
   Lightbulb,
   Target,
-  Wrench
+  Wrench,
+  Server
 } from "lucide-react";
 
 export default function FeatureDetail() {
@@ -555,29 +556,38 @@ export default function FeatureDetail() {
             <div className="max-w-6xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Related Services</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card className="hover:shadow-lg transition-shadow duration-300">
+                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20">
                   <CardContent className="p-6 text-center">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">ReactJS Development</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Modern React applications with SSR capabilities</p>
-                    <Button variant="outline" size="sm" asChild>
+                    <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Code className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-blue-900 dark:text-blue-100 mb-2">ReactJS Development</h3>
+                    <p className="text-blue-800 dark:text-blue-200 text-sm mb-4">Modern React applications with SSR capabilities</p>
+                    <Button variant="outline" size="sm" asChild className="hover:bg-blue-100 dark:hover:bg-blue-900/30">
                       <Link href={`/services/${categorySlug}/reactjs-development`}>Learn More</Link>
                     </Button>
                   </CardContent>
                 </Card>
-                <Card className="hover:shadow-lg transition-shadow duration-300">
+                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/20 dark:to-green-900/20">
                   <CardContent className="p-6 text-center">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">SEO Optimization</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Comprehensive SEO strategies and implementation</p>
-                    <Button variant="outline" size="sm" asChild>
+                    <div className="w-14 h-14 bg-gradient-to-r from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Target className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-emerald-900 dark:text-emerald-100 mb-2">SEO Optimization</h3>
+                    <p className="text-emerald-800 dark:text-emerald-200 text-sm mb-4">Comprehensive SEO strategies and implementation</p>
+                    <Button variant="outline" size="sm" asChild className="hover:bg-emerald-100 dark:hover:bg-emerald-900/30">
                       <Link href="/services/digital-marketing/seo-optimization">Learn More</Link>
                     </Button>
                   </CardContent>
                 </Card>
-                <Card className="hover:shadow-lg transition-shadow duration-300">
+                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20">
                   <CardContent className="p-6 text-center">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Performance Optimization</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Website speed and performance enhancement</p>
-                    <Button variant="outline" size="sm" asChild>
+                    <div className="w-14 h-14 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Zap className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-violet-900 dark:text-violet-100 mb-2">Performance Optimization</h3>
+                    <p className="text-violet-800 dark:text-violet-200 text-sm mb-4">Website speed and performance enhancement</p>
+                    <Button variant="outline" size="sm" asChild className="hover:bg-violet-100 dark:hover:bg-violet-900/30">
                       <Link href={`/services/${categorySlug}/performance-optimization`}>Learn More</Link>
                     </Button>
                   </CardContent>
@@ -593,35 +603,44 @@ export default function FeatureDetail() {
             <div className="max-w-6xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Related Features</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card className="hover:shadow-lg transition-shadow duration-300">
+                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-orange-50 to-red-100 dark:from-orange-900/20 dark:to-red-900/20">
                   <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Lazy Loading</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl flex items-center justify-center mb-4 shadow-md">
+                      <Lightbulb className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-orange-900 dark:text-orange-100 mb-2">Lazy Loading</h3>
+                    <p className="text-orange-800 dark:text-orange-200 text-sm mb-4 leading-relaxed">
                       Optimize page load times by loading content on demand
                     </p>
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full hover:bg-orange-100 dark:hover:bg-orange-900/30">
                       Learn More
                     </Button>
                   </CardContent>
                 </Card>
-                <Card className="hover:shadow-lg transition-shadow duration-300">
+                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-teal-50 to-cyan-100 dark:from-teal-900/20 dark:to-cyan-900/20">
                   <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">CDN Integration</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-xl flex items-center justify-center mb-4 shadow-md">
+                      <Server className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-teal-900 dark:text-teal-100 mb-2">CDN Integration</h3>
+                    <p className="text-teal-800 dark:text-teal-200 text-sm mb-4 leading-relaxed">
                       Global content delivery for maximum performance
                     </p>
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full hover:bg-teal-100 dark:hover:bg-teal-900/30">
                       Learn More
                     </Button>
                   </CardContent>
                 </Card>
-                <Card className="hover:shadow-lg transition-shadow duration-300">
+                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-rose-50 to-pink-100 dark:from-rose-900/20 dark:to-pink-900/20">
                   <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Code Splitting</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                    <div className="w-12 h-12 bg-gradient-to-r from-rose-500 to-pink-600 rounded-xl flex items-center justify-center mb-4 shadow-md">
+                      <Settings className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-rose-900 dark:text-rose-100 mb-2">Code Splitting</h3>
+                    <p className="text-rose-800 dark:text-rose-200 text-sm mb-4 leading-relaxed">
                       Efficient code bundling for faster application loading
                     </p>
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full hover:bg-rose-100 dark:hover:bg-rose-900/30">
                       Learn More
                     </Button>
                   </CardContent>

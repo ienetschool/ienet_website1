@@ -30,7 +30,8 @@ import {
   Settings,
   Zap,
   Wrench,
-  Lightbulb
+  Lightbulb,
+  DollarSign
 } from "lucide-react";
 
 const iconMap = {
@@ -645,21 +646,66 @@ export default function ServiceDetail() {
           </div>
         </section>
 
+        {/* Pricing & Engagement */}
+        <section className="py-16 bg-white dark:bg-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Pricing & Engagement</h2>
+              <Card className="border-none shadow-xl bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100 dark:from-blue-900/30 dark:via-indigo-900/30 dark:to-purple-900/30 overflow-hidden">
+                <CardContent className="p-10">
+                  <div className="flex items-center justify-center mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
+                      <DollarSign className="text-white" size={28} />
+                    </div>
+                    <div className="text-left">
+                      <span className="text-3xl font-bold text-blue-900 dark:text-blue-100 block">Starting at $5,000</span>
+                      <span className="text-blue-700 dark:text-blue-200 text-sm">Comprehensive Service Package</span>
+                    </div>
+                  </div>
+                  <div className="bg-white/60 dark:bg-black/20 rounded-xl p-6 mb-6 border border-blue-200/50 dark:border-blue-700/50">
+                    <p className="text-blue-800 dark:text-blue-200 leading-relaxed">
+                      Professional {category.name.toLowerCase()} solutions tailored to your business needs. We provide comprehensive packages with transparent pricing and detailed project timelines.
+                    </p>
+                  </div>
+                  <div className="grid md:grid-cols-3 gap-4 mb-8">
+                    <div className="bg-white/40 dark:bg-black/30 rounded-lg p-4 border border-indigo-200/50 dark:border-indigo-700/50">
+                      <h4 className="font-bold text-indigo-900 dark:text-indigo-100 mb-1">Starter</h4>
+                      <p className="text-indigo-800 dark:text-indigo-200 text-sm">4-6 weeks</p>
+                    </div>
+                    <div className="bg-white/40 dark:bg-black/30 rounded-lg p-4 border border-blue-200/50 dark:border-blue-700/50">
+                      <h4 className="font-bold text-blue-900 dark:text-blue-100 mb-1">Professional</h4>
+                      <p className="text-blue-800 dark:text-blue-200 text-sm">8-12 weeks</p>
+                    </div>
+                    <div className="bg-white/40 dark:bg-black/30 rounded-lg p-4 border border-purple-200/50 dark:border-purple-700/50">
+                      <h4 className="font-bold text-purple-900 dark:text-purple-100 mb-1">Enterprise</h4>
+                      <p className="text-purple-800 dark:text-purple-200 text-sm">12+ weeks</p>
+                    </div>
+                  </div>
+                  <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg">
+                    Get Custom Quote
+                    <ArrowRight className="ml-2" size={16} />
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
         {/* Bottom CTA Section */}
-        <section className="py-16 bg-primary text-white">
+        <section className="py-16 bg-gradient-to-br from-slate-900 via-gray-800 to-slate-900 text-white">
           <div className="container mx-auto px-6 text-center">
             <h2 className="text-3xl font-bold mb-4">
               Ready to Get Started?
             </h2>
-            <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
               Let's discuss how our {category.name.toLowerCase()} solutions can help transform your business and drive growth.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary">
+              <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg">
                 Get Started Today
                 <ArrowRight className="ml-2" size={16} />
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button size="lg" variant="outline" className="border-gray-300 text-white hover:bg-white hover:text-gray-900" asChild>
                 <Link href="/projects">
                   View Our Portfolio
                 </Link>

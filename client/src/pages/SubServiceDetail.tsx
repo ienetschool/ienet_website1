@@ -482,36 +482,42 @@ export default function SubServiceDetail() {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Client Success Story</h2>
-              <Card className="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-gray-800 dark:to-gray-700 border-none">
+              <Card className="border-none shadow-xl bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-100 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-pink-900/30">
                 <CardContent className="p-8">
-                  <div className="flex items-start space-x-4 mb-6">
-                    <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  <div className="flex items-start space-x-6 mb-8">
+                    <div className="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg">
                       {service.name.charAt(0)}
                     </div>
                     <div>
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-white">TechCorp Solutions</h3>
-                      <p className="text-gray-600 dark:text-gray-400">Enterprise Client</p>
+                      <h3 className="text-2xl font-bold text-indigo-900 dark:text-indigo-100">TechCorp Solutions</h3>
+                      <p className="text-indigo-700 dark:text-indigo-200 font-medium">Enterprise Client</p>
                     </div>
                   </div>
-                  <div className="grid md:grid-cols-3 gap-6">
-                    <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Challenge:</h4>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm">
-                        Needed to modernize their existing system to improve performance and user experience.
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Solution:</h4>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm">
-                        Implemented our {service.name.toLowerCase()} solution with custom features and optimization.
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Outcome:</h4>
-                      <p className="text-gray-600 dark:text-gray-300 text-sm">
-                        300% performance improvement and 95% user satisfaction rate.
-                      </p>
-                    </div>
+                  <div className="grid md:grid-cols-3 gap-8">
+                    <Card className="bg-white/60 dark:bg-black/20 border border-indigo-200/50 dark:border-indigo-700/50 shadow-md">
+                      <CardContent className="p-6">
+                        <h4 className="font-bold text-indigo-900 dark:text-indigo-100 mb-3 text-lg">Challenge:</h4>
+                        <p className="text-indigo-800 dark:text-indigo-200 text-sm leading-relaxed">
+                          Needed to modernize their existing system to improve performance and user experience.
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-white/60 dark:bg-black/20 border border-purple-200/50 dark:border-purple-700/50 shadow-md">
+                      <CardContent className="p-6">
+                        <h4 className="font-bold text-purple-900 dark:text-purple-100 mb-3 text-lg">Solution:</h4>
+                        <p className="text-purple-800 dark:text-purple-200 text-sm leading-relaxed">
+                          Implemented our {service.name.toLowerCase()} solution with custom features and optimization.
+                        </p>
+                      </CardContent>
+                    </Card>
+                    <Card className="bg-white/60 dark:bg-black/20 border border-pink-200/50 dark:border-pink-700/50 shadow-md">
+                      <CardContent className="p-6">
+                        <h4 className="font-bold text-pink-900 dark:text-pink-100 mb-3 text-lg">Outcome:</h4>
+                        <p className="text-pink-800 dark:text-pink-200 text-sm leading-relaxed">
+                          300% performance improvement and 95% user satisfaction rate.
+                        </p>
+                      </CardContent>
+                    </Card>
                   </div>
                 </CardContent>
               </Card>
@@ -565,19 +571,42 @@ export default function SubServiceDetail() {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Pricing & Engagement</h2>
-              <div className="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-gray-800 dark:to-gray-700 rounded-lg p-8">
-                <div className="flex items-center justify-center mb-4">
-                  <DollarSign className="text-primary mr-2" size={32} />
-                  <span className="text-2xl font-bold text-gray-900 dark:text-white">Starting at $2,500</span>
-                </div>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  Custom pricing based on project scope and requirements. Contact us for a detailed quote.
-                </p>
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
-                  Get Custom Quote
-                  <ArrowRight className="ml-2" size={16} />
-                </Button>
-              </div>
+              <Card className="border-none shadow-xl bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-100 dark:from-emerald-900/30 dark:via-teal-900/30 dark:to-cyan-900/30 overflow-hidden">
+                <CardContent className="p-10">
+                  <div className="flex items-center justify-center mb-6">
+                    <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
+                      <DollarSign className="text-white" size={28} />
+                    </div>
+                    <div className="text-left">
+                      <span className="text-3xl font-bold text-emerald-900 dark:text-emerald-100 block">Starting at $2,500</span>
+                      <span className="text-emerald-700 dark:text-emerald-200 text-sm">Professional Implementation</span>
+                    </div>
+                  </div>
+                  <div className="bg-white/60 dark:bg-black/20 rounded-xl p-6 mb-6 border border-emerald-200/50 dark:border-emerald-700/50">
+                    <p className="text-emerald-800 dark:text-emerald-200 leading-relaxed">
+                      Custom pricing based on project scope and requirements. We provide transparent quotes with detailed breakdown of all deliverables and timeline.
+                    </p>
+                  </div>
+                  <div className="grid md:grid-cols-3 gap-4 mb-8">
+                    <div className="bg-white/40 dark:bg-black/30 rounded-lg p-4 border border-teal-200/50 dark:border-teal-700/50">
+                      <h4 className="font-bold text-teal-900 dark:text-teal-100 mb-1">Basic</h4>
+                      <p className="text-teal-800 dark:text-teal-200 text-sm">2-4 weeks</p>
+                    </div>
+                    <div className="bg-white/40 dark:bg-black/30 rounded-lg p-4 border border-emerald-200/50 dark:border-emerald-700/50">
+                      <h4 className="font-bold text-emerald-900 dark:text-emerald-100 mb-1">Advanced</h4>
+                      <p className="text-emerald-800 dark:text-emerald-200 text-sm">4-8 weeks</p>
+                    </div>
+                    <div className="bg-white/40 dark:bg-black/30 rounded-lg p-4 border border-cyan-200/50 dark:border-cyan-700/50">
+                      <h4 className="font-bold text-cyan-900 dark:text-cyan-100 mb-1">Enterprise</h4>
+                      <p className="text-cyan-800 dark:text-cyan-200 text-sm">8+ weeks</p>
+                    </div>
+                  </div>
+                  <Button size="lg" className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 shadow-lg">
+                    Get Custom Quote
+                    <ArrowRight className="ml-2" size={16} />
+                  </Button>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </section>

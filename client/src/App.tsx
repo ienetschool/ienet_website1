@@ -14,11 +14,15 @@ import SubServiceDetail from "@/pages/SubServiceDetail";
 import FeatureDetail from "@/pages/FeatureDetail";
 import Projects from "@/pages/Projects";
 import ProjectDetail from "@/pages/ProjectDetail";
+import Industries from "@/pages/Industries";
 import Contact from "@/pages/Contact";
 import About from "@/pages/About";
 import FAQ from "@/pages/FAQ";
 import Pricing from "@/pages/Pricing";
 import Blog from "@/pages/Blog";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfService from "@/pages/TermsOfService"; 
+import Careers from "@/pages/Careers";
 import Dashboard from "@/pages/admin/Dashboard";
 
 function Router() {
@@ -35,11 +39,15 @@ function Router() {
           <Route path="/services/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
           <Route path="/projects" component={Projects} />
           <Route path="/projects/:slug" component={ProjectDetail} />
+          <Route path="/industries" component={Industries} />
           <Route path="/contact" component={Contact} />
           <Route path="/about" component={About} />
           <Route path="/faq" component={FAQ} />
           <Route path="/pricing" component={Pricing} />
           <Route path="/blog" component={Blog} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/terms-of-service" component={TermsOfService} />
+          <Route path="/careers" component={Careers} />
         </>
       ) : (
         <>
@@ -50,11 +58,15 @@ function Router() {
           <Route path="/services/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
           <Route path="/projects" component={Projects} />
           <Route path="/projects/:slug" component={ProjectDetail} />
+          <Route path="/industries" component={Industries} />
           <Route path="/contact" component={Contact} />
           <Route path="/about" component={About} />
           <Route path="/faq" component={FAQ} />
           <Route path="/pricing" component={Pricing} />
           <Route path="/blog" component={Blog} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/terms-of-service" component={TermsOfService} />
+          <Route path="/careers" component={Careers} />
           <Route path="/admin" component={Dashboard} />
         </>
       )}

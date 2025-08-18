@@ -128,3 +128,30 @@ export const generateServiceAreaSchema = (serviceName: string, serviceDescriptio
     }
   };
 };
+
+interface LocalSEOProps {
+  serviceArea: string;
+  services?: string[];
+}
+
+export default function LocalSEO({ serviceArea, services = [] }: LocalSEOProps) {
+  const businessSchema = generateLocalBusinessSchema();
+  const serviceSchema = generateServiceAreaSchema(serviceArea, `Professional ${serviceArea.toLowerCase()} services with comprehensive solutions.`);
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(businessSchema),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(serviceSchema),
+        }}
+      />
+    </>
+  );
+}

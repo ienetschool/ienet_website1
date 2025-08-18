@@ -84,7 +84,7 @@ export default function Header() {
             <div className="w-10 h-10 bg-gradient-to-br from-primary to-primary-foreground rounded-lg flex items-center justify-center">
               <Network className="text-white" size={20} />
             </div>
-            <span className="text-2xl font-bold text-gray-900 dark:text-white">IeNet</span>
+            <span className="text-2xl font-bold text-white dark:text-white">IeNet</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -92,7 +92,7 @@ export default function Header() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm">
+                  <NavigationMenuTrigger className="text-white dark:text-white hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm">
                     Services
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -132,40 +132,15 @@ export default function Header() {
               </NavigationMenuList>
             </NavigationMenu>
 
-            <Link href="/projects" className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200">
+            <Link href="/projects" className="text-white dark:text-white hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200">
               Projects
             </Link>
-            <Link href="/about" className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200">
+            <Link href="/about" className="text-white dark:text-white hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200">
               About
             </Link>
-            <Link href="/contact" className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200 flex items-center space-x-2">
+            <Link href="/contact" className="text-white dark:text-white hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200 flex items-center">
               <MessageCircle size={16} />
-              <span>Get in Touch</span>
             </Link>
-
-            {/* Auth buttons */}
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                {user?.role === 'admin' || user?.role === 'editor' ? (
-                  <Link href="/admin">
-                    <Button variant="outline" size="sm">
-                      <User size={16} className="mr-2" />
-                      Admin
-                    </Button>
-                  </Link>
-                ) : null}
-                <Button variant="outline" size="sm" asChild>
-                  <a href="/api/logout">
-                    <LogOut size={16} className="mr-2" />
-                    Logout
-                  </a>
-                </Button>
-              </div>
-            ) : (
-              <Button variant="outline" size="sm" asChild>
-                <a href="/api/login">Login</a>
-              </Button>
-            )}
 
             {/* Theme toggle */}
             <Button
@@ -224,11 +199,10 @@ export default function Header() {
                   </Link>
                   <Link 
                     href="/contact"
-                    className="block text-lg font-medium flex items-center space-x-2"
+                    className="block text-lg font-medium flex items-center"
                     onClick={() => setIsOpen(false)}
                   >
                     <MessageCircle size={18} />
-                    <span>Get in Touch</span>
                   </Link>
                   
                   {isAuthenticated ? (

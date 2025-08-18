@@ -28,6 +28,7 @@ import AdminDashboard from "@/pages/AdminDashboard";
 import PerformanceDashboard from "@/pages/PerformanceDashboard";
 import ComprehensiveDashboard from "@/pages/ComprehensiveDashboard";
 import DashboardHelper from "@/pages/DashboardHelper";
+import PageBuilder from "@/pages/dashboard/PageBuilder";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -55,6 +56,7 @@ function Router() {
           <Route path="/sitemap-viewer" component={SitemapViewer} />
           <Route path="/performance" component={PerformanceDashboard} />
           <Route path="/admin" component={AdminDashboard} />
+          <Route path="/page-builder" component={PageBuilder} />
           <Route path="/dashboard" component={ComprehensiveDashboard} />
           <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />
         </>
@@ -79,6 +81,7 @@ function Router() {
           <Route path="/sitemap-viewer" component={SitemapViewer} />
           <Route path="/performance" component={PerformanceDashboard} />
           <Route path="/admin" component={AdminDashboard} />
+          <Route path="/page-builder" component={PageBuilder} />
           <Route path="/dashboard" component={ComprehensiveDashboard} />
           <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />
         </>

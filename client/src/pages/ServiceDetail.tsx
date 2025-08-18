@@ -255,13 +255,13 @@ export default function ServiceDetail() {
                     Comprehensive {category.name} Solutions
                   </h2>
                   <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                    Our {category.name.toLowerCase()} expertise spans the full spectrum of modern technology solutions. 
+                    Our {category.name?.toLowerCase() || 'technology'} expertise spans the full spectrum of modern technology solutions. 
                     We combine industry best practices with innovative approaches to deliver results that exceed expectations 
                     and provide measurable business value.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
                     From strategic planning and architecture design to implementation and ongoing optimization, 
-                    our team ensures your {category.name.toLowerCase()} initiatives align with your business goals 
+                    our team ensures your {category.name?.toLowerCase() || 'technology'} initiatives align with your business goals 
                     and drive sustainable growth.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4">

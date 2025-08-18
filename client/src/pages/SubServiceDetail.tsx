@@ -47,8 +47,9 @@ export default function SubServiceDetail() {
   });
 
   const { data: features } = useQuery({
-    queryKey: ['/api/features', serviceSlug],
-    queryFn: () => fetch(`/api/features?serviceSlug=${serviceSlug}`).then(res => res.json()),
+    queryKey: ['/api/features', service?.id],
+    queryFn: () => service?.id ? fetch(`/api/features?serviceId=${service.id}`).then(res => res.json()) : Promise.resolve([]),
+    enabled: !!service?.id,
   });
 
   const { data: relatedProjects } = useQuery({
@@ -297,13 +298,13 @@ export default function SubServiceDetail() {
                     Professional {service.name} Implementation
                   </h2>
                   <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                    Our {service.name.toLowerCase()} service combines technical excellence with business acumen to deliver 
+                    Our {service.name?.toLowerCase() || 'professional'} service combines technical excellence with business acumen to deliver 
                     solutions that not only meet your immediate needs but also provide a foundation for future growth. 
                     We understand that every business has unique requirements, and our approach is tailored accordingly.
                   </p>
                   <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
                     From initial consultation through deployment and ongoing support, our team ensures that your 
-                    {' '}{service.name.toLowerCase()} implementation follows industry best practices, incorporates the latest 
+                    {' '}{service.name?.toLowerCase() || 'service'} implementation follows industry best practices, incorporates the latest 
                     technologies, and delivers measurable business value. We work closely with your team to ensure 
                     seamless integration with existing systems and processes.
                   </p>

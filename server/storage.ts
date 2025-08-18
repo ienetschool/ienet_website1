@@ -136,13 +136,19 @@ export class DatabaseStorage implements IStorage {
 
   // Service operations
   async getServices(categoryId?: number): Promise<Service[]> {
-    const query = db.select().from(services).where(eq(services.isActive, true));
-    
     if (categoryId) {
-      query.where(and(eq(services.isActive, true), eq(services.categoryId, categoryId)));
+      return await db
+        .select()
+        .from(services)
+        .where(and(eq(services.isActive, true), eq(services.categoryId, categoryId)))
+        .orderBy(asc(services.sortOrder), asc(services.name));
     }
     
-    return await query.orderBy(asc(services.sortOrder), asc(services.name));
+    return await db
+      .select()
+      .from(services)
+      .where(eq(services.isActive, true))
+      .orderBy(asc(services.sortOrder), asc(services.name));
   }
 
   async getService(categorySlug: string, serviceSlug: string): Promise<Service | undefined> {
@@ -186,18 +192,41 @@ export class DatabaseStorage implements IStorage {
 
   // Feature operations
   async getFeatures(serviceId?: number): Promise<Feature[]> {
-    const query = db.select().from(features).where(eq(features.isActive, true));
-    
     if (serviceId) {
-      query.where(and(eq(features.isActive, true), eq(features.serviceId, serviceId)));
+      return await db
+        .select()
+        .from(features)
+        .where(and(eq(features.isActive, true), eq(features.serviceId, serviceId)))
+        .orderBy(asc(features.sortOrder), asc(features.name));
     }
     
-    return await query.orderBy(asc(features.sortOrder), asc(features.name));
+    return await db
+      .select()
+      .from(features)
+      .where(eq(features.isActive, true))
+      .orderBy(asc(features.sortOrder), asc(features.name));
   }
 
   async getFeature(categorySlug: string, serviceSlug: string, featureSlug: string): Promise<Feature | undefined> {
-    const [feature] = await db
-      .select()
+    const [result] = await db
+      .select({
+        id: features.id,
+        serviceId: features.serviceId,
+        name: features.name,
+        slug: features.slug,
+        description: features.description,
+        metaTitle: features.metaTitle,
+        metaDescription: features.metaDescription,
+        content: features.content,
+        technicalDetails: features.technicalDetails,
+        businessValue: features.businessValue,
+        tags: features.tags,
+        benefits: features.benefits,
+        isActive: features.isActive,
+        sortOrder: features.sortOrder,
+        createdAt: features.createdAt,
+        updatedAt: features.updatedAt
+      })
       .from(features)
       .innerJoin(services, eq(features.serviceId, services.id))
       .innerJoin(serviceCategories, eq(services.categoryId, serviceCategories.id))
@@ -211,7 +240,7 @@ export class DatabaseStorage implements IStorage {
           eq(serviceCategories.isActive, true)
         )
       );
-    return feature?.features;
+    return result;
   }
 
   async getFeatureById(id: number): Promise<Feature | undefined> {
@@ -239,13 +268,19 @@ export class DatabaseStorage implements IStorage {
 
   // Project operations
   async getProjects(featured?: boolean): Promise<Project[]> {
-    let query = db.select().from(projects).where(eq(projects.isActive, true));
-    
     if (featured !== undefined) {
-      query = query.where(and(eq(projects.isActive, true), eq(projects.isFeatured, featured)));
+      return await db
+        .select()
+        .from(projects)
+        .where(and(eq(projects.isActive, true), eq(projects.isFeatured, featured)))
+        .orderBy(asc(projects.sortOrder), desc(projects.createdAt));
     }
     
-    return await query.orderBy(asc(projects.sortOrder), desc(projects.createdAt));
+    return await db
+      .select()
+      .from(projects)
+      .where(eq(projects.isActive, true))
+      .orderBy(asc(projects.sortOrder), desc(projects.createdAt));
   }
 
   async getProject(slug: string): Promise<Project | undefined> {
@@ -281,13 +316,18 @@ export class DatabaseStorage implements IStorage {
 
   // Enquiry operations
   async getEnquiries(status?: string): Promise<Enquiry[]> {
-    let query = db.select().from(enquiries);
-    
     if (status) {
-      query = query.where(eq(enquiries.status, status));
+      return await db
+        .select()
+        .from(enquiries)
+        .where(eq(enquiries.status, status))
+        .orderBy(desc(enquiries.createdAt));
     }
     
-    return await query.orderBy(desc(enquiries.createdAt));
+    return await db
+      .select()
+      .from(enquiries)
+      .orderBy(desc(enquiries.createdAt));
   }
 
   async getEnquiry(id: number): Promise<Enquiry | undefined> {

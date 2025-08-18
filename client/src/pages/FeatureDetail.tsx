@@ -270,7 +270,7 @@ export default function FeatureDetail() {
                 {feature.name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-purple-800">Feature</span>
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                {feature.description || `Advanced ${feature.name.toLowerCase()} capabilities designed to enhance your ${service.name.toLowerCase()} implementation with professional-grade features and comprehensive functionality.`}
+                {feature.description || `Advanced ${feature.name?.toLowerCase() || 'feature'} capabilities designed to enhance your ${service.name?.toLowerCase() || 'service'} implementation with professional-grade features and comprehensive functionality.`}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700">

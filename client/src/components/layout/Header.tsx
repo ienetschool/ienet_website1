@@ -147,6 +147,7 @@ export default function Header() {
               variant="outline"
               size="sm"
               onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              className="text-white border-white/30 hover:bg-white/10"
             >
               <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -160,6 +161,7 @@ export default function Header() {
               variant="outline"
               size="sm"
               onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              className="text-white border-white/30 hover:bg-white/10"
             >
               <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
               <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
@@ -204,31 +206,6 @@ export default function Header() {
                   >
                     <MessageCircle size={18} />
                   </Link>
-                  
-                  {isAuthenticated ? (
-                    <div className="space-y-4 pt-4 border-t">
-                      {user?.role === 'admin' || user?.role === 'editor' ? (
-                        <Link href="/admin" onClick={() => setIsOpen(false)}>
-                          <Button variant="outline" className="w-full">
-                            <User size={16} className="mr-2" />
-                            Admin Dashboard
-                          </Button>
-                        </Link>
-                      ) : null}
-                      <Button variant="outline" className="w-full" asChild>
-                        <a href="/api/logout">
-                          <LogOut size={16} className="mr-2" />
-                          Logout
-                        </a>
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="pt-4 border-t">
-                      <Button variant="outline" className="w-full" asChild>
-                        <a href="/api/login">Login</a>
-                      </Button>
-                    </div>
-                  )}
                 </div>
               </SheetContent>
             </Sheet>

@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "wouter";
 import { 
-  Zap, 
   Mail, 
   Phone, 
   MapPin, 
@@ -37,10 +36,10 @@ const services = [
 ];
 
 const socialLinks = [
-  { icon: Facebook, href: 'https://facebook.com/ieNet', label: 'Facebook' },
-  { icon: Twitter, href: 'https://twitter.com/ieNet', label: 'Twitter' },
-  { icon: Linkedin, href: 'https://linkedin.com/company/ieNet', label: 'LinkedIn' },
-  { icon: Youtube, href: 'https://youtube.com/ieNet', label: 'YouTube' }
+  { icon: Facebook, href: 'https://facebook.com/IndiaEspectacular', label: 'Facebook' },
+  { icon: Twitter, href: 'https://twitter.com/IndiaEspectacular', label: 'Twitter' },
+  { icon: Linkedin, href: 'https://linkedin.com/company/IndiaEspectacular', label: 'LinkedIn' },
+  { icon: Youtube, href: 'https://youtube.com/IndiaEspectacular', label: 'YouTube' }
 ];
 
 const paymentMethods = [
@@ -73,38 +72,41 @@ export default function ModernFooter() {
             {/* Company Overview */}
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-                  <Zap className="text-white" size={28} />
+                <div className="w-10 h-10 rounded-xl overflow-hidden">
+                  <img 
+                    src="/assets/IE vector logo-01_1755535165852.png" 
+                    alt="India Espectacular Logo" 
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold">IeNet</h3>
-                  <p className="text-gray-400 text-sm">IT Solutions</p>
+                  <h3 className="text-xl font-bold text-white">India Espectacular</h3>
+                  <p className="text-sm text-gray-400">IT & Business Solutions</p>
                 </div>
               </div>
               
-              <p className="text-gray-300 leading-relaxed mb-6">
-                Leading technology solutions provider specializing in enterprise software development, 
-                cybersecurity, cloud infrastructure, and digital transformation services.
+              <p className="text-gray-300 mb-6 leading-relaxed">
+                Leading provider of comprehensive IT and business solutions, delivering innovative technology services to transform businesses across all industries.
               </p>
-
-              {/* Contact Info */}
+              
+              {/* Contact Information */}
               <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <MapPin className="text-primary flex-shrink-0" size={18} />
+                <div className="flex items-center gap-3">
+                  <MapPin className="h-5 w-5 text-primary flex-shrink-0" />
                   <span className="text-gray-300 text-sm">
-                    123 Technology Drive, Innovation City, TC 12345
+                    Sandy Babb Street, Kitty, Georgetown, Guyana
                   </span>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <Phone className="text-primary flex-shrink-0" size={18} />
-                  <a href="tel:+15551234567" className="text-gray-300 hover:text-primary transition-colors duration-200 text-sm">
-                    +1 (555) 123-4567
+                <div className="flex items-center gap-3">
+                  <Mail className="h-5 w-5 text-primary flex-shrink-0" />
+                  <a href="mailto:info.indiaespectacular@gmail.com" className="text-gray-300 text-sm hover:text-primary transition-colors">
+                    info.indiaespectacular@gmail.com
                   </a>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <Mail className="text-primary flex-shrink-0" size={18} />
-                  <a href="mailto:contact@ieNet.com" className="text-gray-300 hover:text-primary transition-colors duration-200 text-sm">
-                    contact@ieNet.com
+                <div className="flex items-center gap-3">
+                  <Phone className="h-5 w-5 text-primary flex-shrink-0" />
+                  <a href="tel:+5927503901" className="text-gray-300 text-sm hover:text-primary transition-colors">
+                    +592 750-3901
                   </a>
                 </div>
               </div>
@@ -154,30 +156,21 @@ export default function ModernFooter() {
                   </li>
                 ))}
               </ul>
-              
-              <div className="mt-6">
-                <Link href="/services">
-                  <Button variant="outline" size="sm" className="border-gray-600 text-gray-300 hover:bg-primary hover:border-primary hover:text-white">
-                    View All Services
-                  </Button>
-                </Link>
-              </div>
             </div>
 
-            {/* Connect & Payment */}
+            {/* Contact & Social */}
             <div>
               <h4 className="text-lg font-semibold mb-6">Connect With Us</h4>
               
-              {/* Social Media */}
-              <div className="flex space-x-4 mb-8">
+              {/* Social Media Links */}
+              <div className="flex space-x-4 mb-6">
                 {socialLinks.map((social) => (
-                  <a
+                  <a 
                     key={social.label}
-                    href={social.href}
-                    target="_blank"
+                    href={social.href} 
+                    target="_blank" 
                     rel="noopener noreferrer"
-                    className="w-10 h-10 bg-gray-800 hover:bg-primary rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110"
-                    aria-label={social.label}
+                    className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-primary transition-all duration-300 hover:scale-110"
                   >
                     <social.icon size={18} />
                   </a>
@@ -186,37 +179,13 @@ export default function ModernFooter() {
 
               {/* Payment Methods */}
               <div>
-                <h5 className="text-sm font-medium mb-4 text-gray-400">Payment Methods</h5>
+                <h5 className="text-sm font-semibold mb-3">We Accept</h5>
                 <div className="grid grid-cols-3 gap-2">
-                  {paymentMethods.map((method) => (
-                    <div
-                      key={method.name}
-                      className="bg-gray-800 rounded-lg p-3 text-center hover:bg-gray-700 transition-colors duration-200"
-                      title={method.name}
-                    >
-                      <div className="text-lg mb-1">{method.icon}</div>
-                      <div className="text-xs text-gray-400">{method.name}</div>
+                  {paymentMethods.map((method, index) => (
+                    <div key={index} className="bg-gray-800 rounded px-2 py-1 text-center">
+                      <span className="text-xs text-gray-400">{method.name}</span>
                     </div>
                   ))}
-                </div>
-              </div>
-
-              {/* Business Hours */}
-              <div className="mt-6 p-4 bg-gray-800 rounded-lg">
-                <h5 className="text-sm font-medium mb-2 text-gray-400">Business Hours</h5>
-                <div className="space-y-1 text-xs text-gray-300">
-                  <div className="flex justify-between">
-                    <span>Mon - Fri:</span>
-                    <span>9:00 AM - 6:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Saturday:</span>
-                    <span>10:00 AM - 4:00 PM</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Emergency:</span>
-                    <span className="text-emerald-400">24/7 Available</span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -224,29 +193,26 @@ export default function ModernFooter() {
         </div>
 
         <Separator className="bg-gray-800" />
-
-        {/* Footer Bottom */}
-        <div className="container mx-auto px-6 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-center md:text-left">
-              <p className="text-gray-400 text-sm">
-                © {currentYear} IeNet. All Rights Reserved.
-              </p>
-              <p className="text-gray-500 text-xs mt-1">
-                Built with excellence in innovation and security.
-              </p>
-            </div>
-
-            <div className="flex items-center space-x-6">
-              {/* Trust Indicators */}
-              <div className="flex items-center space-x-4 text-xs text-gray-500">
-                <div className="flex items-center space-x-1">
-                  <CreditCard size={14} />
-                  <span>Secure Payments</span>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <Shield size={14} />
-                  <span>SSL Protected</span>
+        
+        {/* Bottom Footer */}
+        <div className="bg-gray-950">
+          <div className="container mx-auto px-6 py-4">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              <div className="flex items-center space-x-6 mb-4 md:mb-0">
+                <p className="text-gray-400 text-sm">
+                  © {currentYear} India Espectacular. All rights reserved.
+                </p>
+                
+                {/* Trust Indicators */}
+                <div className="flex items-center space-x-4 text-xs text-gray-500">
+                  <div className="flex items-center space-x-1">
+                    <CreditCard size={14} />
+                    <span>Secure Payments</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Shield size={14} />
+                    <span>SSL Protected</span>
+                  </div>
                 </div>
               </div>
 

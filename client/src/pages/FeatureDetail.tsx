@@ -239,7 +239,7 @@ export default function FeatureDetail() {
                   <Target className="h-12 w-12 text-primary" />
                 </div>
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-rose-700 via-pink-600 to-purple-700 dark:from-rose-400 dark:via-pink-400 dark:to-purple-400 bg-clip-text text-transparent">
                 {feature.name}
               </h1>
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
@@ -253,7 +253,7 @@ export default function FeatureDetail() {
         <section className="py-20 bg-gradient-to-br from-sky-50 to-indigo-50 dark:from-sky-900 dark:to-indigo-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-sky-600 to-indigo-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-rose-700 to-pink-800 dark:from-slate-200 dark:via-rose-300 dark:to-pink-200 bg-clip-text text-transparent">
                 Feature Overview
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -333,7 +333,7 @@ export default function FeatureDetail() {
         <section className="py-20 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900 dark:to-amber-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-orange-700 to-amber-800 dark:from-slate-200 dark:via-orange-300 dark:to-amber-200 bg-clip-text text-transparent">
                 Feature Information
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -379,7 +379,7 @@ export default function FeatureDetail() {
         <section className="py-20 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-900 dark:to-pink-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-rose-700 to-pink-800 dark:from-slate-200 dark:via-rose-300 dark:to-pink-200 bg-clip-text text-transparent">
                 Why {feature.name} Matters
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -434,7 +434,7 @@ export default function FeatureDetail() {
         <section className="py-20 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900 dark:to-cyan-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-teal-700 to-cyan-800 dark:from-slate-200 dark:via-teal-300 dark:to-cyan-200 bg-clip-text text-transparent">
                 Use Cases
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -465,7 +465,7 @@ export default function FeatureDetail() {
         <section className="py-20 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900 dark:to-yellow-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-amber-700 to-yellow-800 dark:from-slate-200 dark:via-amber-300 dark:to-yellow-200 bg-clip-text text-transparent">
                 Our Implementation
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -524,7 +524,7 @@ export default function FeatureDetail() {
         <section className="py-20 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-indigo-700 to-purple-800 dark:from-slate-200 dark:via-indigo-300 dark:to-purple-200 bg-clip-text text-transparent">
                 Related Services
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -565,7 +565,7 @@ export default function FeatureDetail() {
         <section className="py-20 bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-900 dark:to-rose-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-pink-700 to-rose-800 dark:from-slate-200 dark:via-pink-300 dark:to-rose-200 bg-clip-text text-transparent">
                 Related Features
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">

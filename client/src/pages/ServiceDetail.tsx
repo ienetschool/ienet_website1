@@ -250,7 +250,7 @@ export default function ServiceDetail() {
             </Breadcrumb>
 
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-700 via-purple-600 to-indigo-700 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
                 {category.name}
               </h1>
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
@@ -275,7 +275,7 @@ export default function ServiceDetail() {
         <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-blue-700 to-indigo-800 dark:from-slate-200 dark:via-blue-300 dark:to-indigo-200 bg-clip-text text-transparent">
                 Service Overview & Expertise
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -335,7 +335,7 @@ export default function ServiceDetail() {
         <section className="py-20 bg-gradient-to-br from-rose-50 to-orange-50 dark:from-rose-900 dark:to-orange-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-rose-600 to-orange-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-rose-700 to-orange-800 dark:from-slate-200 dark:via-rose-300 dark:to-orange-200 bg-clip-text text-transparent">
                 Our {category.name} Services
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -405,7 +405,7 @@ export default function ServiceDetail() {
         <section className="py-20 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Client Success Stories</h2>
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-indigo-700 to-purple-800 dark:from-slate-200 dark:via-indigo-300 dark:to-purple-200 bg-clip-text text-transparent">Client Success Stories</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Real results from our {category.name} implementations</p>
             </div>
             <div className="max-w-4xl mx-auto">
@@ -452,7 +452,7 @@ export default function ServiceDetail() {
         <section className="py-20 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900 dark:to-cyan-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">Featured Projects & Portfolio</h2>
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-teal-700 to-cyan-800 dark:from-slate-200 dark:via-teal-300 dark:to-cyan-200 bg-clip-text text-transparent">Featured Projects & Portfolio</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Discover how we've helped businesses achieve their goals with our {category.name} solutions
               </p>
@@ -504,7 +504,7 @@ export default function ServiceDetail() {
         <section className="py-20 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900 dark:to-yellow-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">Pricing & Engagement Models</h2>
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-amber-700 to-yellow-800 dark:from-slate-200 dark:via-amber-300 dark:to-yellow-200 bg-clip-text text-transparent">Pricing & Engagement Models</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Flexible pricing options tailored for {category.name} services</p>
             </div>
             <div className="max-w-4xl mx-auto">
@@ -568,7 +568,7 @@ export default function ServiceDetail() {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">Frequently Asked Questions</h2>
+                <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-violet-700 to-purple-800 dark:from-slate-200 dark:via-violet-300 dark:to-purple-200 bg-clip-text text-transparent">Frequently Asked Questions</h2>
                 <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                   Get answers to common questions about our {category.name} services
                 </p>

@@ -192,7 +192,7 @@ export default function SubServiceDetail() {
                 {category?.name}
               </Badge>
               
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              <h1 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-emerald-700 via-teal-600 to-cyan-700 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
                 {service.name}
               </h1>
               
@@ -229,7 +229,7 @@ export default function SubServiceDetail() {
         <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-emerald-700 to-teal-800 dark:from-slate-200 dark:via-emerald-300 dark:to-teal-200 bg-clip-text text-transparent">
                 Professional Approach to {service.name}
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -289,7 +289,7 @@ export default function SubServiceDetail() {
         <section className="py-20 bg-gradient-to-br from-rose-50 to-orange-50 dark:from-rose-900 dark:to-orange-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-rose-600 to-orange-600 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-rose-700 to-orange-800 dark:from-slate-200 dark:via-rose-300 dark:to-orange-200 bg-clip-text text-transparent">
                 Feature Highlights & Capabilities
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -365,7 +365,7 @@ export default function SubServiceDetail() {
         <section className="py-20 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Success Story</h2>
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-indigo-700 to-purple-800 dark:from-slate-200 dark:via-indigo-300 dark:to-purple-200 bg-clip-text text-transparent">Success Story</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Real results from our {service.name} implementation</p>
             </div>
             <div className="max-w-4xl mx-auto">
@@ -412,7 +412,7 @@ export default function SubServiceDetail() {
         <section className="py-20 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900 dark:to-cyan-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">Related Services & Add-ons</h2>
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-teal-700 to-cyan-800 dark:from-slate-200 dark:via-teal-300 dark:to-cyan-200 bg-clip-text text-transparent">Related Services & Add-ons</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Explore our other {category?.name.toLowerCase()} services that complement {service.name}
               </p>
@@ -478,7 +478,7 @@ export default function SubServiceDetail() {
         <section className="py-20 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900 dark:to-yellow-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">Pricing & Engagement Model</h2>
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-amber-700 to-yellow-800 dark:from-slate-200 dark:via-amber-300 dark:to-yellow-200 bg-clip-text text-transparent">Pricing & Engagement Model</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Transparent pricing for {service.name} services</p>
             </div>
             <div className="max-w-4xl mx-auto">
@@ -518,7 +518,7 @@ export default function SubServiceDetail() {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">Frequently Asked Questions</h2>
+                <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-violet-700 to-purple-800 dark:from-slate-200 dark:via-violet-300 dark:to-purple-200 bg-clip-text text-transparent">Frequently Asked Questions</h2>
                 <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                   Get answers to common questions about our {service.name} service
                 </p>

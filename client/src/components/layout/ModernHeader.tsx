@@ -114,15 +114,19 @@ export default function ModernHeader() {
           {/* Logo */}
           <Link href="/">
             <div className="flex items-center space-x-3 cursor-pointer group">
-              <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
-                <Zap className="text-white" size={24} />
+              <div className="w-12 h-12 rounded-xl overflow-hidden transform group-hover:scale-110 transition-transform duration-300">
+                <img 
+                  src="/assets/IE vector logo-01_1755535165852.png" 
+                  alt="India Espectacular Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  IeNet
+                  India Espectacular
                 </h1>
                 <p className="text-xs text-gray-600 dark:text-gray-400 -mt-1">
-                  IT Solutions
+                  IT & Business Solutions
                 </p>
               </div>
             </div>

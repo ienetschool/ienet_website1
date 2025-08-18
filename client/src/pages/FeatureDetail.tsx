@@ -134,19 +134,6 @@ export default function FeatureDetail() {
         description={feature.metaDescription || `Learn about ${feature.name} implementation and benefits. Technical details and use cases for ${service?.name} feature.`}
         canonical={`/features/${categorySlug}/${serviceSlug}/${featureSlug}`}
         keywords={`${feature.name}, ${service?.name}, ${category?.name}, technical implementation, software development, IT solutions`}
-        openGraph={{
-          title: `${feature.name} - ${service?.name} | IeNet`,
-          description: feature.description || `${feature.name} implementation and technical details`,
-          image: '/images/og-feature.jpg',
-          url: `/features/${categorySlug}/${serviceSlug}/${featureSlug}`,
-          type: 'article'
-        }}
-        twitter={{
-          card: 'summary_large_image',
-          title: `${feature.name} - ${service?.name} | IeNet`,
-          description: feature.description || `${feature.name} implementation and technical details`,
-          image: '/images/twitter-feature.jpg'
-        }}
         structuredData={[
           {
             "@context": "https://schema.org",
@@ -471,7 +458,7 @@ export default function FeatureDetail() {
                     Benefits You'll See
                   </h3>
                   <div className="space-y-3">
-                    {(feature.benefits || "Improved performance, Better user experience, Enhanced reliability, Increased efficiency, Future-proof solution").split(', ').map((benefit, index) => (
+                    {(feature.benefits || "Improved performance, Better user experience, Enhanced reliability, Increased efficiency, Future-proof solution").split(', ').map((benefit: string, index: number) => (
                       <div key={index} className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
                         <span className="text-sm">{benefit}</span>
@@ -575,11 +562,20 @@ export default function FeatureDetail() {
                 Ready to implement {feature.name} in your project? Let's discuss your requirements
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="secondary">
+                <Button 
+                  size="lg" 
+                  variant="secondary"
+                  onClick={() => window.location.href = '/contact'}
+                >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Schedule Consultation
                 </Button>
-                <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-primary">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  onClick={() => window.location.href = '/contact'}
+                  className="bg-transparent border-white text-white hover:bg-white hover:text-primary"
+                >
                   <DollarSign className="mr-2 h-5 w-5" />
                   Get Quote
                 </Button>
@@ -598,7 +594,6 @@ export default function FeatureDetail() {
       />
       <LocalSEO 
         serviceArea={`${feature.name} Implementation`}
-        businessType="IT Services"
       />
       <TagSystem 
         tags={[feature.name, service?.name || '', category?.name || '', 'Technical Implementation']}

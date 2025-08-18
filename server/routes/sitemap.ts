@@ -204,7 +204,7 @@ function generateHTMLSitemap(urls: Array<{
             <div class="url-grid">
                 ${categoryUrls.map(item => `
                 <div class="url-item">
-                    <a href="${baseUrl}${item.url}" target="_blank">${item.title}</a>
+                    <a href="${item.url}" target="_self">${item.title}</a>
                     <div class="url-meta">
                         <span>Updated: ${item.lastUpdated}</span>
                         <span class="status ${item.status}">${item.status}</span>

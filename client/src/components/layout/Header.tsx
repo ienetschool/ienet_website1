@@ -75,7 +75,7 @@ export default function Header() {
   const { user, isAuthenticated } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700">
+    <header className="sticky top-0 z-50 bg-white/98 dark:bg-gray-900/98 backdrop-blur-md border-b border-gray-200 dark:border-gray-700 shadow-sm">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -91,7 +91,7 @@ export default function Header() {
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-foreground font-medium">
+                  <NavigationMenuTrigger className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm">
                     Services
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -131,13 +131,13 @@ export default function Header() {
               </NavigationMenuList>
             </NavigationMenu>
 
-            <Link href="/projects" className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-foreground font-medium">
+            <Link href="/projects" className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200">
               Projects
             </Link>
-            <Link href="/about" className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-foreground font-medium">
+            <Link href="/about" className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200">
               About
             </Link>
-            <Link href="/contact" className="text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-foreground font-medium">
+            <Link href="/contact" className="text-gray-900 dark:text-gray-100 hover:text-primary dark:hover:text-primary-foreground font-semibold bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md px-3 py-2 shadow-sm transition-all duration-200">
               Contact
             </Link>
 

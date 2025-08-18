@@ -204,7 +204,7 @@ function generateHTMLSitemap(urls: Array<{
             <div class="url-grid">
                 ${categoryUrls.map(item => `
                 <div class="url-item">
-                    <a href="${item.url}" target="_blank">${item.title}</a>
+                    <a href="https://${item.url.replace(/^https?:\/\//, '')}" target="_blank">${item.title}</a>
                     <div class="url-meta">
                         <span>Updated: ${item.lastUpdated}</span>
                         <span class="status ${item.status}">${item.status}</span>
@@ -318,9 +318,12 @@ router.get('/sitemap.xml', async (req, res) => {
 // HTML Sitemap endpoint
 router.get('/sitemap', async (req, res) => {
   try {
+    // Force HTTPS for all URLs
     const baseUrl = process.env.REPLIT_DEV_DOMAIN 
       ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
       : 'http://localhost:5000';
+    
+    console.log('Building sitemap with baseUrl:', baseUrl);
 
     // Static pages with live status
     const staticPages = [
@@ -399,16 +402,24 @@ router.get('/sitemap', async (req, res) => {
       });
     }
 
-    // Ensure all URLs have proper protocol
+    // Build complete URLs with protocol - ensure HTTPS
     const allPages = [...staticPages, ...dynamicPages].map(page => {
+      // Force HTTPS protocol for all URLs
       let fullUrl;
       
-      if (page.url.startsWith('http://') || page.url.startsWith('https://')) {
+      if (page.url.startsWith('https://')) {
         fullUrl = page.url;
+      } else if (page.url.startsWith('http://')) {
+        fullUrl = page.url.replace('http://', 'https://');
       } else if (page.url.startsWith('/')) {
         fullUrl = `${baseUrl}${page.url}`;
       } else {
         fullUrl = `https://${page.url}`;
+      }
+      
+      // Ensure we have https:// protocol
+      if (!fullUrl.startsWith('https://') && !fullUrl.startsWith('http://')) {
+        fullUrl = `https://${fullUrl}`;
       }
       
       return {

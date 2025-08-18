@@ -59,10 +59,10 @@ export default function ModernFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-white relative overflow-hidden">
+    <footer className="bg-slate-50 dark:bg-gray-900 text-gray-800 dark:text-white relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-800/50 to-gray-900/50"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-100/50 to-slate-200/50 dark:from-gray-800/50 dark:to-gray-900/50"></div>
       </div>
       
       <div className="relative">
@@ -72,7 +72,7 @@ export default function ModernFooter() {
             {/* Company Overview */}
             <div className="lg:col-span-1">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 rounded-xl overflow-hidden">
+                <div className="w-12 h-12 rounded-xl overflow-hidden bg-white dark:bg-gray-800 p-1">
                   <img 
                     src="/IE vector logo-01_1755535165852.png" 
                     alt="IeNet Logo" 
@@ -80,12 +80,12 @@ export default function ModernFooter() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white">IeNet</h3>
-                  <p className="text-sm text-gray-400">IT & Business Solutions</p>
+                  <h3 className="text-xl font-bold text-gray-800 dark:text-white">IeNet</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">IT & Business Solutions</p>
                 </div>
               </div>
               
-              <p className="text-gray-300 mb-6 leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                 Leading provider of comprehensive IT and business solutions, delivering innovative technology services to transform businesses across all industries.
               </p>
               
@@ -93,19 +93,19 @@ export default function ModernFooter() {
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
                   <MapPin className="h-5 w-5 text-primary flex-shrink-0" />
-                  <span className="text-gray-300 text-sm">
+                  <span className="text-gray-600 dark:text-gray-300 text-sm">
                     Sandy Babb Street, Kitty, Georgetown, Guyana
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-primary flex-shrink-0" />
-                  <a href="mailto:info.indiaespectacular@gmail.com" className="text-gray-300 text-sm hover:text-primary transition-colors">
+                  <a href="mailto:info.indiaespectacular@gmail.com" className="text-gray-600 dark:text-gray-300 text-sm hover:text-primary transition-colors">
                     info.indiaespectacular@gmail.com
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                  <a href="tel:+5927503901" className="text-gray-300 text-sm hover:text-primary transition-colors">
+                  <a href="tel:+5927503901" className="text-gray-600 dark:text-gray-300 text-sm hover:text-primary transition-colors">
                     +592 750-3901
                   </a>
                 </div>

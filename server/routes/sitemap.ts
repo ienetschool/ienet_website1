@@ -222,7 +222,7 @@ function generateHTMLSitemap(urls: Array<{
             <ul class="url-list">
                 ${categoryUrls.map(item => `
                 <li class="url-item">
-                    <a href="${item.url}" class="url-link">${item.title}</a>
+                    <a href="/${item.url.replace(/^https?:\/\/[^\/]+\//, '').replace(/^\/+/, '')}" class="url-link">${item.title}</a>
                     <div class="url-meta">
                         <span class="last-updated-text">Updated: ${item.lastUpdated}</span>
                         <span class="status-badge ${item.status}">${item.status}</span>
@@ -421,8 +421,11 @@ router.get('/sitemap', async (req, res) => {
       });
     }
 
-    // Keep URLs as relative paths for proper href construction
-    const allPages = [...staticPages, ...dynamicPages];
+    // Force URLs to be relative paths only
+    const allPages = [...staticPages, ...dynamicPages].map(page => ({
+      ...page,
+      url: page.url.replace(/^https?:\/\/[^\/]+/, '').replace(/^[^\/]/, '/$&')
+    }));
 
     const htmlSitemap = generateHTMLSitemap(allPages, baseUrl);
 

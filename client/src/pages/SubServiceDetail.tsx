@@ -388,34 +388,34 @@ export default function SubServiceDetail() {
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Why Choose Us for {service.name}</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Target className="text-primary" size={24} />
+                <Card className="text-center p-6 border-none shadow-lg bg-gradient-to-br from-cyan-50 to-blue-100 dark:from-cyan-900/20 dark:to-blue-900/20">
+                  <div className="w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <Target className="text-white" size={24} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">SEO-Optimized</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Built with search engine optimization best practices</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Zap className="text-primary" size={24} />
+                  <h3 className="font-bold text-cyan-900 dark:text-cyan-100 mb-2">SEO-Optimized</h3>
+                  <p className="text-sm text-cyan-800 dark:text-cyan-200">Built with search engine optimization best practices</p>
+                </Card>
+                <Card className="text-center p-6 border-none shadow-lg bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/20 dark:to-green-900/20">
+                  <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <Zap className="text-white" size={24} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Lightweight</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Fast loading times and optimized performance</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Settings className="text-primary" size={24} />
+                  <h3 className="font-bold text-emerald-900 dark:text-emerald-100 mb-2">Lightweight</h3>
+                  <p className="text-sm text-emerald-800 dark:text-emerald-200">Fast loading times and optimized performance</p>
+                </Card>
+                <Card className="text-center p-6 border-none shadow-lg bg-gradient-to-br from-amber-50 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20">
+                  <div className="w-16 h-16 bg-gradient-to-r from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <Settings className="text-white" size={24} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Scalable</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Built to grow with your business needs</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Shield className="text-primary" size={24} />
+                  <h3 className="font-bold text-amber-900 dark:text-amber-100 mb-2">Scalable</h3>
+                  <p className="text-sm text-amber-800 dark:text-amber-200">Built to grow with your business needs</p>
+                </Card>
+                <Card className="text-center p-6 border-none shadow-lg bg-gradient-to-br from-rose-50 to-red-100 dark:from-rose-900/20 dark:to-red-900/20">
+                  <div className="w-16 h-16 bg-gradient-to-r from-rose-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <Shield className="text-white" size={24} />
                   </div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Secure</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">Enterprise-grade security implementations</p>
-                </div>
+                  <h3 className="font-bold text-rose-900 dark:text-rose-100 mb-2">Secure</h3>
+                  <p className="text-sm text-rose-800 dark:text-rose-200">Enterprise-grade security implementations</p>
+                </Card>
               </div>
             </div>
           </div>
@@ -438,23 +438,35 @@ export default function SubServiceDetail() {
                 </div>
               ) : features && features.length > 0 ? (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {features.slice(0, 6).map((feature: any) => (
-                    <Card key={feature.id} className="group hover:shadow-lg transition-shadow duration-300">
-                      <CardContent className="p-6">
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                          {feature.name}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm leading-relaxed">
-                          {feature.description}
-                        </p>
-                        <Button asChild variant="outline" size="sm" className="w-full">
-                          <Link href={`/services/${categorySlug}/${serviceSlug}/${feature.slug}`}>
-                            Learn More
-                          </Link>
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
+                  {features.slice(0, 6).map((feature: any, index: number) => {
+                    const colorVariants = [
+                      { bg: "from-emerald-50 to-teal-100 dark:from-emerald-900/20 dark:to-teal-900/20", text: "text-emerald-900 dark:text-emerald-100", accent: "text-teal-600" },
+                      { bg: "from-blue-50 to-sky-100 dark:from-blue-900/20 dark:to-sky-900/20", text: "text-blue-900 dark:text-blue-100", accent: "text-sky-600" },
+                      { bg: "from-violet-50 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20", text: "text-violet-900 dark:text-violet-100", accent: "text-purple-600" },
+                      { bg: "from-amber-50 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20", text: "text-amber-900 dark:text-amber-100", accent: "text-orange-600" },
+                      { bg: "from-rose-50 to-pink-100 dark:from-rose-900/20 dark:to-pink-900/20", text: "text-rose-900 dark:text-rose-100", accent: "text-pink-600" },
+                      { bg: "from-green-50 to-lime-100 dark:from-green-900/20 dark:to-lime-900/20", text: "text-green-900 dark:text-green-100", accent: "text-lime-600" }
+                    ];
+                    const variant = colorVariants[index % colorVariants.length];
+                    
+                    return (
+                      <Card key={feature.id} className={`group hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br ${variant.bg}`}>
+                        <CardContent className="p-6">
+                          <h3 className={`text-xl font-bold mb-3 ${variant.text}`}>
+                            {feature.name}
+                          </h3>
+                          <p className={`mb-4 text-sm leading-relaxed ${variant.text.replace('900', '800').replace('100', '200')}`}>
+                            {feature.description}
+                          </p>
+                          <Button asChild variant="outline" size="sm" className="w-full group-hover:opacity-90 transition-all duration-300">
+                            <Link href={`/services/${categorySlug}/${serviceSlug}/${feature.slug}`}>
+                              Learn More
+                            </Link>
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="text-center py-8">
@@ -513,24 +525,33 @@ export default function SubServiceDetail() {
             <div className="max-w-6xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Related Services</h2>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card className="hover:shadow-lg transition-shadow duration-300">
+                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20">
                   <CardContent className="p-6 text-center">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Maintenance & Support</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Ongoing maintenance and technical support services</p>
+                    <div className="w-14 h-14 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Settings className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-violet-900 dark:text-violet-100 mb-2">Maintenance & Support</h3>
+                    <p className="text-violet-800 dark:text-violet-200 text-sm mb-4">Ongoing maintenance and technical support services</p>
                     <Button variant="outline" size="sm">Learn More</Button>
                   </CardContent>
                 </Card>
-                <Card className="hover:shadow-lg transition-shadow duration-300">
+                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-teal-50 to-cyan-100 dark:from-teal-900/20 dark:to-cyan-900/20">
                   <CardContent className="p-6 text-center">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Performance Optimization</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Speed and performance enhancement services</p>
+                    <div className="w-14 h-14 bg-gradient-to-r from-teal-500 to-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Zap className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-teal-900 dark:text-teal-100 mb-2">Performance Optimization</h3>
+                    <p className="text-teal-800 dark:text-teal-200 text-sm mb-4">Speed and performance enhancement services</p>
                     <Button variant="outline" size="sm">Learn More</Button>
                   </CardContent>
                 </Card>
-                <Card className="hover:shadow-lg transition-shadow duration-300">
+                <Card className="hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br from-orange-50 to-red-100 dark:from-orange-900/20 dark:to-red-900/20">
                   <CardContent className="p-6 text-center">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Security Audit</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Comprehensive security assessment and hardening</p>
+                    <div className="w-14 h-14 bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Shield className="text-white" size={20} />
+                    </div>
+                    <h3 className="text-lg font-bold text-orange-900 dark:text-orange-100 mb-2">Security Audit</h3>
+                    <p className="text-orange-800 dark:text-orange-200 text-sm mb-4">Comprehensive security assessment and hardening</p>
                     <Button variant="outline" size="sm">Learn More</Button>
                   </CardContent>
                 </Card>
@@ -567,26 +588,26 @@ export default function SubServiceDetail() {
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Frequently Asked Questions</h2>
               <div className="space-y-6">
-                <Card>
+                <Card className="border-none shadow-lg bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-900/40 dark:to-gray-900/40">
                   <CardContent className="p-6">
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">How long does the project take?</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    <h3 className="font-bold text-slate-900 dark:text-slate-100 mb-3">How long does the project take?</h3>
+                    <p className="text-slate-700 dark:text-slate-200 text-sm leading-relaxed">
                       Project timelines vary based on complexity and scope. Typical {service.name.toLowerCase()} projects take 2-8 weeks from start to completion.
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="border-none shadow-lg bg-gradient-to-br from-emerald-50 to-green-100 dark:from-emerald-900/40 dark:to-green-900/40">
                   <CardContent className="p-6">
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Do you provide ongoing support?</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    <h3 className="font-bold text-emerald-900 dark:text-emerald-100 mb-3">Do you provide ongoing support?</h3>
+                    <p className="text-emerald-700 dark:text-emerald-200 text-sm leading-relaxed">
                       Yes, we offer comprehensive support packages including maintenance, updates, security monitoring, and technical assistance.
                     </p>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="border-none shadow-lg bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40">
                   <CardContent className="p-6">
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Can you work with our existing systems?</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                    <h3 className="font-bold text-blue-900 dark:text-blue-100 mb-3">Can you work with our existing systems?</h3>
+                    <p className="text-blue-700 dark:text-blue-200 text-sm leading-relaxed">
                       Absolutely. We specialize in integrating with existing systems and can provide seamless migration or integration solutions.
                     </p>
                   </CardContent>

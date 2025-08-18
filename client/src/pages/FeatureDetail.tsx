@@ -414,35 +414,35 @@ export default function FeatureDetail() {
             <div className="max-w-4xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">When It Works Best</h2>
               <div className="grid md:grid-cols-3 gap-6">
-                <Card className="text-center">
+                <Card className="text-center border-none shadow-lg bg-gradient-to-br from-orange-50 to-amber-100 dark:from-orange-900/20 dark:to-amber-900/20">
                   <CardContent className="p-6">
-                    <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Code className="text-orange-600 dark:text-orange-400" size={24} />
+                    <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Code className="text-white" size={24} />
                     </div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Blogs & Content Sites</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                    <h3 className="font-bold text-orange-900 dark:text-orange-100 mb-2">Blogs & Content Sites</h3>
+                    <p className="text-sm text-orange-800 dark:text-orange-200">
                       Perfect for content-heavy websites that need excellent SEO performance
                     </p>
                   </CardContent>
                 </Card>
-                <Card className="text-center">
+                <Card className="text-center border-none shadow-lg bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20">
                   <CardContent className="p-6">
-                    <div className="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Shield className="text-green-600 dark:text-green-400" size={24} />
+                    <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Shield className="text-white" size={24} />
                     </div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">E-commerce Platforms</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                    <h3 className="font-bold text-green-900 dark:text-green-100 mb-2">E-commerce Platforms</h3>
+                    <p className="text-sm text-green-800 dark:text-green-200">
                       Essential for product pages that need to rank well in search results
                     </p>
                   </CardContent>
                 </Card>
-                <Card className="text-center">
+                <Card className="text-center border-none shadow-lg bg-gradient-to-br from-blue-50 to-sky-100 dark:from-blue-900/20 dark:to-sky-900/20">
                   <CardContent className="p-6">
-                    <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Lightbulb className="text-blue-600 dark:text-blue-400" size={24} />
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-sky-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <Lightbulb className="text-white" size={24} />
                     </div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Large Content Apps</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                    <h3 className="font-bold text-blue-900 dark:text-blue-100 mb-2">Large Content Apps</h3>
+                    <p className="text-sm text-blue-800 dark:text-blue-200">
                       Ideal for applications with extensive content catalogs and databases
                     </p>
                   </CardContent>
@@ -473,31 +473,31 @@ export default function FeatureDetail() {
                       <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Advanced Technology Stack</h3>
                     </div>
                     <div className="space-y-4">
-                      <div className="flex items-center p-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
-                        <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded flex items-center justify-center mr-3">
-                          <Check className="text-blue-600 dark:text-blue-400" size={16} />
+                      <div className="flex items-center p-4 bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg shadow-sm border border-blue-200/50 dark:border-blue-700/50">
+                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mr-4 shadow-md">
+                          <Check className="text-white" size={18} />
                         </div>
                         <div>
-                          <span className="font-semibold text-gray-900 dark:text-white">Next.js</span>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">For React applications with built-in SSR capabilities</p>
+                          <span className="font-bold text-blue-900 dark:text-blue-100">Next.js</span>
+                          <p className="text-sm text-blue-800 dark:text-blue-200">For React applications with built-in SSR capabilities</p>
                         </div>
                       </div>
-                      <div className="flex items-center p-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
-                        <div className="w-8 h-8 bg-green-100 dark:bg-green-900 rounded flex items-center justify-center mr-3">
-                          <Check className="text-green-600 dark:text-green-400" size={16} />
+                      <div className="flex items-center p-4 bg-gradient-to-r from-green-50 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg shadow-sm border border-green-200/50 dark:border-green-700/50">
+                        <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl flex items-center justify-center mr-4 shadow-md">
+                          <Check className="text-white" size={18} />
                         </div>
                         <div>
-                          <span className="font-semibold text-gray-900 dark:text-white">Nuxt.js</span>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">For Vue.js projects with universal rendering</p>
+                          <span className="font-bold text-green-900 dark:text-green-100">Nuxt.js</span>
+                          <p className="text-sm text-green-800 dark:text-green-200">For Vue.js projects with universal rendering</p>
                         </div>
                       </div>
-                      <div className="flex items-center p-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
-                        <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded flex items-center justify-center mr-3">
-                          <Check className="text-purple-600 dark:text-purple-400" size={16} />
+                      <div className="flex items-center p-4 bg-gradient-to-r from-purple-50 to-violet-100 dark:from-purple-900/20 dark:to-violet-900/20 rounded-lg shadow-sm border border-purple-200/50 dark:border-purple-700/50">
+                        <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-violet-600 rounded-xl flex items-center justify-center mr-4 shadow-md">
+                          <Check className="text-white" size={18} />
                         </div>
                         <div>
-                          <span className="font-semibold text-gray-900 dark:text-white">Custom Node.js</span>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">Tailored server-side rendering solutions</p>
+                          <span className="font-bold text-purple-900 dark:text-purple-100">Custom Node.js</span>
+                          <p className="text-sm text-purple-800 dark:text-purple-200">Tailored server-side rendering solutions</p>
                         </div>
                       </div>
                     </div>

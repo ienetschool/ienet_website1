@@ -65,18 +65,23 @@ type ServiceCategoryFormData = z.infer<typeof serviceCategorySchema>;
 type ServiceFormData = z.infer<typeof serviceSchema>;
 
 export default function ServiceManager() {
-  const [activeTab, setActiveTab] = useState<'categories' | 'services'>('categories');
+  const [activeTab, setActiveTab] = useState<'categories' | 'services' | 'features'>('categories');
   const [editingCategory, setEditingCategory] = useState<any>(null);
   const [editingService, setEditingService] = useState<any>(null);
+  const [editingFeature, setEditingFeature] = useState<any>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: categories, isLoading: categoriesLoading } = useQuery({
+  const { data: categories = [], isLoading: categoriesLoading } = useQuery({
     queryKey: ['/api/service-categories'],
   });
 
-  const { data: services, isLoading: servicesLoading } = useQuery({
+  const { data: services = [], isLoading: servicesLoading } = useQuery({
     queryKey: ['/api/admin/services'],
+  });
+
+  const { data: features = [], isLoading: featuresLoading } = useQuery({
+    queryKey: ['/api/features'],
   });
 
   const categoryForm = useForm<ServiceCategoryFormData>({
@@ -339,7 +344,13 @@ export default function ServiceManager() {
           variant={activeTab === 'services' ? 'default' : 'outline'}
           onClick={() => setActiveTab('services')}
         >
-          Services
+          Sub-Service Pages
+        </Button>
+        <Button
+          variant={activeTab === 'features' ? 'default' : 'outline'}
+          onClick={() => setActiveTab('features')}
+        >
+          Feature Pages
         </Button>
       </div>
 
@@ -479,7 +490,7 @@ export default function ServiceManager() {
                 <p>Loading categories...</p>
               ) : (
                 <div className="space-y-4">
-                  {categories?.map((category: any) => (
+                  {categories.map((category: any) => (
                     <div key={category.id} className="flex items-center justify-between p-4 border rounded-lg">
                       <div>
                         <h3 className="font-semibold">{category.name}</h3>
@@ -547,7 +558,7 @@ export default function ServiceManager() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {categories?.map((category: any) => (
+                                {categories.map((category: any) => (
                                   <SelectItem key={category.id} value={category.id.toString()}>
                                     {category.name}
                                   </SelectItem>
@@ -651,8 +662,8 @@ export default function ServiceManager() {
                 <p>Loading services...</p>
               ) : (
                 <div className="space-y-4">
-                  {services?.map((service: any) => {
-                    const category = categories?.find((c: any) => c.id === service.categoryId);
+                  {services.map((service: any) => {
+                    const category = categories.find((c: any) => c.id === service.categoryId);
                     return (
                       <div key={service.id} className="flex items-center justify-between p-4 border rounded-lg">
                         <div>
@@ -677,6 +688,60 @@ export default function ServiceManager() {
                             disabled={deleteServiceMutation.isPending}
                           >
                             <Trash2 size={16} />
+                          </Button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Features Tab */}
+      {activeTab === 'features' && (
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Feature Pages</CardTitle>
+              <CardDescription>
+                Manage detailed feature pages that belong to sub-services
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              {featuresLoading ? (
+                <p>Loading features...</p>
+              ) : (
+                <div className="space-y-4">
+                  {features.map((feature: any) => {
+                    const service = services.find((s: any) => s.id === feature.serviceId);
+                    const category = categories.find((c: any) => c.id === service?.categoryId);
+                    return (
+                      <div key={feature.id} className="flex items-center justify-between p-4 border rounded-lg">
+                        <div>
+                          <h3 className="font-semibold">{feature.name}</h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{feature.shortDescription}</p>
+                          <div className="flex items-center space-x-2 mt-2">
+                            <Badge variant={feature.isActive ? 'default' : 'secondary'}>
+                              {feature.isActive ? 'Active' : 'Inactive'}
+                            </Badge>
+                            <Badge variant="outline">{service?.name}</Badge>
+                            <Badge variant="outline">{category?.name}</Badge>
+                            <Badge variant="outline">{feature.slug}</Badge>
+                          </div>
+                        </div>
+                        <div className="flex space-x-2">
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            onClick={() => window.open(`/services/${category?.slug}/${service?.slug}/${feature.slug}`, '_blank')}
+                          >
+                            <ExternalLink size={16} />
+                          </Button>
+                          <Button size="sm" variant="outline">
+                            <Edit size={16} />
                           </Button>
                         </div>
                       </div>

@@ -18,6 +18,22 @@ import {
   Activity,
   Mail
 } from "lucide-react";
+import ServiceManager from "@/components/admin/ServiceManager";
+
+// Simple component for service management buttons
+function ServiceManagementButton({ icon, title, testId, tab }: { 
+  icon: React.ReactNode; 
+  title: string; 
+  testId: string; 
+  tab: string; 
+}) {
+  return (
+    <Button className="h-20 flex flex-col gap-2" variant="outline" data-testid={testId}>
+      {icon}
+      {title}
+    </Button>
+  );
+}
 
 export default function AdminDashboard() {
   const { user: rawUser, isAuthenticated, isLoading } = useAuth();
@@ -216,15 +232,41 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="content">
+            <ServiceManager />
+          </TabsContent>
+
+          <TabsContent value="legacy-content">
             <Card>
               <CardHeader>
-                <CardTitle>Content Management</CardTitle>
+                <CardTitle>Legacy Content Management</CardTitle>
                 <CardDescription>
-                  Manage blog posts, testimonials, sliders, and other content
+                  Additional content management options
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <ServiceManagementButton 
+                    icon={<FileText className="w-6 h-6" />}
+                    title="Service Categories"
+                    testId="button-manage-service-categories"
+                    tab="categories"
+                  />
+                  <ServiceManagementButton 
+                    icon={<Star className="w-6 h-6" />}
+                    title="Sub-Service Pages"
+                    testId="button-manage-sub-services"
+                    tab="services"
+                  />
+                  <ServiceManagementButton 
+                    icon={<Image className="w-6 h-6" />}
+                    title="Feature Pages"
+                    testId="button-manage-feature-pages"
+                    tab="features"
+                  />
+                  <Button className="h-20 flex flex-col gap-2" variant="outline" data-testid="button-manage-projects">
+                    <MessageSquare className="w-6 h-6" />
+                    Project Pages
+                  </Button>
                   <Button className="h-20 flex flex-col gap-2" variant="outline" data-testid="button-manage-blog-posts">
                     <FileText className="w-6 h-6" />
                     Blog Posts

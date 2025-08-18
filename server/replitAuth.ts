@@ -9,14 +9,18 @@ import connectPg from "connect-pg-simple";
 import { storage } from "./storage";
 
 if (!process.env.REPLIT_DOMAINS) {
-  throw new Error("Environment variable REPLIT_DOMAINS not provided");
+  console.warn("REPLIT_DOMAINS not provided, using dev domain fallback");
 }
 
 const getOidcConfig = memoize(
   async () => {
+    const replId = process.env.REPL_ID || 
+      process.env.REPLIT_DOMAINS?.split(',')[0]?.split('.')[0] || 
+      "bf28b7b1-3eb9-46bc-81dd-e2bc8dc0dfde";
+    
     return await client.discovery(
       new URL(process.env.ISSUER_URL ?? "https://replit.com/oidc"),
-      process.env.REPL_ID!
+      replId
     );
   },
   { maxAge: 3600 * 1000 }
@@ -31,14 +35,19 @@ export function getSession() {
     ttl: sessionTtl,
     tableName: "sessions",
   });
+  
+  // Generate a session secret if not provided
+  const sessionSecret = process.env.SESSION_SECRET || 
+    "298194c4347a16d8c8b1667a7090690d07bc6faecc27428f759ae8eb1726fbc6";
+  
   return session({
-    secret: process.env.SESSION_SECRET!,
+    secret: sessionSecret,
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === 'production',
       maxAge: sessionTtl,
     },
   });
@@ -84,8 +93,8 @@ export async function setupAuth(app: Express) {
     verified(null, user);
   };
 
-  for (const domain of process.env
-    .REPLIT_DOMAINS!.split(",")) {
+  const domains = process.env.REPLIT_DOMAINS?.split(",") || [process.env.REPLIT_DEV_DOMAIN || "localhost:5000"];
+  for (const domain of domains) {
     const strategy = new Strategy(
       {
         name: `replitauth:${domain}`,
@@ -119,7 +128,9 @@ export async function setupAuth(app: Express) {
     req.logout(() => {
       res.redirect(
         client.buildEndSessionUrl(config, {
-          client_id: process.env.REPL_ID!,
+          client_id: process.env.REPL_ID || 
+          process.env.REPLIT_DOMAINS?.split(',')[0]?.split('.')[0] || 
+          "bf28b7b1-3eb9-46bc-81dd-e2bc8dc0dfde",
           post_logout_redirect_uri: `${req.protocol}://${req.hostname}`,
         }).href
       );

@@ -57,19 +57,27 @@ export default function SubServiceDetail() {
     enabled: !!service?.id,
   });
 
-
-
-  const { data: relatedProjects } = useQuery({
-    queryKey: ['/api/projects'],
-    queryFn: () => fetch('/api/projects').then(res => res.json()),
-    select: (data) => data?.slice(0, 3) || [],
-  });
-
   const { data: relatedServices } = useQuery({
     queryKey: ['/api/services', categorySlug],
     queryFn: () => fetch(`/api/services?categorySlug=${categorySlug}`).then(res => res.json()),
     select: (data) => data?.filter((s: any) => s.slug !== serviceSlug).slice(0, 3) || [],
   });
+
+  // FAQ data
+  const faqData = [
+    {
+      question: `What makes your ${service?.name || 'service'} different?`,
+      answer: "Our approach combines industry best practices with cutting-edge technology to deliver solutions that are both innovative and reliable."
+    },
+    {
+      question: "How long does implementation typically take?",
+      answer: "Implementation timelines vary based on project scope, but most projects are completed within 4-12 weeks with regular milestone reviews."
+    },
+    {
+      question: "Do you provide ongoing support?",
+      answer: "Yes, we offer comprehensive support packages including maintenance, updates, and technical assistance to ensure your solution continues to perform optimally."
+    }
+  ];
 
   if (isLoading) {
     return (
@@ -104,10 +112,14 @@ export default function SubServiceDetail() {
         <ModernHeader />
         <main className="py-20">
           <div className="container mx-auto px-6 text-center">
-            <h1 className="text-4xl font-bold mb-4">Service Not Found</h1>
-            <p className="text-muted-foreground mb-8">The service you're looking for doesn't exist.</p>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+              Service Not Found
+            </h1>
+            <p className="text-gray-600 dark:text-gray-300 mb-8">
+              The service you're looking for doesn't exist or has been moved.
+            </p>
             <Button asChild>
-              <Link href="/services">View All Services</Link>
+              <Link href="/services">Back to Services</Link>
             </Button>
           </div>
         </main>
@@ -116,355 +128,137 @@ export default function SubServiceDetail() {
     );
   }
 
-  // Generate FAQ data for this specific service
-  const faqData = [
-    {
-      question: `What does ${service.name} include?`,
-      answer: `Our ${service.name} service includes comprehensive planning, implementation, testing, and ongoing support to ensure your solution meets all your business requirements.`
-    },
-    {
-      question: `How much does ${service.name} cost?`,
-      answer: `Pricing for ${service.name} varies based on project scope, complexity, and specific requirements. Contact us for a personalized quote tailored to your needs.`
-    },
-    {
-      question: `How long does ${service.name} typically take?`,
-      answer: `${service.name} projects typically take 2-6 weeks depending on scope and complexity. We provide detailed timelines during our initial consultation.`
-    },
-    {
-      question: `Do you provide support after ${service.name} completion?`,
-      answer: `Yes, we offer comprehensive maintenance and support packages to ensure your ${service.name} solution continues to perform optimally.`
-    }
-  ];
-
-  // What's included in this service
-  const includedFeatures = [
-    "Comprehensive planning and strategy",
-    "Custom implementation and development",
-    "Quality assurance and testing",
-    "Performance optimization",
-    "Documentation and training",
-    "Ongoing support and maintenance"
-  ];
-
-  // Why choose us differentiators
-  const differentiators = [
-    {
-      icon: Award,
-      title: "Certified Experts",
-      description: "Industry-certified professionals with proven track records"
-    },
-    {
-      icon: Clock,
-      title: "Fast Delivery",
-      description: "Efficient project management for timely delivery"
-    },
-    {
-      icon: Shield,
-      title: "Quality Assurance",
-      description: "Rigorous testing and quality control processes"
-    },
-    {
-      icon: TrendingUp,
-      title: "Scalable Solutions",
-      description: "Built for growth and future expansion"
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead
-        title={service.metaTitle || `${service.name} - ${category?.name} | IeNet Professional Services`}
-        description={service.metaDescription || `Professional ${service.name} services. Expert implementation, quality assurance, and ongoing support for your business success.`}
-        canonical={`/services/${categorySlug}/${serviceSlug}`}
-        keywords={`${service.name}, ${category?.name}, IT services, custom development, business solutions, technology consulting`}
-
-        structuredData={[
-          {
-            "@context": "https://schema.org",
-            "@type": "Service",
-            "name": service.name,
-            "description": service.description,
-            "serviceType": service.name,
-            "category": category?.name,
-            "provider": {
-              "@type": "Organization",
-              "name": "IeNet",
-              "url": "https://ienet.com",
-              "logo": "https://ienet.com/logo.png"
-            },
-            "areaServed": "Global",
-            "availableChannel": {
-              "@type": "ServiceChannel",
-              "serviceUrl": `/services/${categorySlug}/${serviceSlug}`,
-              "servicePhone": "+1-555-0123",
-              "serviceName": service.name
-            }
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "/"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Services",
-                "item": "/services"
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": category?.name,
-                "item": `/services/${categorySlug}`
-              },
-              {
-                "@type": "ListItem",
-                "position": 4,
-                "name": service.name,
-                "item": `/services/${categorySlug}/${serviceSlug}`
-              }
-            ]
-          }
-        ]}
+      <SEOHead 
+        title={`${service.name} - ${category?.name} | IeNet IT Services`}
+        description={service.description || `Professional ${service.name} services by IeNet. Transform your business with our expert solutions.`}
+        canonical={`https://ienet.com/services/${categorySlug}/${serviceSlug}`}
+        keywords={`${service.name}, ${category?.name}, IT Services, Business Solutions`}
       />
       
       <ModernHeader />
       <EditModeToggle />
-      
+
+      {/* Floating CTA Button */}
+      <div className="fixed bottom-6 right-6 z-40">
+        <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
+          <MessageCircle size={20} />
+          <span className="hidden sm:block">Get Quote</span>
+        </Button>
+      </div>
+
       <main>
-        {/* Hero Section */}
-        <section className="relative py-20 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10" />
-          <div className="container mx-auto px-6 relative">
-            {/* Breadcrumb */}
-            <Breadcrumb className="mb-8">
+        {/* Breadcrumb Navigation */}
+        <section className="bg-muted/30 py-4">
+          <div className="container mx-auto px-6">
+            <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href="/">Home</Link>
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href="/services">Services</Link>
-                  </BreadcrumbLink>
+                  <BreadcrumbLink href="/services">Services</BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href={`/services/${categorySlug}`}>{category?.name}</Link>
+                  <BreadcrumbLink href={`/services/${categorySlug}`}>
+                    {category?.name}
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbPage>{service.name}</BreadcrumbPage>
               </BreadcrumbList>
             </Breadcrumb>
+          </div>
+        </section>
 
+        {/* Hero Section */}
+        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
+          <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                <InlineEditor
-                  pageType="sub-service"
-                  pageId={service.id}
-                  field="name"
-                  value={service.name}
-                  isTitle={true}
-                  className="inline-block"
-                />
-              </h1>
-              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                <InlineEditor
-                  pageType="sub-service"
-                  pageId={service.id}
-                  field="description"
-                  value={service.description || `Custom ${service.name} solutions for businesses of all sizes`}
-                  className="inline-block"
-                />
-              </p>
-              <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                Get a Free Quote
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* Service Overview - Multi-Color Sections */}
-        <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-900">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Service Overview
-              </h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Comprehensive {service.name} solutions designed for modern businesses
-              </p>
-            </div>
-
-            <div className="grid lg:grid-cols-2 gap-8 mb-16">
-              {/* Professional Approach */}
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
-                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-blue-200/50 dark:border-blue-800/50 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl text-white">
-                      <Settings className="h-8 w-8" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-blue-900 dark:text-blue-100">Professional Approach</h3>
-                  </div>
-                  <InlineEditor
-                    pageType="sub-service"
-                    pageId={service.id}
-                    field="professional_approach"
-                    value={`Our ${service.name} service combines advanced technology with proven methodologies to deliver exceptional results. We understand the unique challenges in ${category?.name.toLowerCase()} and provide tailored solutions that address your specific requirements.`}
-                    isRichText={true}
-                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
-                  />
-                </div>
-              </div>
-
-              {/* Strategic Implementation */}
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
-                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-purple-200/50 dark:border-purple-800/50 hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="p-3 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl text-white">
-                      <Target className="h-8 w-8" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-purple-900 dark:text-purple-100">Strategic Implementation</h3>
-                  </div>
-                  <InlineEditor
-                    pageType="sub-service"
-                    pageId={service.id}
-                    field="strategic_implementation"
-                    value={`We work closely with your team to understand your goals, assess your current infrastructure, and develop a comprehensive strategy that ensures successful implementation and long-term success.`}
-                    isRichText={true}
-                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
-                  />
-                </div>
-              </div>
-
-              {/* Scalable Solutions */}
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
-                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-emerald-200/50 dark:border-emerald-800/50 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="p-3 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-xl text-white">
-                      <TrendingUp className="h-8 w-8" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-emerald-900 dark:text-emerald-100">Scalable Solutions</h3>
-                  </div>
-                  <InlineEditor
-                    pageType="sub-service"
-                    pageId={service.id}
-                    field="scalable_solutions"
-                    value={`Our approach focuses on scalability, security, and user experience to deliver solutions that grow with your business. Every solution is designed with future expansion and evolving requirements in mind.`}
-                    isRichText={true}
-                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
-                  />
-                </div>
-              </div>
-
-              {/* Quality Assurance */}
-              <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-red-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
-                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-orange-200/50 dark:border-orange-800/50 hover:shadow-2xl hover:shadow-orange-500/20 transition-all duration-300">
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="p-3 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl text-white">
-                      <Shield className="h-8 w-8" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-orange-900 dark:text-orange-100">Quality Assurance</h3>
-                  </div>
-                  <InlineEditor
-                    pageType="sub-service"
-                    pageId={service.id}
-                    field="quality_assurance"
-                    value={`Rigorous testing and quality control processes ensure that every deliverable meets the highest standards. Our comprehensive QA methodology covers functionality, performance, security, and user experience validation.`}
-                    isRichText={true}
-                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
-                  />
-                </div>
+              <Badge variant="outline" className="mb-4">
+                {category?.name}
+              </Badge>
+              
+              <InlineEditor
+                type="heading"
+                content={service.name}
+                onSave={(content) => console.log('Save heading:', content)}
+                className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+              />
+              
+              <InlineEditor
+                type="paragraph"
+                content={service.description || `Professional ${service.name} services designed to transform your business operations and drive growth through innovative technology solutions.`}
+                onSave={(content) => console.log('Save description:', content)}
+                className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto"
+              />
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80">
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Get Started Today
+                </Button>
+                <Button size="lg" variant="outline">
+                  <Shield className="mr-2 h-5 w-5" />
+                  View Portfolio
+                </Button>
               </div>
             </div>
           </div>
         </section>
 
-        {/* What's Included Section */}
-        <section className="py-20 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900">
+        {/* Professional Approach Section - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900 dark:to-indigo-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                What's Included
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Professional Approach to {service.name}
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Comprehensive {service.name} services with everything you need for success
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {includedFeatures.map((feature, index) => {
-                const colors = [
-                  "from-indigo-500/10 to-blue-500/10 border-indigo-200 dark:border-indigo-800",
-                  "from-purple-500/10 to-pink-500/10 border-purple-200 dark:border-purple-800",
-                  "from-blue-500/10 to-cyan-500/10 border-blue-200 dark:border-blue-800",
-                  "from-emerald-500/10 to-teal-500/10 border-emerald-200 dark:border-emerald-800",
-                  "from-orange-500/10 to-red-500/10 border-orange-200 dark:border-orange-800",
-                  "from-rose-500/10 to-pink-500/10 border-rose-200 dark:border-rose-800"
-                ];
-                const colorClass = colors[index % colors.length];
-                
-                return (
-                  <div key={index} className={`relative group hover:scale-105 transition-all duration-300`}>
-                    <div className={`bg-gradient-to-br ${colorClass} backdrop-blur-sm rounded-xl p-6 border hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300`}>
-                      <div className="flex items-center gap-4">
-                        <div className="p-2 bg-indigo-500/20 rounded-lg">
-                          <CheckCircle className="h-6 w-6 text-indigo-600 dark:text-indigo-400" />
-                        </div>
-                        <span className="font-medium text-slate-800 dark:text-slate-200">{feature}</span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us Section */}
-        <section className="py-20 bg-gradient-to-br from-teal-50 to-emerald-50 dark:from-teal-900 dark:to-emerald-900">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
-                Why Choose Our {service.name} Service?
-              </h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Experience the difference with our professional approach and proven expertise
+                Our structured methodology ensures successful delivery and exceptional results
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {differentiators.map((item, index) => {
+              {[
+                {
+                  icon: Target,
+                  title: "Strategic Planning",
+                  description: "Comprehensive analysis and planning to align solutions with your business objectives"
+                },
+                {
+                  icon: Code,
+                  title: "Expert Implementation",
+                  description: "Professional development using industry best practices and cutting-edge technologies"
+                },
+                {
+                  icon: Shield,
+                  title: "Quality Assurance",
+                  description: "Rigorous testing and validation to ensure reliable and secure solutions"
+                },
+                {
+                  icon: TrendingUp,
+                  title: "Continuous Improvement",
+                  description: "Ongoing optimization and support to maximize long-term value and performance"
+                }
+              ].map((item, index) => {
                 const colors = [
-                  "from-teal-500/20 to-emerald-500/20 border-teal-200 dark:border-teal-800 shadow-teal-500/20",
-                  "from-blue-500/20 to-cyan-500/20 border-blue-200 dark:border-blue-800 shadow-blue-500/20",
-                  "from-indigo-500/20 to-purple-500/20 border-indigo-200 dark:border-indigo-800 shadow-indigo-500/20",
-                  "from-emerald-500/20 to-green-500/20 border-emerald-200 dark:border-emerald-800 shadow-emerald-500/20"
+                  "from-blue-500/20 to-indigo-500/20 border-blue-200 dark:border-blue-800 shadow-blue-500/20",
+                  "from-purple-500/20 to-violet-500/20 border-purple-200 dark:border-purple-800 shadow-purple-500/20",
+                  "from-emerald-500/20 to-teal-500/20 border-emerald-200 dark:border-emerald-800 shadow-emerald-500/20",
+                  "from-orange-500/20 to-amber-500/20 border-orange-200 dark:border-orange-800 shadow-orange-500/20"
                 ];
                 const colorClass = colors[index % colors.length];
                 
                 return (
                   <div key={index} className="relative group">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${colorClass.split(' ')[0]} ${colorClass.split(' ')[1]} rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-70`} />
-                    <div className={`relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border ${colorClass.split(' ')[2]} ${colorClass.split(' ')[3]} hover:shadow-2xl hover:${colorClass.split(' ')[4]} transition-all duration-300 text-center group-hover:scale-105`}>
-                      <div className="flex justify-center mb-6">
-                        <div className={`p-4 bg-gradient-to-br ${colorClass.split(' ')[0].replace('/20', '')} ${colorClass.split(' ')[1].replace('/20', '')} rounded-2xl text-white shadow-lg`}>
-                          <item.icon className="h-10 w-10" />
-                        </div>
+                    <div className={`absolute inset-0 bg-gradient-to-br ${colorClass.split(' ')[0]} ${colorClass.split(' ')[1]} rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-60`} />
+                    <div className={`relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border ${colorClass.split(' ')[2]} ${colorClass.split(' ')[3]} hover:shadow-2xl hover:${colorClass.split(' ')[4]} transition-all duration-300 group-hover:scale-105`}>
+                      <div className={`p-3 bg-gradient-to-br ${colorClass.split(' ')[0].replace('/20', '')} ${colorClass.split(' ')[1].replace('/20', '')} rounded-xl text-white shadow-lg mb-6 w-fit`}>
+                        <item.icon className="h-8 w-8" />
                       </div>
                       <h3 className="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200">{item.title}</h3>
                       <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{item.description}</p>
@@ -491,7 +285,6 @@ export default function SubServiceDetail() {
             {features && features.length > 0 ? (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {features.map((feature: any, index: number) => {
-                  // Enhanced color rotation for visual variety
                   const colors = [
                     "from-rose-500/20 to-pink-500/20 border-rose-200 dark:border-rose-800 shadow-rose-500/20",
                     "from-orange-500/20 to-amber-500/20 border-orange-200 dark:border-orange-800 shadow-orange-500/20", 
@@ -546,80 +339,96 @@ export default function SubServiceDetail() {
           </div>
         </section>
 
-        {/* Case Study/Testimonial Section */}
-        <section className="py-20 bg-muted/30">
+        {/* Success Story Section - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-8">Success Story</h2>
-              <Card className="p-8">
-                <div className="mb-6">
-                  <div className="flex justify-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-5 w-5 fill-primary text-primary" />
-                    ))}
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Success Story</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Real results from our {service.name} implementation</p>
+            </div>
+            <div className="max-w-4xl mx-auto">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border border-indigo-200 dark:border-indigo-800 hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-300">
+                  <div className="mb-6">
+                    <div className="flex justify-center mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-5 w-5 fill-primary text-primary" />
+                      ))}
+                    </div>
+                    <blockquote className="text-lg italic mb-6">
+                      "The {service.name} solution transformed our business operations and exceeded our expectations. The team's expertise and attention to detail made all the difference."
+                    </blockquote>
+                    <div className="text-sm">
+                      <p className="font-semibold">Sarah Johnson</p>
+                      <p className="text-muted-foreground">CEO, TechCorp Solutions</p>
+                    </div>
                   </div>
-                  <blockquote className="text-lg italic mb-6">
-                    "The {service.name} solution transformed our business operations and exceeded our expectations. The team's expertise and attention to detail made all the difference."
-                  </blockquote>
-                  <div className="text-sm">
-                    <p className="font-semibold">Sarah Johnson</p>
-                    <p className="text-muted-foreground">CEO, TechCorp Solutions</p>
+                  <div className="border-t pt-6">
+                    <div className="grid md:grid-cols-3 gap-6 text-center">
+                      <div>
+                        <p className="text-2xl font-bold text-primary">50%</p>
+                        <p className="text-sm text-muted-foreground">Efficiency Increase</p>
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold text-primary">30%</p>
+                        <p className="text-sm text-muted-foreground">Cost Reduction</p>
+                      </div>
+                      <div>
+                        <p className="text-2xl font-bold text-primary">99.9%</p>
+                        <p className="text-sm text-muted-foreground">Uptime Achieved</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="border-t pt-6">
-                  <div className="grid md:grid-cols-3 gap-6 text-center">
-                    <div>
-                      <p className="text-2xl font-bold text-primary">50%</p>
-                      <p className="text-sm text-muted-foreground">Efficiency Increase</p>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-primary">30%</p>
-                      <p className="text-sm text-muted-foreground">Cost Reduction</p>
-                    </div>
-                    <div>
-                      <p className="text-2xl font-bold text-primary">99.9%</p>
-                      <p className="text-sm text-muted-foreground">Uptime Achieved</p>
-                    </div>
-                  </div>
-                </div>
-              </Card>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Related Services Section */}
-        <section className="py-20">
+        {/* Related Services Section - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900 dark:to-cyan-900">
           <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Related Services & Add-ons</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">Related Services & Add-ons</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Explore our other {category?.name.toLowerCase()} services that complement {service.name}
               </p>
             </div>
 
             {relatedServices && relatedServices.length > 0 ? (
               <div className="grid md:grid-cols-3 gap-8">
-                {relatedServices.map((relatedService: any) => (
-                  <Card key={relatedService.id} className="group hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="mb-4">
-                        <Badge variant="outline" className="mb-2">{category?.name}</Badge>
-                        <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
-                          {relatedService.name}
-                        </h3>
+                {relatedServices.map((relatedService: any, index: number) => {
+                  const colors = [
+                    "from-teal-500/20 to-cyan-500/20 border-teal-200 dark:border-teal-800 shadow-teal-500/20",
+                    "from-blue-500/20 to-indigo-500/20 border-blue-200 dark:border-blue-800 shadow-blue-500/20",
+                    "from-purple-500/20 to-violet-500/20 border-purple-200 dark:border-purple-800 shadow-purple-500/20"
+                  ];
+                  const colorClass = colors[index % colors.length];
+                  
+                  return (
+                    <div key={relatedService.id} className="relative group">
+                      <div className={`absolute inset-0 bg-gradient-to-br ${colorClass.split(' ')[0]} ${colorClass.split(' ')[1]} rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-60`} />
+                      <div className={`relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-6 border ${colorClass.split(' ')[2]} ${colorClass.split(' ')[3]} hover:shadow-2xl hover:${colorClass.split(' ')[4]} transition-all duration-300 group-hover:scale-105`}>
+                        <div className="mb-4">
+                          <Badge variant="outline" className="mb-2">{category?.name}</Badge>
+                          <h3 className="font-semibold text-lg mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                            {relatedService.name}
+                          </h3>
+                        </div>
+                        <p className="text-slate-600 dark:text-slate-400 mb-4 text-sm leading-relaxed">
+                          {relatedService.description?.substring(0, 120) + '...' || 'Professional service tailored to your business needs'}
+                        </p>
+                        <Button asChild variant="outline" size="sm" className="w-full bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white border-0">
+                          <Link href={`/services/${categorySlug}/${relatedService.slug}`}>
+                            Learn More
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Link>
+                        </Button>
                       </div>
-                      <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-                        {relatedService.description?.substring(0, 120) + '...' || 'Professional service tailored to your business needs'}
-                      </p>
-                      <Button asChild variant="ghost" size="sm">
-                        <Link href={`/services/${categorySlug}/${relatedService.slug}`}>
-                          Learn More
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <div className="text-center py-8">
@@ -629,57 +438,75 @@ export default function SubServiceDetail() {
           </div>
         </section>
 
-        {/* Pricing Section */}
-        <section className="py-20 bg-muted/30">
+        {/* Pricing Section - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900 dark:to-yellow-900">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-8">Pricing & Engagement Model</h2>
-              <Card className="p-8">
-                <div className="mb-6">
-                  <p className="text-3xl font-bold text-primary mb-2">Starting at $2,500</p>
-                  <p className="text-muted-foreground">Custom pricing based on your specific requirements</p>
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">Pricing & Engagement Model</h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Transparent pricing for {service.name} services</p>
+            </div>
+            <div className="max-w-4xl mx-auto">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border border-amber-200 dark:border-amber-800 hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-300">
+                  <div className="mb-6">
+                    <p className="text-3xl font-bold text-primary mb-2">Starting at $2,500</p>
+                    <p className="text-muted-foreground">Custom pricing based on your specific requirements</p>
+                  </div>
+                  <div className="space-y-3 mb-8">
+                    <div className="flex items-center justify-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-primary" />
+                      <span>Free initial consultation</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-primary" />
+                      <span>Detailed project scope and timeline</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-primary" />
+                      <span>Fixed-price or hourly billing options</span>
+                    </div>
+                  </div>
+                  <Button size="lg" className="bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-white">
+                    <DollarSign className="mr-2 h-5 w-5" />
+                    Get Custom Quote
+                  </Button>
                 </div>
-                <div className="space-y-3 mb-8">
-                  <div className="flex items-center justify-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary" />
-                    <span>Free initial consultation</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary" />
-                    <span>Detailed project scope and timeline</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2">
-                    <CheckCircle className="h-5 w-5 text-primary" />
-                    <span>Fixed-price or hourly billing options</span>
-                  </div>
-                </div>
-                <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80">
-                  <DollarSign className="mr-2 h-5 w-5" />
-                  Get Custom Quote
-                </Button>
-              </Card>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <section className="py-20">
+        {/* FAQ Section - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900 dark:to-purple-900">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
-                <p className="text-muted-foreground">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">Frequently Asked Questions</h2>
+                <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                   Get answers to common questions about our {service.name} service
                 </p>
               </div>
 
               <div className="space-y-6">
-                {faqData.map((faq, index) => (
-                  <Card key={index} className="p-6">
-                    <h3 className="font-semibold mb-2">{faq.question}</h3>
-                    <p className="text-muted-foreground">{faq.answer}</p>
-                  </Card>
-                ))}
+                {faqData.map((faq, index) => {
+                  const colors = [
+                    "from-violet-500/20 to-purple-500/20 border-violet-200 dark:border-violet-800 shadow-violet-500/20",
+                    "from-indigo-500/20 to-blue-500/20 border-indigo-200 dark:border-indigo-800 shadow-indigo-500/20",
+                    "from-purple-500/20 to-pink-500/20 border-purple-200 dark:border-purple-800 shadow-purple-500/20"
+                  ];
+                  const colorClass = colors[index % colors.length];
+                  
+                  return (
+                    <div key={index} className="relative group">
+                      <div className={`absolute inset-0 bg-gradient-to-br ${colorClass.split(' ')[0]} ${colorClass.split(' ')[1]} rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-60`} />
+                      <div className={`relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-6 border ${colorClass.split(' ')[2]} ${colorClass.split(' ')[3]} hover:shadow-2xl hover:${colorClass.split(' ')[4]} transition-all duration-300`}>
+                        <h3 className="font-semibold mb-2 text-violet-900 dark:text-violet-100">{faq.question}</h3>
+                        <p className="text-slate-600 dark:text-slate-400">{faq.answer}</p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

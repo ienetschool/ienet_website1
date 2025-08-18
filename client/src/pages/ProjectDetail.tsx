@@ -90,7 +90,13 @@ export default function ProjectDetail() {
     );
   }
 
-  const technologies = project.technologies ? JSON.parse(project.technologies) : [];
+  let technologies = [];
+  try {
+    technologies = project.technologies ? JSON.parse(project.technologies) : [];
+  } catch (error) {
+    console.warn('Failed to parse project technologies:', error);
+    technologies = [];
+  }
 
   return (
     <div className="min-h-screen bg-background">

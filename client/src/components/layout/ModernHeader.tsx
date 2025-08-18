@@ -100,11 +100,11 @@ export default function ModernHeader() {
     { name: 'Services', href: '/services', hasSubmenu: true },
     { name: 'Projects', href: '/projects' },
     { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' }
+    { name: 'Contact', href: '/contact', isIcon: true }
   ];
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <header className={`sticky top-0 z-50 transition-all duration-300 -mt-1 ${
       isScrolled 
         ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-lg border-b border-gray-200/20 dark:border-gray-700/20' 
         : 'bg-transparent'
@@ -122,10 +122,10 @@ export default function ModernHeader() {
                 />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+                <h1 className="text-xl font-bold text-white dark:text-white">
                   IeNet
                 </h1>
-                <p className="text-xs text-gray-600 dark:text-gray-400 -mt-1">
+                <p className="text-xs text-white/80 dark:text-white/80 -mt-1">
                   IT & Business Solutions
                 </p>
               </div>
@@ -146,7 +146,7 @@ export default function ModernHeader() {
                       className={`flex items-center space-x-1 px-4 py-2 rounded-full transition-all duration-300 ${
                         location.startsWith('/services')
                           ? 'text-primary bg-primary/10'
-                          : 'text-gray-700 dark:text-gray-300 hover:text-primary hover:bg-primary/5'
+                          : 'text-white dark:text-white hover:text-primary hover:bg-primary/5'
                       }`}
                     >
                       <span className="font-medium">{item.name}</span>
@@ -204,10 +204,10 @@ export default function ModernHeader() {
                       className={`px-4 py-2 rounded-full font-medium transition-all duration-300 cursor-pointer ${
                         location === item.href
                           ? 'text-primary bg-primary/10'
-                          : 'text-gray-700 dark:text-gray-300 hover:text-primary hover:bg-primary/5'
+                          : 'text-white dark:text-white hover:text-primary hover:bg-primary/5'
                       }`}
                     >
-                      {item.name}
+                      {item.isIcon ? <MessageCircle size={16} /> : item.name}
                     </div>
                   </Link>
                 )}
@@ -225,45 +225,18 @@ export default function ModernHeader() {
               className="w-10 h-10 rounded-full p-0 hover:bg-gray-100 dark:hover:bg-gray-800"
             >
               {isDarkMode ? (
-                <Sun className="text-gray-600 dark:text-gray-400" size={18} />
+                <Sun className="text-white dark:text-white" size={18} />
               ) : (
-                <Moon className="text-gray-600 dark:text-gray-400" size={18} />
+                <Moon className="text-white dark:text-white" size={18} />
               )}
             </Button>
-
-            {/* User Authentication */}
-            {isAuthenticated && user ? (
-              <div className="hidden lg:flex items-center space-x-3">
-                <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                  <Users className="text-primary" size={16} />
-                </div>
-                <span className="text-sm text-gray-700 dark:text-gray-300">
-                  {user.firstName || user.email}
-                </span>
-                {(user.role === 'admin' || user.role === 'editor') && (
-                  <Link href="/admin">
-                    <Button variant="outline" size="sm" className="ml-2">
-                      <Settings size={14} className="mr-1" />
-                      Admin
-                    </Button>
-                  </Link>
-                )}
-              </div>
-            ) : (
-              <Link href="/api/login">
-                <Button variant="outline" size="sm" className="hidden lg:flex">
-                  Sign In
-                </Button>
-              </Link>
-            )}
 
             {/* Get in Touch Button */}
             <Button 
               onClick={handleContactClick}
-              className="hidden lg:flex bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105"
+              className="hidden lg:flex bg-primary hover:bg-primary/90 text-white px-3 py-2 rounded-full transition-all duration-300 transform hover:scale-105"
             >
-              <MessageCircle size={16} className="mr-2" />
-              Get in Touch
+              <MessageCircle size={16} />
             </Button>
 
             {/* Mobile Menu Toggle */}
@@ -274,9 +247,9 @@ export default function ModernHeader() {
               className="lg:hidden w-10 h-10 rounded-full p-0"
             >
               {isMobileMenuOpen ? (
-                <X className="text-gray-700 dark:text-gray-300" size={20} />
+                <X className="text-white dark:text-white" size={20} />
               ) : (
-                <Menu className="text-gray-700 dark:text-gray-300" size={20} />
+                <Menu className="text-white dark:text-white" size={20} />
               )}
             </Button>
           </div>
@@ -306,44 +279,9 @@ export default function ModernHeader() {
                   ))}
                   
                   <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                    {isAuthenticated && user ? (
-                      <div className="space-y-3">
-                        <div className="flex items-center space-x-3 px-4 py-2">
-                          <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
-                            <Users className="text-primary" size={16} />
-                          </div>
-                          <span className="text-sm text-gray-700 dark:text-gray-300">
-                            {user.firstName || user.email}
-                          </span>
-                        </div>
-                        {(user.role === 'admin' || user.role === 'editor') && (
-                          <Link href="/admin">
-                            <Button 
-                              variant="outline" 
-                              className="w-full"
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              <Settings size={16} className="mr-2" />
-                              Admin Dashboard
-                            </Button>
-                          </Link>
-                        )}
-                      </div>
-                    ) : (
-                      <Link href="/api/login">
-                        <Button 
-                          variant="outline" 
-                          className="w-full"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          Sign In
-                        </Button>
-                      </Link>
-                    )}
-                    
                     <Button 
                       onClick={handleContactClick}
-                      className="w-full mt-3 bg-primary hover:bg-primary/90 text-white"
+                      className="w-full bg-primary hover:bg-primary/90 text-white"
                     >
                       <MessageCircle size={16} className="mr-2" />
                       Get in Touch

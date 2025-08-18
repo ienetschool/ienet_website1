@@ -143,7 +143,10 @@ export default function SubServiceDetail() {
 
       {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 z-40">
-        <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
+        <Button 
+          onClick={() => window.location.href = '/contact'}
+          className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2"
+        >
           <MessageCircle size={20} />
           <span className="hidden sm:block">Get Quote</span>
         </Button>
@@ -192,11 +195,19 @@ export default function SubServiceDetail() {
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80">
+                <Button 
+                  size="lg" 
+                  onClick={() => window.location.href = '/contact'}
+                  className="bg-gradient-to-r from-primary to-primary/80"
+                >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Get Started Today
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  onClick={() => window.location.href = '/projects'}
+                >
                   <Shield className="mr-2 h-5 w-5" />
                   View Portfolio
                 </Button>
@@ -537,11 +548,20 @@ export default function SubServiceDetail() {
                 Let's discuss how our {service.name} service can transform your business operations
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="secondary">
+                <Button 
+                  size="lg" 
+                  variant="secondary"
+                  onClick={() => window.location.href = '/contact'}
+                >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Schedule Consultation
                 </Button>
-                <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-primary">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  onClick={() => window.location.href = '#features'}
+                  className="bg-transparent border-white text-white hover:bg-white hover:text-primary"
+                >
                   <Settings className="mr-2 h-5 w-5" />
                   View Features
                 </Button>

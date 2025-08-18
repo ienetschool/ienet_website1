@@ -210,7 +210,10 @@ export default function ServiceDetail() {
 
       {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 z-40">
-        <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
+        <Button 
+          onClick={() => window.location.href = '/contact'}
+          className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2"
+        >
           <MessageCircle size={20} />
           <span className="hidden sm:block">Get Quote</span>
         </Button>
@@ -247,7 +250,11 @@ export default function ServiceDetail() {
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
                 {category.description || `Modern, scalable, and innovative ${category.name.toLowerCase()} solutions tailored for your business success`}
               </p>
-              <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+              <Button 
+                size="lg" 
+                onClick={() => window.location.href = '/contact'}
+                className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+              >
                 Request Consultation
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -592,11 +599,20 @@ export default function ServiceDetail() {
                 Let's discuss how our {category.name} services can drive your business forward
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="secondary">
+                <Button 
+                  size="lg" 
+                  variant="secondary"
+                  onClick={() => window.location.href = '/contact'}
+                >
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Schedule Consultation
                 </Button>
-                <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-primary">
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  onClick={() => window.location.href = '/projects'}
+                  className="bg-transparent border-white text-white hover:bg-white hover:text-primary"
+                >
                   <Globe className="mr-2 h-5 w-5" />
                   View Portfolio
                 </Button>

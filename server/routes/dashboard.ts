@@ -92,18 +92,24 @@ export function registerDashboardRoutes(app: Express) {
       // Get site settings from database
       const settings = await storage.getSiteSettings();
       
+      // Transform array to object for easier frontend consumption
+      const settingsObject: Record<string, string> = {};
+      settings.forEach(setting => {
+        settingsObject[setting.key] = setting.value || '';
+      });
+      
       const siteSettings: SiteSettings = {
-        siteName: settings.siteName,
-        siteDescription: settings.siteDescription,
-        logo: settings.logoUrl,
-        favicon: settings.faviconUrl,
-        primaryColor: settings.primaryColor,
-        secondaryColor: settings.secondaryColor,
-        fontFamily: settings.fontFamily,
-        enableDarkMode: settings.enableDarkMode,
-        maintenanceMode: settings.maintenanceMode,
-        googleAnalyticsId: settings.googleAnalyticsId,
-        googleSearchConsoleId: settings.googleSearchConsoleId
+        siteName: settingsObject['siteName'] || 'IeNet',
+        siteDescription: settingsObject['siteDescription'] || '',
+        logo: settingsObject['logoUrl'] || '',
+        favicon: settingsObject['faviconUrl'] || '',
+        primaryColor: settingsObject['primaryColor'] || '#007bff',
+        secondaryColor: settingsObject['secondaryColor'] || '#6c757d',
+        fontFamily: settingsObject['fontFamily'] || 'Inter',
+        enableDarkMode: settingsObject['enableDarkMode'] === 'true',
+        maintenanceMode: settingsObject['maintenanceMode'] === 'true',
+        googleAnalyticsId: settingsObject['googleAnalyticsId'] || '',
+        googleSearchConsoleId: settingsObject['googleSearchConsoleId'] || ''
       };
 
       res.json(siteSettings);
@@ -424,6 +430,58 @@ export function registerDashboardRoutes(app: Express) {
     } catch (error) {
       console.error("Error deleting service:", error);
       res.status(500).json({ message: "Failed to delete service" });
+    }
+  });
+
+  // Enquiries management endpoints
+  app.get("/api/enquiries", async (req, res) => {
+    try {
+      const enquiries = await storage.getEnquiries();
+      res.json(enquiries);
+    } catch (error) {
+      console.error("Error fetching enquiries:", error);
+      res.status(500).json({ message: "Failed to fetch enquiries" });
+    }
+  });
+
+  app.patch("/api/enquiries/:id", async (req, res) => {
+    try {
+      const enquiry = await storage.updateEnquiry(Number(req.params.id), req.body);
+      res.json(enquiry);
+    } catch (error) {
+      console.error("Error updating enquiry:", error);
+      res.status(500).json({ message: "Failed to update enquiry" });
+    }
+  });
+
+  // Projects management endpoints  
+  app.post("/api/projects", async (req, res) => {
+    try {
+      const project = await storage.createProject(req.body);
+      res.json(project);
+    } catch (error) {
+      console.error("Error creating project:", error);
+      res.status(500).json({ message: "Failed to create project" });
+    }
+  });
+
+  app.patch("/api/projects/:id", async (req, res) => {
+    try {
+      const project = await storage.updateProject(Number(req.params.id), req.body);
+      res.json(project);
+    } catch (error) {
+      console.error("Error updating project:", error);
+      res.status(500).json({ message: "Failed to update project" });
+    }
+  });
+
+  app.delete("/api/projects/:id", async (req, res) => {
+    try {
+      await storage.deleteProject(Number(req.params.id));
+      res.json({ message: "Project deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting project:", error);
+      res.status(500).json({ message: "Failed to delete project" });
     }
   });
 }

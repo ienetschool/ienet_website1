@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { PagesManagement } from "./dashboard/PagesManagement";
 import { ServicesManagement } from "./dashboard/ServicesManagement";
+import { EnquiriesManagement } from "./dashboard/EnquiriesManagement";
+import { ProjectsManagement } from "./dashboard/ProjectsManagement";
 import {
   BarChart3,
   Users,
@@ -250,11 +252,11 @@ export default function ComprehensiveDashboard() {
       case 'features':
         return <GenericSection title="Features Management" description="Manage your service features" icon={Zap} />;
       case 'projects':
-        return <GenericSection title="Projects Management" description="Manage your portfolio projects" icon={Star} />;
+        return <ProjectsManagement />;
       case 'blog':
         return <GenericSection title="Blog Management" description="Manage your blog posts and articles" icon={Edit} />;
       case 'enquiries':
-        return <GenericSection title="Enquiries Management" description="Manage customer enquiries and leads" icon={MessageCircle} />;
+        return <EnquiriesManagement />;
       case 'contacts':
         return <GenericSection title="Contact Forms" description="Manage contact form submissions" icon={Mail} />;
       case 'seo':

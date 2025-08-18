@@ -52,6 +52,7 @@ function Router() {
           <Route path="/careers" component={Careers} />
           <Route path="/sitemap-viewer" component={SitemapViewer} />
           <Route path="/performance" component={PerformanceDashboard} />
+          <Route path="/admin" component={AdminDashboard} />
         </>
       ) : (
         <>

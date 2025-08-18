@@ -337,10 +337,6 @@ export default function ComprehensiveDashboard() {
 
   return (
     <DashboardLayout title={title} description={description}>
-      {/* Debug info - will remove later */}
-      <div className="mb-4 p-2 bg-gray-100 dark:bg-gray-800 rounded text-xs">
-        Debug: location="{location}" | section="{currentSection}" | params={JSON.stringify(params)}
-      </div>
       {getSectionContent()}
     </DashboardLayout>
   );

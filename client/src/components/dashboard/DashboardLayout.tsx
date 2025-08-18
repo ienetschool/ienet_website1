@@ -23,13 +23,13 @@ export function DashboardLayout({ children, title, description }: DashboardLayou
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       
       {/* Main Content */}
-      <div className="lg:pl-72">
+      <div className="flex-1 flex flex-col lg:ml-72">
         {/* Top Header */}
-        <header className="sticky top-0 z-30 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+        <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shrink-0">
           <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               {/* Left Section */}
@@ -91,28 +91,26 @@ export function DashboardLayout({ children, title, description }: DashboardLayou
         </header>
 
         {/* Page Content */}
-        <main className="py-8">
-          <div className="px-4 sm:px-6 lg:px-8">
-            {/* Page Header */}
-            {(title || description) && (
-              <div className="mb-8">
-                {title && (
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                    {title}
-                  </h1>
-                )}
-                {description && (
-                  <p className="mt-2 text-gray-600 dark:text-gray-400">
-                    {description}
-                  </p>
-                )}
-              </div>
-            )}
-
-            {/* Page Content */}
-            <div className="space-y-6">
-              {children}
+        <main className="flex-1 overflow-y-auto p-6">
+          {/* Page Header */}
+          {(title || description) && (
+            <div className="mb-6">
+              {title && (
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {title}
+                </h1>
+              )}
+              {description && (
+                <p className="mt-2 text-gray-600 dark:text-gray-400">
+                  {description}
+                </p>
+              )}
             </div>
+          )}
+
+          {/* Page Content */}
+          <div className="space-y-6">
+            {children}
           </div>
         </main>
       </div>

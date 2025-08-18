@@ -112,7 +112,7 @@ export default function SubServiceDetail() {
 
       <main>
         {/* Breadcrumb */}
-        <section className="bg-gray-50 dark:bg-gray-800 py-4">
+        <section className="bg-gray-50 dark:bg-gray-800 py-4 relative z-40 mt-20">
           <div className="container mx-auto px-6">
             <Breadcrumb>
               <BreadcrumbList>
@@ -143,23 +143,29 @@ export default function SubServiceDetail() {
         </section>
 
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
+        <section className="bg-white dark:bg-gray-900 py-20">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                {service.name}
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                Custom {service.name.toLowerCase()} solutions for businesses of all sizes
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
-                  Get a Free Quote
-                  <ArrowRight className="ml-2" size={16} />
-                </Button>
-                <Button size="lg" variant="outline">
-                  View Portfolio
-                </Button>
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center px-4 py-2 bg-primary/10 rounded-full mb-6">
+                  <Settings className="text-primary mr-2" size={20} />
+                  <span className="text-primary font-medium">Professional Service</span>
+                </div>
+                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                  {service.name}
+                </h1>
+                <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                  Transform your business with professional {service.name.toLowerCase()} solutions designed for scalability and performance
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button size="lg" className="bg-primary hover:bg-primary/90 px-8 py-4 text-lg">
+                    Get a Free Quote
+                    <ArrowRight className="ml-2" size={20} />
+                  </Button>
+                  <Button size="lg" variant="outline" className="px-8 py-4 text-lg border-2">
+                    View Portfolio
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -168,20 +174,41 @@ export default function SubServiceDetail() {
 
 
         {/* Service Overview */}
-        <section className="py-16 bg-white dark:bg-gray-900">
+        <section className="py-20 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Service Overview</h2>
-              <div className="prose prose-lg dark:prose-invert max-w-none">
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  {service.content || `Our ${service.name} service provides comprehensive solutions tailored to meet your specific business requirements. We combine industry expertise with cutting-edge technology to deliver exceptional results that drive growth and efficiency.`}
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Service Overview</h2>
+                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                  Professional {service.name.toLowerCase()} services designed to accelerate your business success
                 </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  We utilize modern platforms, tools, and methodologies to ensure your project is built with scalability, performance, and user experience in mind. Our approach focuses on understanding your unique challenges and delivering customized solutions that exceed expectations.
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  From initial consultation through deployment and ongoing support, we maintain clear communication and provide detailed project updates to ensure complete transparency throughout the development process.
-                </p>
+              </div>
+              
+              <div className="grid lg:grid-cols-2 gap-12">
+                <Card className="p-8 border-none shadow-lg">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4">
+                      <Users className="text-blue-600 dark:text-blue-400" size={24} />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Custom Solutions</h3>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                    {service.content || `Our ${service.name} service provides comprehensive solutions tailored to meet your specific business requirements. We combine industry expertise with cutting-edge technology to deliver exceptional results that drive growth, efficiency, and competitive advantage in your market.`}
+                  </p>
+                </Card>
+
+                <Card className="p-8 border-none shadow-lg">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
+                      <Target className="text-green-600 dark:text-green-400" size={24} />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Expert Implementation</h3>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                    We utilize modern platforms, tools, and methodologies to ensure your project is built with scalability, performance, and user experience in mind. 
+                    From initial consultation through deployment and ongoing support, we maintain clear communication and transparency throughout the entire process.
+                  </p>
+                </Card>
               </div>
             </div>
           </div>

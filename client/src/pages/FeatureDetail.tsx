@@ -111,7 +111,7 @@ export default function FeatureDetail() {
 
       <main>
         {/* Breadcrumb */}
-        <section className="bg-gray-50 dark:bg-gray-800 py-4">
+        <section className="bg-gray-50 dark:bg-gray-800 py-4 relative z-40 mt-20">
           <div className="container mx-auto px-6">
             <Breadcrumb>
               <BreadcrumbList>

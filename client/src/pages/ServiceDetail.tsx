@@ -113,7 +113,7 @@ export default function ServiceDetail() {
 
       <main>
         {/* Breadcrumb */}
-        <section className="bg-gray-50 dark:bg-gray-800 py-4">
+        <section className="bg-gray-50 dark:bg-gray-800 py-4 relative z-40 mt-20">
           <div className="container mx-auto px-6">
             <Breadcrumb>
               <BreadcrumbList>
@@ -138,33 +138,29 @@ export default function ServiceDetail() {
         </section>
 
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
+        <section className="bg-white dark:bg-gray-900 py-20">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <div className="flex items-center space-x-4 mb-6">
-                <div className="w-16 h-16 bg-primary rounded-lg flex items-center justify-center">
-                  <IconComponent className="text-white" size={28} />
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center px-4 py-2 bg-primary/10 rounded-full mb-6">
+                  <IconComponent className="text-primary mr-2" size={20} />
+                  <span className="text-primary font-medium">Enterprise Service</span>
                 </div>
-                <div>
-                  <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white">
-                    {category.name}
-                  </h1>
-                  <p className="text-lg text-gray-600 dark:text-gray-400 mt-2">
-                    Modern, scalable, and mobile-first website solutions
-                  </p>
+                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                  {category.name}
+                </h1>
+                <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                  {category.description}
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button size="lg" className="bg-primary hover:bg-primary/90 px-8 py-4 text-lg">
+                    Request Consultation
+                    <ArrowRight className="ml-2" size={20} />
+                  </Button>
+                  <Button size="lg" variant="outline" className="px-8 py-4 text-lg border-2">
+                    View Portfolio
+                  </Button>
                 </div>
-              </div>
-              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
-                {category.description}
-              </p>
-              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
-                  Request Consultation
-                  <ArrowRight size={16} className="ml-2" />
-                </Button>
-                <Button size="lg" variant="outline">
-                  View Portfolio
-                </Button>
               </div>
             </div>
           </div>
@@ -173,27 +169,44 @@ export default function ServiceDetail() {
 
 
         {/* Overview Section */}
-        <section className="py-16 bg-white dark:bg-gray-900">
+        <section className="py-20 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Service Overview</h2>
-              <div className="prose prose-lg dark:prose-invert max-w-none">
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  Our {category.name} services deliver comprehensive digital solutions that transform how your business operates online. 
-                  We specialize in creating modern, responsive, and high-performance web applications that engage users and drive measurable results. 
-                  From concept to deployment, our expert team handles every aspect of your digital project with precision and attention to detail.
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Service Overview</h2>
+                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                  Comprehensive {category.name.toLowerCase()} solutions that drive business growth and digital transformation
                 </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  We understand the unique challenges businesses face in today's competitive digital landscape. Our solutions address common pain points 
-                  such as slow loading times, poor user experience, lack of mobile optimization, and inadequate search engine visibility. 
-                  Whether you're a startup looking to establish your online presence or an enterprise seeking to modernize legacy systems, 
-                  we have the expertise and technology stack to deliver exceptional results.
-                </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  Our approach combines cutting-edge technology with proven methodologies to ensure your project is completed on time, within budget, 
-                  and exceeds expectations. We serve a diverse range of industries including e-commerce, healthcare, finance, education, and SaaS companies, 
-                  providing tailored solutions that meet specific industry requirements and compliance standards.
-                </p>
+              </div>
+              
+              <div className="grid lg:grid-cols-2 gap-12">
+                <Card className="p-8 border-none shadow-lg">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4">
+                      <Users className="text-blue-600 dark:text-blue-400" size={24} />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Business Impact</h3>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                    Our {category.name} services deliver comprehensive digital solutions that transform how your business operates online. 
+                    We specialize in creating modern, responsive, and high-performance applications that engage users and drive measurable results, 
+                    helping you achieve sustainable growth and competitive advantage.
+                  </p>
+                </Card>
+
+                <Card className="p-8 border-none shadow-lg">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
+                      <Target className="text-green-600 dark:text-green-400" size={24} />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Technical Excellence</h3>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                    We combine cutting-edge technology with proven methodologies to ensure your project is completed on time and within budget. 
+                    Our solutions address common challenges like performance optimization, scalability, security, and user experience, 
+                    delivering exceptional results that exceed expectations.
+                  </p>
+                </Card>
               </div>
             </div>
           </div>

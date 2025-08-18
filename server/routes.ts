@@ -839,6 +839,195 @@ ${allUrls.map(url => `  <url>
     }
   });
 
+  // Sitemap status dashboard - HTML view
+  app.get('/sitemap-status', async (req, res) => {
+    try {
+      const categories = await storage.getServiceCategories();
+      const allServices = await storage.getServices();
+      const allFeatures = await storage.getFeatures();
+      const allProjects = await storage.getProjects();
+
+      const stats = {
+        totalPages: 12 + categories.length + allServices.length + allFeatures.length + allProjects.length,
+        staticPages: 12,
+        serviceCategories: categories.length,
+        serviceDetails: allServices.length,
+        featureDetails: allFeatures.length,
+        projectPages: allProjects.length,
+        lastGenerated: new Date().toISOString(),
+        status: 'active'
+      };
+
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IeNet Sitemap Status Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container { 
+            max-width: 1000px; 
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            padding: 3rem 2rem;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border: 2px solid #e2e8f0;
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .stat-label {
+            font-size: 1.1rem;
+            color: #4a5568;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-info {
+            background: #f0fff4;
+            border: 2px solid #68d391;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem;
+            text-align: center;
+        }
+        .status-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        .timestamp {
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        .actions {
+            padding: 2rem;
+            text-align: center;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+        }
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 1rem;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(66, 153, 225, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌐 IeNet Sitemap Status</h1>
+            <p>Complete Platform Overview & Statistics</p>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">${stats.totalPages}</span>
+                <span class="stat-label">Total Pages</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">${stats.staticPages}</span>
+                <span class="stat-label">Static Pages</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">${stats.serviceCategories}</span>
+                <span class="stat-label">Service Categories</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">${stats.serviceDetails}</span>
+                <span class="stat-label">Service Details</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">${stats.featureDetails}</span>
+                <span class="stat-label">Feature Details</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">${stats.projectPages}</span>
+                <span class="stat-label">Project Pages</span>
+            </div>
+        </div>
+
+        <div class="status-info">
+            <div class="status-badge">${stats.status.toUpperCase()}</div>
+            <p class="timestamp">Last Generated: ${new Date(stats.lastGenerated).toLocaleString()}</p>
+        </div>
+
+        <div class="actions">
+            <a href="/sitemap" class="btn">View HTML Sitemap</a>
+            <a href="/sitemap.xml" class="btn">View XML Sitemap</a>
+            <a href="/api/sitemap/status" class="btn">JSON API</a>
+        </div>
+    </div>
+</body>
+</html>`;
+
+      res.set('Content-Type', 'text/html; charset=utf-8');
+      return res.send(html);
+    } catch (error) {
+      console.error('Error getting sitemap status dashboard:', error);
+      res.status(500).json({ error: 'Failed to get sitemap status dashboard' });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

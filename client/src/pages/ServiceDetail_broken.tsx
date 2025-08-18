@@ -124,50 +124,46 @@ export default function ServiceDetail() {
   // Industries served (dynamic based on service type)
   const industries = [
     "Healthcare & Medical",
-    "Financial Services", 
-    "E-commerce & Retail",
-    "Education & E-learning",
+    "E-commerce & Retail", 
+    "Financial Services",
+    "Education & Training",
     "Real Estate",
-    "Manufacturing",
     "Technology & SaaS",
-    "Non-profit Organizations",
-    "Government & Public Sector",
-    "Entertainment & Media",
-    "Professional Services",
-    "Hospitality & Tourism"
+    "Manufacturing",
+    "Non-profit Organizations"
   ];
 
-  // Service differentiators
+  // Key differentiators
   const differentiators = [
+    {
+      icon: Clock,
+      title: "Fast Delivery",
+      description: "Quick turnaround times without compromising quality"
+    },
     {
       icon: Shield,
       title: "Enterprise Security",
-      description: "Bank-level security protocols and compliance standards"
-    },
-    {
-      icon: Zap,
-      title: "Rapid Deployment",
-      description: "Agile methodologies ensuring faster time-to-market"
+      description: "Bank-level security and compliance standards"
     },
     {
       icon: Users,
       title: "Expert Team",
-      description: "Certified professionals with proven track records"
+      description: "Certified professionals with years of experience"
     },
     {
-      icon: Award,
-      title: "Quality Guarantee",
-      description: "100% satisfaction guarantee with quality assurance"
+      icon: TrendingUp,
+      title: "Scalable Solutions",
+      description: "Built to grow with your business needs"
     }
   ];
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead 
-        title={`${category.name} Services | IeNet - Professional IT Solutions`}
-        description={category.description || `Professional ${category.name} services for businesses. Expert solutions, proven results, and comprehensive support.`}
+      <SEOHead
+        title={category.metaTitle || `${category.name} Services | IeNet - Professional IT Solutions`}
+        description={category.metaDescription || `Professional ${category.name} services to help your business grow. Expert team, proven results, competitive pricing.`}
         canonical={`/services/${categorySlug}`}
-        keywords={`${category.name}, IT Services, Business Solutions, Technology, Professional Services`}
+        keywords={`${category.name}, IT services, technology solutions, business automation, digital transformation, software development`}
         openGraph={{
           title: `${category.name} Services | IeNet`,
           description: category.description || `Professional ${category.name} services for your business`,
@@ -201,20 +197,54 @@ export default function ServiceDetail() {
               "servicePhone": "+1-555-0123",
               "serviceName": `${category.name} Services`
             }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "/"
+              },
+              {
+                "@type": "ListItem", 
+                "position": 2,
+                "name": "Services",
+                "item": "/services"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": category.name,
+                "item": `/services/${categorySlug}`
+              }
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "IeNet",
+            "url": "https://ienet.com",
+            "logo": "https://ienet.com/logo.png",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+1-555-0123",
+              "contactType": "customer service",
+              "availableLanguage": "English"
+            },
+            "sameAs": [
+              "https://facebook.com/ienet",
+              "https://twitter.com/ienet",
+              "https://linkedin.com/company/ienet"
+            ]
           }
         ]}
       />
       
       <ModernHeader />
       <EditModeToggle />
-
-      {/* Floating CTA Button */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
-          <MessageCircle size={20} />
-          <span className="hidden sm:block">Get Quote</span>
-        </Button>
-      </div>
       
       <main>
         {/* Hero Section */}
@@ -242,10 +272,23 @@ export default function ServiceDetail() {
 
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                {category.name}
+                <InlineEditor
+                  pageType="service"
+                  pageId={category.id}
+                  field="name"
+                  value={category.name}
+                  isTitle={true}
+                  className="inline-block"
+                />
               </h1>
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                {category.description || `Modern, scalable, and innovative ${category.name.toLowerCase()} solutions tailored for your business success`}
+                <InlineEditor
+                  pageType="service"
+                  pageId={category.id}
+                  field="description"
+                  value={category.description || `Modern, scalable, and innovative ${category.name.toLowerCase()} solutions tailored for your business success`}
+                  className="inline-block"
+                />
               </p>
               <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
                 Request Consultation
@@ -604,6 +647,277 @@ export default function ServiceDetail() {
             </div>
           </div>
         </section>
+                    pageId={category.id}
+                    field="industry_expertise"
+                    value={`Our ${category.name} services are designed to address the complex challenges facing modern businesses. We understand that every organization has unique requirements, which is why we offer comprehensive solutions tailored to your specific industry needs.`}
+                    isRichText={true}
+                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* Technology Leadership */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-cyan-200/50 dark:border-cyan-800/50 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-3 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl text-white">
+                      <Code className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-cyan-900 dark:text-cyan-100">Technology Leadership</h3>
+                  </div>
+                  <InlineEditor
+                    pageType="service"
+                    pageId={category.id}
+                    field="technology_leadership"
+                    value={`Whether you're a startup looking to establish your digital presence or an enterprise seeking to modernize existing systems, our expert team brings cutting-edge technology to deliver solutions that drive real business results.`}
+                    isRichText={true}
+                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* Scalable Architecture */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-green-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-emerald-200/50 dark:border-emerald-800/50 hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-3 bg-gradient-to-br from-emerald-500 to-green-500 rounded-xl text-white">
+                      <TrendingUp className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-emerald-900 dark:text-emerald-100">Scalable Architecture</h3>
+                  </div>
+                  <InlineEditor
+                    pageType="service"
+                    pageId={category.id}
+                    field="scalable_architecture"
+                    value={`We focus on creating scalable, secure, and user-friendly solutions that grow with your business. Our architecture approach ensures long-term sustainability and seamless integration with your existing infrastructure.`}
+                    isRichText={true}
+                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
+                  />
+                </div>
+              </div>
+
+              {/* Customer Success */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-orange-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-amber-200/50 dark:border-amber-800/50 hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-300">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="p-3 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl text-white">
+                      <Users className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-amber-900 dark:text-amber-100">Customer Success</h3>
+                  </div>
+                  <InlineEditor
+                    pageType="service"
+                    pageId={category.id}
+                    field="customer_success"
+                    value={`Our commitment extends beyond project delivery with comprehensive support, training, and optimization services. We partner with you to ensure ongoing success and continuous improvement of your technology solutions.`}
+                    isRichText={true}
+                    className="text-slate-700 dark:text-slate-300 leading-relaxed"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Sub-Services Grid */}
+        <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-50 dark:from-slate-900 dark:to-gray-900">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-600 to-gray-600 bg-clip-text text-transparent">
+                Our {category.name} Services
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Explore our comprehensive range of specialized services designed to meet your unique business needs
+              </p>
+            </div>
+
+            {services && services.length > 0 ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {services.map((service: any, index: number) => {
+                  // Enhanced color rotation for Tier 1 services
+                  const colors = [
+                    "from-violet-500/20 to-purple-500/20 border-violet-200 dark:border-violet-800 shadow-violet-500/20",
+                    "from-cyan-500/20 to-blue-500/20 border-cyan-200 dark:border-cyan-800 shadow-cyan-500/20", 
+                    "from-emerald-500/20 to-green-500/20 border-emerald-200 dark:border-emerald-800 shadow-emerald-500/20",
+                    "from-amber-500/20 to-orange-500/20 border-amber-200 dark:border-amber-800 shadow-amber-500/20",
+                    "from-rose-500/20 to-pink-500/20 border-rose-200 dark:border-rose-800 shadow-rose-500/20",
+                    "from-indigo-500/20 to-blue-500/20 border-indigo-200 dark:border-indigo-800 shadow-indigo-500/20"
+                  ];
+                  const colorClass = colors[index % colors.length];
+
+                  return (
+                    <div key={service.id} className="relative group">
+                      <div className={`absolute inset-0 bg-gradient-to-br ${colorClass.split(' ')[0]} ${colorClass.split(' ')[1]} rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-60`} />
+                      <div className={`relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border ${colorClass.split(' ')[2]} ${colorClass.split(' ')[3]} hover:shadow-2xl hover:${colorClass.split(' ')[4]} transition-all duration-300 group-hover:scale-105`}>
+                        <div className="flex items-start gap-4 mb-6">
+                          <div className={`p-3 bg-gradient-to-br ${colorClass.split(' ')[0].replace('/20', '')} ${colorClass.split(' ')[1].replace('/20', '')} rounded-xl text-white shadow-lg`}>
+                            <Code className="h-8 w-8" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-xl font-bold mb-3 text-slate-800 dark:text-slate-200 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                              {service.name}
+                            </h3>
+                          </div>
+                        </div>
+                        
+                        <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                          {service.description || service.shortDescription || 'Professional service tailored to your business needs'}
+                        </p>
+                        
+                        <Button asChild variant="outline" size="sm" className="w-full group/btn bg-gradient-to-r from-violet-500 to-purple-500 hover:from-violet-600 hover:to-purple-600 text-white border-0 hover:shadow-lg transition-all duration-300">
+                          <Link href={`/services/${categorySlug}/${service.slug}`}>
+                            Explore Service
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+                          </Link>
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No services available in this category yet.</p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Why Choose Us Section */}
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Why Choose Our {category.name} Services?</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                We combine expertise, innovation, and dedication to deliver exceptional results
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {differentiators.map((item, index) => (
+                <Card key={index} className="text-center p-6 hover:shadow-lg transition-shadow">
+                  <div className="flex justify-center mb-4">
+                    <div className="p-3 bg-primary/10 rounded-full">
+                      <item.icon className="h-8 w-8 text-primary" />
+                    </div>
+                  </div>
+                  <h3 className="font-semibold mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm">{item.description}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Industries Served Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Industries We Serve</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Our expertise spans across multiple industries, ensuring specialized solutions for your sector
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {industries.map((industry, index) => (
+                <Card key={index} className="p-4 text-center hover:shadow-md transition-shadow">
+                  <p className="font-medium text-sm">{industry}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Projects Section */}
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Featured Projects</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Discover how we've helped businesses achieve their goals with our solutions
+              </p>
+            </div>
+
+            {relatedProjects && relatedProjects.length > 0 ? (
+              <div className="grid md:grid-cols-3 gap-8">
+                {relatedProjects.map((project: any) => (
+                  <Card key={project.id} className="group hover:shadow-lg transition-shadow">
+                    <CardContent className="p-6">
+                      <div className="mb-4">
+                        <Badge variant="outline" className="mb-2">{project.category}</Badge>
+                        <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                          {project.title}
+                        </h3>
+                      </div>
+                      <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                        {project.shortDescription || project.description?.substring(0, 120) + '...'}
+                      </p>
+                      <Button asChild variant="ghost" size="sm">
+                        <Link href={`/projects/${project.slug}`}>
+                          View Project
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Featured projects coming soon.</p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-12">
+                <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+                <p className="text-muted-foreground">
+                  Get answers to common questions about our {category.name.toLowerCase()} services
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                {faqData.map((faq, index) => (
+                  <Card key={index} className="p-6">
+                    <h3 className="font-semibold mb-2">{faq.question}</h3>
+                    <p className="text-muted-foreground">{faq.answer}</p>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Bottom CTA Section */}
+        <section className="py-20 bg-gradient-to-r from-primary to-primary/80">
+          <div className="container mx-auto px-6 text-center">
+            <div className="max-w-3xl mx-auto text-white">
+              <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+              <p className="text-xl mb-8 opacity-90">
+                Let's discuss how our {category.name.toLowerCase()} services can help your business grow and succeed
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button size="lg" variant="secondary">
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Get Free Consultation
+                </Button>
+                <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-primary">
+                  <DollarSign className="mr-2 h-5 w-5" />
+                  View Pricing
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       <ModernFooter />
@@ -617,7 +931,7 @@ export default function ServiceDetail() {
         serviceArea={`${category.name} Services`}
       />
       <TagSystem 
-        tags={[category.name, 'IT Services', 'Business Solutions', 'Professional Services']}
+        tags={[category.name, 'IT Services', 'Business Solutions', 'Technology']}
       />
       
       {/* Internal Linking System */}

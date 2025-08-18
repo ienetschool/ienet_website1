@@ -148,83 +148,128 @@ export default function FeatureDetail() {
         </section>
 
         {/* Feature Title Section */}
-        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-16">
+        <section className="bg-white dark:bg-gray-900 py-20">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                {feature.name}
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                Boost SEO and performance with advanced {feature.name.toLowerCase()}
-              </p>
-              <Button size="lg" className="bg-primary hover:bg-primary/90">
-                Request Implementation
-                <ArrowRight className="ml-2" size={16} />
-              </Button>
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-12">
+                <div className="inline-flex items-center px-4 py-2 bg-primary/10 rounded-full mb-6">
+                  <Code className="text-primary mr-2" size={20} />
+                  <span className="text-primary font-medium">Advanced Feature</span>
+                </div>
+                <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+                  {feature.name}
+                </h1>
+                <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+                  Enhance your website's performance and search engine visibility with professional {feature.name.toLowerCase()} implementation
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Button size="lg" className="bg-primary hover:bg-primary/90 px-8 py-4 text-lg">
+                    Request Implementation
+                    <ArrowRight className="ml-2" size={20} />
+                  </Button>
+                  <Button size="lg" variant="outline" className="px-8 py-4 text-lg border-2">
+                    View Demo
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
 
         {/* What is [Feature]? */}
-        <section className="py-16 bg-white dark:bg-gray-900">
+        <section className="py-20 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">What is {feature.name}?</h2>
-              <div className="prose prose-lg dark:prose-invert max-w-none">
-                <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                  <strong>Non-technical definition:</strong> {feature.name} is a powerful web development technique that enhances your website's performance 
-                  and search engine visibility. It ensures your content loads quickly and is immediately accessible to both users and search engines, 
-                  providing a superior browsing experience across all devices.
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">What is {feature.name}?</h2>
+                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                  Understanding this powerful web development technique from both business and technical perspectives
                 </p>
-                <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                  <strong>Technical definition:</strong> {feature.name} is an advanced rendering strategy that processes web pages on the server before 
-                  sending them to the client browser. This approach generates fully-formed HTML content server-side, enabling immediate content visibility, 
-                  improved SEO crawling, and faster initial page load times compared to traditional client-side rendering methods.
-                </p>
+              </div>
+              
+              <div className="grid lg:grid-cols-2 gap-12">
+                <Card className="p-8 border-none shadow-lg">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mr-4">
+                      <Users className="text-blue-600 dark:text-blue-400" size={24} />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">For Business Owners</h3>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                    {feature.name} is a powerful web development technique that enhances your website's performance 
+                    and search engine visibility. It ensures your content loads quickly and is immediately accessible to both users and search engines, 
+                    providing a superior browsing experience that converts visitors into customers.
+                  </p>
+                </Card>
+
+                <Card className="p-8 border-none shadow-lg">
+                  <div className="flex items-center mb-6">
+                    <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mr-4">
+                      <Code className="text-green-600 dark:text-green-400" size={24} />
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Technical Details</h3>
+                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                    {feature.name} is an advanced rendering strategy that processes web pages on the server before 
+                    sending them to the client browser. This approach generates fully-formed HTML content server-side, enabling immediate content visibility, 
+                    improved SEO crawling, and significantly faster initial page load times.
+                  </p>
+                </Card>
               </div>
             </div>
           </div>
         </section>
 
         {/* Why It Matters */}
-        <section className="py-16 bg-gray-50 dark:bg-gray-800">
+        <section className="py-20 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Why It Matters</h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900 rounded-lg flex items-center justify-center mb-4">
-                      <Target className="text-emerald-600 dark:text-emerald-400" size={24} />
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">SEO Benefits</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      Search engines can easily crawl and index your content, leading to better rankings and increased organic traffic.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
-                      <Zap className="text-blue-600 dark:text-blue-400" size={24} />
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Faster Initial Load Time</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      Users see content immediately upon page load, reducing bounce rates and improving user engagement.
-                    </p>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-4">
-                      <Users className="text-purple-600 dark:text-purple-400" size={24} />
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">Better UX for Crawlers</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">
-                      Search engine bots can efficiently process and understand your website structure and content.
-                    </p>
-                  </CardContent>
-                </Card>
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Why It Matters</h2>
+                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                  The measurable impact this feature brings to your website's performance and business success
+                </p>
+              </div>
+              
+              <div className="grid md:grid-cols-3 gap-8">
+                <div className="text-center group">
+                  <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Target className="text-white" size={32} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Enhanced SEO Performance</h3>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Search engines can easily crawl and index your content, leading to better rankings, increased organic traffic, and improved visibility in search results.
+                  </p>
+                  <div className="mt-4 p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
+                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Up to 40% better SEO rankings</span>
+                  </div>
+                </div>
+
+                <div className="text-center group">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Zap className="text-white" size={32} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Lightning-Fast Load Times</h3>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Users see content immediately upon page load, dramatically reducing bounce rates and significantly improving user engagement and conversion rates.
+                  </p>
+                  <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <span className="text-blue-600 dark:text-blue-400 font-semibold">50% faster page loads</span>
+                  </div>
+                </div>
+
+                <div className="text-center group">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Shield className="text-white" size={32} />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Superior Crawler Experience</h3>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                    Search engine bots can efficiently process and understand your website structure and content, ensuring complete indexing of your pages.
+                  </p>
+                  <div className="mt-4 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                    <span className="text-purple-600 dark:text-purple-400 font-semibold">100% content indexing</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -275,67 +320,97 @@ export default function FeatureDetail() {
         </section>
 
         {/* Our Implementation */}
-        <section className="py-16 bg-gray-50 dark:bg-gray-800">
+        <section className="py-20 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Our Implementation</h2>
-              <div className="grid md:grid-cols-2 gap-8">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <Wrench className="mr-2 text-primary" size={20} />
-                      Tools & Technologies
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex items-center">
-                        <Check className="text-emerald-500 mr-2" size={16} />
-                        <span className="text-gray-900 dark:text-white">Next.js for React applications</span>
+            <div className="max-w-6xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Our Expert Implementation</h2>
+                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                  Professional implementation using cutting-edge tools and proven methodologies
+                </p>
+              </div>
+              
+              <div className="grid lg:grid-cols-2 gap-12">
+                <div className="space-y-8">
+                  <div>
+                    <div className="flex items-center mb-6">
+                      <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mr-4">
+                        <Wrench className="text-white" size={24} />
                       </div>
-                      <div className="flex items-center">
-                        <Check className="text-emerald-500 mr-2" size={16} />
-                        <span className="text-gray-900 dark:text-white">Nuxt.js for Vue.js projects</span>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Advanced Technology Stack</h3>
+                    </div>
+                    <div className="space-y-4">
+                      <div className="flex items-center p-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
+                        <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded flex items-center justify-center mr-3">
+                          <Check className="text-blue-600 dark:text-blue-400" size={16} />
+                        </div>
+                        <div>
+                          <span className="font-semibold text-gray-900 dark:text-white">Next.js</span>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">For React applications with built-in SSR capabilities</p>
+                        </div>
                       </div>
-                      <div className="flex items-center">
-                        <Check className="text-emerald-500 mr-2" size={16} />
-                        <span className="text-gray-900 dark:text-white">SvelteKit for Svelte applications</span>
+                      <div className="flex items-center p-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
+                        <div className="w-8 h-8 bg-green-100 dark:bg-green-900 rounded flex items-center justify-center mr-3">
+                          <Check className="text-green-600 dark:text-green-400" size={16} />
+                        </div>
+                        <div>
+                          <span className="font-semibold text-gray-900 dark:text-white">Nuxt.js</span>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">For Vue.js projects with universal rendering</p>
+                        </div>
                       </div>
-                      <div className="flex items-center">
-                        <Check className="text-emerald-500 mr-2" size={16} />
-                        <span className="text-gray-900 dark:text-white">Custom Node.js solutions</span>
+                      <div className="flex items-center p-4 bg-white dark:bg-gray-900 rounded-lg shadow-sm">
+                        <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded flex items-center justify-center mr-3">
+                          <Check className="text-purple-600 dark:text-purple-400" size={16} />
+                        </div>
+                        <div>
+                          <span className="font-semibold text-gray-900 dark:text-white">Custom Node.js</span>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">Tailored server-side rendering solutions</p>
+                        </div>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <Settings className="mr-2 text-primary" size={20} />
-                      Implementation Process
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="flex items-center">
-                        <Check className="text-emerald-500 mr-2" size={16} />
-                        <span className="text-gray-900 dark:text-white">Performance analysis and optimization</span>
+                  </div>
+                </div>
+
+                <div className="space-y-8">
+                  <div>
+                    <div className="flex items-center mb-6">
+                      <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mr-4">
+                        <Settings className="text-white" size={24} />
                       </div>
-                      <div className="flex items-center">
-                        <Check className="text-emerald-500 mr-2" size={16} />
-                        <span className="text-gray-900 dark:text-white">SEO metadata configuration</span>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Implementation Process</h3>
+                    </div>
+                    <div className="space-y-6">
+                      <div className="flex items-start">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm mr-4 mt-1">1</div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Analysis & Planning</h4>
+                          <p className="text-gray-600 dark:text-gray-300 text-sm">Comprehensive performance audit and implementation strategy development</p>
+                        </div>
                       </div>
-                      <div className="flex items-center">
-                        <Check className="text-emerald-500 mr-2" size={16} />
-                        <span className="text-gray-900 dark:text-white">Caching strategy implementation</span>
+                      <div className="flex items-start">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm mr-4 mt-1">2</div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 dark:text-white mb-1">SEO Configuration</h4>
+                          <p className="text-gray-600 dark:text-gray-300 text-sm">Advanced metadata setup and search engine optimization</p>
+                        </div>
                       </div>
-                      <div className="flex items-center">
-                        <Check className="text-emerald-500 mr-2" size={16} />
-                        <span className="text-gray-900 dark:text-white">Quality testing and validation</span>
+                      <div className="flex items-start">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm mr-4 mt-1">3</div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Caching Strategy</h4>
+                          <p className="text-gray-600 dark:text-gray-300 text-sm">Intelligent caching implementation for optimal performance</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start">
+                        <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm mr-4 mt-1">4</div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Testing & Validation</h4>
+                          <p className="text-gray-600 dark:text-gray-300 text-sm">Rigorous quality assurance and performance validation</p>
+                        </div>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

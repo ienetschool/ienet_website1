@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, useLocation } from "wouter";
+import ContactModal from "@/components/modals/ContactModal";
+import { useContactModal } from "@/hooks/useContactModal";
 import { 
   Menu, 
   X, 
@@ -63,6 +65,7 @@ export default function ModernHeader() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const { user, isAuthenticated } = useAuth();
   const [location] = useLocation();
+  const { isOpen, openModal, closeModal, modalOptions } = useContactModal();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,11 +87,11 @@ export default function ModernHeader() {
     setIsDarkMode(!isDarkMode);
   };
 
-  const scrollToContact = () => {
-    const contactSection = document.getElementById('contact-section');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleContactClick = () => {
+    openModal({
+      subject: "General Inquiry - Contact Request",
+      message: "I'm interested in learning more about your services. Please contact me to discuss my requirements."
+    });
     setIsMobileMenuOpen(false);
   };
 
@@ -252,7 +255,7 @@ export default function ModernHeader() {
 
             {/* Get in Touch Button */}
             <Button 
-              onClick={scrollToContact}
+              onClick={handleContactClick}
               className="hidden lg:flex bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105"
             >
               <MessageCircle size={16} className="mr-2" />
@@ -335,7 +338,7 @@ export default function ModernHeader() {
                     )}
                     
                     <Button 
-                      onClick={scrollToContact}
+                      onClick={handleContactClick}
                       className="w-full mt-3 bg-primary hover:bg-primary/90 text-white"
                     >
                       <MessageCircle size={16} className="mr-2" />
@@ -348,6 +351,14 @@ export default function ModernHeader() {
           </div>
         )}
       </div>
+      
+      {/* Contact Modal */}
+      <ContactModal
+        isOpen={isOpen}
+        onClose={closeModal}
+        defaultSubject={modalOptions.subject}
+        defaultMessage={modalOptions.message}
+      />
     </header>
   );
 }

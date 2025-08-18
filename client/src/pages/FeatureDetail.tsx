@@ -329,228 +329,296 @@ export default function FeatureDetail() {
           </div>
         </section>
 
-        {/* Additional Feature Information */}
-        <section className="py-16 bg-gradient-to-br from-gray-50 to-slate-50 dark:from-gray-900 dark:to-slate-900">
+        {/* Additional Feature Information - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900 dark:to-amber-900">
           <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent">
+                Feature Information
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Comprehensive details about {feature.name} implementation and benefits
+              </p>
+            </div>
             <div className="max-w-4xl mx-auto">
               <div className="grid md:grid-cols-2 gap-8">
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-800">
-                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <Users className="h-6 w-6 text-primary" />
-                    Non-Technical Overview
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {feature.content || `${feature.name} is a powerful feature that enhances your application's capabilities and improves user experience. It provides essential functionality that helps your business operate more efficiently and deliver better results to your customers.`}
-                  </p>
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-amber-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                  <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-orange-200/50 dark:border-orange-800/50 hover:shadow-2xl hover:shadow-orange-500/20 transition-all duration-300">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="p-3 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl text-white">
+                        <Users className="h-8 w-8" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-orange-900 dark:text-orange-100">Non-Technical Overview</h3>
+                    </div>
+                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                      {feature.content || `${feature.name} is a powerful feature that enhances your application's capabilities and improves user experience. It provides essential functionality that helps your business operate more efficiently and deliver better results to your customers.`}
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-200 dark:border-gray-800">
-                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <Code className="h-6 w-6 text-primary" />
-                    Technical Details
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {feature.technicalDetails || `${feature.name} is implemented using modern development practices and industry-standard technologies. Our implementation ensures optimal performance, security, and scalability while maintaining code quality and maintainability.`}
-                  </p>
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-teal-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                  <div className="relative bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-2xl p-8 border border-cyan-200/50 dark:border-cyan-800/50 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="p-3 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-xl text-white">
+                        <Code className="h-8 w-8" />
+                      </div>
+                      <h3 className="text-2xl font-bold text-cyan-900 dark:text-cyan-100">Technical Details</h3>
+                    </div>
+                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                      {feature.technicalDetails || `${feature.name} is implemented using modern development practices and industry-standard technologies. Our implementation ensures optimal performance, security, and scalability while maintaining code quality and maintainability.`}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Why It Matters */}
-        <section className="py-20">
+        {/* Why It Matters - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-rose-50 to-pink-50 dark:from-rose-900 dark:to-pink-900">
           <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Why {feature.name} Matters</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-rose-600 to-pink-600 bg-clip-text text-transparent">
+                Why {feature.name} Matters
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Understanding the key benefits and impact of implementing {feature.name}
               </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-primary/10 rounded-full">
-                    <TrendingUp className="h-8 w-8 text-primary" />
+              {[
+                {
+                  icon: TrendingUp,
+                  title: "Performance Enhancement",
+                  description: "Significantly improves application speed and responsiveness",
+                  colors: "from-rose-500/20 to-pink-500/20 border-rose-200 dark:border-rose-800 shadow-rose-500/20"
+                },
+                {
+                  icon: Globe,
+                  title: "Better User Experience", 
+                  description: "Creates smoother, more intuitive interactions for users",
+                  colors: "from-purple-500/20 to-violet-500/20 border-purple-200 dark:border-purple-800 shadow-purple-500/20"
+                },
+                {
+                  icon: Shield,
+                  title: "Enhanced Security",
+                  description: "Provides additional security layers and protection measures",
+                  colors: "from-indigo-500/20 to-blue-500/20 border-indigo-200 dark:border-indigo-800 shadow-indigo-500/20"
+                }
+              ].map((item, index) => {
+                const IconComponent = item.icon;
+                return (
+                  <div key={index} className="relative group">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${item.colors.split(' ')[0]} ${item.colors.split(' ')[1]} rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-60`} />
+                    <div className={`relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border ${item.colors.split(' ')[2]} ${item.colors.split(' ')[3]} hover:shadow-2xl hover:${item.colors.split(' ')[4]} transition-all duration-300 text-center`}>
+                      <div className="flex justify-center mb-6">
+                        <div className="p-4 bg-gradient-to-br from-primary to-primary/60 rounded-full text-white">
+                          <IconComponent className="h-8 w-8" />
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">{item.title}</h3>
+                      <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <h3 className="font-semibold mb-2">Performance Enhancement</h3>
-                <p className="text-muted-foreground text-sm">
-                  Significantly improves application speed and responsiveness
-                </p>
-              </Card>
-
-              <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-primary/10 rounded-full">
-                    <Globe className="h-8 w-8 text-primary" />
-                  </div>
-                </div>
-                <h3 className="font-semibold mb-2">Better User Experience</h3>
-                <p className="text-muted-foreground text-sm">
-                  Creates smoother, more intuitive interactions for users
-                </p>
-              </Card>
-
-              <Card className="p-6 text-center hover:shadow-lg transition-shadow">
-                <div className="flex justify-center mb-4">
-                  <div className="p-3 bg-primary/10 rounded-full">
-                    <Shield className="h-8 w-8 text-primary" />
-                  </div>
-                </div>
-                <h3 className="font-semibold mb-2">Enhanced Security</h3>
-                <p className="text-muted-foreground text-sm">
-                  Provides additional security layers and protection measures
-                </p>
-              </Card>
+                );
+              })}
             </div>
           </div>
         </section>
 
-        {/* Use Cases */}
-        <section className="py-20 bg-muted/30">
+        {/* Use Cases - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-teal-900 dark:to-cyan-900">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8 text-center">Use Cases</h2>
-              <p className="text-center text-muted-foreground mb-12">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                Use Cases
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 {feature.name} works best for these types of applications and scenarios
               </p>
-
-              <div className="space-y-4">
+            </div>
+            <div className="max-w-4xl mx-auto">
+              <div className="space-y-6">
                 {useCases.map((useCase, index) => (
-                  <Card key={index} className="p-4 hover:shadow-md transition-shadow">
-                    <div className="flex items-center gap-3">
-                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
-                      <span>{useCase}</span>
+                  <div key={index} className="relative group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-teal-500/20 to-cyan-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                    <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-6 border border-teal-200/50 dark:border-teal-800/50 hover:shadow-2xl hover:shadow-teal-500/20 transition-all duration-300">
+                      <div className="flex items-center gap-4">
+                        <div className="p-2 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-xl text-white flex-shrink-0">
+                          <CheckCircle className="h-6 w-6" />
+                        </div>
+                        <span className="text-slate-700 dark:text-slate-300 font-medium">{useCase}</span>
+                      </div>
                     </div>
-                  </Card>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
         </section>
 
-        {/* Our Implementation */}
-        <section className="py-20">
+        {/* Our Implementation - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-900 dark:to-yellow-900">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold mb-8 text-center">Our Implementation</h2>
-              <p className="text-center text-muted-foreground mb-12">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent">
+                Our Implementation
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 How our team ensures correct {feature.name} setup and optimization
               </p>
-
+            </div>
+            <div className="max-w-4xl mx-auto">
               <div className="grid md:grid-cols-2 gap-8">
-                <Card className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <Cog className="h-6 w-6 text-primary" />
-                    Tools & Technologies
-                  </h3>
-                  <div className="space-y-3">
-                    {implementationTools.map((tool, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
-                        <span className="text-sm">{tool}</span>
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-yellow-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                  <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border border-amber-200/50 dark:border-amber-800/50 hover:shadow-2xl hover:shadow-amber-500/20 transition-all duration-300">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="p-3 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-xl text-white">
+                        <Cog className="h-8 w-8" />
                       </div>
-                    ))}
+                      <h3 className="text-2xl font-bold text-amber-900 dark:text-amber-100">Tools & Technologies</h3>
+                    </div>
+                    <div className="space-y-4">
+                      {implementationTools.map((tool, index) => (
+                        <div key={index} className="flex items-center gap-3">
+                          <div className="w-3 h-3 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-full flex-shrink-0" />
+                          <span className="text-slate-700 dark:text-slate-300 font-medium">{tool}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </Card>
+                </div>
 
-                <Card className="p-6">
-                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <Lightbulb className="h-6 w-6 text-primary" />
-                    Benefits You'll See
-                  </h3>
-                  <div className="space-y-3">
-                    {(feature.benefits || "Improved performance, Better user experience, Enhanced reliability, Increased efficiency, Future-proof solution").split(', ').map((benefit: string, index: number) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
-                        <span className="text-sm">{benefit}</span>
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-lime-500/20 to-green-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                  <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border border-lime-200/50 dark:border-lime-800/50 hover:shadow-2xl hover:shadow-lime-500/20 transition-all duration-300">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="p-3 bg-gradient-to-br from-lime-500 to-green-500 rounded-xl text-white">
+                        <Lightbulb className="h-8 w-8" />
                       </div>
-                    ))}
+                      <h3 className="text-2xl font-bold text-lime-900 dark:text-lime-100">Benefits You'll See</h3>
+                    </div>
+                    <div className="space-y-4">
+                      {(feature.benefits || "Improved performance, Better user experience, Enhanced reliability, Increased efficiency, Future-proof solution").split(', ').map((benefit: string, index: number) => (
+                        <div key={index} className="flex items-center gap-3">
+                          <div className="p-1 bg-gradient-to-br from-lime-500 to-green-500 rounded-full text-white flex-shrink-0">
+                            <CheckCircle className="w-4 h-4" />
+                          </div>
+                          <span className="text-slate-700 dark:text-slate-300 font-medium">{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </Card>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Linked Sub-Services */}
-        <section className="py-20 bg-muted/30">
+        {/* Linked Sub-Services - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-900 dark:to-purple-900">
           <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Related Services</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                Related Services
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Services that utilize {feature.name} for enhanced functionality
               </p>
             </div>
 
-            <div className="grid md:grid-cols-1 gap-6 max-w-2xl mx-auto">
-              <Card className="p-6 hover:shadow-lg transition-shadow group">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 bg-primary/10 rounded-lg">
-                    <Settings className="h-8 w-8 text-primary" />
+            <div className="grid md:grid-cols-1 gap-6 max-w-3xl mx-auto">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+                <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border border-indigo-200/50 dark:border-indigo-800/50 hover:shadow-2xl hover:shadow-indigo-500/20 transition-all duration-300">
+                  <div className="flex items-center gap-6">
+                    <div className="p-4 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl text-white">
+                      <Settings className="h-10 w-10" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold mb-3 text-indigo-900 dark:text-indigo-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                        {service?.name}
+                      </h3>
+                      <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                        {service?.description || `Professional ${service?.name} implementation with ${feature.name} feature`}
+                      </p>
+                    </div>
+                    <Button asChild variant="outline" size="lg" className="border-indigo-300 hover:bg-indigo-50 dark:hover:bg-indigo-900">
+                      <Link href={`/services/${categorySlug}/${serviceSlug}`}>
+                        View Service
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </Button>
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
-                      {service?.name}
-                    </h3>
-                    <p className="text-muted-foreground text-sm">
-                      {service?.description || `Professional ${service?.name} implementation with ${feature.name} feature`}
-                    </p>
-                  </div>
-                  <Button asChild variant="outline">
-                    <Link href={`/services/${categorySlug}/${serviceSlug}`}>
-                      View Service
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
                 </div>
-              </Card>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Related Features */}
-        <section className="py-20">
+        {/* Related Features - Multi-Color Design */}
+        <section className="py-20 bg-gradient-to-br from-pink-50 to-rose-50 dark:from-pink-900 dark:to-rose-900">
           <div className="container mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Related Features</h2>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-pink-600 to-rose-600 bg-clip-text text-transparent">
+                Related Features
+              </h2>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
                 Other features that complement {feature.name}
               </p>
             </div>
 
             {relatedFeatures && relatedFeatures.length > 0 ? (
               <div className="grid md:grid-cols-3 gap-8">
-                {relatedFeatures.map((relatedFeature: any) => (
-                  <Card key={relatedFeature.id} className="group hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="flex items-start gap-3 mb-4">
-                        <div className="p-2 bg-primary/10 rounded-lg">
-                          <FileText className="h-5 w-5 text-primary" />
+                {relatedFeatures.map((relatedFeature: any, index: number) => {
+                  const colorVariants = [
+                    'from-pink-500/20 to-rose-500/20 border-pink-200 dark:border-pink-800 shadow-pink-500/20',
+                    'from-purple-500/20 to-violet-500/20 border-purple-200 dark:border-purple-800 shadow-purple-500/20',
+                    'from-blue-500/20 to-indigo-500/20 border-blue-200 dark:border-blue-800 shadow-blue-500/20'
+                  ];
+                  const colors = colorVariants[index % colorVariants.length];
+                  
+                  return (
+                    <div key={relatedFeature.id} className="relative group">
+                      <div className={`absolute inset-0 bg-gradient-to-br ${colors.split(' ')[0]} ${colors.split(' ')[1]} rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300`} />
+                      <div className={`relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-6 border ${colors.split(' ')[2]} ${colors.split(' ')[3]} hover:shadow-2xl hover:${colors.split(' ')[4]} transition-all duration-300`}>
+                        <div className="flex items-start gap-4 mb-4">
+                          <div className="p-3 bg-gradient-to-br from-primary to-primary/60 rounded-xl text-white">
+                            <FileText className="h-6 w-6" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors">
+                              {relatedFeature.name}
+                            </h3>
+                          </div>
                         </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
-                            {relatedFeature.name}
-                          </h3>
-                        </div>
+                        <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
+                          {relatedFeature.description}
+                        </p>
+                        <Button asChild variant="ghost" size="sm" className="w-full justify-center hover:bg-primary/10">
+                          <Link href={`/services/${categorySlug}/${serviceSlug}/${relatedFeature.slug}`}>
+                            Learn More
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                          </Link>
+                        </Button>
                       </div>
-                      <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
-                        {relatedFeature.description}
-                      </p>
-                      <Button asChild variant="ghost" size="sm">
-                        <Link href={`/services/${categorySlug}/${serviceSlug}/${relatedFeature.slug}`}>
-                          Learn More
-                          <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
+                    </div>
+                  );
+                })}
               </div>
             ) : (
-              <div className="text-center py-8">
-                <p className="text-muted-foreground">Related features coming soon.</p>
+              <div className="text-center py-12">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-300/20 to-slate-300/20 rounded-2xl blur-xl" />
+                  <div className="relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50 dark:border-gray-800/50">
+                    <p className="text-muted-foreground text-lg">Related features coming soon.</p>
+                  </div>
+                </div>
               </div>
             )}
           </div>

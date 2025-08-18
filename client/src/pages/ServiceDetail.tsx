@@ -18,7 +18,7 @@ import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
 import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import LocalSEO from "@/components/seo/LocalSEO";
 import { TagSystem } from "@/components/seo/TagSystem";
-import { InternalLinkingSection } from "@/components/seo/InternalLinking";
+import { InternalLinking } from "@/components/seo/InternalLinking";
 import { 
   ArrowRight,
   CheckCircle,
@@ -530,7 +530,7 @@ Whether you're a startup looking to establish your digital presence or an enterp
       />
       
       {/* Internal Linking System */}
-      <InternalLinkingSection
+      <InternalLinking
         currentType="service"
         currentItem={category}
         category={category}

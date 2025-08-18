@@ -18,7 +18,7 @@ import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
 import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import LocalSEO from "@/components/seo/LocalSEO";
 import { TagSystem } from "@/components/seo/TagSystem";
-import { InternalLinkingSection } from "@/components/seo/InternalLinking";
+import { InternalLinking } from "@/components/seo/InternalLinking";
 import { 
   ArrowRight,
   CheckCircle,
@@ -528,7 +528,7 @@ export default function FeatureDetail() {
       />
       
       {/* Internal Linking System */}
-      <InternalLinkingSection
+      <InternalLinking
         currentType="feature"
         currentItem={feature}
         category={category}

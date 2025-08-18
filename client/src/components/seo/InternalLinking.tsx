@@ -37,7 +37,7 @@ const iconMap = {
   default: Tag
 };
 
-export function InternalLinkingSection({ 
+export function InternalLinking({ 
   currentType, 
   currentItem, 
   category, 

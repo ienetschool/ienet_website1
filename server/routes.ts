@@ -433,7 +433,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const baseUrl = process.env.NODE_ENV === 'production' 
         ? 'https://your-domain.replit.app' 
-        : `http://localhost:5000`;
+        : `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}`;
 
       // Static pages
       const staticUrls = [
@@ -533,7 +533,7 @@ ${allUrls.map(url => `  <url>
     try {
       const baseUrl = process.env.NODE_ENV === 'production' 
         ? 'https://your-domain.replit.app' 
-        : `http://localhost:5000`;
+        : `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}`;
 
       // Static pages with live status
       const staticPages = [

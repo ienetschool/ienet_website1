@@ -16,7 +16,7 @@ export async function generatePageStatusReport() {
   console.log('Generating comprehensive page status report...');
 
   const report: PageStatus[] = [];
-  const baseUrl = 'http://localhost:5000';
+  const baseUrl = process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000';
 
   // Static pages
   const staticPages = [

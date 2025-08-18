@@ -229,7 +229,7 @@ router.get('/sitemap.xml', async (req, res) => {
   try {
     const baseUrl = process.env.NODE_ENV === 'production' 
       ? 'https://your-domain.replit.app' 
-      : 'http://localhost:5000';
+      : `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}`;
 
     // Static pages
     const staticUrls = [
@@ -320,7 +320,7 @@ router.get('/sitemap', async (req, res) => {
   try {
     const baseUrl = process.env.NODE_ENV === 'production' 
       ? 'https://your-domain.replit.app' 
-      : 'http://localhost:5000';
+      : `${process.env.REPLIT_DEV_DOMAIN || 'http://localhost:5000'}`;
 
     // Static pages with live status
     const staticPages = [

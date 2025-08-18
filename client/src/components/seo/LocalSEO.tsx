@@ -136,7 +136,7 @@ interface LocalSEOProps {
 
 export default function LocalSEO({ serviceArea, services = [] }: LocalSEOProps) {
   const businessSchema = generateLocalBusinessSchema();
-  const serviceSchema = generateServiceAreaSchema(serviceArea, `Professional ${serviceArea.toLowerCase()} services with comprehensive solutions.`);
+  const serviceSchema = generateServiceAreaSchema(serviceArea, `Professional ${serviceArea?.toLowerCase() || 'service'} services with comprehensive solutions.`);
 
   return (
     <>

@@ -344,4 +344,86 @@ export function registerDashboardRoutes(app: Express) {
       res.status(500).json({ message: "Failed to export leads" });
     }
   });
+
+  // Pages management endpoints
+  app.get("/api/pages", async (req, res) => {
+    try {
+      // For now, return empty array - can be extended to return actual pages from CMS
+      res.json([]);
+    } catch (error) {
+      console.error("Error fetching pages:", error);
+      res.status(500).json({ message: "Failed to fetch pages" });
+    }
+  });
+
+  app.post("/api/pages", async (req, res) => {
+    try {
+      // For now, just return success - can be extended to create actual pages
+      res.json({ id: Date.now(), ...req.body, createdAt: new Date(), updatedAt: new Date() });
+    } catch (error) {
+      console.error("Error creating page:", error);
+      res.status(500).json({ message: "Failed to create page" });
+    }
+  });
+
+  app.patch("/api/pages/:id", async (req, res) => {
+    try {
+      // For now, just return success - can be extended to update actual pages
+      res.json({ id: req.params.id, ...req.body, updatedAt: new Date() });
+    } catch (error) {
+      console.error("Error updating page:", error);
+      res.status(500).json({ message: "Failed to update page" });
+    }
+  });
+
+  app.delete("/api/pages/:id", async (req, res) => {
+    try {
+      // For now, just return success - can be extended to delete actual pages
+      res.json({ message: "Page deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting page:", error);
+      res.status(500).json({ message: "Failed to delete page" });
+    }
+  });
+
+  // Services management endpoints  
+  app.get("/api/services", async (req, res) => {
+    try {
+      const services = await storage.getServices();
+      res.json(services);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+      res.status(500).json({ message: "Failed to fetch services" });
+    }
+  });
+
+  app.post("/api/services", async (req, res) => {
+    try {
+      const service = await storage.createService(req.body);
+      res.json(service);
+    } catch (error) {
+      console.error("Error creating service:", error);
+      res.status(500).json({ message: "Failed to create service" });
+    }
+  });
+
+  app.patch("/api/services/:id", async (req, res) => {
+    try {
+      const service = await storage.updateService(Number(req.params.id), req.body);
+      res.json(service);
+    } catch (error) {
+      console.error("Error updating service:", error);
+      res.status(500).json({ message: "Failed to update service" });
+    }
+  });
+
+  app.delete("/api/services/:id", async (req, res) => {
+    try {
+      await storage.deleteService(Number(req.params.id));
+      res.json({ message: "Service deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting service:", error);
+      res.status(500).json({ message: "Failed to delete service" });
+    }
+  });
 }

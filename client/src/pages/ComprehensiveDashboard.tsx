@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { PagesManagement } from "./dashboard/PagesManagement";
+import { ServicesManagement } from "./dashboard/ServicesManagement";
 import {
   BarChart3,
   Users,
@@ -183,53 +185,7 @@ function DashboardOverview({ stats }: { stats?: DashboardStats }) {
   );
 }
 
-// Pages Management Section
-function PagesManagement() {
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Pages Management</h2>
-          <p className="text-muted-foreground">Manage your website pages and content</p>
-        </div>
-        <Button>
-          <Plus className="w-4 h-4 mr-2" />
-          New Page
-        </Button>
-      </div>
-      
-      <Card>
-        <CardContent className="p-6">
-          <p className="text-center text-muted-foreground">Pages management interface will be implemented here.</p>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
 
-// Services Management Section  
-function ServicesManagement() {
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Services Management</h2>
-          <p className="text-muted-foreground">Manage your service categories and offerings</p>
-        </div>
-        <Button>
-          <Plus className="w-4 h-4 mr-2" />
-          New Service
-        </Button>
-      </div>
-      
-      <Card>
-        <CardContent className="p-6">
-          <p className="text-center text-muted-foreground">Services management interface will be implemented here.</p>
-        </CardContent>
-      </Card>
-    </div>
-  );
-}
 
 // Generic Section Component for other sections
 function GenericSection({ title, description, icon }: { title: string; description: string; icon: any }) {
@@ -289,7 +245,7 @@ export default function ComprehensiveDashboard() {
         return <DashboardOverview stats={stats} />;
       case 'pages':
         return <PagesManagement />;
-      case 'services':
+      case 'services':  
         return <ServicesManagement />;
       case 'features':
         return <GenericSection title="Features Management" description="Manage your service features" icon={Zap} />;

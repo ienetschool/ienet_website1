@@ -24,7 +24,7 @@ ${urls.map(url => `  <url>
   return xml;
 }
 
-// Helper function to generate HTML sitemap
+// Helper function to generate HTML sitemap with list format
 function generateHTMLSitemap(urls: Array<{
   url: string;
   title: string;
@@ -40,184 +40,203 @@ function generateHTMLSitemap(urls: Array<{
     return acc;
   }, {} as Record<string, typeof urls>);
 
+  const activePages = urls.filter(u => u.status === 'active');
+  const inactivePages = urls.filter(u => u.status === 'inactive');
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IeNet Sitemap - Complete Site Structure</title>
-    <meta name="description" content="Complete sitemap of IeNet's IT services platform with all pages, services, and resources.">
+    <title>IeNet Sitemap - Complete Site Map with Active Status</title>
+    <meta name="description" content="Complete hierarchical sitemap of IeNet's IT services platform showing all active and inactive pages with status indicators.">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6; 
-            color: #333; 
-            background: #f8fafc;
+            color: #2d3748; 
+            background: #f7fafc;
             padding: 2rem;
         }
         .container { max-width: 1200px; margin: 0 auto; }
         h1 { 
-            color: #1e40af; 
+            color: #1a365d; 
             margin-bottom: 2rem; 
             font-size: 2.5rem;
             text-align: center;
-            border-bottom: 3px solid #3b82f6;
+            border-bottom: 4px solid #3182ce;
             padding-bottom: 1rem;
         }
         h2 { 
-            color: #1e40af; 
-            margin: 2rem 0 1rem 0; 
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, #3b82f6, #1e40af);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #2c5282; 
+            margin: 2.5rem 0 1rem 0; 
+            font-size: 1.8rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, #bee3f8, #90cdf4);
+            border-radius: 8px;
+            border-left: 6px solid #3182ce;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(66, 153, 225, 0.3);
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 500;
         }
         .sitemap-section {
             background: white;
             border-radius: 12px;
             padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e2e8f0;
         }
-        .url-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
+        .url-list {
+            list-style: none;
+            padding: 0;
             margin-top: 1rem;
         }
         .url-item {
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
             padding: 1rem;
+            margin-bottom: 0.8rem;
             transition: all 0.3s ease;
-            position: relative;
-        }
-        .url-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
-            border-color: #3b82f6;
-        }
-        .url-item a {
-            color: #1e40af;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        .url-item a:hover {
-            color: #3b82f6;
-            text-decoration: underline;
-        }
-        .url-meta {
-            font-size: 0.875rem;
-            color: #64748b;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 0.5rem;
         }
-        .status {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
+        .url-item:hover {
+            background: #edf2f7;
+            border-color: #4299e1;
+            transform: translateX(5px);
+        }
+        .url-link {
+            color: #2b6cb0;
+            text-decoration: none;
             font-weight: 600;
-            text-transform: uppercase;
-        }
-        .status.active {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-        }
-        .status.inactive {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-        }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 3rem;
-        }
-        .stat-card {
-            background: linear-gradient(135deg, #3b82f6, #1e40af);
-            color: white;
-            padding: 2rem;
-            border-radius: 12px;
-            text-align: center;
-            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
-        }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-        .stat-label {
             font-size: 1rem;
-            opacity: 0.9;
+            flex-grow: 1;
         }
-        .last-updated {
+        .url-link:hover {
+            color: #2c5282;
+            text-decoration: underline;
+        }
+        .url-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .status-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .status-badge.active {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+        }
+        .status-badge.inactive {
+            background: linear-gradient(135deg, #ed8936, #dd6b20);
+            color: white;
+        }
+        .last-updated-text {
+            color: #718096;
+            font-size: 0.85rem;
+        }
+        .footer-info {
             text-align: center;
-            color: #64748b;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e5e7eb;
-            font-size: 0.875rem;
+            color: #718096;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+            font-size: 0.95rem;
+        }
+        .footer-info a {
+            color: #3182ce;
+            text-decoration: none;
+        }
+        .footer-info a:hover {
+            text-decoration: underline;
         }
         @media (max-width: 768px) {
             body { padding: 1rem; }
             h1 { font-size: 2rem; }
-            .url-grid { grid-template-columns: 1fr; }
+            .url-item { flex-direction: column; align-items: flex-start; }
+            .url-meta { margin-top: 0.5rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>IeNet Complete Sitemap</h1>
+        <h1>🌐 IeNet Complete Sitemap</h1>
         
-        <div class="stats">
+        <div class="stats-grid">
             <div class="stat-card">
                 <span class="stat-number">${urls.length}</span>
                 <span class="stat-label">Total Pages</span>
             </div>
             <div class="stat-card">
-                <span class="stat-number">${urls.filter(u => u.status === 'active').length}</span>
+                <span class="stat-number">${activePages.length}</span>
                 <span class="stat-label">Active Pages</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">${inactivePages.length}</span>
+                <span class="stat-label">Inactive Pages</span>
             </div>
             <div class="stat-card">
                 <span class="stat-number">${Object.keys(groupedUrls).length}</span>
                 <span class="stat-label">Categories</span>
             </div>
-            <div class="stat-card">
-                <span class="stat-number">${new Date().toLocaleDateString()}</span>
-                <span class="stat-label">Last Updated</span>
-            </div>
         </div>
 
         ${Object.entries(groupedUrls).map(([category, categoryUrls]) => `
         <div class="sitemap-section">
-            <h2>${category}</h2>
-            <div class="url-grid">
+            <h2>📁 ${category} (${categoryUrls.length} pages)</h2>
+            <ul class="url-list">
                 ${categoryUrls.map(item => `
-                <div class="url-item">
-                    <a href="${item.url}" target="_self">${item.title}</a>
+                <li class="url-item">
+                    <a href="${item.url}" class="url-link">${item.title}</a>
                     <div class="url-meta">
-                        <span>Updated: ${item.lastUpdated}</span>
-                        <span class="status ${item.status}">${item.status}</span>
+                        <span class="last-updated-text">Updated: ${item.lastUpdated}</span>
+                        <span class="status-badge ${item.status}">${item.status}</span>
                     </div>
-                </div>
+                </li>
                 `).join('')}
-            </div>
+            </ul>
         </div>
         `).join('')}
 
-        <div class="last-updated">
-            <p>Sitemap generated on ${new Date().toLocaleString()}</p>
-            <p>For technical support, contact <a href="mailto:support@ienet.com">support@ienet.com</a></p>
+        <div class="footer-info">
+            <p><strong>Sitemap generated on ${new Date().toLocaleString()}</strong></p>
+            <p>Total Active Pages: ${activePages.length} | Total Inactive Pages: ${inactivePages.length}</p>
+            <p>For technical support or questions, contact <a href="mailto:support@ienet.com">support@ienet.com</a></p>
         </div>
     </div>
 </body>

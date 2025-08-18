@@ -18,6 +18,7 @@ import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
 import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import LocalSEO from "@/components/seo/LocalSEO";
 import { TagSystem } from "@/components/seo/TagSystem";
+import { InternalLinkingSection } from "@/components/seo/InternalLinking";
 import { 
   ArrowRight,
   CheckCircle,
@@ -33,7 +34,9 @@ import {
   Target,
   TrendingUp,
   Users,
-  Zap
+  Zap,
+  Lightbulb,
+  Settings
 } from "lucide-react";
 
 export default function FeatureDetail() {
@@ -55,9 +58,10 @@ export default function FeatureDetail() {
   });
 
   const { data: relatedFeatures } = useQuery({
-    queryKey: ['/api/features', serviceSlug],
-    queryFn: () => fetch(`/api/features?serviceSlug=${serviceSlug}`).then(res => res.json()),
+    queryKey: ['/api/features', service?.id],
+    queryFn: () => service?.id ? fetch(`/api/features?serviceId=${service.id}`).then(res => res.json()) : Promise.resolve([]),
     select: (data) => data?.filter((f: any) => f.slug !== featureSlug).slice(0, 3) || [],
+    enabled: !!service?.id,
   });
 
   if (isLoading) {
@@ -87,20 +91,16 @@ export default function FeatureDetail() {
     );
   }
 
-  if (!feature || !service || !category) {
+  if (!feature) {
     return (
       <div className="min-h-screen bg-background">
         <ModernHeader />
         <main className="py-20">
           <div className="container mx-auto px-6 text-center">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Feature Not Found
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300 mb-8">
-              The feature you're looking for doesn't exist or has been moved.
-            </p>
+            <h1 className="text-4xl font-bold mb-4">Feature Not Found</h1>
+            <p className="text-muted-foreground mb-8">The feature you're looking for doesn't exist.</p>
             <Button asChild>
-              <Link href="/services">Back to Services</Link>
+              <Link href="/services">View All Services</Link>
             </Button>
           </div>
         </main>
@@ -109,186 +109,111 @@ export default function FeatureDetail() {
     );
   }
 
-  const seoConfig = {
-    title: `${feature.name} - ${service.name} | IeNet`,
-    description: `Comprehensive ${feature.name?.toLowerCase() || feature.name} capabilities within our ${service.name?.toLowerCase() || service.name} service. Advanced implementation with expert support and professional results.`,
-    keywords: `${feature.name?.toLowerCase() || feature.name}, ${service.name?.toLowerCase() || service.name}, ${category.name?.toLowerCase() || category.name}, ${featureSlug}, advanced features, professional implementation`,
-    openGraph: {
-      title: `${feature.name} - ${service.name} | IeNet`,
-      description: `Advanced ${feature.name?.toLowerCase() || feature.name} implementation with comprehensive features and expert support.`,
-      type: "website"
-    }
-  };
-
-  const breadcrumbData = [
-    { name: "Home", url: "/" },
-    { name: "Services", url: "/services" },
-    { name: category.name, url: `/services/${categorySlug}` },
-    { name: service.name, url: `/services/${categorySlug}/${serviceSlug}` },
-    { name: feature.name, url: `/services/${categorySlug}/${serviceSlug}/${featureSlug}` }
+  // Use cases for this feature
+  const useCases = [
+    "Enterprise applications with high traffic loads",
+    "E-commerce platforms requiring fast page loads",
+    "Content-heavy websites and blogs",
+    "Mobile applications with performance requirements",
+    "SEO-optimized marketing websites"
   ];
 
-  const faqSchema = generateFAQSchema([
-    {
-      question: `What does ${feature.name} include?`,
-      answer: `Our ${feature.name?.toLowerCase() || feature.name} feature provides comprehensive capabilities including implementation, customization, testing, and ongoing support. It's designed to deliver professional results that exceed expectations.`
-    },
-    {
-      question: "How is this feature implemented?",
-      answer: "We follow industry best practices with thorough planning, professional implementation, comprehensive testing, and detailed documentation to ensure optimal performance and reliability."
-    },
-    {
-      question: "What support is provided?",
-      answer: "Complete support including implementation assistance, customization guidance, performance optimization, and ongoing maintenance to ensure your feature continues performing at peak levels."
-    }
-  ]);
-
-  const featureCapabilities = [
-    {
-      icon: Target,
-      title: "Precision Implementation",
-      description: "Exact implementation according to specifications and requirements"
-    },
-    {
-      icon: Cog,
-      title: "Advanced Configuration",
-      description: "Comprehensive configuration options for optimal performance"
-    },
-    {
-      icon: Shield,
-      title: "Security Integration",
-      description: "Built-in security measures and compliance standards"
-    },
-    {
-      icon: Zap,
-      title: "Performance Optimized",
-      description: "Optimized for speed, efficiency, and scalability"
-    },
-    {
-      icon: CheckCircle,
-      title: "Quality Assured",
-      description: "Rigorous testing and quality control processes"
-    },
-    {
-      icon: Users,
-      title: "User-Focused",
-      description: "Designed with user experience and accessibility in mind"
-    }
-  ];
-
-  const implementationSteps = [
-    {
-      step: 1,
-      title: "Requirements Analysis",
-      description: "Detailed analysis of feature requirements and integration points",
-      details: ["Stakeholder interviews", "Technical requirements gathering", "Integration mapping", "Performance benchmarks"]
-    },
-    {
-      step: 2,
-      title: "Design & Architecture",
-      description: "Technical design and architecture planning for optimal implementation",
-      details: ["System architecture design", "Integration planning", "Performance specifications", "Security considerations"]
-    },
-    {
-      step: 3,
-      title: "Development & Implementation",
-      description: "Professional development following best practices and coding standards",
-      details: ["Core functionality development", "Integration implementation", "Performance optimization", "Security implementation"]
-    },
-    {
-      step: 4,
-      title: "Testing & Validation",
-      description: "Comprehensive testing to ensure reliability and performance",
-      details: ["Unit testing", "Integration testing", "Performance testing", "Security validation"]
-    },
-    {
-      step: 5,
-      title: "Deployment & Support",
-      description: "Professional deployment with ongoing support and maintenance",
-      details: ["Production deployment", "User training", "Documentation", "Ongoing support"]
-    }
-  ];
-
-  const technicalSpecs = [
-    {
-      category: "Performance",
-      items: ["Sub-second response times", "99.9% uptime guarantee", "Auto-scaling capabilities", "Load balancing optimization"]
-    },
-    {
-      category: "Security",
-      items: ["End-to-end encryption", "Multi-factor authentication", "Regular security audits", "Compliance certifications"]
-    },
-    {
-      category: "Integration",
-      items: ["RESTful API support", "Webhook notifications", "Third-party integrations", "Custom middleware support"]
-    },
-    {
-      category: "Monitoring",
-      items: ["Real-time analytics", "Performance monitoring", "Error tracking", "Custom reporting"]
-    }
+  // Implementation tools and technologies
+  const implementationTools = [
+    "Modern frameworks and libraries",
+    "Industry-standard development tools", 
+    "Performance monitoring solutions",
+    "Automated testing frameworks",
+    "CI/CD deployment pipelines"
   ];
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead 
-        {...seoConfig}
-        breadcrumbData={breadcrumbData}
-        structuredData={faqSchema}
+      <SEOHead
+        title={feature.metaTitle || `${feature.name} - ${service?.name} | IeNet Technical Features`}
+        description={feature.metaDescription || `Learn about ${feature.name} implementation and benefits. Technical details and use cases for ${service?.name} feature.`}
+        canonical={`/features/${categorySlug}/${serviceSlug}/${featureSlug}`}
+        keywords={`${feature.name}, ${service?.name}, ${category?.name}, technical implementation, software development, IT solutions`}
+        openGraph={{
+          title: `${feature.name} - ${service?.name} | IeNet`,
+          description: feature.description || `${feature.name} implementation and technical details`,
+          image: '/images/og-feature.jpg',
+          url: `/features/${categorySlug}/${serviceSlug}/${featureSlug}`,
+          type: 'article'
+        }}
+        twitter={{
+          card: 'summary_large_image',
+          title: `${feature.name} - ${service?.name} | IeNet`,
+          description: feature.description || `${feature.name} implementation and technical details`,
+          image: '/images/twitter-feature.jpg'
+        }}
+        structuredData={[
+          {
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            "headline": feature.name,
+            "description": feature.description,
+            "author": {
+              "@type": "Organization",
+              "name": "IeNet"
+            },
+            "publisher": {
+              "@type": "Organization",
+              "name": "IeNet",
+              "logo": "https://ienet.com/logo.png"
+            },
+            "mainEntityOfPage": `/features/${categorySlug}/${serviceSlug}/${featureSlug}`,
+            "articleSection": "Technology",
+            "keywords": `${feature.name}, ${service?.name}, technical implementation`
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Services",
+                "item": "/services"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": category?.name,
+                "item": `/services/${categorySlug}`
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "name": service?.name,
+                "item": `/services/${categorySlug}/${serviceSlug}`
+              },
+              {
+                "@type": "ListItem",
+                "position": 5,
+                "name": feature.name,
+                "item": `/features/${categorySlug}/${serviceSlug}/${featureSlug}`
+              }
+            ]
+          }
+        ]}
       />
-      <SEOAnalytics 
-        pageType="feature"
-        pageName={feature.name}
-      />
-      <LocalSEO 
-        serviceArea={feature.name}
-        services={[service.name]}
-      />
+      
       <ModernHeader />
-
-      {/* Floating CTA Button */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
-          <MessageCircle size={20} />
-          <span className="hidden sm:block">Get Demo</span>
-        </Button>
-      </div>
-
+      
       <main>
-        {/* Hero Section */}
-        <section className="bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20 py-20">
-          <div className="container mx-auto px-6">
-            <div className="text-center max-w-4xl mx-auto">
-              <div className="flex flex-wrap justify-center gap-2 mb-6">
-                <Badge variant="secondary" className="bg-violet-100 dark:bg-violet-900/50 text-violet-800 dark:text-violet-200">
-                  {category.name}
-                </Badge>
-                <Badge variant="outline" className="text-violet-700 dark:text-violet-300 border-violet-300 dark:border-violet-700">
-                  {service.name}
-                </Badge>
-              </div>
-              <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                {feature.name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-purple-800">Feature</span>
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                {feature.description || `Advanced ${feature.name?.toLowerCase() || 'feature'} capabilities designed to enhance your ${service.name?.toLowerCase() || 'service'} implementation with professional-grade features and comprehensive functionality.`}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700">
-                  View Implementation
-                  <ArrowRight className="ml-2" size={16} />
-                </Button>
-                <Button size="lg" variant="outline">
-                  Request Documentation
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Breadcrumb */}
-        <section className="bg-gray-50 dark:bg-gray-800 py-4 relative z-40 mt-0">
-          <div className="container mx-auto px-6">
-            <Breadcrumb>
+        {/* Feature Title Section */}
+        <section className="relative py-20 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10" />
+          <div className="container mx-auto px-6 relative">
+            {/* Breadcrumb */}
+            <Breadcrumb className="mb-8">
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
@@ -304,175 +229,133 @@ export default function FeatureDetail() {
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link href={`/services/${categorySlug}`}>{category.name}</Link>
+                    <Link href={`/services/${categorySlug}`}>{category?.name}</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link href={`/services/${categorySlug}/${serviceSlug}`}>{service.name}</Link>
+                    <Link href={`/services/${categorySlug}/${serviceSlug}`}>{service?.name}</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>{feature.name}</BreadcrumbPage>
-                </BreadcrumbItem>
+                <BreadcrumbPage>{feature.name}</BreadcrumbPage>
               </BreadcrumbList>
             </Breadcrumb>
+
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="flex justify-center mb-6">
+                <div className="p-4 bg-primary/10 rounded-full">
+                  <Target className="h-12 w-12 text-primary" />
+                </div>
+              </div>
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                {feature.name}
+              </h1>
+              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+                {feature.description || `Advanced ${feature.name} implementation for enhanced performance and user experience`}
+              </p>
+            </div>
           </div>
         </section>
 
-        {/* Tag System */}
-        <section className="py-12 bg-white dark:bg-gray-900">
+        {/* What is this Feature? */}
+        <section className="py-16 bg-muted/30">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
-              <TagSystem 
-                tags={[feature.name, service.name, category.name, 'Advanced Features', 'Professional Implementation']}
-                showRelatedTags={true}
-              />
-            </div>
-          </div>
-        </section>
-
-        {/* Feature Overview */}
-        <section className="py-16 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-                    Advanced {feature.name} Implementation
-                  </h2>
-                  <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                    Our {feature.name?.toLowerCase() || 'advanced'} feature represents the pinnacle of modern {service.name?.toLowerCase() || 'service'} 
-                    implementation. Designed with enterprise-grade requirements in mind, it delivers exceptional performance, 
-                    security, and scalability that grows with your business needs.
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                    Every aspect of this feature has been meticulously crafted to provide maximum value, from initial 
-                    implementation through ongoing optimization. Our team ensures that your {feature.name?.toLowerCase() || 'feature'} 
-                    implementation not only meets current requirements but also provides a foundation for future enhancements 
-                    and scaling opportunities.
-                  </p>
-                  
-                  <div className="space-y-4 mb-8">
-                    <div className="flex items-center">
-                      <CheckCircle className="text-violet-500 mr-3" size={20} />
-                      <span className="text-gray-700 dark:text-gray-300">Enterprise-grade implementation and configuration</span>
-                    </div>
-                    <div className="flex items-center">
-                      <CheckCircle className="text-violet-500 mr-3" size={20} />
-                      <span className="text-gray-700 dark:text-gray-300">Comprehensive testing and quality assurance</span>
-                    </div>
-                    <div className="flex items-center">
-                      <CheckCircle className="text-violet-500 mr-3" size={20} />
-                      <span className="text-gray-700 dark:text-gray-300">Performance optimization and monitoring</span>
-                    </div>
-                    <div className="flex items-center">
-                      <CheckCircle className="text-violet-500 mr-3" size={20} />
-                      <span className="text-gray-700 dark:text-gray-300">Ongoing support and maintenance included</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  {featureCapabilities.slice(0, 4).map((capability, index) => (
-                    <Card key={index} className="bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20 border-none shadow-lg hover:shadow-xl transition-all duration-300">
-                      <CardContent className="p-6 text-center">
-                        <div className="w-12 h-12 bg-gradient-to-r from-violet-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                          <capability.icon className="text-white" size={20} />
-                        </div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm">
-                          {capability.title}
-                        </h3>
-                        <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-                          {capability.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  ))}
+              <h2 className="text-3xl font-bold mb-8 text-center">What is {feature.name}?</h2>
+              <div className="prose prose-lg max-w-none">
+                <div className="grid md:grid-cols-2 gap-8">
+                  <Card className="p-6">
+                    <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                      <Users className="h-6 w-6 text-primary" />
+                      Non-Technical Overview
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {feature.content || `${feature.name} is a powerful feature that enhances your application's capabilities and improves user experience. It provides essential functionality that helps your business operate more efficiently and deliver better results to your customers.`}
+                    </p>
+                  </Card>
+                  <Card className="p-6">
+                    <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                      <Code className="h-6 w-6 text-primary" />
+                      Technical Details
+                    </h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {feature.technicalDetails || `${feature.name} is implemented using modern development practices and industry-standard technologies. Our implementation ensures optimal performance, security, and scalability while maintaining code quality and maintainability.`}
+                    </p>
+                  </Card>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Implementation Process */}
-        <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+        {/* Why It Matters */}
+        <section className="py-20">
           <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                  Professional Implementation Process
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Our structured approach ensures successful implementation with measurable results.
-                </p>
-              </div>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Why {feature.name} Matters</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Understanding the key benefits and impact of implementing {feature.name}
+              </p>
+            </div>
 
-              <div className="space-y-8">
-                {implementationSteps.map((step, index) => (
-                  <div key={index} className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-2xl p-8 shadow-lg">
-                    <div className="flex items-start">
-                      <div className="w-16 h-16 bg-gradient-to-r from-violet-500 to-purple-600 rounded-full flex items-center justify-center mr-6 text-white font-bold text-lg shadow-lg flex-shrink-0">
-                        {step.step}
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                          {step.title}
-                        </h3>
-                        <p className="text-gray-600 dark:text-gray-300 mb-4 leading-relaxed">
-                          {step.description}
-                        </p>
-                        <div className="grid md:grid-cols-2 gap-3">
-                          {step.details.map((detail, detailIndex) => (
-                            <div key={detailIndex} className="flex items-center">
-                              <div className="w-2 h-2 bg-violet-500 rounded-full mr-3"></div>
-                              <span className="text-sm text-gray-600 dark:text-gray-300">{detail}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
+            <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+                <div className="flex justify-center mb-4">
+                  <div className="p-3 bg-primary/10 rounded-full">
+                    <TrendingUp className="h-8 w-8 text-primary" />
                   </div>
-                ))}
-              </div>
+                </div>
+                <h3 className="font-semibold mb-2">Performance Enhancement</h3>
+                <p className="text-muted-foreground text-sm">
+                  Significantly improves application speed and responsiveness
+                </p>
+              </Card>
+
+              <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+                <div className="flex justify-center mb-4">
+                  <div className="p-3 bg-primary/10 rounded-full">
+                    <Globe className="h-8 w-8 text-primary" />
+                  </div>
+                </div>
+                <h3 className="font-semibold mb-2">Better User Experience</h3>
+                <p className="text-muted-foreground text-sm">
+                  Creates smoother, more intuitive interactions for users
+                </p>
+              </Card>
+
+              <Card className="p-6 text-center hover:shadow-lg transition-shadow">
+                <div className="flex justify-center mb-4">
+                  <div className="p-3 bg-primary/10 rounded-full">
+                    <Shield className="h-8 w-8 text-primary" />
+                  </div>
+                </div>
+                <h3 className="font-semibold mb-2">Enhanced Security</h3>
+                <p className="text-muted-foreground text-sm">
+                  Provides additional security layers and protection measures
+                </p>
+              </Card>
             </div>
           </div>
         </section>
 
-        {/* Technical Specifications */}
-        <section className="py-16 bg-white dark:bg-gray-900">
+        {/* Use Cases */}
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                  Technical Specifications
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Comprehensive technical capabilities and performance specifications.
-                </p>
-              </div>
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8 text-center">Use Cases</h2>
+              <p className="text-center text-muted-foreground mb-12">
+                {feature.name} works best for these types of applications and scenarios
+              </p>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {technicalSpecs.map((spec, index) => (
-                  <Card key={index} className="bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20 border-none shadow-lg hover:shadow-xl transition-all duration-300">
-                    <CardContent className="p-6">
-                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-                        <div className="w-8 h-8 bg-gradient-to-r from-violet-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
-                          <Code className="text-white" size={16} />
-                        </div>
-                        {spec.category}
-                      </h3>
-                      <ul className="space-y-3">
-                        {spec.items.map((item, itemIndex) => (
-                          <li key={itemIndex} className="flex items-start">
-                            <CheckCircle className="text-violet-500 mr-2 mt-0.5 flex-shrink-0" size={14} />
-                            <span className="text-sm text-gray-600 dark:text-gray-300">{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
+              <div className="space-y-4">
+                {useCases.map((useCase, index) => (
+                  <Card key={index} className="p-4 hover:shadow-md transition-shadow">
+                    <div className="flex items-center gap-3">
+                      <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                      <span>{useCase}</span>
+                    </div>
                   </Card>
                 ))}
               </div>
@@ -480,94 +363,148 @@ export default function FeatureDetail() {
           </div>
         </section>
 
-        {/* Capabilities Grid */}
-        <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+        {/* Our Implementation */}
+        <section className="py-20">
           <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                  Complete Feature Capabilities
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Comprehensive capabilities designed to exceed your expectations.
-                </p>
-              </div>
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8 text-center">Our Implementation</h2>
+              <p className="text-center text-muted-foreground mb-12">
+                How our team ensures correct {feature.name} setup and optimization
+              </p>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {featureCapabilities.map((capability, index) => (
-                  <Card key={index} className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border-none shadow-lg hover:shadow-xl transition-all duration-300 group">
-                    <CardContent className="p-8 text-center">
-                      <div className="w-16 h-16 bg-gradient-to-r from-violet-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
-                        <capability.icon className="text-white" size={24} />
+              <div className="grid md:grid-cols-2 gap-8">
+                <Card className="p-6">
+                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <Cog className="h-6 w-6 text-primary" />
+                    Tools & Technologies
+                  </h3>
+                  <div className="space-y-3">
+                    {implementationTools.map((tool, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-primary rounded-full flex-shrink-0" />
+                        <span className="text-sm">{tool}</span>
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                        {capability.title}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
-                        {capability.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                ))}
+                    ))}
+                  </div>
+                </Card>
+
+                <Card className="p-6">
+                  <h3 className="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <Lightbulb className="h-6 w-6 text-primary" />
+                    Benefits You'll See
+                  </h3>
+                  <div className="space-y-3">
+                    {(feature.benefits || "Improved performance, Better user experience, Enhanced reliability, Increased efficiency, Future-proof solution").split(', ').map((benefit, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
+                        <span className="text-sm">{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
+                </Card>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Linked Sub-Services */}
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Related Services</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Services that utilize {feature.name} for enhanced functionality
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-1 gap-6 max-w-2xl mx-auto">
+              <Card className="p-6 hover:shadow-lg transition-shadow group">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <Settings className="h-8 w-8 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                      {service?.name}
+                    </h3>
+                    <p className="text-muted-foreground text-sm">
+                      {service?.description || `Professional ${service?.name} implementation with ${feature.name} feature`}
+                    </p>
+                  </div>
+                  <Button asChild variant="outline">
+                    <Link href={`/services/${categorySlug}/${serviceSlug}`}>
+                      View Service
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </Button>
+                </div>
+              </Card>
             </div>
           </div>
         </section>
 
         {/* Related Features */}
-        {relatedFeatures && relatedFeatures.length > 0 && (
-          <section className="py-16 bg-white dark:bg-gray-900">
-            <div className="container mx-auto px-6">
-              <div className="max-w-6xl mx-auto">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                    Related Features
-                  </h2>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Explore other powerful features in our {service.name?.toLowerCase() || 'professional'} service.
-                  </p>
-                </div>
-                
-                <div className="grid md:grid-cols-3 gap-8">
-                  {relatedFeatures.slice(0, 3).map((relatedFeature: any, index: number) => (
-                    <Card key={relatedFeature.id} className="hover:shadow-lg transition-shadow duration-300 bg-gradient-to-br from-violet-50 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20 border-none">
-                      <CardContent className="p-6">
-                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
-                          {relatedFeature.name}
-                        </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-                          {relatedFeature.description || `Advanced ${relatedFeature.name?.toLowerCase() || 'feature'} capabilities for enhanced functionality.`}
-                        </p>
-                        <Button variant="ghost" size="sm" asChild className="p-0">
-                          <Link href={`/services/${categorySlug}/${serviceSlug}/${relatedFeature.slug}`}>
-                            Learn More
-                            <ArrowRight className="ml-1" size={14} />
-                          </Link>
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-        )}
-
-        {/* CTA Section */}
-        <section className="py-16 bg-violet-600 text-white">
+        <section className="py-20">
           <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Ready to Implement {feature.name}?</h2>
-              <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                Let our experts implement advanced {feature.name?.toLowerCase() || 'feature'} capabilities that deliver exceptional results and exceed your expectations.
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Related Features</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Other features that complement {feature.name}
+              </p>
+            </div>
+
+            {relatedFeatures && relatedFeatures.length > 0 ? (
+              <div className="grid md:grid-cols-3 gap-8">
+                {relatedFeatures.map((relatedFeature: any) => (
+                  <Card key={relatedFeature.id} className="group hover:shadow-lg transition-shadow">
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-3 mb-4">
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <FileText className="h-5 w-5 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
+                            {relatedFeature.name}
+                          </h3>
+                        </div>
+                      </div>
+                      <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                        {relatedFeature.description}
+                      </p>
+                      <Button asChild variant="ghost" size="sm">
+                        <Link href={`/services/${categorySlug}/${serviceSlug}/${relatedFeature.slug}`}>
+                          Learn More
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Related features coming soon.</p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Bottom CTA */}
+        <section className="py-20 bg-gradient-to-r from-primary to-primary/80">
+          <div className="container mx-auto px-6 text-center">
+            <div className="max-w-3xl mx-auto text-white">
+              <h2 className="text-3xl font-bold mb-4">Request {feature.name} Implementation</h2>
+              <p className="text-xl mb-8 opacity-90">
+                Ready to implement {feature.name} in your project? Let's discuss your requirements
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" variant="secondary">
-                  Start Implementation
-                  <ArrowRight className="ml-2" size={16} />
+                  <MessageCircle className="mr-2 h-5 w-5" />
+                  Schedule Consultation
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-violet-600">
-                  Schedule Technical Consultation
+                <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-primary">
+                  <DollarSign className="mr-2 h-5 w-5" />
+                  Get Quote
                 </Button>
               </div>
             </div>
@@ -576,6 +513,28 @@ export default function FeatureDetail() {
       </main>
 
       <ModernFooter />
+
+      {/* SEO Components */}
+      <SEOAnalytics 
+        pageType="feature"
+        pageName={feature.name}
+      />
+      <LocalSEO 
+        serviceArea={`${feature.name} Implementation`}
+        businessType="IT Services"
+      />
+      <TagSystem 
+        tags={[feature.name, service?.name || '', category?.name || '', 'Technical Implementation']}
+      />
+      
+      {/* Internal Linking System */}
+      <InternalLinkingSection
+        currentType="feature"
+        currentItem={feature}
+        category={category}
+        service={service}
+        relatedItems={relatedFeatures || []}
+      />
     </div>
   );
 }

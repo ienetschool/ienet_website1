@@ -18,6 +18,7 @@ import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
 import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import LocalSEO from "@/components/seo/LocalSEO";
 import { TagSystem } from "@/components/seo/TagSystem";
+import { InternalLinkingSection } from "@/components/seo/InternalLinking";
 import { 
   ArrowRight,
   CheckCircle,
@@ -30,7 +31,10 @@ import {
   Star,
   TrendingUp,
   Users,
-  Zap
+  Zap,
+  Target,
+  Award,
+  Settings
 } from "lucide-react";
 import { InlineEditor, EditModeToggle } from "@/components/InlineEditor";
 
@@ -57,6 +61,12 @@ export default function SubServiceDetail() {
     queryKey: ['/api/projects'],
     queryFn: () => fetch('/api/projects').then(res => res.json()),
     select: (data) => data?.slice(0, 3) || [],
+  });
+
+  const { data: relatedServices } = useQuery({
+    queryKey: ['/api/services', categorySlug],
+    queryFn: () => fetch(`/api/services?categorySlug=${categorySlug}`).then(res => res.json()),
+    select: (data) => data?.filter((s: any) => s.slug !== serviceSlug).slice(0, 3) || [],
   });
 
   if (isLoading) {
@@ -86,20 +96,16 @@ export default function SubServiceDetail() {
     );
   }
 
-  if (!service || !category) {
+  if (!service) {
     return (
       <div className="min-h-screen bg-background">
         <ModernHeader />
         <main className="py-20">
           <div className="container mx-auto px-6 text-center">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Service Not Found
-            </h1>
-            <p className="text-gray-600 dark:text-gray-300 mb-8">
-              The service you're looking for doesn't exist or has been moved.
-            </p>
+            <h1 className="text-4xl font-bold mb-4">Service Not Found</h1>
+            <p className="text-muted-foreground mb-8">The service you're looking for doesn't exist.</p>
             <Button asChild>
-              <Link href="/services">Back to Services</Link>
+              <Link href="/services">View All Services</Link>
             </Button>
           </div>
         </main>
@@ -108,148 +114,145 @@ export default function SubServiceDetail() {
     );
   }
 
-  const seoConfig = {
-    title: `${service.name} - ${category.name} | IeNet`,
-    description: `Professional ${service.name?.toLowerCase() || 'service'} services as part of our comprehensive ${category.name?.toLowerCase() || 'technology'} solutions. Expert implementation, customization, and support.`,
-    keywords: `${service.name?.toLowerCase() || 'service'}, ${category.name?.toLowerCase() || 'technology'}, ${categorySlug}, ${serviceSlug}, IT services, professional consulting`,
-    openGraph: {
-      title: `${service.name} - ${category.name} | IeNet`,
-      description: `Professional ${service.name?.toLowerCase() || 'service'} services with expert implementation and support.`,
-      type: "website"
-    }
-  };
-
-  const breadcrumbData = [
-    { name: "Home", url: "/" },
-    { name: "Services", url: "/services" },
-    { name: category.name, url: `/services/${categorySlug}` },
-    { name: service.name, url: `/services/${categorySlug}/${serviceSlug}` }
-  ];
-
-  const faqSchema = generateFAQSchema([
+  // Generate FAQ data for this specific service
+  const faqData = [
     {
       question: `What does ${service.name} include?`,
-      answer: `Our ${service.name?.toLowerCase() || 'service'} service includes comprehensive consulting, implementation, customization, and ongoing support tailored to your specific business requirements.`
+      answer: `Our ${service.name} service includes comprehensive planning, implementation, testing, and ongoing support to ensure your solution meets all your business requirements.`
     },
     {
-      question: "How do you ensure quality?",
-      answer: "We follow industry best practices, conduct thorough testing, and provide detailed documentation. Our team has extensive experience delivering high-quality solutions."
+      question: `How much does ${service.name} cost?`,
+      answer: `Pricing for ${service.name} varies based on project scope, complexity, and specific requirements. Contact us for a personalized quote tailored to your needs.`
     },
     {
-      question: "What support do you provide after implementation?",
-      answer: "We offer comprehensive support packages including maintenance, updates, performance monitoring, and technical assistance to ensure optimal operation."
+      question: `How long does ${service.name} typically take?`,
+      answer: `${service.name} projects typically take 2-6 weeks depending on scope and complexity. We provide detailed timelines during our initial consultation.`
+    },
+    {
+      question: `Do you provide support after ${service.name} completion?`,
+      answer: `Yes, we offer comprehensive maintenance and support packages to ensure your ${service.name} solution continues to perform optimally.`
     }
-  ]);
+  ];
 
-  const serviceHighlights = [
+  // What's included in this service
+  const includedFeatures = [
+    "Comprehensive planning and strategy",
+    "Custom implementation and development",
+    "Quality assurance and testing",
+    "Performance optimization",
+    "Documentation and training",
+    "Ongoing support and maintenance"
+  ];
+
+  // Why choose us differentiators
+  const differentiators = [
     {
-      icon: CheckCircle,
-      title: "Expert Implementation",
-      description: "Professional setup and configuration by certified specialists"
+      icon: Award,
+      title: "Certified Experts",
+      description: "Industry-certified professionals with proven track records"
+    },
+    {
+      icon: Clock,
+      title: "Fast Delivery",
+      description: "Efficient project management for timely delivery"
     },
     {
       icon: Shield,
-      title: "Security Focused",
-      description: "Enterprise-grade security measures and compliance standards"
-    },
-    {
-      icon: Zap,
-      title: "Fast Deployment",
-      description: "Rapid implementation with minimal business disruption"
-    },
-    {
-      icon: Star,
-      title: "Quality Assurance", 
+      title: "Quality Assurance",
       description: "Rigorous testing and quality control processes"
-    }
-  ];
-
-  const processSteps = [
-    {
-      step: 1,
-      title: "Discovery & Planning",
-      description: "Comprehensive analysis of your requirements and existing systems"
     },
     {
-      step: 2,
-      title: "Design & Architecture",
-      description: "Custom solution design aligned with your business objectives"
-    },
-    {
-      step: 3,
-      title: "Implementation",
-      description: "Professional development and deployment with best practices"
-    },
-    {
-      step: 4,
-      title: "Testing & QA",
-      description: "Thorough testing to ensure reliability and performance"
-    },
-    {
-      step: 5,
-      title: "Training & Support",
-      description: "User training and ongoing support for smooth operations"
+      icon: TrendingUp,
+      title: "Scalable Solutions",
+      description: "Built for growth and future expansion"
     }
   ];
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead 
-        {...seoConfig}
-        breadcrumbData={breadcrumbData}
-        structuredData={faqSchema}
+      <SEOHead
+        title={service.metaTitle || `${service.name} - ${category?.name} | IeNet Professional Services`}
+        description={service.metaDescription || `Professional ${service.name} services. Expert implementation, quality assurance, and ongoing support for your business success.`}
+        canonical={`/services/${categorySlug}/${serviceSlug}`}
+        keywords={`${service.name}, ${category?.name}, IT services, custom development, business solutions, technology consulting`}
+        openGraph={{
+          title: `${service.name} - ${category?.name} | IeNet`,
+          description: service.description || `Professional ${service.name} services for your business`,
+          image: '/images/og-sub-service.jpg',
+          url: `/services/${categorySlug}/${serviceSlug}`,
+          type: 'website'
+        }}
+        twitter={{
+          card: 'summary_large_image',
+          title: `${service.name} - ${category?.name} | IeNet`,
+          description: service.description || `Professional ${service.name} services for your business`,
+          image: '/images/twitter-sub-service.jpg'
+        }}
+        structuredData={[
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": service.name,
+            "description": service.description,
+            "serviceType": service.name,
+            "category": category?.name,
+            "provider": {
+              "@type": "Organization",
+              "name": "IeNet",
+              "url": "https://ienet.com",
+              "logo": "https://ienet.com/logo.png"
+            },
+            "areaServed": "Global",
+            "availableChannel": {
+              "@type": "ServiceChannel",
+              "serviceUrl": `/services/${categorySlug}/${serviceSlug}`,
+              "servicePhone": "+1-555-0123",
+              "serviceName": service.name
+            }
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Services",
+                "item": "/services"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": category?.name,
+                "item": `/services/${categorySlug}`
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
+                "name": service.name,
+                "item": `/services/${categorySlug}/${serviceSlug}`
+              }
+            ]
+          }
+        ]}
       />
-      <SEOAnalytics 
-        pageType="subservice"
-        pageName={service.name}
-      />
-      <LocalSEO 
-        serviceArea={service.name}
-        services={features?.map((f: any) => f.name) || []}
-      />
+      
       <ModernHeader />
-
-      {/* Floating CTA Button */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
-          <MessageCircle size={20} />
-          <span className="hidden sm:block">Get Started</span>
-        </Button>
-      </div>
-
+      <EditModeToggle />
+      
       <main>
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-emerald-900/20 dark:to-teal-900/20 py-20">
-          <div className="container mx-auto px-6">
-            <div className="text-center max-w-4xl mx-auto">
-              <div className="inline-block mb-4">
-                <Badge variant="secondary" className="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-200">
-                  {category.name}
-                </Badge>
-              </div>
-              <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                {service.name} <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-800">Solutions</span>
-              </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                {service.description || `Professional ${service.name?.toLowerCase() || 'service'} services designed to deliver exceptional results and drive your business forward with cutting-edge technology solutions.`}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700">
-                  Explore Features
-                  <ArrowRight className="ml-2" size={16} />
-                </Button>
-                <Button size="lg" variant="outline">
-                  Request Demo
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Breadcrumb */}
-        <section className="bg-gray-50 dark:bg-gray-800 py-4 relative z-40 mt-0">
-          <div className="container mx-auto px-6">
-            <Breadcrumb>
+        <section className="relative py-20 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10" />
+          <div className="container mx-auto px-6 relative">
+            {/* Breadcrumb */}
+            <Breadcrumb className="mb-8">
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
@@ -265,281 +268,305 @@ export default function SubServiceDetail() {
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link href={`/services/${categorySlug}`}>{category.name}</Link>
+                    <Link href={`/services/${categorySlug}`}>{category?.name}</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>{service.name}</BreadcrumbPage>
-                </BreadcrumbItem>
+                <BreadcrumbPage>{service.name}</BreadcrumbPage>
               </BreadcrumbList>
             </Breadcrumb>
-          </div>
-        </section>
 
-        {/* Tag System */}
-        <section className="py-12 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <TagSystem 
-                tags={[service.name, category.name, 'Professional Services', 'Enterprise Solutions']}
-                showRelatedTags={true}
-              />
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                <InlineEditor
+                  pageType="sub-service"
+                  pageId={service.id}
+                  field="name"
+                  value={service.name}
+                  isTitle={true}
+                  className="inline-block"
+                />
+              </h1>
+              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+                <InlineEditor
+                  pageType="sub-service"
+                  pageId={service.id}
+                  field="description"
+                  value={service.description || `Custom ${service.name} solutions for businesses of all sizes`}
+                  className="inline-block"
+                />
+              </p>
+              <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+                Get a Free Quote
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </div>
           </div>
         </section>
 
         {/* Service Overview */}
-        <section className="py-16 bg-white dark:bg-gray-900">
+        <section className="py-16 bg-muted/30">
           <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div>
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-                    Professional {service.name} Implementation
-                  </h2>
-                  <p className="text-lg text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
-                    Our {service.name?.toLowerCase() || 'professional'} service combines technical excellence with business acumen to deliver 
-                    solutions that not only meet your immediate needs but also provide a foundation for future growth. 
-                    We understand that every business has unique requirements, and our approach is tailored accordingly.
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                    From initial consultation through deployment and ongoing support, our team ensures that your 
-                    {' '}{service.name?.toLowerCase() || 'service'} implementation follows industry best practices, incorporates the latest 
-                    technologies, and delivers measurable business value. We work closely with your team to ensure 
-                    seamless integration with existing systems and processes.
-                  </p>
-                  
-                  <div className="space-y-4 mb-8">
-                    <div className="flex items-center">
-                      <CheckCircle className="text-emerald-500 mr-3" size={20} />
-                      <span className="text-gray-700 dark:text-gray-300">Customized to your specific requirements</span>
-                    </div>
-                    <div className="flex items-center">
-                      <CheckCircle className="text-emerald-500 mr-3" size={20} />
-                      <span className="text-gray-700 dark:text-gray-300">Expert implementation by certified professionals</span>
-                    </div>
-                    <div className="flex items-center">
-                      <CheckCircle className="text-emerald-500 mr-3" size={20} />
-                      <span className="text-gray-700 dark:text-gray-300">Comprehensive testing and quality assurance</span>
-                    </div>
-                    <div className="flex items-center">
-                      <CheckCircle className="text-emerald-500 mr-3" size={20} />
-                      <span className="text-gray-700 dark:text-gray-300">Ongoing support and maintenance included</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  {serviceHighlights.map((highlight, index) => (
-                    <Card key={index} className="bg-gradient-to-br from-emerald-50 to-teal-100 dark:from-emerald-900/20 dark:to-teal-900/20 border-none shadow-lg hover:shadow-xl transition-all duration-300">
-                      <CardContent className="p-6 text-center">
-                        <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                          <highlight.icon className="text-white" size={20} />
-                        </div>
-                        <h3 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm">
-                          {highlight.title}
-                        </h3>
-                        <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-                          {highlight.description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold mb-8 text-center">Service Overview</h2>
+              <div className="prose prose-lg max-w-none">
+                <InlineEditor
+                  pageType="sub-service"
+                  pageId={service.id}
+                  field="overview"
+                  value={`Our ${service.name} service combines advanced technology with proven methodologies to deliver exceptional results for your business. We understand the unique challenges in ${category?.name.toLowerCase()} and provide tailored solutions that address your specific requirements.
+
+We work closely with your team to understand your goals, assess your current infrastructure, and develop a comprehensive strategy that ensures successful implementation and long-term success. Our approach focuses on scalability, security, and user experience to deliver solutions that grow with your business.`}
+                  isRichText={true}
+                  className="text-muted-foreground leading-relaxed text-center"
+                />
               </div>
             </div>
           </div>
         </section>
 
-        {/* Implementation Process */}
-        <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+        {/* What's Included Section */}
+        <section className="py-20">
           <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                  Our Implementation Process
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300">
-                  A structured approach ensuring successful delivery and optimal results.
-                </p>
-              </div>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">What's Included</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Comprehensive {service.name} services with everything you need for success
+              </p>
+            </div>
 
-              <div className="grid md:grid-cols-5 gap-8">
-                {processSteps.map((step, index) => (
-                  <div key={index} className="text-center">
-                    <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-lg shadow-lg">
-                      {step.step}
-                    </div>
-                    <h3 className="font-bold text-gray-900 dark:text-white mb-2">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                      {step.description}
-                    </p>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              {includedFeatures.map((feature, index) => (
+                <Card key={index} className="p-4 hover:shadow-md transition-shadow">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-sm font-medium">{feature}</span>
                   </div>
-                ))}
-              </div>
+                </Card>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Feature Details Grid */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        {/* Why Choose Us Section */}
+        <section className="py-20 bg-muted/30">
           <div className="container mx-auto px-6">
-            <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                  {service.name} Features & Capabilities
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Explore the comprehensive features and capabilities included in our {service.name?.toLowerCase() || 'professional'} service.
-                </p>
-              </div>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Why Choose Our {service.name} Service?</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Experience the difference with our professional approach and proven expertise
+              </p>
+            </div>
 
-              {features && features.length > 0 ? (
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {features.map((feature: any, index: number) => {
-                    const colorVariants = [
-                      'from-emerald-50 to-teal-100 dark:from-emerald-900/20 dark:to-teal-900/20',
-                      'from-blue-50 to-indigo-100 dark:from-blue-900/20 dark:to-indigo-900/20',
-                      'from-violet-50 to-purple-100 dark:from-violet-900/20 dark:to-purple-900/20',
-                      'from-orange-50 to-red-100 dark:from-orange-900/20 dark:to-red-900/20',
-                      'from-cyan-50 to-blue-100 dark:from-cyan-900/20 dark:to-blue-900/20',
-                      'from-rose-50 to-pink-100 dark:from-rose-900/20 dark:to-pink-900/20'
-                    ];
-                    
-                    const iconVariants = [
-                      'from-emerald-500 to-teal-600',
-                      'from-blue-500 to-indigo-600',
-                      'from-violet-500 to-purple-600',
-                      'from-orange-500 to-red-600',
-                      'from-cyan-500 to-blue-600',
-                      'from-rose-500 to-pink-600'
-                    ];
-                    
-                    const bgClass = colorVariants[index % colorVariants.length];
-                    const iconClass = iconVariants[index % iconVariants.length];
-                    const icons = [Code, Shield, Zap, Globe, Users, TrendingUp];
-                    const IconComponent = icons[index % icons.length];
-                    
-                    return (
-                      <Card key={feature.id} className={`hover:shadow-xl transition-all duration-300 border-none shadow-lg bg-gradient-to-br ${bgClass} group overflow-hidden`}>
-                        <CardContent className="p-8">
-                          <div className={`w-16 h-16 bg-gradient-to-r ${iconClass} rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                            <IconComponent className="text-white" size={24} />
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {differentiators.map((item, index) => (
+                <Card key={index} className="text-center p-6 hover:shadow-lg transition-shadow">
+                  <div className="flex justify-center mb-4">
+                    <div className="p-3 bg-primary/10 rounded-full">
+                      <item.icon className="h-8 w-8 text-primary" />
+                    </div>
+                  </div>
+                  <h3 className="font-semibold mb-2">{item.title}</h3>
+                  <p className="text-muted-foreground text-sm">{item.description}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Feature Highlights Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Feature Highlights & Capabilities</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Explore the detailed features and capabilities of our {service.name} service
+              </p>
+            </div>
+
+            {features && features.length > 0 ? (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {features.map((feature: any, index: number) => {
+                  // Color rotation for visual variety
+                  const colors = [
+                    "from-blue-500/10 to-cyan-500/10 border-blue-200 dark:border-blue-800",
+                    "from-purple-500/10 to-pink-500/10 border-purple-200 dark:border-purple-800", 
+                    "from-green-500/10 to-emerald-500/10 border-green-200 dark:border-green-800",
+                    "from-orange-500/10 to-red-500/10 border-orange-200 dark:border-orange-800",
+                    "from-teal-500/10 to-blue-500/10 border-teal-200 dark:border-teal-800",
+                    "from-indigo-500/10 to-purple-500/10 border-indigo-200 dark:border-indigo-800"
+                  ];
+                  const colorClass = colors[index % colors.length];
+
+                  return (
+                    <Card key={feature.id} className={`relative group hover:shadow-lg transition-all duration-300 bg-gradient-to-br ${colorClass} hover:scale-[1.02]`}>
+                      <CardContent className="p-6">
+                        <div className="flex items-start gap-4 mb-4">
+                          <div className="p-2 bg-primary/10 rounded-lg">
+                            <Target className="h-6 w-6 text-primary" />
                           </div>
-                          
-                          <div className="mb-6">
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2">
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
                               {feature.name}
                             </h3>
-                            <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
-                              {feature.description || `Comprehensive ${feature.name?.toLowerCase() || 'feature'} capabilities designed to enhance your ${service.name?.toLowerCase() || 'service'} implementation.`}
-                            </p>
-                            
-                            <div className="flex flex-wrap gap-2 mb-4">
-                              <Badge variant="secondary" className="text-xs">
-                                Professional
-                              </Badge>
-                              <Badge variant="outline" className="text-xs">
-                                Advanced
-                              </Badge>
-                            </div>
                           </div>
-                          
-                          <Button 
-                            variant="ghost" 
-                            asChild
-                            className="group-hover:translate-x-1 transition-transform duration-300 w-full justify-center"
-                          >
-                            <Link href={`/services/${categorySlug}/${serviceSlug}/${feature.slug}`}>
-                              Learn More
-                              <ArrowRight className="ml-2" size={16} />
-                            </Link>
-                          </Button>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
+                        </div>
+                        
+                        <p className="text-muted-foreground mb-4 leading-relaxed text-sm">
+                          {feature.description}
+                        </p>
+                        
+                        <Button asChild variant="outline" size="sm" className="w-full group">
+                          <Link href={`/services/${categorySlug}/${serviceSlug}/${feature.slug}`}>
+                            Learn More
+                            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                          </Link>
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">Feature details coming soon.</p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Case Study/Testimonial Section */}
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl font-bold mb-8">Success Story</h2>
+              <Card className="p-8">
+                <div className="mb-6">
+                  <div className="flex justify-center mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <blockquote className="text-lg italic mb-6">
+                    "The {service.name} solution transformed our business operations and exceeded our expectations. The team's expertise and attention to detail made all the difference."
+                  </blockquote>
+                  <div className="text-sm">
+                    <p className="font-semibold">Sarah Johnson</p>
+                    <p className="text-muted-foreground">CEO, TechCorp Solutions</p>
+                  </div>
                 </div>
-              ) : (
-                <div className="text-center py-12">
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Detailed features for {service.name} are being prepared. Contact us for comprehensive information.
-                  </p>
+                <div className="border-t pt-6">
+                  <div className="grid md:grid-cols-3 gap-6 text-center">
+                    <div>
+                      <p className="text-2xl font-bold text-primary">50%</p>
+                      <p className="text-sm text-muted-foreground">Efficiency Increase</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-primary">30%</p>
+                      <p className="text-sm text-muted-foreground">Cost Reduction</p>
+                    </div>
+                    <div>
+                      <p className="text-2xl font-bold text-primary">99.9%</p>
+                      <p className="text-sm text-muted-foreground">Uptime Achieved</p>
+                    </div>
+                  </div>
                 </div>
-              )}
+              </Card>
             </div>
+          </div>
+        </section>
+
+        {/* Related Services Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Related Services & Add-ons</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Explore our other {category?.name.toLowerCase()} services that complement {service.name}
+              </p>
+            </div>
+
+            {relatedServices && relatedServices.length > 0 ? (
+              <div className="grid md:grid-cols-3 gap-8">
+                {relatedServices.map((relatedService: any) => (
+                  <Card key={relatedService.id} className="group hover:shadow-lg transition-shadow">
+                    <CardContent className="p-6">
+                      <div className="mb-4">
+                        <Badge variant="outline" className="mb-2">{category?.name}</Badge>
+                        <h3 className="font-semibold text-lg mb-2 group-hover:text-primary transition-colors">
+                          {relatedService.name}
+                        </h3>
+                      </div>
+                      <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                        {relatedService.description?.substring(0, 120) + '...' || 'Professional service tailored to your business needs'}
+                      </p>
+                      <Button asChild variant="ghost" size="sm">
+                        <Link href={`/services/${categorySlug}/${relatedService.slug}`}>
+                          Learn More
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Related services coming soon.</p>
+              </div>
+            )}
           </div>
         </section>
 
         {/* Pricing Section */}
-        <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+        <section className="py-20 bg-muted/30">
+          <div className="container mx-auto px-6">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl font-bold mb-8">Pricing & Engagement Model</h2>
+              <Card className="p-8">
+                <div className="mb-6">
+                  <p className="text-3xl font-bold text-primary mb-2">Starting at $2,500</p>
+                  <p className="text-muted-foreground">Custom pricing based on your specific requirements</p>
+                </div>
+                <div className="space-y-3 mb-8">
+                  <div className="flex items-center justify-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span>Free initial consultation</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span>Detailed project scope and timeline</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-primary" />
+                    <span>Fixed-price or hourly billing options</span>
+                  </div>
+                </div>
+                <Button size="lg" className="bg-gradient-to-r from-primary to-primary/80">
+                  <DollarSign className="mr-2 h-5 w-5" />
+                  Get Custom Quote
+                </Button>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-20">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                  Investment & Pricing
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Transparent pricing tailored to your specific requirements and project scope.
+                <h2 className="text-3xl font-bold mb-4">Frequently Asked Questions</h2>
+                <p className="text-muted-foreground">
+                  Get answers to common questions about our {service.name} service
                 </p>
               </div>
-              
-              <div className="grid md:grid-cols-3 gap-8">
-                {[
-                  {
-                    name: "Starter",
-                    description: "Perfect for small businesses",
-                    price: "Contact us",
-                    features: ["Basic implementation", "Standard support", "Documentation", "Training included"]
-                  },
-                  {
-                    name: "Professional", 
-                    description: "Ideal for growing companies",
-                    price: "Contact us",
-                    features: ["Advanced implementation", "Priority support", "Custom integrations", "Extended training"],
-                    popular: true
-                  },
-                  {
-                    name: "Enterprise",
-                    description: "For large organizations",
-                    price: "Contact us", 
-                    features: ["Full customization", "24/7 support", "Dedicated account manager", "Ongoing consultation"]
-                  }
-                ].map((plan, index) => (
-                  <Card key={index} className={`${plan.popular ? 'ring-2 ring-emerald-500 shadow-2xl scale-105' : 'shadow-lg'} bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border-none hover:shadow-xl transition-all duration-300`}>
-                    <CardContent className="p-8">
-                      {plan.popular && (
-                        <Badge className="bg-emerald-500 text-white mb-4">
-                          Most Popular
-                        </Badge>
-                      )}
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                        {plan.name}
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-300 mb-4">
-                        {plan.description}
-                      </p>
-                      <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mb-6">
-                        {plan.price}
-                      </div>
-                      <ul className="space-y-3 mb-8">
-                        {plan.features.map((feature) => (
-                          <li key={feature} className="flex items-center">
-                            <CheckCircle className="text-emerald-500 mr-3" size={16} />
-                            <span className="text-gray-700 dark:text-gray-300 text-sm">
-                              {feature}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                      <Button className="w-full" variant={plan.popular ? "default" : "outline"}>
-                        Get Quote
-                        <DollarSign className="ml-2" size={16} />
-                      </Button>
-                    </CardContent>
+
+              <div className="space-y-6">
+                {faqData.map((faq, index) => (
+                  <Card key={index} className="p-6">
+                    <h3 className="font-semibold mb-2">{faq.question}</h3>
+                    <p className="text-muted-foreground">{faq.answer}</p>
                   </Card>
                 ))}
               </div>
@@ -547,21 +574,22 @@ export default function SubServiceDetail() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 bg-emerald-600 text-white">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
-              <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                Let our experts implement {service.name?.toLowerCase() || 'professional'} solutions that drive your business forward with measurable results.
+        {/* Bottom CTA Section */}
+        <section className="py-20 bg-gradient-to-r from-primary to-primary/80">
+          <div className="container mx-auto px-6 text-center">
+            <div className="max-w-3xl mx-auto text-white">
+              <h2 className="text-3xl font-bold mb-4">Ready to Get Started with {service.name}?</h2>
+              <p className="text-xl mb-8 opacity-90">
+                Let's discuss how our {service.name} service can transform your business operations
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" variant="secondary">
-                  Start Your Project
-                  <ArrowRight className="ml-2" size={16} />
-                </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-emerald-600">
+                  <MessageCircle className="mr-2 h-5 w-5" />
                   Schedule Consultation
+                </Button>
+                <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white hover:text-primary">
+                  <Settings className="mr-2 h-5 w-5" />
+                  View Features
                 </Button>
               </div>
             </div>
@@ -570,6 +598,36 @@ export default function SubServiceDetail() {
       </main>
 
       <ModernFooter />
+
+      {/* SEO Components */}
+      <SEOAnalytics 
+        pageType="sub-service"
+        pageName={service.name}
+      />
+      <LocalSEO 
+        serviceArea={`${service.name} Services`}
+        businessType="IT Services"
+      />
+      <TagSystem 
+        tags={[service.name, category?.name || '', 'IT Services', 'Business Solutions']}
+      />
+      
+      {/* Internal Linking System */}
+      <InternalLinkingSection
+        currentType="subservice"
+        currentItem={service}
+        category={category}
+        service={service}
+        relatedItems={features || []}
+      />
+      
+      {/* Structured Data for FAQ */}
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(generateFAQSchema(faqData))
+        }}
+      />
     </div>
   );
 }

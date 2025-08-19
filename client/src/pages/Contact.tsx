@@ -237,38 +237,61 @@ export default function Contact() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                {contactInfo.slice(0, 3).map((info, index) => (
-                  <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white dark:bg-gray-800">
-                    <CardContent className="p-8 text-center">
-                      <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-all duration-300 ${
-                        index === 0 ? 'bg-purple-600 hover:bg-purple-700' :
-                        index === 1 ? 'bg-blue-600 hover:bg-blue-700' :
-                        'bg-indigo-600 hover:bg-indigo-700'
-                      }`}>
-                        <info.icon className="w-8 h-8 text-white" />
-                      </div>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{info.title}</h3>
-                      <p className="text-gray-900 dark:text-white font-medium mb-1 break-all">{info.content}</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{info.secondary}</p>
-                      <Button variant="outline" size="sm" className="w-full border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">
-                        {info.action}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              
-              {/* Office Hours Card - Separate row */}
-              <div className="max-w-md mx-auto mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {/* Location */}
                 <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white dark:bg-gray-800">
-                  <CardContent className="p-8 text-center">
-                    <div className="w-16 h-16 bg-green-600 hover:bg-green-700 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-all duration-300">
-                      <Clock className="w-8 h-8 text-white" />
+                  <CardContent className="p-6 text-center">
+                    <div className="w-14 h-14 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-all duration-300">
+                      <MapPin className="w-7 h-7 text-white" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Visit Office</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-1">Sandy Babb Street, Kitty</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Georgetown, Guyana</p>
+                    <Button variant="outline" size="sm" className="w-full border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">
+                      Get Directions
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Phone */}
+                <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white dark:bg-gray-800">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-14 h-14 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-all duration-300">
+                      <Phone className="w-7 h-7 text-white" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Call Us</h3>
+                    <p className="text-gray-900 dark:text-white font-medium mb-1">+592 750-3901</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Mon-Fri: 9AM-6PM</p>
+                    <Button variant="outline" size="sm" className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
+                      Call Now
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Email */}
+                <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white dark:bg-gray-800">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-14 h-14 bg-indigo-600 hover:bg-indigo-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-all duration-300">
+                      <Mail className="w-7 h-7 text-white" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Email Us</h3>
+                    <p className="text-gray-900 dark:text-white font-medium mb-1 text-sm break-all">info.indiaespectacular@gmail.com</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">24hr response</p>
+                    <Button variant="outline" size="sm" className="w-full border-indigo-600 text-indigo-600 hover:bg-indigo-600 hover:text-white">
+                      Send Email
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                {/* Office Hours */}
+                <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white dark:bg-gray-800">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-14 h-14 bg-green-600 hover:bg-green-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-all duration-300">
+                      <Clock className="w-7 h-7 text-white" />
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Office Hours</h3>
-                    <p className="text-gray-900 dark:text-white font-medium mb-1">Monday - Friday: 9AM - 6PM</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Saturday: 10AM - 2PM</p>
+                    <p className="text-gray-900 dark:text-white font-medium mb-1 text-sm">Mon-Fri: 9AM-6PM</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Sat: 10AM-2PM</p>
                     <Button variant="outline" size="sm" className="w-full border-green-600 text-green-600 hover:bg-green-600 hover:text-white">
                       Schedule Meeting
                     </Button>
@@ -406,7 +429,7 @@ export default function Contact() {
                   </Card>
                 </div>
 
-                {/* Office Location & Map */}
+                {/* Office Location & Interactive Map */}
                 <div>
                   <div className="mb-8">
                     <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
@@ -417,154 +440,85 @@ export default function Contact() {
                     </p>
                   </div>
 
+                  {/* Interactive Map */}
                   <Card className="border-0 shadow-lg mb-8">
-                    <CardContent className="p-8">
-                      <div className="space-y-6">
-                        <div className="flex items-start space-x-4">
-                          <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <MapPin className="w-6 h-6 text-purple-600" />
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Office Address</h3>
-                            <p className="text-gray-600 dark:text-gray-300 mb-4">
-                              Sandy Babb Street, Kitty<br />
-                              Georgetown, Guyana
-                            </p>
-                            <Button variant="outline" size="sm">
-                              Get Directions
-                            </Button>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start space-x-4">
-                          <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <Phone className="w-6 h-6 text-blue-600" />
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Phone</h3>
-                            <p className="text-gray-600 dark:text-gray-300 mb-2">+592 750-3901</p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">Monday - Friday: 9AM - 6PM</p>
-                          </div>
-                        </div>
-
-                        <div className="flex items-start space-x-4">
-                          <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <Mail className="w-6 h-6 text-green-600" />
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Email</h3>
-                            <p className="text-gray-600 dark:text-gray-300 mb-2">info.indiaespectacular@gmail.com</p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">Response within 24 hours</p>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Interactive Map Placeholder */}
-                  <Card className="border-0 shadow-lg">
                     <CardContent className="p-0">
-                      <div className="relative bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 h-64 rounded-lg flex items-center justify-center">
+                      <div className="relative bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 h-80 rounded-lg flex items-center justify-center">
                         <div className="text-center">
-                          <MapPin className="w-16 h-16 text-purple-600 mx-auto mb-4" />
-                          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                          <MapPin className="w-20 h-20 text-purple-600 mx-auto mb-6" />
+                          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
                             Georgetown, Guyana
                           </h3>
-                          <p className="text-gray-600 dark:text-gray-300 mb-4">
+                          <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
                             Sandy Babb Street, Kitty
                           </p>
                           <Button 
                             onClick={() => window.open('https://maps.google.com/?q=Sandy+Babb+Street+Kitty+Georgetown+Guyana', '_blank')}
-                            className="bg-purple-600 hover:bg-purple-700 text-white"
+                            className="bg-purple-600 hover:bg-purple-700 text-white text-lg px-8 py-3"
                           >
+                            <MapPin className="w-5 h-5 mr-2" />
                             Open in Google Maps
                           </Button>
                         </div>
                       </div>
                     </CardContent>
                   </Card>
-                </div>
 
-                {/* Map & Additional Info */}
-                <div className="space-y-8">
-                  {/* Google Map */}
-                  <Card className="border-0 shadow-lg">
-                    <CardContent className="p-0">
-                      <div className="h-64 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-primary-800 rounded-lg flex items-center justify-center">
-                        <div className="text-center">
-                          <MapPin className="w-12 h-12 text-primary-600 mx-auto mb-4" />
-                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                            Our Location
-                          </h3>
-                          <p className="text-gray-600 dark:text-gray-300">
-                            Interactive map will be embedded here
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-
-                  {/* Company Info */}
+                  {/* Company Details */}
                   <Card className="border-0 shadow-lg">
                     <CardHeader>
-                      <CardTitle className="flex items-center">
-                        <Building2 className="w-6 h-6 mr-2 text-purple-600" />
+                      <CardTitle className="flex items-center text-2xl">
+                        <Building2 className="w-8 h-8 mr-3 text-purple-600" />
                         India Espectacular
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="flex items-start space-x-3">
-                        <MapPin className="w-5 h-5 text-purple-600 mt-1 flex-shrink-0" />
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">Address</p>
-                          <p className="text-gray-600 dark:text-gray-300">Sandy Babb Street, Kitty<br />Georgetown, Guyana</p>
+                    <CardContent className="space-y-6">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="flex items-start space-x-4">
+                          <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <MapPin className="w-6 h-6 text-purple-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Office Address</h4>
+                            <p className="text-gray-600 dark:text-gray-300">Sandy Babb Street, Kitty<br />Georgetown, Guyana</p>
+                          </div>
                         </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <Phone className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">Phone</p>
-                          <p className="text-gray-600 dark:text-gray-300">+592 750-3901</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <Mail className="w-5 h-5 text-indigo-600 mt-1 flex-shrink-0" />
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">Email</p>
-                          <p className="text-gray-600 dark:text-gray-300 break-all">info.indiaespectacular@gmail.com</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <Clock className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">Office Hours</p>
-                          <p className="text-gray-600 dark:text-gray-300">Mon-Fri: 9AM-6PM<br />Sat: 10AM-2PM</p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
 
-                  {/* Support Options */}
-                  <Card className="border-0 shadow-lg">
-                    <CardHeader>
-                      <CardTitle className="flex items-center">
-                        <Headphones className="w-6 h-6 mr-2 text-primary-600" />
-                        Support Options
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <div className="space-y-3">
-                        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                          <span className="font-medium">24/7 Emergency Support</span>
-                          <Shield className="w-5 h-5 text-green-600" />
+                        <div className="flex items-start space-x-4">
+                          <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <Clock className="w-6 h-6 text-green-600" />
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Business Hours</h4>
+                            <p className="text-gray-600 dark:text-gray-300">Monday - Friday: 9AM - 6PM<br />Saturday: 10AM - 2PM</p>
+                          </div>
                         </div>
-                        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                          <span className="font-medium">Live Chat Available</span>
-                          <MessageCircle className="w-5 h-5 text-blue-600" />
-                        </div>
-                        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                          <span className="font-medium">Free Consultation</span>
-                          <Calendar className="w-5 h-5 text-purple-600" />
+                      </div>
+
+                      <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Quick Contact Options</h4>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                          <Button 
+                            onClick={() => window.open('https://wa.me/5927503901', '_blank')}
+                            className="bg-green-600 hover:bg-green-700 text-white flex-1"
+                          >
+                            <MessageCircle className="w-4 h-4 mr-2" />
+                            WhatsApp Chat
+                          </Button>
+                          <Button 
+                            onClick={() => window.location.href = 'tel:+5927503901'}
+                            className="bg-blue-600 hover:bg-blue-700 text-white flex-1"
+                          >
+                            <Phone className="w-4 h-4 mr-2" />
+                            Call Now
+                          </Button>
+                          <Button 
+                            onClick={() => window.location.href = 'mailto:info.indiaespectacular@gmail.com'}
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white flex-1"
+                          >
+                            <Mail className="w-4 h-4 mr-2" />
+                            Send Email
+                          </Button>
                         </div>
                       </div>
                     </CardContent>

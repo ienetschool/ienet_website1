@@ -12,7 +12,9 @@ import {
   CreditCard,
   Shield,
   Award,
-  ArrowUp
+  ArrowUp,
+  MessageCircle,
+  Quote
 } from "lucide-react";
 
 const quickLinks = [
@@ -97,8 +99,8 @@ export default function ModernFooter() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-primary flex-shrink-0" />
-                  <a href="mailto:info@ienet.com" className="text-gray-600 dark:text-gray-300 text-base font-semibold hover:text-primary transition-colors">
-                    info@ienet.com
+                  <a href="mailto:info.indiaespectacular@gmail.com" className="text-gray-600 dark:text-gray-300 text-base font-semibold hover:text-primary transition-colors">
+                    info.indiaespectacular@gmail.com
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
@@ -160,19 +162,37 @@ export default function ModernFooter() {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg">
               <h4 className="text-xl font-bold mb-6 text-gray-800 dark:text-white">Connect With Us</h4>
               
+              {/* Quick Connect Buttons */}
+              <div className="flex space-x-3 mb-6">
+                <Button 
+                  onClick={() => window.open('https://wa.me/5927503901', '_blank')}
+                  className="w-12 h-12 bg-green-600 hover:bg-green-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group p-0"
+                  aria-label="Live Chat on WhatsApp"
+                >
+                  <MessageCircle size={20} />
+                </Button>
+                <Button 
+                  onClick={() => window.location.href = '/contact'}
+                  className="w-12 h-12 bg-blue-600 hover:bg-blue-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group p-0"
+                  aria-label="Get Quote"
+                >
+                  <Quote size={20} />
+                </Button>
+              </div>
+              
               {/* Social Media Links */}
               <div className="flex space-x-3 mb-6">
-                <a href="https://facebook.com/IeNet" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-blue-600 hover:bg-blue-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group" aria-label="Facebook">
-                  <Facebook size={20} />
+                <a href="https://facebook.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-600 hover:bg-blue-700 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="Facebook">
+                  <Facebook size={16} />
                 </a>
-                <a href="https://twitter.com/IeNet" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-sky-500 hover:bg-sky-600 transition-all duration-300 rounded-xl flex items-center justify-center text-white group" aria-label="Twitter">
-                  <Twitter size={20} />
+                <a href="https://twitter.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-sky-500 hover:bg-sky-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="Twitter">
+                  <Twitter size={16} />
                 </a>
-                <a href="https://linkedin.com/company/IeNet" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-blue-700 hover:bg-blue-800 transition-all duration-300 rounded-xl flex items-center justify-center text-white group" aria-label="LinkedIn">
-                  <Linkedin size={20} />
+                <a href="https://linkedin.com/company/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-700 hover:bg-blue-800 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="LinkedIn">
+                  <Linkedin size={16} />
                 </a>
-                <a href="https://youtube.com/IeNet" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-red-600 hover:bg-red-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group" aria-label="YouTube">
-                  <Youtube size={20} />
+                <a href="https://youtube.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-red-600 hover:bg-red-700 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="YouTube">
+                  <Youtube size={16} />
                 </a>
               </div>
 

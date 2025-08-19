@@ -24,7 +24,7 @@ export default function TopBar() {
         <div className="hidden md:flex items-center space-x-6">
           <div className="flex items-center space-x-2">
             <Mail size={14} className="text-primary" />
-            <span className="font-medium">info@ienet.com</span>
+            <span className="font-medium">info.indiaespectacular@gmail.com</span>
           </div>
           <div className="flex items-center space-x-2">
             <Phone size={14} className="text-primary" />

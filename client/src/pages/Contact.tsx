@@ -200,21 +200,21 @@ export default function Contact() {
         </section>
 
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 dark:from-emerald-800 dark:via-teal-800 dark:to-cyan-900 py-20">
+        <section className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 dark:from-purple-800 dark:via-blue-800 dark:to-indigo-900 py-20">
           <div className="container mx-auto px-6">
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-5xl font-bold text-white mb-6">
-                Contact <span className="text-yellow-300">IeNet</span>
+                Contact <span className="text-yellow-300">India Espectacular</span>
               </h1>
-              <p className="text-xl text-emerald-100 mb-8">
+              <p className="text-xl text-purple-100 mb-8">
                 Ready to transform your business with cutting-edge technology? Get in touch with our expert team for a free consultation and project quote.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-white text-emerald-600 hover:bg-emerald-50 font-semibold">
+                <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 font-semibold">
                   Get Free Quote
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-emerald-600">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-purple-600">
                   Schedule Meeting
                 </Button>
               </div>
@@ -225,7 +225,7 @@ export default function Contact() {
 
 
         {/* Contact Information Cards */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-gray-900 dark:to-blue-950">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -259,7 +259,7 @@ export default function Contact() {
         </section>
 
         {/* Contact Form & Map Section */}
-        <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        <section className="py-20 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-950 dark:to-indigo-950">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -375,12 +375,91 @@ export default function Contact() {
                         <Button 
                           type="submit" 
                           size="lg" 
-                          className="w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700"
+                          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
                         >
                           <Send className="mr-2" size={16} />
                           Send Message
                         </Button>
                       </form>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Office Location & Map */}
+                <div>
+                  <div className="mb-8">
+                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                      Visit Our Office
+                    </h2>
+                    <p className="text-lg text-gray-600 dark:text-gray-300">
+                      Come meet our team at our headquarters in Georgetown, Guyana.
+                    </p>
+                  </div>
+
+                  <Card className="border-0 shadow-lg mb-8">
+                    <CardContent className="p-8">
+                      <div className="space-y-6">
+                        <div className="flex items-start space-x-4">
+                          <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <MapPin className="w-6 h-6 text-purple-600" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Office Address</h3>
+                            <p className="text-gray-600 dark:text-gray-300 mb-4">
+                              Sandy Babb Street, Kitty<br />
+                              Georgetown, Guyana
+                            </p>
+                            <Button variant="outline" size="sm">
+                              Get Directions
+                            </Button>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start space-x-4">
+                          <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <Phone className="w-6 h-6 text-blue-600" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Phone</h3>
+                            <p className="text-gray-600 dark:text-gray-300 mb-2">+592 750-3901</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">Monday - Friday: 9AM - 6PM</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-start space-x-4">
+                          <div className="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <Mail className="w-6 h-6 text-green-600" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Email</h3>
+                            <p className="text-gray-600 dark:text-gray-300 mb-2">info.indiaespectacular@gmail.com</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">Response within 24 hours</p>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Interactive Map Placeholder */}
+                  <Card className="border-0 shadow-lg">
+                    <CardContent className="p-0">
+                      <div className="relative bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 h-64 rounded-lg flex items-center justify-center">
+                        <div className="text-center">
+                          <MapPin className="w-16 h-16 text-purple-600 mx-auto mb-4" />
+                          <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                            Georgetown, Guyana
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-300 mb-4">
+                            Sandy Babb Street, Kitty
+                          </p>
+                          <Button 
+                            onClick={() => window.open('https://maps.google.com/?q=Sandy+Babb+Street+Kitty+Georgetown+Guyana', '_blank')}
+                            className="bg-purple-600 hover:bg-purple-700 text-white"
+                          >
+                            Open in Google Maps
+                          </Button>
+                        </div>
+                      </div>
                     </CardContent>
                   </Card>
                 </div>
@@ -408,8 +487,8 @@ export default function Contact() {
                   <Card className="border-0 shadow-lg">
                     <CardHeader>
                       <CardTitle className="flex items-center">
-                        <Building2 className="w-6 h-6 mr-2 text-primary-600" />
-                        IeNet
+                        <Building2 className="w-6 h-6 mr-2 text-purple-600" />
+                        India Espectacular
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
@@ -431,7 +510,7 @@ export default function Contact() {
                         <Mail className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Email</p>
-                          <p className="text-gray-600 dark:text-gray-300">info@ienet.com</p>
+                          <p className="text-gray-600 dark:text-gray-300">info.indiaespectacular@gmail.com</p>
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
@@ -476,21 +555,21 @@ export default function Contact() {
         </section>
 
         {/* Call to Action */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        <section className="py-20 bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 dark:from-indigo-800 dark:via-purple-800 dark:to-blue-900">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
+              <h2 className="text-4xl font-bold text-white mb-6">
                 Ready to Start Your Project?
               </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                Join hundreds of satisfied clients who trust IeNet for their technology needs.
+              <p className="text-xl text-indigo-100 mb-8">
+                Join hundreds of satisfied clients who trust India Espectacular for their technology needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
+                <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 font-semibold">
                   Get Free Quote Today
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
-                <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-purple-600">
                   Schedule a Call
                 </Button>
               </div>

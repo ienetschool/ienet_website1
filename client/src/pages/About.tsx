@@ -233,22 +233,41 @@ export default function About() {
       </div>
 
       <main>
+        {/* Breadcrumb */}
+        <section className="bg-white dark:bg-gray-900 py-3 border-b border-gray-200 dark:border-gray-700">
+          <div className="container mx-auto px-6">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href="/" className="text-gray-600 dark:text-gray-400 hover:text-primary">Home</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="text-gray-900 dark:text-white font-medium">About Us</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </section>
+
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
+        <section className="bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 dark:from-blue-800 dark:via-purple-800 dark:to-indigo-900 py-20">
           <div className="container mx-auto px-6">
             <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">India Espectacular</span>
+              <h1 className="text-5xl font-bold text-white mb-6">
+                About <span className="text-yellow-300">India Espectacular</span>
               </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+              <p className="text-xl text-blue-100 mb-8">
                 We're a team of passionate technology experts dedicated to delivering innovative IT solutions that drive business success and digital transformation worldwide.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700">
+                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 font-semibold">
                   Our Services
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
                   Contact Us
                 </Button>
               </div>
@@ -256,29 +275,10 @@ export default function About() {
           </div>
         </section>
 
-        {/* Breadcrumb */}
-        <section className="bg-gray-50 dark:bg-gray-800 py-4 relative z-40 mt-0">
-          <div className="container mx-auto px-6">
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href="/">Home</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>About Us</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </section>
-
 
 
         {/* Company Overview */}
-        <section className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-indigo-900/20">
+        <section className="py-20 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -330,7 +330,7 @@ export default function About() {
         </section>
 
         {/* Mission & Vision */}
-        <section className="py-20 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-800 dark:via-emerald-900/20 dark:to-teal-900/20">
+        <section className="py-20 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -369,7 +369,7 @@ export default function About() {
         </section>
 
         {/* Our Values */}
-        <section className="py-20 bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-gray-900 dark:via-rose-900/20 dark:to-pink-900/20">
+        <section className="py-20 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -399,7 +399,7 @@ export default function About() {
         </section>
 
         {/* Our Journey - Enhanced Timeline */}
-        <section className="py-20 bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 dark:from-gray-800 dark:via-amber-900/20 dark:to-orange-900/20">
+        <section className="py-20 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -442,7 +442,7 @@ export default function About() {
         </section>
 
         {/* Milestones */}
-        <section className="py-20 bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-violet-900/20 dark:to-purple-900/20">
+        <section className="py-20 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -470,7 +470,7 @@ export default function About() {
         </section>
 
         {/* Client Testimonials */}
-        <section className="py-20 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-800 dark:via-green-900/20 dark:to-emerald-900/20">
+        <section className="py-20 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">

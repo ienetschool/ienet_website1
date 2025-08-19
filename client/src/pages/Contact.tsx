@@ -166,22 +166,41 @@ export default function Contact() {
       </div>
 
       <main>
+        {/* Breadcrumb */}
+        <section className="bg-white dark:bg-gray-900 py-3 border-b border-gray-200 dark:border-gray-700">
+          <div className="container mx-auto px-6">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href="/" className="text-gray-600 dark:text-gray-400 hover:text-primary">Home</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="text-gray-900 dark:text-white font-medium">Contact</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </section>
+
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
+        <section className="bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 dark:from-emerald-800 dark:via-teal-800 dark:to-cyan-900 py-20">
           <div className="container mx-auto px-6">
             <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">India Espectacular</span>
+              <h1 className="text-5xl font-bold text-white mb-6">
+                Contact <span className="text-yellow-300">India Espectacular</span>
               </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+              <p className="text-xl text-emerald-100 mb-8">
                 Ready to transform your business with cutting-edge technology? Get in touch with our expert team for a free consultation and project quote.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700">
+                <Button size="lg" className="bg-white text-emerald-600 hover:bg-emerald-50 font-semibold">
                   Get Free Quote
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-emerald-600">
                   Schedule Meeting
                 </Button>
               </div>
@@ -189,29 +208,10 @@ export default function Contact() {
           </div>
         </section>
 
-        {/* Breadcrumb */}
-        <section className="bg-gray-50 dark:bg-gray-800 py-4 relative z-40 mt-0">
-          <div className="container mx-auto px-6">
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href="/">Home</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Contact</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </section>
-
 
 
         {/* Contact Information Cards */}
-        <section className="py-20 bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 dark:from-gray-800 dark:via-sky-900/20 dark:to-blue-900/20">
+        <section className="py-20 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -245,7 +245,7 @@ export default function Contact() {
         </section>
 
         {/* Contact Form & Map Section */}
-        <section className="py-20 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-teal-900/20">
+        <section className="py-20 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">

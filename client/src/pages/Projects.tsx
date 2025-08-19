@@ -196,22 +196,41 @@ export default function Projects() {
       </div>
 
       <main>
+        {/* Breadcrumb */}
+        <section className="bg-white dark:bg-gray-900 py-3 border-b border-gray-200 dark:border-gray-700">
+          <div className="container mx-auto px-6">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href="/" className="text-gray-600 dark:text-gray-400 hover:text-primary">Home</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="text-gray-900 dark:text-white font-medium">Portfolio</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </section>
+
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
+        <section className="bg-gradient-to-br from-purple-600 via-pink-600 to-rose-700 dark:from-purple-800 dark:via-pink-800 dark:to-rose-900 py-20">
           <div className="container mx-auto px-6">
             <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">Project Portfolio</span>
+              <h1 className="text-5xl font-bold text-white mb-6">
+                Our <span className="text-yellow-300">Project Portfolio</span>
               </h1>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+              <p className="text-xl text-purple-100 mb-8">
                 Discover our proven track record of delivering successful IT solutions across diverse industries. From startups to enterprise clients, see how we transform businesses through technology.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700">
+                <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 font-semibold">
                   View Case Studies
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
-                <Button size="lg" variant="outline">
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-purple-600">
                   Start Your Project
                 </Button>
               </div>
@@ -219,29 +238,10 @@ export default function Projects() {
           </div>
         </section>
 
-        {/* Breadcrumb */}
-        <section className="bg-gray-50 dark:bg-gray-800 py-4 relative z-40 mt-0">
-          <div className="container mx-auto px-6">
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href="/">Home</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Portfolio</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </section>
-
 
 
         {/* Project Statistics */}
-        <section className="py-16 bg-gradient-to-br from-purple-50 via-violet-50 to-indigo-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-violet-900/20">
+        <section className="py-16 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -280,7 +280,7 @@ export default function Projects() {
         </section>
 
         {/* Project Categories */}
-        <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+        <section className="py-16 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -405,7 +405,7 @@ export default function Projects() {
 
         {/* All Projects Grid */}
         {projects && projects.length > 0 && (
-          <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+          <section className="py-16 bg-white dark:bg-gray-900">
             <div className="container mx-auto px-6">
               <div className="max-w-6xl mx-auto">
                 <div className="text-center mb-16">

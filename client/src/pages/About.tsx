@@ -224,11 +224,19 @@ export default function About() {
       <TopBar />
       <ModernHeader />
 
-      {/* Floating CTA Button */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
-          <MessageCircle size={20} />
-          <span className="hidden sm:block">Contact Us</span>
+      {/* Floating Buttons */}
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col space-y-3">
+        {/* Live Chat Button */}
+        <Button className="bg-green-600 hover:bg-green-700 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
+          <MessageCircle size={24} />
+        </Button>
+        
+        {/* Get Quote Button */}
+        <Button className="bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11h6v2H9zm0-4h6v2H9zm0 8h4v2H9z" fill="currentColor"/>
+            <path d="M4 2v18l4-4h12V2H4z" stroke="currentColor" strokeWidth="2" fill="none"/>
+          </svg>
         </Button>
       </div>
 
@@ -257,7 +265,7 @@ export default function About() {
           <div className="container mx-auto px-6">
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-5xl font-bold text-white mb-6">
-                About <span className="text-yellow-300">India Espectacular</span>
+                About <span className="text-yellow-300">IeNet</span>
               </h1>
               <p className="text-xl text-blue-100 mb-8">
                 We're a team of passionate technology experts dedicated to delivering innovative IT solutions that drive business success and digital transformation worldwide.
@@ -478,7 +486,7 @@ export default function About() {
                   Client Testimonials
                 </h2>
                 <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                  Hear what our clients say about their experience working with India Espectacular.
+                  Hear what our clients say about their experience working with IeNet.
                 </p>
               </div>
 
@@ -509,7 +517,7 @@ export default function About() {
                 Ready to Transform Your Business?
               </h2>
               <p className="text-xl text-primary-100 mb-8">
-                Let India Espectacular help you achieve your digital transformation goals with our expert solutions and dedicated support.
+                Let IeNet help you achieve your digital transformation goals with our expert solutions and dedicated support.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-white text-primary-600 hover:bg-gray-100">

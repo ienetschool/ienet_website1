@@ -97,10 +97,10 @@ export default function ModernHeader() {
 
   const navItems = [
     { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
     { name: 'Services', href: '/services', hasSubmenu: true },
     { name: 'Projects', href: '/projects' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact', isIcon: true }
+    { name: 'Contact', href: '/contact' }
   ];
 
   return (
@@ -122,11 +122,11 @@ export default function ModernHeader() {
                 />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                  India Espectacular
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  IeNet
                 </h1>
-                <p className="text-xs text-gray-600 dark:text-gray-300 -mt-1">
-                  Digital Innovation & Cultural Solutions
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-300 -mt-1">
+                  Digital Innovation & IT Solutions
                 </p>
               </div>
             </div>
@@ -149,7 +149,7 @@ export default function ModernHeader() {
                           : 'text-gray-700 dark:text-gray-200 hover:text-primary hover:bg-primary/5'
                       }`}
                     >
-                      <span className="font-medium">{item.name}</span>
+                      <span className="font-bold text-lg">{item.name}</span>
                       <ChevronDown 
                         className={`transition-transform duration-300 ${
                           isServicesOpen ? 'rotate-180' : ''
@@ -272,7 +272,7 @@ export default function ModernHeader() {
                           }`}
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
-                          <span className="font-medium">{item.name}</span>
+                          <span className="font-bold text-lg">{item.name}</span>
                         </div>
                       </Link>
                     </div>

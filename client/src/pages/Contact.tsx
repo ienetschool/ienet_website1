@@ -157,11 +157,19 @@ export default function Contact() {
       <TopBar />
       <ModernHeader />
 
-      {/* Floating CTA Button */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
-          <MessageCircle size={20} />
-          <span className="hidden sm:block">Live Chat</span>
+      {/* Floating Buttons */}
+      <div className="fixed bottom-6 right-6 z-40 flex flex-col space-y-3">
+        {/* Live Chat Button */}
+        <Button className="bg-green-600 hover:bg-green-700 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
+          <MessageCircle size={24} />
+        </Button>
+        
+        {/* Get Quote Button */}
+        <Button className="bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 11h6v2H9zm0-4h6v2H9zm0 8h4v2H9z" fill="currentColor"/>
+            <path d="M4 2v18l4-4h12V2H4z" stroke="currentColor" strokeWidth="2" fill="none"/>
+          </svg>
         </Button>
       </div>
 

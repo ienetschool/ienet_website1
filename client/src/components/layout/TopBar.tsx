@@ -1,9 +1,21 @@
-import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram, LogIn, User } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram, LogIn, User, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function TopBar() {
   const { isAuthenticated, user } = useAuth();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    const darkMode = document.documentElement.classList.contains('dark');
+    setIsDarkMode(darkMode);
+  }, []);
+
+  const toggleDarkMode = () => {
+    document.documentElement.classList.toggle('dark');
+    setIsDarkMode(!isDarkMode);
+  };
 
   return (
     <div className="bg-gray-900 text-white py-2 px-6 text-sm">
@@ -12,19 +24,19 @@ export default function TopBar() {
         <div className="hidden md:flex items-center space-x-6">
           <div className="flex items-center space-x-2">
             <Mail size={14} className="text-primary" />
-            <span>info.indiaespectacular@gmail.com</span>
+            <span className="font-medium">info@ienet.com</span>
           </div>
           <div className="flex items-center space-x-2">
             <Phone size={14} className="text-primary" />
-            <span>+592 750-3901</span>
+            <span className="font-medium">+592 750-3901</span>
           </div>
           <div className="flex items-center space-x-2">
             <MapPin size={14} className="text-primary" />
-            <span>Georgetown, Guyana</span>
+            <span className="font-medium">Georgetown, Guyana</span>
           </div>
         </div>
 
-        {/* Right side - Social Media and Sign In */}
+        {/* Right side - Social Media, Dark Mode, and Sign In */}
         <div className="flex items-center space-x-4">
           {/* Social Media Icons */}
           <div className="flex items-center space-x-2">
@@ -65,6 +77,16 @@ export default function TopBar() {
               <Instagram size={16} />
             </a>
           </div>
+
+          {/* Dark Mode Toggle */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleDarkMode}
+            className="w-8 h-8 rounded-full p-0 hover:bg-gray-800 text-white hover:text-primary"
+          >
+            {isDarkMode ? <Sun size={14} /> : <Moon size={14} />}
+          </Button>
 
           {/* Sign In / User Menu */}
           <div className="border-l border-gray-700 pl-4">

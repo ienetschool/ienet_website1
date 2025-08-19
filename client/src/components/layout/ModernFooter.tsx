@@ -80,8 +80,8 @@ export default function ModernFooter() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 dark:text-white">India Espectacular</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Digital Innovation & Cultural Solutions</p>
+                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white">IeNet</h3>
+                  <p className="text-base font-semibold text-gray-600 dark:text-gray-400">Digital Innovation & IT Solutions</p>
                 </div>
               </div>
               
@@ -97,13 +97,13 @@ export default function ModernFooter() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-primary flex-shrink-0" />
-                  <a href="mailto:info.indiaespectacular@gmail.com" className="text-gray-600 dark:text-gray-300 text-sm hover:text-primary transition-colors">
-                    info.indiaespectacular@gmail.com
+                  <a href="mailto:info@ienet.com" className="text-gray-600 dark:text-gray-300 text-base font-semibold hover:text-primary transition-colors">
+                    info@ienet.com
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="h-5 w-5 text-primary flex-shrink-0" />
-                  <a href="tel:+5927503901" className="text-gray-600 dark:text-gray-300 text-sm hover:text-primary transition-colors">
+                  <a href="tel:+5927503901" className="text-gray-600 dark:text-gray-300 text-base font-semibold hover:text-primary transition-colors">
                     +592 750-3901
                   </a>
                 </div>
@@ -156,34 +156,48 @@ export default function ModernFooter() {
               </ul>
             </div>
 
-            {/* Contact & Social */}
-            <div>
-              <h4 className="text-lg font-semibold mb-6 text-gray-800 dark:text-white">Connect With Us</h4>
+            {/* Connect With Us */}
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg">
+              <h4 className="text-xl font-bold mb-6 text-gray-800 dark:text-white">Connect With Us</h4>
               
               {/* Social Media Links */}
-              <div className="flex space-x-4 mb-6">
-                {socialLinks.map((social) => (
-                  <a 
-                    key={social.label}
-                    href={social.href} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300 hover:scale-110"
-                  >
-                    <social.icon size={18} />
-                  </a>
-                ))}
+              <div className="flex space-x-3 mb-6">
+                <a href="https://facebook.com/IeNet" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-blue-600 hover:bg-blue-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group" aria-label="Facebook">
+                  <Facebook size={20} />
+                </a>
+                <a href="https://twitter.com/IeNet" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-sky-500 hover:bg-sky-600 transition-all duration-300 rounded-xl flex items-center justify-center text-white group" aria-label="Twitter">
+                  <Twitter size={20} />
+                </a>
+                <a href="https://linkedin.com/company/IeNet" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-blue-700 hover:bg-blue-800 transition-all duration-300 rounded-xl flex items-center justify-center text-white group" aria-label="LinkedIn">
+                  <Linkedin size={20} />
+                </a>
+                <a href="https://youtube.com/IeNet" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-red-600 hover:bg-red-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group" aria-label="YouTube">
+                  <Youtube size={20} />
+                </a>
               </div>
 
               {/* Payment Methods */}
-              <div>
-                <h5 className="text-sm font-semibold mb-3 text-gray-800 dark:text-white">We Accept</h5>
-                <div className="grid grid-cols-3 gap-2">
-                  {paymentMethods.map((method, index) => (
-                    <div key={index} className="bg-gray-200 dark:bg-gray-800 rounded px-2 py-1 text-center">
-                      <span className="text-xs text-gray-600 dark:text-gray-400">{method.name}</span>
-                    </div>
-                  ))}
+              <div className="space-y-4">
+                <p className="text-base font-bold text-gray-700 dark:text-gray-300">We Accept</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                    💳 Visa
+                  </div>
+                  <div className="bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                    💳 Mastercard
+                  </div>
+                  <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                    💳 Stripe
+                  </div>
+                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                    💰 PayPal
+                  </div>
+                  <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                    💳 Razorpay
+                  </div>
+                  <div className="bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                    🏦 Wire Transfer
+                  </div>
                 </div>
               </div>
             </div>
@@ -197,8 +211,8 @@ export default function ModernFooter() {
           <div className="container mx-auto px-6 py-4">
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div className="flex items-center space-x-6 mb-4 md:mb-0">
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
-                  © {currentYear} India Espectacular. All rights reserved.
+                <p className="text-gray-600 dark:text-gray-400 text-sm font-semibold">
+                  © {currentYear} IeNet. All rights reserved.
                 </p>
                 
                 {/* Trust Indicators */}

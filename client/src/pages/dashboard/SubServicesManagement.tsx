@@ -306,14 +306,9 @@ export function SubServicesManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: allServices, isLoading } = useQuery<SubServiceItem[]>({
+  const { data: subServices, isLoading } = useQuery<SubServiceItem[]>({
     queryKey: ['/api/services'],
   });
-
-  // Show services from specific categories to create different view from main Services
-  const subServices = allServices?.filter(service => 
-    service.categoryId && [35, 36, 37, 38, 39, 40].includes(service.categoryId) // Show services from specific high category IDs
-  ) || [];
 
   const deleteSubServiceMutation = useMutation({
     mutationFn: (subServiceId: number) => 

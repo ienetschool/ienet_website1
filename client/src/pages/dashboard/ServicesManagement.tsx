@@ -121,20 +121,20 @@ function CreateServiceDialog() {
 
   const createServiceMutation = useMutation({
     mutationFn: (data: ServiceFormData) => 
-      apiRequest('POST', '/api/services', data),
+      apiRequest('POST', '/api/service-categories', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
       setOpen(false);
       form.reset();
       toast({
         title: "Success",
-        description: "Service created successfully",
+        description: "Service category created successfully",
       });
     },
     onError: (error) => {
       toast({
         title: "Error",
-        description: "Failed to create service",
+        description: "Failed to create service category",
         variant: "destructive",
       });
     },
@@ -322,23 +322,23 @@ export function ServicesManagement() {
   const queryClient = useQueryClient();
 
   const { data: services, isLoading } = useQuery<ServiceItem[]>({
-    queryKey: ['/api/services'],
+    queryKey: ['/api/service-categories'],
   });
 
   const deleteServiceMutation = useMutation({
     mutationFn: (serviceId: number) => 
-      apiRequest('DELETE', `/api/admin/services/${serviceId}`),
+      apiRequest('DELETE', `/api/admin/service-categories/${serviceId}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
       toast({
         title: "Success",
-        description: "Service deleted successfully",
+        description: "Service category deleted successfully",
       });
     },
     onError: () => {
       toast({
         title: "Error",
-        description: "Failed to delete service",
+        description: "Failed to delete service category",
         variant: "destructive",
       });
     },
@@ -346,27 +346,27 @@ export function ServicesManagement() {
 
   const toggleServiceMutation = useMutation({
     mutationFn: ({ serviceId, isActive }: { serviceId: number; isActive: boolean }) => 
-      apiRequest('PATCH', `/api/services/${serviceId}`, { isActive }),
+      apiRequest('PATCH', `/api/service-categories/${serviceId}`, { isActive }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
     },
   });
 
   const updateServiceMutation = useMutation({
     mutationFn: ({ serviceId, data }: { serviceId: number; data: ServiceFormData }) => 
-      apiRequest('PUT', `/api/admin/services/${serviceId}`, data),
+      apiRequest('PUT', `/api/admin/service-categories/${serviceId}`, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
       setEditingService(null);
       toast({
         title: "Success",
-        description: "Service updated successfully",
+        description: "Service category updated successfully",
       });
     },
     onError: () => {
       toast({
         title: "Error",
-        description: "Failed to update service",
+        description: "Failed to update service category",
         variant: "destructive",
       });
     },

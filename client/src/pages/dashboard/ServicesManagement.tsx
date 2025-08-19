@@ -448,7 +448,7 @@ export function ServicesManagement() {
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center">
+            <CardTitle className="flex items-center text-foreground">
               <Building className="w-5 h-5 mr-2" />
               All Services ({filteredServices.length})
             </CardTitle>

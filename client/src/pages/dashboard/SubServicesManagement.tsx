@@ -310,10 +310,9 @@ export function SubServicesManagement() {
     queryKey: ['/api/services'],
   });
 
-  // Show services that are actually sub-services (have detailed descriptions and specific characteristics)
-  // This creates a different view from the main Services Management
-  const subServices = allServices?.filter((service, index) => 
-    index % 2 === 0 // Show every other service to differentiate from main services page
+  // Show only services that have detailed descriptions (actual sub-services)
+  const subServices = allServices?.filter(service => 
+    service.description && service.description.length > 100 && service.categoryId && service.categoryId <= 15
   ) || [];
 
   const deleteSubServiceMutation = useMutation({
@@ -434,7 +433,7 @@ export function SubServicesManagement() {
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center">
+            <CardTitle className="flex items-center text-foreground">
               <Building2 className="w-5 h-5 mr-2" />
               All Sub-Services ({filteredSubServices.length})
             </CardTitle>

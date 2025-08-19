@@ -76,12 +76,14 @@ type ProjectFormData = z.infer<typeof projectFormSchema>;
 interface Project {
   id: number;
   title: string;
+  slug: string;
   description: string;
   longDescription?: string;
   technologies: string[] | string;
   category: string;
   clientName?: string;
   projectUrl?: string;
+  githubUrl?: string;
   imageUrl?: string;
   status: 'active' | 'completed' | 'maintenance' | 'archived';
   featured: boolean;

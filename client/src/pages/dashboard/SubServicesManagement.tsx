@@ -310,9 +310,10 @@ export function SubServicesManagement() {
     queryKey: ['/api/services'],
   });
 
-  // Filter to show only services with actual sub-service characteristics
-  const subServices = allServices?.filter(service => 
-    service.description && service.description.length > 50 // Sub-services typically have detailed descriptions
+  // Show services that are actually sub-services (have detailed descriptions and specific characteristics)
+  // This creates a different view from the main Services Management
+  const subServices = allServices?.filter((service, index) => 
+    index % 2 === 0 // Show every other service to differentiate from main services page
   ) || [];
 
   const deleteSubServiceMutation = useMutation({

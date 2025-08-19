@@ -13,7 +13,7 @@ export function registerDashboardRoutes(app: Express) {
       const enquiries = await storage.getEnquiries();
       
       const stats = {
-        totalPages: pages.length,
+        totalPages: pages.length + services.length + features.length + projects.length + 15, // Include all dynamic pages + static pages
         totalServices: services.length,
         totalFeatures: features.length,
         totalProjects: projects.length,

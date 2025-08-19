@@ -53,6 +53,7 @@ import {
   Calendar,
   User
 } from "lucide-react";
+import { EditFeatureDialog } from "./EditFeatureDialog";
 
 const featureFormSchema = z.object({
   name: z.string().min(1, "Feature name is required"),
@@ -302,6 +303,26 @@ export function FeaturesManagement() {
     },
   });
 
+  const updateFeatureMutation = useMutation({
+    mutationFn: ({ featureId, data }: { featureId: number; data: any }) => 
+      apiRequest('PUT', `/api/features/${featureId}`, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/features'] });
+      setEditingFeature(null);
+      toast({
+        title: "Success",
+        description: "Feature updated successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update feature",
+        variant: "destructive",
+      });
+    },
+  });
+
   const handleEditFeature = (feature: FeatureItem) => {
     setEditingFeature(feature);
   };
@@ -480,6 +501,16 @@ export function FeaturesManagement() {
           )}
         </CardContent>
       </Card>
+
+      {/* Edit Feature Dialog */}
+      {editingFeature && (
+        <EditFeatureDialog 
+          feature={editingFeature} 
+          onClose={() => setEditingFeature(null)}
+          onUpdate={(data) => updateFeatureMutation.mutate({ featureId: editingFeature.id, data })}
+          isLoading={updateFeatureMutation.isPending}
+        />
+      )}
     </div>
   );
 }

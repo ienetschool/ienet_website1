@@ -1,0 +1,98 @@
+Breakdown of Reported Issues
+❌ /pages showing "0" pages
+
+Issue:
+
+Despite having many records, the total pages count is 0 — this suggests the pagination metadata is not being calculated or returned correctly from the backend or displayed incorrectly on the frontend.
+
+Likely Causes:
+
+Backend not returning correct total or last_page values
+
+Frontend is not interpreting the pagination metadata properly
+
+Fix Suggestions:
+
+Check API response: Ensure it returns { total, per_page, current_page, last_page }
+
+Validate how the pagination component uses these values
+
+❌ /dashboard/Services and /dashboard/sub-services showing the same data
+
+Issue:
+
+Both routes are pulling and showing the same values. Likely a filtering bug or shared component using the same API.
+
+Likely Causes:
+
+API call for both components is hitting the same endpoint
+
+No filtering by parent_id, type, or similar
+
+Possibly reusing the same state/data incorrectly
+
+Fix Suggestions:
+
+Verify the API endpoint for both routes is different
+
+Check if sub-services are properly filtered by a parent service or type
+
+Ensure no shared global state is overriding each other
+
+❌ /dashboard/features → Edit and Eye button not working
+
+Issue:
+
+Both buttons are non-functional.
+
+Likely Causes:
+
+No onClick handlers bound
+
+Wrong route or missing route parameter (e.g., feature ID)
+
+Component missing import of navigate() or router.push() method
+
+Fix Suggestions:
+
+Confirm that buttons are connected:
+
+<button onClick={() => handleEdit(feature.id)}>Edit</button>
+
+
+Ensure routes like /dashboard/features/edit/:id are defined and working
+
+"Eye" button (typically for "view") should route to a detail view or open a modal. If unused, remove it or clarify its purpose
+
+❌ Eye button still not working (Unknown purpose)
+
+Issue:
+
+Still unclear what the "eye" icon is supposed to do
+
+Recommendation:
+
+Decide whether it's for:
+
+Viewing details in a modal?
+
+Navigating to a detail page?
+
+If unused, remove it to avoid user confusion
+
+❌ /dashboard/projects → Edit button not working
+
+Issue:
+
+No functionality on the edit button
+
+Fix Suggestions:
+
+Check button binding:
+
+<button onClick={() => navigate(`/dashboard/projects/edit/${project.id}`)}>Edit</button>
+
+
+Verify route is defined in router
+
+Confirm project ID is passed properly

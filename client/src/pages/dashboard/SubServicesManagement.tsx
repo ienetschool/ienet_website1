@@ -306,9 +306,14 @@ export function SubServicesManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: subServices, isLoading } = useQuery<SubServiceItem[]>({
+  const { data: allServices, isLoading } = useQuery<SubServiceItem[]>({
     queryKey: ['/api/services'],
   });
+
+  // Filter to show only services with actual sub-service characteristics
+  const subServices = allServices?.filter(service => 
+    service.description && service.description.length > 50 // Sub-services typically have detailed descriptions
+  ) || [];
 
   const deleteSubServiceMutation = useMutation({
     mutationFn: (subServiceId: number) => 

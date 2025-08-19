@@ -54,6 +54,7 @@ import {
   ImageIcon,
   Globe
 } from "lucide-react";
+import { EditProjectDialog } from "./EditProjectDialog";
 
 const projectFormSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -396,6 +397,7 @@ function CreateProjectDialog() {
 export function ProjectsManagement() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [editingProject, setEditingProject] = useState<Project | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -429,6 +431,30 @@ export function ProjectsManagement() {
       queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
     },
   });
+
+  const updateProjectMutation = useMutation({
+    mutationFn: ({ projectId, data }: { projectId: number; data: any }) => 
+      apiRequest('PUT', `/api/projects/${projectId}`, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/projects'] });
+      setEditingProject(null);
+      toast({
+        title: "Success",
+        description: "Project updated successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update project",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleEditProject = (project: Project) => {
+    setEditingProject(project);
+  };
 
   const filteredProjects = projects?.filter(project => {
     const technologiesString = Array.isArray(project.technologies) 
@@ -648,7 +674,12 @@ export function ProjectsManagement() {
                             </a>
                           </Button>
                         )}
-                        <Button size="sm" variant="ghost" data-testid={`button-edit-${project.id}`}>
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          data-testid={`button-edit-${project.id}`}
+                          onClick={() => handleEditProject(project)}
+                        >
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button 
@@ -679,6 +710,16 @@ export function ProjectsManagement() {
           )}
         </CardContent>
       </Card>
+
+      {/* Edit Project Dialog */}
+      {editingProject && (
+        <EditProjectDialog 
+          project={editingProject} 
+          onClose={() => setEditingProject(null)}
+          onUpdate={(data) => updateProjectMutation.mutate({ projectId: editingProject.id, data })}
+          isLoading={updateProjectMutation.isPending}
+        />
+      )}
     </div>
   );
 }

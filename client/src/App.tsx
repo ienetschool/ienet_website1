@@ -29,6 +29,7 @@ import PerformanceDashboard from "@/pages/PerformanceDashboard";
 import ComprehensiveDashboard from "@/pages/ComprehensiveDashboard";
 import DashboardHelper from "@/pages/DashboardHelper";
 import PageBuilder from "@/pages/dashboard/PageBuilder";
+import AdvancedPageBuilder from "@/pages/dashboard/AdvancedPageBuilder";
 import EditingDemo from "@/components/EditingDemo";
 import UserManagement from "@/pages/UserManagement";
 
@@ -60,6 +61,7 @@ function Router() {
           <Route path="/performance" component={PerformanceDashboard} />
           <Route path="/admin" component={AdminDashboard} />
           <Route path="/page-builder" component={PageBuilder} />
+          <Route path="/advanced-page-builder" component={AdvancedPageBuilder} />
           <Route path="/dashboard" component={ComprehensiveDashboard} />
           <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />
         </>
@@ -87,6 +89,7 @@ function Router() {
           <Route path="/admin" component={AdminDashboard} />
           <Route path="/users" component={UserManagement} />
           <Route path="/page-builder" component={PageBuilder} />
+          <Route path="/advanced-page-builder" component={AdvancedPageBuilder} />
           <Route path="/dashboard" component={ComprehensiveDashboard} />
           <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />
         </>

@@ -1,41 +1,33 @@
-import { useState, useCallback } from "react";
-import type { PageData } from "../AdvancedPageBuilder";
+import { useState, useCallback, useRef } from 'react';
+import type { PageData } from './usePageBuilder';
 
-interface HistoryState {
+export interface UndoRedoState {
   past: PageData[];
   present: PageData;
   future: PageData[];
 }
 
-export function useUndoRedo(initialState: PageData) {
-  const [history, setHistory] = useState<HistoryState>({
+export function useUndoRedo(initialState: any) {
+  const [state, setState] = useState<UndoRedoState>({
     past: [],
-    present: initialState,
+    present: { id: '', elements: initialState || [] },
     future: []
   });
 
-  const canUndo = history.past.length > 0;
-  const canRedo = history.future.length > 0;
-
-  const pushState = useCallback((newState: PageData) => {
-    setHistory(prevHistory => ({
-      past: [...prevHistory.past, prevHistory.present],
-      present: newState,
-      future: []
-    }));
-  }, []);
+  const canUndo = state.past.length > 0;
+  const canRedo = state.future.length > 0;
 
   const undo = useCallback(() => {
     if (!canUndo) return;
 
-    setHistory(prevHistory => {
-      const previous = prevHistory.past[prevHistory.past.length - 1];
-      const newPast = prevHistory.past.slice(0, prevHistory.past.length - 1);
+    setState(prev => {
+      const previous = prev.past[prev.past.length - 1];
+      const newPast = prev.past.slice(0, prev.past.length - 1);
 
       return {
         past: newPast,
         present: previous,
-        future: [prevHistory.present, ...prevHistory.future]
+        future: [prev.present, ...prev.future]
       };
     });
   }, [canUndo]);
@@ -43,20 +35,28 @@ export function useUndoRedo(initialState: PageData) {
   const redo = useCallback(() => {
     if (!canRedo) return;
 
-    setHistory(prevHistory => {
-      const next = prevHistory.future[0];
-      const newFuture = prevHistory.future.slice(1);
+    setState(prev => {
+      const next = prev.future[0];
+      const newFuture = prev.future.slice(1);
 
       return {
-        past: [...prevHistory.past, prevHistory.present],
+        past: [...prev.past, prev.present],
         present: next,
         future: newFuture
       };
     });
   }, [canRedo]);
 
+  const pushState = useCallback((newState: PageData) => {
+    setState(prev => ({
+      past: [...prev.past, prev.present],
+      present: newState,
+      future: []
+    }));
+  }, []);
+
   const reset = useCallback((newState: PageData) => {
-    setHistory({
+    setState({
       past: [],
       present: newState,
       future: []
@@ -64,9 +64,9 @@ export function useUndoRedo(initialState: PageData) {
   }, []);
 
   const clearHistory = useCallback(() => {
-    setHistory(prevHistory => ({
+    setState(prev => ({
       past: [],
-      present: prevHistory.present,
+      present: prev.present,
       future: []
     }));
   }, []);
@@ -79,6 +79,6 @@ export function useUndoRedo(initialState: PageData) {
     pushState,
     reset,
     clearHistory,
-    present: history.present
+    present: state.present
   };
 }

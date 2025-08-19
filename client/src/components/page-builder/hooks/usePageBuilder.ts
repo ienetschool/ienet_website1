@@ -1,263 +1,206 @@
-import { useState, useCallback } from "react";
-import { useToast } from "@/hooks/use-toast";
-import type { PageElement, PageData } from "../AdvancedPageBuilder";
+import { useState, useCallback } from 'react';
 
-const generateId = () => Math.random().toString(36).substr(2, 9);
+export interface PageElement {
+  id: string;
+  type: string;
+  content?: string;
+  properties: {
+    className?: string;
+    style?: Record<string, any>;
+    settings?: Record<string, any>;
+  };
+  children?: PageElement[];
+  parentId?: string;
+}
 
-const createInitialPageData = (): PageData => ({
-  id: generateId(),
-  title: "New Page",
-  slug: "new-page",
-  elements: [],
-  seo: {
-    title: "",
-    description: "",
-    keywords: "",
-    ogImage: ""
-  },
-  settings: {
-    template: "default",
-    theme: "light",
-    customCSS: "",
-    customJS: ""
-  }
-});
+export interface PageData {
+  id: string;
+  elements: PageElement[];
+  settings?: Record<string, any>;
+}
 
-export function usePageBuilder(pageId?: string, initialData?: PageData) {
-  const [pageData, setPageData] = useState<PageData>(
-    initialData || createInitialPageData()
-  );
-  const { toast } = useToast();
+export function usePageBuilder(pageId: string, initialData?: any) {
+  const [pageData, setPageData] = useState<PageData>({
+    id: pageId,
+    elements: initialData?.elements || [],
+    settings: initialData?.settings || {}
+  });
+  
+  const [selectedElement, setSelectedElement] = useState<string | null>(null);
 
-  const findElementById = useCallback((elements: PageElement[], id: string): PageElement | null => {
-    for (const element of elements) {
-      if (element.id === id) return element;
-      if (element.children) {
-        const found = findElementById(element.children, id);
-        if (found) return found;
-      }
-    }
-    return null;
-  }, []);
+  const generateId = () => `element-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-  const updateElementInTree = useCallback((
-    elements: PageElement[], 
-    id: string, 
-    updates: Partial<PageElement>
-  ): PageElement[] => {
-    return elements.map(element => {
-      if (element.id === id) {
-        return { ...element, ...updates };
-      }
-      if (element.children) {
-        return {
-          ...element,
-          children: updateElementInTree(element.children, id, updates)
-        };
-      }
-      return element;
-    });
-  }, []);
-
-  const removeElementFromTree = useCallback((
-    elements: PageElement[], 
-    id: string
-  ): PageElement[] => {
-    return elements.filter(element => {
-      if (element.id === id) return false;
-      if (element.children) {
-        element.children = removeElementFromTree(element.children, id);
-      }
-      return true;
-    });
-  }, []);
-
-  const addElementToTree = useCallback((
-    elements: PageElement[], 
-    newElement: PageElement, 
-    parentId?: string, 
-    index?: number
-  ): PageElement[] => {
-    if (!parentId) {
-      // Add to root level
-      const newElements = [...elements];
-      if (index !== undefined) {
-        newElements.splice(index, 0, newElement);
-      } else {
-        newElements.push(newElement);
-      }
-      return newElements;
-    }
-
-    return elements.map(element => {
-      if (element.id === parentId) {
-        const children = element.children || [];
-        const newChildren = [...children];
-        if (index !== undefined) {
-          newChildren.splice(index, 0, newElement);
-        } else {
-          newChildren.push(newElement);
-        }
-        return { ...element, children: newChildren };
-      }
-      if (element.children) {
-        return {
-          ...element,
-          children: addElementToTree(element.children, newElement, parentId, index)
-        };
-      }
-      return element;
-    });
-  }, []);
-
-  const updateElement = useCallback((id: string, updates: Partial<PageElement>) => {
-    setPageData(prevData => ({
-      ...prevData,
-      elements: updateElementInTree(prevData.elements, id, updates)
-    }));
-  }, [updateElementInTree]);
-
-  const addElement = useCallback((
-    element: Omit<PageElement, 'id' | 'parentId'>, 
-    parentId?: string, 
-    index?: number
-  ) => {
+  const addElement = useCallback((element: Omit<PageElement, 'id' | 'parentId'>, parentId?: string, index?: number) => {
     const newElement: PageElement = {
       ...element,
       id: generateId(),
-      parentId: parentId || undefined,
-      children: element.children?.map(child => ({
-        ...child,
-        id: generateId(),
-        parentId: generateId()
-      })) || []
+      parentId
     };
 
-    setPageData(prevData => ({
-      ...prevData,
-      elements: addElementToTree(prevData.elements, newElement, parentId, index)
-    }));
-  }, [addElementToTree]);
-
-  const removeElement = useCallback((id: string) => {
-    setPageData(prevData => ({
-      ...prevData,
-      elements: removeElementFromTree(prevData.elements, id)
-    }));
-  }, [removeElementFromTree]);
-
-  const duplicateElement = useCallback((id: string) => {
-    const element = findElementById(pageData.elements, id);
-    if (!element) return;
-
-    const duplicateWithNewIds = (el: PageElement): PageElement => ({
-      ...el,
-      id: generateId(),
-      children: el.children?.map(duplicateWithNewIds) || []
+    setPageData(prev => {
+      const newElements = [...prev.elements];
+      
+      if (parentId) {
+        // Add to parent's children
+        const addToParent = (elements: PageElement[]): PageElement[] => {
+          return elements.map(el => {
+            if (el.id === parentId) {
+              const children = el.children || [];
+              if (index !== undefined) {
+                children.splice(index, 0, newElement);
+              } else {
+                children.push(newElement);
+              }
+              return { ...el, children };
+            }
+            if (el.children) {
+              return { ...el, children: addToParent(el.children) };
+            }
+            return el;
+          });
+        };
+        return { ...prev, elements: addToParent(newElements) };
+      } else {
+        // Add to root level
+        if (index !== undefined) {
+          newElements.splice(index, 0, newElement);
+        } else {
+          newElements.push(newElement);
+        }
+        return { ...prev, elements: newElements };
+      }
     });
 
-    const duplicated = duplicateWithNewIds(element);
-    const parentId = element.parentId;
-
-    setPageData(prevData => ({
-      ...prevData,
-      elements: addElementToTree(prevData.elements, duplicated, parentId)
-    }));
-  }, [pageData.elements, findElementById, addElementToTree]);
-
-  const moveElement = useCallback((
-    elementId: string, 
-    newParentId: string | null, 
-    index: number
-  ) => {
-    const element = findElementById(pageData.elements, elementId);
-    if (!element) return;
-
-    // Remove from current position
-    const elementsWithoutMoved = removeElementFromTree(pageData.elements, elementId);
-    
-    // Add to new position
-    const updatedElement = { ...element, parentId: newParentId || undefined };
-    const newElements = addElementToTree(elementsWithoutMoved, updatedElement, newParentId || undefined, index);
-
-    setPageData(prevData => ({
-      ...prevData,
-      elements: newElements
-    }));
-  }, [pageData.elements, findElementById, removeElementFromTree, addElementToTree]);
-
-  const updatePageSettings = useCallback((updates: Partial<PageData>) => {
-    setPageData(prevData => ({
-      ...prevData,
-      ...updates
-    }));
+    return newElement.id;
   }, []);
 
-  const savePage = useCallback(async (data: PageData) => {
-    try {
-      const response = await fetch(`/api/pages${pageId ? `/${pageId}` : ''}`, {
-        method: pageId ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to save page');
-      }
-
-      const savedPage = await response.json();
+  const updateElement = useCallback((id: string, updates: Partial<PageElement>) => {
+    setPageData(prev => {
+      const updateInElements = (elements: PageElement[]): PageElement[] => {
+        return elements.map(el => {
+          if (el.id === id) {
+            return { ...el, ...updates };
+          }
+          if (el.children) {
+            return { ...el, children: updateInElements(el.children) };
+          }
+          return el;
+        });
+      };
       
-      toast({
-        title: "Success",
-        description: "Page saved successfully",
-      });
+      return { ...prev, elements: updateInElements(prev.elements) };
+    });
+  }, []);
 
-      return savedPage;
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to save page",
-        variant: "destructive",
+  const removeElement = useCallback((id: string) => {
+    setPageData(prev => {
+      const removeFromElements = (elements: PageElement[]): PageElement[] => {
+        return elements.filter(el => {
+          if (el.id === id) return false;
+          if (el.children) {
+            el.children = removeFromElements(el.children);
+          }
+          return true;
+        });
+      };
+      
+      return { ...prev, elements: removeFromElements(prev.elements) };
+    });
+    
+    if (selectedElement === id) {
+      setSelectedElement(null);
+    }
+  }, [selectedElement]);
+
+  const duplicateElement = useCallback((id: string) => {
+    const findElement = (elements: PageElement[], targetId: string): PageElement | null => {
+      for (const el of elements) {
+        if (el.id === targetId) return el;
+        if (el.children) {
+          const found = findElement(el.children, targetId);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+
+    const element = findElement(pageData.elements, id);
+    if (element) {
+      const duplicateElementWithNewIds = (el: PageElement): PageElement => ({
+        ...el,
+        id: generateId(),
+        children: el.children?.map(duplicateElementWithNewIds)
       });
+      
+      const duplicated = duplicateElementWithNewIds(element);
+      addElement(duplicated, element.parentId);
+    }
+  }, [pageData.elements, addElement]);
+
+  const selectElement = useCallback((id: string | null) => {
+    setSelectedElement(id);
+  }, []);
+
+  const moveElement = useCallback((id: string, newParentId?: string, newIndex?: number) => {
+    // Implementation for moving elements
+    console.log('Move element:', id, 'to parent:', newParentId, 'at index:', newIndex);
+  }, []);
+
+  const findElementById = useCallback((id: string): PageElement | null => {
+    const search = (elements: PageElement[]): PageElement | null => {
+      for (const el of elements) {
+        if (el.id === id) return el;
+        if (el.children) {
+          const found = search(el.children);
+          if (found) return found;
+        }
+      }
+      return null;
+    };
+    return search(pageData.elements);
+  }, [pageData.elements]);
+
+  const savePageData = useCallback(async (data: PageData) => {
+    try {
+      const response = await fetch(`/api/pages/${pageId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (!response.ok) throw new Error('Save failed');
+      return response.json();
+    } catch (error) {
+      console.error('Failed to save page data:', error);
       throw error;
     }
-  }, [pageId, toast]);
+  }, [pageId]);
 
-  const loadPage = useCallback(async (id: string) => {
+  const loadPageData = useCallback(async (id: string) => {
     try {
       const response = await fetch(`/api/pages/${id}`);
-      
-      if (!response.ok) {
-        throw new Error('Failed to load page');
-      }
-
-      const page = await response.json();
-      setPageData(page);
-      
-      return page;
+      if (!response.ok) throw new Error('Load failed');
+      const data = await response.json();
+      setPageData(data);
+      return data;
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to load page",
-        variant: "destructive",
-      });
+      console.error('Failed to load page data:', error);
       throw error;
     }
-  }, [toast]);
+  }, []);
 
   return {
     pageData,
     setPageData,
-    updateElement,
+    elements: pageData.elements,
+    selectedElement,
     addElement,
+    updateElement,
     removeElement,
     duplicateElement,
+    selectElement,
     moveElement,
-    updatePageSettings,
-    savePage,
-    loadPage,
-    findElementById: (id: string) => findElementById(pageData.elements, id)
+    savePageData,
+    loadPageData,
+    findElementById
   };
 }

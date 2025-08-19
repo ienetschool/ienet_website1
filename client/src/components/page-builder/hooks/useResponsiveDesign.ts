@@ -1,7 +1,11 @@
-import { useState, useCallback } from "react";
-import type { PageElement } from "../AdvancedPageBuilder";
+import { useState, useCallback } from 'react';
+import type { PageElement } from './usePageBuilder';
 
-type Breakpoint = 'desktop' | 'tablet' | 'mobile';
+export type Breakpoint = 'mobile' | 'tablet' | 'desktop';
+
+export interface ResponsiveStyles {
+  [key: string]: any;
+}
 
 export function useResponsiveDesign() {
   const [currentBreakpoint, setCurrentBreakpoint] = useState<Breakpoint>('desktop');
@@ -10,73 +14,41 @@ export function useResponsiveDesign() {
     setCurrentBreakpoint(breakpoint);
   }, []);
 
-  const getResponsiveStyles = useCallback((
-    element: PageElement, 
-    breakpoint: string
-  ): React.CSSProperties => {
-    if (element.properties.responsive && element.properties.responsive[breakpoint as Breakpoint]) {
-      return element.properties.responsive[breakpoint as Breakpoint];
-    }
-    return element.properties.style || {};
+  const getResponsiveStyles = useCallback((element: PageElement, breakpoint: Breakpoint): ResponsiveStyles => {
+    const responsiveKey = `responsive_${breakpoint}`;
+    return element.properties.settings?.[responsiveKey] || {};
   }, []);
 
-  const updateResponsiveStyles = useCallback((
-    element: PageElement, 
-    breakpoint: string, 
-    styles: React.CSSProperties
-  ): PageElement => {
-    const responsive = element.properties.responsive || {
-      desktop: {},
-      tablet: {},
-      mobile: {}
-    };
-
+  const updateResponsiveStyles = useCallback((element: PageElement, breakpoint: Breakpoint, styles: ResponsiveStyles) => {
+    const responsiveKey = `responsive_${breakpoint}`;
     return {
       ...element,
       properties: {
         ...element.properties,
-        responsive: {
-          ...responsive,
-          [breakpoint]: styles
+        settings: {
+          ...element.properties.settings,
+          [responsiveKey]: styles
         }
       }
     };
   }, []);
 
-  const getBreakpointStyles = useCallback((breakpoint: Breakpoint) => {
-    switch (breakpoint) {
-      case 'mobile':
-        return {
-          maxWidth: '375px',
-          margin: '0 auto'
-        };
-      case 'tablet':
-        return {
-          maxWidth: '768px',
-          margin: '0 auto'
-        };
-      default:
-        return {
-          width: '100%'
-        };
-    }
+  const getBreakpointClasses = useCallback((breakpoint: Breakpoint) => {
+    const classes = {
+      mobile: 'w-full max-w-sm mx-auto',
+      tablet: 'w-full max-w-2xl mx-auto',
+      desktop: 'w-full max-w-full'
+    };
+    return classes[breakpoint];
   }, []);
 
-  const isBreakpointActive = useCallback((breakpoint: Breakpoint) => {
-    return currentBreakpoint === breakpoint;
-  }, [currentBreakpoint]);
-
-  const getBreakpointClasses = useCallback((breakpoint: Breakpoint) => {
-    const baseClasses = 'transition-all duration-300';
-    
-    switch (breakpoint) {
-      case 'mobile':
-        return `${baseClasses} max-w-sm mx-auto`;
-      case 'tablet':
-        return `${baseClasses} max-w-3xl mx-auto`;
-      default:
-        return `${baseClasses} w-full`;
-    }
+  const getBreakpointWidth = useCallback((breakpoint: Breakpoint) => {
+    const widths = {
+      mobile: 375,
+      tablet: 768,
+      desktop: 1200
+    };
+    return widths[breakpoint];
   }, []);
 
   return {
@@ -84,8 +56,7 @@ export function useResponsiveDesign() {
     setBreakpoint,
     getResponsiveStyles,
     updateResponsiveStyles,
-    getBreakpointStyles,
-    isBreakpointActive,
-    getBreakpointClasses
+    getBreakpointClasses,
+    getBreakpointWidth
   };
 }

@@ -403,7 +403,7 @@ export default function Contact() {
                     <CardHeader>
                       <CardTitle className="flex items-center">
                         <Building2 className="w-6 h-6 mr-2 text-primary-600" />
-                        India Espectacular
+                        IeNet
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
@@ -411,21 +411,21 @@ export default function Contact() {
                         <MapPin className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Address</p>
-                          <p className="text-gray-600 dark:text-gray-300">123 Tech Street, Innovation District<br />Business City, State 12345</p>
+                          <p className="text-gray-600 dark:text-gray-300">Sandy Babb Street, Kitty<br />Georgetown, Guyana</p>
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
                         <Phone className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Phone</p>
-                          <p className="text-gray-600 dark:text-gray-300">+1 (555) 123-4567</p>
+                          <p className="text-gray-600 dark:text-gray-300">+592 750-3901</p>
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
                         <Mail className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Email</p>
-                          <p className="text-gray-600 dark:text-gray-300">hello@indiaespectacular.com</p>
+                          <p className="text-gray-600 dark:text-gray-300">info@ienet.com</p>
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
@@ -470,21 +470,21 @@ export default function Contact() {
         </section>
 
         {/* Call to Action */}
-        <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-700">
+        <section className="py-20 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl font-bold text-white mb-6">
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
                 Ready to Start Your Project?
               </h2>
-              <p className="text-xl text-primary-100 mb-8">
-                Join hundreds of satisfied clients who trust India Espectacular for their technology needs.
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+                Join hundreds of satisfied clients who trust IeNet for their technology needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-white text-primary-600 hover:bg-gray-100">
+                <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
                   Get Free Quote Today
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary-600">
+                <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
                   Schedule a Call
                 </Button>
               </div>

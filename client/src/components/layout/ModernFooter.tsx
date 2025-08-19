@@ -245,3 +245,5 @@ export default function ModernFooter() {
     </footer>
   );
 }
+
+export { ModernFooter };

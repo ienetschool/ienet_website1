@@ -21,7 +21,9 @@ import FAQ from "@/pages/FAQ";
 import Pricing from "@/pages/Pricing";
 import Blog from "@/pages/Blog";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
-import TermsOfService from "@/pages/TermsOfService"; 
+import TermsOfService from "@/pages/TermsOfService";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms"; 
 import Careers from "@/pages/Careers";
 import SitemapViewer from "@/pages/SitemapViewer";
 import AdminDashboard from "@/pages/AdminDashboard";
@@ -56,6 +58,8 @@ function Router() {
           <Route path="/blog" component={Blog} />
           <Route path="/privacy-policy" component={PrivacyPolicy} />
           <Route path="/terms-of-service" component={TermsOfService} />
+          <Route path="/privacy" component={Privacy} />
+          <Route path="/terms" component={Terms} />
           <Route path="/careers" component={Careers} />
           <Route path="/sitemap-viewer" component={SitemapViewer} />
           <Route path="/performance" component={PerformanceDashboard} />

@@ -510,21 +510,21 @@ export default function About() {
         </section>
 
         {/* Call to Action */}
-        <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-700">
+        <section className="py-20 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl font-bold text-white mb-6">
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
                 Ready to Transform Your Business?
               </h2>
-              <p className="text-xl text-primary-100 mb-8">
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
                 Let IeNet help you achieve your digital transformation goals with our expert solutions and dedicated support.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-white text-primary-600 hover:bg-gray-100">
+                <Button size="lg" className="bg-primary text-white hover:bg-primary/90">
                   Get Started Today
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary-600">
+                <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
                   Contact Our Team
                 </Button>
               </div>

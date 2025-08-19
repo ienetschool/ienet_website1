@@ -207,7 +207,7 @@ export default function ModernHeader() {
                           : 'text-gray-700 dark:text-gray-200 hover:text-primary hover:bg-primary/5'
                       }`}
                     >
-                      {item.isIcon ? <MessageCircle size={16} /> : item.name}
+                      {item.name}
                     </div>
                   </Link>
                 )}
@@ -304,3 +304,5 @@ export default function ModernHeader() {
     </header>
   );
 }
+
+export { ModernHeader };

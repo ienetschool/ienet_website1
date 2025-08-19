@@ -7,7 +7,8 @@ IeNet is a comprehensive enterprise IT services platform designed to provide ext
 Preferred communication style: Simple, everyday language.
 Recent request: Fixed critical dashboard issues - Pages Management showing 0 pages, Services vs Sub-Services showing identical data, and non-functional Edit/Eye buttons.
 Technical approach preference: Focus on working solutions rather than extensive debugging of complex issues.
-Recent fixes (Aug 19, 2025): Successfully resolved missing `/api/pages` endpoint, implemented proper API routing, fixed Sub-Services filtering, and verified Edit dialog functionality.
+Recent fixes (Aug 19, 2025): Successfully resolved Services vs Sub-Services differentiation by implementing proper API routing - Services Management now shows service categories (25 total), Sub-Services Management shows actual sub-services (143 total), fixed duplicate titles, and resolved API endpoint confusion.
+New Request (Aug 19, 2025): Implement advanced visual website builder with drag-and-drop functionality, live editing, SEO tools, and advanced data tables with pagination/filtering - similar to Webflow/Elementor Pro.
 
 ## System Architecture
 

@@ -1,0 +1,193 @@
+Advanced Visual Website Builder & Dashboard Tools — Full Specification for Development
+🚀 Overview
+
+We currently have a basic website dashboard with a simple code/text editor. We want to evolve it into a fully integrated visual website builder, similar to Webflow, Elementor Pro, or Builder.io. This system should provide a professional, scalable experience for content creators, marketers, and developers to:
+
+Visually build and manage live pages
+
+Perform inline editing and drag-and-drop layout
+
+Manage SEO, metadata, and structured schema
+
+Optimize for performance and accessibility
+
+Use advanced tables with pagination, sorting, filtering, exporting, and row actions
+
+✅ CORE MODULES & FEATURES
+1. 🔒 Role-Based Live Editing
+
+Logged-in users with roles: admin or editor can toggle Edit Mode on any live frontend page.
+
+Inline editing toolbar or side panel appears with all tools enabled.
+
+Real-time content updates with autosave/manual save.
+
+Visual indicators for unsaved vs published states.
+
+Restrict edit access for non-admin/editor roles.
+
+2. 🧱 Drag-and-Drop Visual Page Builder
+
+Component blocks: Text, headers, images, videos, forms, maps, icons, buttons, carousels, tabs, accordions, etc.
+
+Drag-and-drop layout with row/column nesting.
+
+Responsive layout controls (desktop/tablet/mobile views).
+
+Tree view for DOM-like component structure.
+
+Dynamic data binding (e.g., blog feed, product list).
+
+Component cloning, reordering, hiding, and deletion.
+
+Section templating and reusable blocks.
+
+3. 🧠 AI-Enhanced Content Tools (Optional)
+
+Auto-generate text blocks (headings, CTAs, descriptions) via OpenAI or other LLM.
+
+SEO improvement suggestions based on content.
+
+Automatic image alt text generation.
+
+Tone/style rewriter tool.
+
+4. 📈 SEO & Metadata Management
+
+Page-level SEO editor (meta title, description, canonical URL).
+
+Open Graph / Twitter Card preview & config.
+
+H1-H6 structure map for accessibility.
+
+Sitemap generation (auto/manual).
+
+Robots.txt editor.
+
+301/302 redirect manager (with history tracking).
+
+5. 🧩 Schema.org / Structured Data Tools
+
+Visual schema builder: choose and fill fields for Article, FAQ, Product, LocalBusiness, Event, etc.
+
+JSON-LD generation and injection per page.
+
+Live validation and Google Rich Results testing.
+
+Support for multiple schema types per page.
+
+6. ⚙️ Page Management & Routing
+
+Visual interface to create, clone, or delete pages.
+
+Custom page slugs and hierarchical routing (e.g., /blog/post-title).
+
+Set page layout templates.
+
+404 page builder.
+
+Optional: multilingual/i18n-ready interface.
+
+7. 🧰 Component Library & Code Injection
+
+Centralized block/component library with previews.
+
+Support custom HTML/CSS/JS blocks per page or section.
+
+Integrate external or custom-built Vue/React components.
+
+Conditional logic: visibility based on user role, time, or triggers.
+
+Pre-built design systems or themes for quick styling.
+
+8. 📊 Performance, Optimization & Accessibility Tools
+
+Lighthouse score preview: SEO, performance, accessibility.
+
+Image optimization (lazy loading, automatic WebP).
+
+Alt-text checker and WCAG accessibility scanner.
+
+Code bundling, CSS/JS minification, tree-shaking.
+
+Render preview in low-speed simulation (optional).
+
+9. 💾 Database & API Architecture
+
+Pages stored as JSON, HTML templates, or component trees.
+
+CRUD endpoints for managing:
+
+Pages
+
+Content blocks
+
+SEO metadata
+
+Schemas
+
+Version control: draft/publish, revision history, rollback.
+
+Auto backups with restore points.
+
+📁 BONUS MODULE: Advanced Data Table with Pagination & Tools
+
+You will also implement a data management grid/table for admin sections (e.g., users, leads, products), supporting:
+
+Features:
+
+Server-side pagination, filtering, and sorting (via SQL or ORM)
+
+Column filters for text, dropdown, or date ranges
+
+Global search across all columns
+
+Sorting with visual indicators (asc/desc)
+
+Export options: CSV, Excel, JSON
+
+Action buttons: Edit, Delete, View, Custom (modal or link)
+
+Batch actions (e.g., bulk delete)
+
+Fully responsive design for mobile/tablet
+
+API Considerations:
+
+/api/data?search=...&sort=column&dir=asc&page=1&limit=20&filters[key]=value
+
+Should return: data rows, total count, page count, metadata
+
+Export API should reflect current filters/sorts
+
+UI Libraries (Suggested):
+
+React: AG Grid, Material-UI DataGrid, TanStack Table
+
+Vue: Vue Good Table, Vuetify DataTable, or custom component
+
+Backend: Laravel Eloquent, Prisma, Sequelize, etc.
+
+🔧 Tech Stack Suggestions
+Component	Recommendation
+Frontend Framework	React, Vue (or your current stack)
+Builder Engine	GrapesJS, Builder.io SDK, Craft.js, custom
+Rich Text Editor	Tiptap (Vue), Slate.js (React), CKEditor 5
+AI Integration	OpenAI API, Writer.com, Jasper (optional)
+Schema Tools	Custom JSON-LD builder + validator
+Table/Grid	AG Grid, React Table, PrimeVue, Vuetify
+Backend	Node.js, Laravel, Django — REST or GraphQL
+Database	MySQL, PostgreSQL, MongoDB (with versioning)
+📌 Deliverables
+
+Fully integrated live page editor inside dashboard
+
+Advanced SEO + schema tools built into page editing experience
+
+Powerful data table grid with full pagination, sorting, filters, export
+
+Secure role-based access control
+
+Modern UI, optimized output, and fully documented system
+
+Clean, modular, extensible architecture

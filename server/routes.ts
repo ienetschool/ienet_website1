@@ -6,6 +6,7 @@ import { registerCMSRoutes } from "./routes/cms";
 import { registerPerformanceRoutes } from "./routes/performance";
 import { registerDashboardRoutes } from "./routes/dashboard";
 import { registerUserRoutes } from "./routes/users";
+import pagesRouter from "./routes/pages";
 import { 
   insertServiceCategorySchema,
   insertServiceSchema,
@@ -42,6 +43,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register user management routes
   registerUserRoutes(app);
+
+  // Register pages routes for page builder
+  app.use('/api/pages', pagesRouter);
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {

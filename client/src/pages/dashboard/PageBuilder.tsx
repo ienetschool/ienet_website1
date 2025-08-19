@@ -1,4 +1,4 @@
-import { useState, useEffect, DragEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
+import PageBuilder from '@/components/page-builder/PageBuilder';
+import LiveEditor from '@/components/page-builder/LiveEditor';
+import DataTable from '@/components/data-table/DataTable';
 import { 
   Plus, 
   Edit, 
@@ -42,9 +45,13 @@ import {
   AlertCircle,
   Clock,
   Move,
-  Layers
+  Layers,
+  Wand2,
+  Database,
+  PaintBucket
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { apiRequest } from '@/lib/queryClient';
 
 interface PageBlock {
   id: string;
@@ -212,7 +219,7 @@ const BLOCK_TEMPLATES = [
   }
 ];
 
-export default function PageBuilder() {
+function AdvancedPageBuilder() {
   const { toast } = useToast();
   const [selectedPage, setSelectedPage] = useState<Page | null>(null);
   const [draggedBlock, setDraggedBlock] = useState<string | null>(null);
@@ -264,22 +271,22 @@ export default function PageBuilder() {
     }
   }, [pages, selectedPage]);
 
-  const handleDragStart = (e: DragEvent<HTMLDivElement>, blockType: string) => {
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, blockType: string) => {
     setDraggedBlockType(blockType);
     e.dataTransfer.effectAllowed = 'copy';
   };
 
-  const handleBlockDragStart = (e: DragEvent<HTMLDivElement>, blockId: string) => {
+  const handleBlockDragStart = (e: React.DragEvent<HTMLDivElement>, blockId: string) => {
     setDraggedBlock(blockId);
     e.dataTransfer.effectAllowed = 'move';
   };
 
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = draggedBlockType ? 'copy' : 'move';
   };
 
-  const handleDrop = (e: DragEvent<HTMLDivElement>, targetIndex?: number) => {
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, targetIndex?: number) => {
     e.preventDefault();
     
     if (!selectedPage) return;
@@ -595,14 +602,14 @@ export default function PageBuilder() {
         <div className="border-b p-4 flex items-center justify-between bg-white">
           <div className="flex items-center gap-4">
             <Select value={selectedPage?.id.toString()} onValueChange={(value) => {
-              const page = pages.find(p => p.id === parseInt(value));
+              const page = pages.find((p: any) => p.id === parseInt(value));
               setSelectedPage(page || null);
             }}>
               <SelectTrigger className="w-48" data-testid="page-selector">
                 <SelectValue placeholder="Select a page" />
               </SelectTrigger>
               <SelectContent>
-                {pages.map((page) => (
+                {pages.map((page: any) => (
                   <SelectItem key={page.id} value={page.id.toString()}>
                     <div className="flex items-center gap-2">
                       <span>{page.title}</span>
@@ -794,4 +801,266 @@ export default function PageBuilder() {
       </Dialog>
     </div>
   );
+}
+
+export default function PageBuilderPage() {
+  const [selectedPage, setSelectedPage] = useState<Page | null>(null);
+  const [currentMode, setCurrentMode] = useState<'list' | 'visual' | 'live' | 'data'>('list');
+  const [draggedBlock, setDraggedBlock] = useState<PageBlock | null>(null);
+  const [selectedBlock, setSelectedBlock] = useState<string | null>(null);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
+  const handleSavePageBuilder = async (data: any) => {
+    try {
+      await apiRequest('POST', '/api/pages/save', data);
+      toast({
+        title: "Success",
+        description: "Page saved successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error", 
+        description: "Failed to save page",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSaveLiveEditor = async (data: any) => {
+    try {
+      await apiRequest('POST', '/api/pages/live-edit', data);
+      toast({
+        title: "Success",
+        description: "Live edits saved successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save live edits", 
+        variant: "destructive",
+      });
+    }
+  };
+
+  const dataTableColumns = [
+    { key: 'id', label: 'ID', sortable: true },
+    { key: 'title', label: 'Title', sortable: true, filterable: true, filterType: 'text' as const },
+    { key: 'slug', label: 'Slug', sortable: true },
+    { key: 'status', label: 'Status', filterable: true, filterType: 'select' as const, 
+      filterOptions: [
+        { value: 'draft', label: 'Draft' },
+        { value: 'published', label: 'Published' },
+        { value: 'archived', label: 'Archived' }
+      ]
+    },
+    { key: 'createdAt', label: 'Created', sortable: true },
+    { key: 'updatedAt', label: 'Updated', sortable: true }
+  ];
+
+  if (currentMode === 'list') {
+    return (
+      <div className="p-6">
+        <div className="flex justify-between items-center mb-6">
+          <div>
+            <h1 className="text-2xl font-bold">Advanced Page Builder</h1>
+            <p className="text-gray-600">Create stunning pages with our visual builder, live editor, and advanced data management</p>
+          </div>
+          <div className="flex space-x-2">
+            <Button variant="outline" onClick={() => setCurrentMode('visual')}>
+              <PaintBucket className="w-4 h-4 mr-2" />
+              Visual Builder
+            </Button>
+            <Button variant="outline" onClick={() => setCurrentMode('live')}>
+              <Wand2 className="w-4 h-4 mr-2" />
+              Live Editor
+            </Button>
+            <Button variant="outline" onClick={() => setCurrentMode('data')}>
+              <Database className="w-4 h-4 mr-2" />
+              Data Management
+            </Button>
+          </div>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Choose Your Building Mode</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setCurrentMode('visual')}>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <PaintBucket className="w-5 h-5 mr-2" />
+                    Visual Page Builder
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Drag-and-drop components to build pages visually with live preview and responsive design tools.
+                  </p>
+                  <ul className="text-xs text-gray-500 space-y-1">
+                    <li>• Drag-and-drop interface</li>
+                    <li>• Responsive design controls</li>
+                    <li>• Component library</li>
+                    <li>• Live preview</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setCurrentMode('live')}>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Wand2 className="w-5 h-5 mr-2" />
+                    Live Editor
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Edit content directly on your live website with inline editing and real-time updates.
+                  </p>
+                  <ul className="text-xs text-gray-500 space-y-1">
+                    <li>• Inline content editing</li>
+                    <li>• Real-time updates</li>
+                    <li>• Role-based access</li>
+                    <li>• Auto-save functionality</li>
+                  </ul>
+                </CardContent>
+              </Card>
+
+              <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setCurrentMode('data')}>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Database className="w-5 h-5 mr-2" />
+                    Data Management
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Advanced data tables with pagination, sorting, filtering, and export capabilities.
+                  </p>
+                  <ul className="text-xs text-gray-500 space-y-1">
+                    <li>• Advanced filtering</li>
+                    <li>• Bulk operations</li>
+                    <li>• Export functionality</li>
+                    <li>• Real-time search</li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle>Recent Pages</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <AdvancedPageBuilder />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (currentMode === 'visual') {
+    return (
+      <div className="h-screen">
+        <div className="bg-white border-b p-4 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" onClick={() => setCurrentMode('list')}>
+              ← Back to Dashboard
+            </Button>
+            <h1 className="text-xl font-semibold">Visual Page Builder</h1>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button variant="outline" onClick={() => setCurrentMode('live')}>Live Editor</Button>
+            <Button variant="outline" onClick={() => setCurrentMode('data')}>Data Management</Button>
+          </div>
+        </div>
+        <PageBuilder onSave={handleSavePageBuilder} />
+      </div>
+    );
+  }
+
+  if (currentMode === 'live') {
+    return (
+      <div className="h-screen">
+        <div className="bg-white border-b p-4 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" onClick={() => setCurrentMode('list')}>
+              ← Back to Dashboard
+            </Button>
+            <h1 className="text-xl font-semibold">Live Page Editor</h1>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button variant="outline" onClick={() => setCurrentMode('visual')}>Visual Builder</Button>
+            <Button variant="outline" onClick={() => setCurrentMode('data')}>Data Management</Button>
+          </div>
+        </div>
+        <div className="p-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Live Editing Instructions</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-600">
+                The Live Editor works by adding editing capabilities to your live website pages. 
+                To use it, navigate to any page on your site and toggle "Edit Mode" on.
+              </p>
+              <div className="mt-4">
+                <LiveEditor 
+                  pageId="current" 
+                  onSave={handleSaveLiveEditor}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentMode === 'data') {
+    return (
+      <div className="h-screen">
+        <div className="bg-white border-b p-4 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" onClick={() => setCurrentMode('list')}>
+              ← Back to Dashboard
+            </Button>
+            <h1 className="text-xl font-semibold">Page Data Management</h1>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Button variant="outline" onClick={() => setCurrentMode('visual')}>Visual Builder</Button>
+            <Button variant="outline" onClick={() => setCurrentMode('live')}>Live Editor</Button>
+          </div>
+        </div>
+        <div className="p-6">
+          <DataTable
+            endpoint="/api/pages"
+            columns={dataTableColumns}
+            title="Pages Management"
+            searchable={true}
+            exportable={true}
+            batchActions={true}
+            onEdit={(row) => {
+              setSelectedPage(row);
+              setCurrentMode('visual');
+            }}
+            onDelete={(row) => {
+              // Handle delete
+              toast({ title: "Delete functionality coming soon" });
+            }}
+            onView={(row) => {
+              // Handle view
+              window.open(`/${row.slug}`, '_blank');
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return null;
 }

@@ -53,6 +53,7 @@ import {
   Calendar,
   User
 } from "lucide-react";
+import EditSubServiceDialog from "@/components/dialogs/EditSubServiceDialog";
 
 const subServiceFormSchema = z.object({
   name: z.string().min(1, "Service name is required"),
@@ -495,14 +496,10 @@ export function SubServicesManagement() {
                         >
                           {subService.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                         </Button>
-                        <Button 
-                          size="sm" 
-                          variant="ghost" 
-                          data-testid={`button-edit-${subService.id}`}
-                          onClick={() => handleEditSubService(subService)}
-                        >
-                          <Edit className="w-4 h-4" />
-                        </Button>
+                        <EditSubServiceDialog 
+                          subService={subService} 
+                          onUpdate={() => queryClient.invalidateQueries({ queryKey: ['/api/services'] })}
+                        />
                         <Button 
                           size="sm" 
                           variant="ghost" 

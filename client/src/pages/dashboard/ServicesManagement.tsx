@@ -53,6 +53,7 @@ import {
   Calendar,
   User
 } from "lucide-react";
+import EditServiceDialog from "@/components/dialogs/EditServiceDialog";
 
 const serviceFormSchema = z.object({
   name: z.string().min(1, "Service name is required"),
@@ -77,304 +78,113 @@ interface ServiceItem {
   icon?: string;
   isActive: boolean;
   categoryId?: number;
-  category?: {
-    id: number;
-    name: string;
-  };
   metaTitle?: string;
   metaDescription?: string;
-  createdAt: string;
-  updatedAt: string;
+  category?: ServiceCategory;
   _count?: {
     features: number;
   };
+  createdAt: string;
 }
 
 interface ServiceCategory {
   id: number;
   name: string;
   slug: string;
-}
-
-function CreateServiceDialog() {
-  const [open, setOpen] = useState(false);
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
-  
-  const form = useForm<ServiceFormData>({
-    resolver: zodResolver(serviceFormSchema),
-    defaultValues: {
-      name: '',
-      slug: '',
-      description: '',
-      shortDescription: '',
-      icon: '',
-      isActive: true,
-      metaTitle: '',
-      metaDescription: '',
-    },
-  });
-
-  const { data: categories } = useQuery<ServiceCategory[]>({
-    queryKey: ['/api/service-categories'],
-  });
-
-  const createServiceMutation = useMutation({
-    mutationFn: (data: ServiceFormData) => 
-      apiRequest('POST', '/api/service-categories', data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
-      setOpen(false);
-      form.reset();
-      toast({
-        title: "Success",
-        description: "Service category created successfully",
-      });
-    },
-    onError: (error) => {
-      toast({
-        title: "Error",
-        description: "Failed to create service category",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const onSubmit = (data: ServiceFormData) => {
-    createServiceMutation.mutate(data);
-  };
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button data-testid="button-create-service">
-          <Plus className="w-4 h-4 mr-2" />
-          Create Service
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>Create New Service</DialogTitle>
-          <DialogDescription>
-            Add a new service to your portfolio with detailed information and SEO settings.
-          </DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Service Name</FormLabel>
-                    <FormControl>
-                      <Input data-testid="input-service-name" placeholder="Enter service name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="slug"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>URL Slug</FormLabel>
-                    <FormControl>
-                      <Input data-testid="input-service-slug" placeholder="service-url-slug" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="shortDescription"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Short Description</FormLabel>
-                  <FormControl>
-                    <Input 
-                      data-testid="input-service-short-description"
-                      placeholder="Brief service description..." 
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Detailed Description</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      data-testid="input-service-description"
-                      placeholder="Detailed service description..." 
-                      className="min-h-[100px]"
-                      {...field} 
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="categoryId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Service Category</FormLabel>
-                    <Select onValueChange={(value) => field.onChange(Number(value))}>
-                      <FormControl>
-                        <SelectTrigger data-testid="select-service-category">
-                          <SelectValue placeholder="Select category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {categories?.map((category) => (
-                          <SelectItem key={category.id} value={category.id.toString()}>
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="icon"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Icon Name</FormLabel>
-                    <FormControl>
-                      <Input data-testid="input-service-icon" placeholder="lucide icon name" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="metaTitle"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Meta Title</FormLabel>
-                    <FormControl>
-                      <Input data-testid="input-service-meta-title" placeholder="SEO meta title" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="metaDescription"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Meta Description</FormLabel>
-                    <FormControl>
-                      <Input data-testid="input-service-meta-description" placeholder="SEO meta description" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            
-            <div className="flex justify-end space-x-2">
-              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-                Cancel
-              </Button>
-              <Button 
-                type="submit" 
-                data-testid="button-submit-service"
-                disabled={createServiceMutation.isPending}
-              >
-                {createServiceMutation.isPending ? "Creating..." : "Create Service"}
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
-  );
+  description?: string;
 }
 
 export function ServicesManagement() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [editingService, setEditingService] = useState<ServiceItem | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: services, isLoading } = useQuery<ServiceItem[]>({
     queryKey: ['/api/service-categories'],
+    select: (data) => (data as any) || [],
+    staleTime: 1000 * 60 * 5,
   });
 
-  const deleteServiceMutation = useMutation({
-    mutationFn: (serviceId: number) => 
-      apiRequest('DELETE', `/api/admin/service-categories/${serviceId}`),
+  const { data: categories } = useQuery<ServiceCategory[]>({
+    queryKey: ['/api/service-categories'],
+    select: (data) => (data as any) || [],
+  });
+
+  const createServiceMutation = useMutation({
+    mutationFn: async (data: ServiceFormData) => {
+      return apiRequest('POST', '/api/service-categories', data);
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
       toast({
         title: "Success",
-        description: "Service category deleted successfully",
+        description: "Service created successfully!",
       });
+      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
     },
     onError: () => {
       toast({
         title: "Error",
-        description: "Failed to delete service category",
+        description: "Failed to create service. Please try again.",
         variant: "destructive",
       });
-    },
-  });
-
-  const toggleServiceMutation = useMutation({
-    mutationFn: ({ serviceId, isActive }: { serviceId: number; isActive: boolean }) => 
-      apiRequest('PATCH', `/api/service-categories/${serviceId}`, { isActive }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
     },
   });
 
   const updateServiceMutation = useMutation({
-    mutationFn: ({ serviceId, data }: { serviceId: number; data: ServiceFormData }) => 
-      apiRequest('PUT', `/api/admin/service-categories/${serviceId}`, data),
+    mutationFn: async ({ serviceId, data }: { serviceId: number; data: ServiceFormData }) => {
+      return apiRequest('PUT', `/api/service-categories/${serviceId}`, data);
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
-      setEditingService(null);
       toast({
         title: "Success",
-        description: "Service category updated successfully",
+        description: "Service updated successfully!",
       });
+      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
     },
     onError: () => {
       toast({
         title: "Error",
-        description: "Failed to update service category",
+        description: "Failed to update service. Please try again.",
         variant: "destructive",
       });
     },
   });
 
-  const handleEditService = (service: ServiceItem) => {
-    setEditingService(service);
-  };
+  const deleteServiceMutation = useMutation({
+    mutationFn: async (serviceId: number) => {
+      return apiRequest('DELETE', `/api/service-categories/${serviceId}`);
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Service deleted successfully!",
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to delete service. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const toggleServiceStatusMutation = useMutation({
+    mutationFn: async ({ serviceId, isActive }: { serviceId: number; isActive: boolean }) => {
+      return apiRequest('PATCH', `/api/service-categories/${serviceId}/status`, { isActive });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update service status. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
 
   const filteredServices = services?.filter(service =>
     service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -479,16 +289,23 @@ export function ServicesManagement() {
               <TableBody>
                 {filteredServices.map((service) => (
                   <TableRow key={service.id}>
-                    <TableCell className="font-medium">{service.name}</TableCell>
-                    <TableCell>
-                      {service.category ? (
-                        <Badge variant="secondary">{service.category.name}</Badge>
-                      ) : (
-                        <span className="text-muted-foreground">No category</span>
-                      )}
+                    <TableCell className="font-medium">
+                      <div className="flex items-center space-x-2">
+                        {service.icon && (
+                          <div className="w-5 h-5 text-muted-foreground">
+                            {service.icon}
+                          </div>
+                        )}
+                        <span>{service.name}</span>
+                      </div>
                     </TableCell>
                     <TableCell>
-                      <code className="text-xs bg-muted px-1 rounded">/{service.slug}</code>
+                      {service.category?.name && (
+                        <Badge variant="outline">{service.category.name}</Badge>
+                      )}
+                    </TableCell>
+                    <TableCell className="font-mono text-sm">
+                      {service.slug}
                     </TableCell>
                     <TableCell>
                       <Badge variant={service.isActive ? "default" : "secondary"}>
@@ -496,36 +313,32 @@ export function ServicesManagement() {
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">
-                        {service._count?.features || 0} features
-                      </Badge>
+                      <div className="flex items-center space-x-1">
+                        <Star className="w-4 h-4 text-yellow-500" />
+                        <span>{service._count?.features || 0}</span>
+                      </div>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-muted-foreground">
                       {new Date(service.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex items-center justify-end space-x-2">
+                      <div className="flex items-center justify-end space-x-1">
                         <Button 
                           size="sm" 
-                          variant="ghost" 
-                          data-testid={`button-toggle-${service.id}`}
-                          onClick={() => toggleServiceMutation.mutate({ 
+                          variant="ghost"
+                          onClick={() => toggleServiceStatusMutation.mutate({ 
                             serviceId: service.id, 
                             isActive: !service.isActive 
                           })}
-                          title={`${service.isActive ? 'Deactivate' : 'Activate'} service`}
                           className={service.isActive ? 'text-green-600 hover:text-green-700' : 'text-gray-400 hover:text-gray-600'}
+                          title={`${service.isActive ? 'Deactivate' : 'Activate'} service`}
                         >
                           {service.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                         </Button>
-                        <Button 
-                          size="sm" 
-                          variant="ghost" 
-                          data-testid={`button-edit-${service.id}`}
-                          onClick={() => handleEditService(service)}
-                        >
-                          <Edit className="w-4 h-4" />
-                        </Button>
+                        <EditServiceDialog 
+                          service={service} 
+                          onUpdate={() => queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] })}
+                        />
                         <Button 
                           size="sm" 
                           variant="ghost" 
@@ -552,44 +365,28 @@ export function ServicesManagement() {
           )}
         </CardContent>
       </Card>
-
-      {/* Edit Service Dialog */}
-      {editingService && (
-        <EditServiceDialog 
-          service={editingService} 
-          onClose={() => setEditingService(null)}
-          onUpdate={(data) => updateServiceMutation.mutate({ serviceId: editingService.id, data })}
-          isLoading={updateServiceMutation.isPending}
-        />
-      )}
     </div>
   );
 }
 
-// Edit Service Dialog Component
-function EditServiceDialog({ 
-  service, 
-  onClose, 
-  onUpdate, 
-  isLoading 
-}: { 
-  service: ServiceItem; 
-  onClose: () => void; 
-  onUpdate: (data: ServiceFormData) => void;
-  isLoading: boolean;
-}) {
+// Create Service Dialog Component
+function CreateServiceDialog() {
+  const [isOpen, setIsOpen] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  
   const form = useForm<ServiceFormData>({
     resolver: zodResolver(serviceFormSchema),
     defaultValues: {
-      name: service.name,
-      slug: service.slug,
-      description: service.description || '',
-      shortDescription: service.shortDescription || '',
-      icon: service.icon || '',
-      isActive: service.isActive,
-      categoryId: service.categoryId,
-      metaTitle: service.metaTitle || '',
-      metaDescription: service.metaDescription || '',
+      name: "",
+      slug: "",
+      description: "",
+      shortDescription: "",
+      icon: "",
+      isActive: true,
+      categoryId: undefined,
+      metaTitle: "",
+      metaDescription: "",
     },
   });
 
@@ -597,19 +394,48 @@ function EditServiceDialog({
     queryKey: ['/api/service-categories'],
   });
 
+  const createServiceMutation = useMutation({
+    mutationFn: async (data: ServiceFormData) => {
+      return apiRequest('POST', '/api/service-categories', data);
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Service created successfully!",
+      });
+      form.reset();
+      setIsOpen(false);
+      queryClient.invalidateQueries({ queryKey: ['/api/service-categories'] });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to create service. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const onSubmit = (data: ServiceFormData) => {
-    onUpdate(data);
+    createServiceMutation.mutate(data);
   };
 
   return (
-    <Dialog open={true} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button data-testid="button-create-service" className="bg-primary hover:bg-primary/90">
+          <Plus className="w-4 h-4 mr-2" />
+          Create Service
+        </Button>
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Service: {service.name}</DialogTitle>
+          <DialogTitle>Create New Service</DialogTitle>
           <DialogDescription>
-            Update service information and settings.
+            Add a new service to your portfolio. Fill in the details below.
           </DialogDescription>
         </DialogHeader>
+        
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -620,7 +446,7 @@ function EditServiceDialog({
                   <FormItem>
                     <FormLabel>Service Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter service name" {...field} />
+                      <Input data-testid="input-service-name" placeholder="Enter service name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -633,7 +459,7 @@ function EditServiceDialog({
                   <FormItem>
                     <FormLabel>URL Slug</FormLabel>
                     <FormControl>
-                      <Input placeholder="service-url-slug" {...field} />
+                      <Input data-testid="input-service-slug" placeholder="service-url-slug" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -648,22 +474,27 @@ function EditServiceDialog({
                 <FormItem>
                   <FormLabel>Short Description</FormLabel>
                   <FormControl>
-                    <Input placeholder="Brief service description..." {...field} />
+                    <Input 
+                      data-testid="input-service-short-description"
+                      placeholder="Brief description..." 
+                      {...field} 
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            
+
             <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Detailed Description</FormLabel>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea 
-                      placeholder="Detailed service description..." 
+                      data-testid="input-service-description"
+                      placeholder="Service description..." 
                       className="min-h-[100px]"
                       {...field} 
                     />
@@ -679,13 +510,10 @@ function EditServiceDialog({
                 name="categoryId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Service Category</FormLabel>
-                    <Select 
-                      onValueChange={(value) => field.onChange(Number(value))}
-                      defaultValue={field.value?.toString()}
-                    >
+                    <FormLabel>Category</FormLabel>
+                    <Select onValueChange={(value) => field.onChange(value ? Number(value) : undefined)}>
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger data-testid="select-service-category">
                           <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                       </FormControl>
@@ -708,14 +536,14 @@ function EditServiceDialog({
                   <FormItem>
                     <FormLabel>Icon Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="lucide icon name" {...field} />
+                      <Input data-testid="input-service-icon" placeholder="lucide icon name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
@@ -724,7 +552,7 @@ function EditServiceDialog({
                   <FormItem>
                     <FormLabel>Meta Title</FormLabel>
                     <FormControl>
-                      <Input placeholder="SEO meta title" {...field} />
+                      <Input data-testid="input-service-meta-title" placeholder="SEO title" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -737,21 +565,45 @@ function EditServiceDialog({
                   <FormItem>
                     <FormLabel>Meta Description</FormLabel>
                     <FormControl>
-                      <Input placeholder="SEO meta description" {...field} />
+                      <Input data-testid="input-service-meta-description" placeholder="SEO description" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-            
-            <div className="flex justify-end space-x-2">
-              <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Updating..." : "Update Service"}
-              </Button>
+
+            <div className="flex items-center justify-between pt-4 border-t">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="isActive"
+                  checked={form.watch("isActive")}
+                  onChange={(e) => form.setValue("isActive", e.target.checked)}
+                  className="w-4 h-4 text-primary focus:ring-primary border-gray-300 rounded"
+                />
+                <label htmlFor="isActive" className="text-sm font-medium">
+                  Active Service
+                </label>
+              </div>
+              
+              <div className="flex space-x-2">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setIsOpen(false)}
+                  data-testid="button-cancel-create-service"
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  type="submit" 
+                  data-testid="button-save-create-service"
+                  disabled={createServiceMutation.isPending}
+                >
+                  {createServiceMutation.isPending ? "Creating..." : "Create Service"}
+                </Button>
+              </div>
             </div>
           </form>
         </Form>

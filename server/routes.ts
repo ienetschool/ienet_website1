@@ -57,6 +57,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Public API routes
 
+  // Pages Management API
+  app.get('/api/pages', async (req, res) => {
+    try {
+      const pages = await storage.getPageBuilderPages();
+      res.json(pages);
+    } catch (error) {
+      console.error("Error fetching pages:", error);
+      res.status(500).json({ message: "Failed to fetch pages" });
+    }
+  });
+
+  app.post('/api/pages', async (req, res) => {
+    try {
+      const pageData = req.body;
+      const page = await storage.createPageBuilderPage(pageData);
+      res.json(page);
+    } catch (error) {
+      console.error("Error creating page:", error);
+      res.status(500).json({ message: "Failed to create page" });
+    }
+  });
+
+  app.put('/api/pages/:id', async (req, res) => {
+    try {
+      const pageId = parseInt(req.params.id);
+      const pageData = req.body;
+      const page = await storage.updatePageBuilderPage(pageId, pageData);
+      res.json(page);
+    } catch (error) {
+      console.error("Error updating page:", error);
+      res.status(500).json({ message: "Failed to update page" });
+    }
+  });
+
+  app.delete('/api/pages/:id', async (req, res) => {
+    try {
+      const pageId = parseInt(req.params.id);
+      await storage.deletePageBuilderPage(pageId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting page:", error);
+      res.status(500).json({ message: "Failed to delete page" });
+    }
+  });
+
   // Service Categories
   app.get('/api/service-categories', async (req, res) => {
     try {

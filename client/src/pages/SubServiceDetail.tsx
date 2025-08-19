@@ -434,7 +434,7 @@ export default function SubServiceDetail() {
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-teal-700 to-cyan-800 dark:from-slate-200 dark:via-teal-300 dark:to-cyan-200 bg-clip-text text-transparent">Related Services & Add-ons</h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Explore our other {category?.name.toLowerCase()} services that complement {service.name}
+                Explore our other {category?.name?.toLowerCase() || 'related'} services that complement {service.name}
               </p>
             </div>
 
@@ -442,10 +442,10 @@ export default function SubServiceDetail() {
               <div className="grid md:grid-cols-3 gap-8">
                 {relatedServices.filter((relatedService: any) => 
                   // Filter out any irrelevant services and ensure same category
-                  !relatedService.name.toLowerCase().includes('food') && 
-                  !relatedService.name.toLowerCase().includes('restaurant') &&
-                  !relatedService.name.toLowerCase().includes('menu') &&
-                  !relatedService.name.toLowerCase().includes('kitchen') &&
+                  !relatedService.name?.toLowerCase()?.includes('food') && 
+                  !relatedService.name?.toLowerCase()?.includes('restaurant') &&
+                  !relatedService.name?.toLowerCase()?.includes('menu') &&
+                  !relatedService.name?.toLowerCase()?.includes('kitchen') &&
                   relatedService.categoryId === category?.id  // Ensure same category
                 ).slice(0, 3).map((relatedService: any, index: number) => {
                   const colors = [

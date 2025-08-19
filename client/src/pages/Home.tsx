@@ -43,7 +43,7 @@ export default function Home() {
           <div className="bg-primary/10 border-b border-primary/20 relative z-10">
             <div className="container mx-auto px-6 py-4">
               <p className="text-primary font-medium">
-                Welcome back, {String((user as any)?.firstName || (user as any)?.email)}! 
+                Welcome back, {String((user as any)?.firstName || (user as any)?.email || 'User')}! 
                 {((user as any)?.role === 'admin' || (user as any)?.role === 'editor') && (
                   <span className="ml-2">
                     <a href="/admin" className="underline hover:no-underline">

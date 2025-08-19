@@ -310,9 +310,9 @@ export function SubServicesManagement() {
     queryKey: ['/api/services'],
   });
 
-  // Show only services that have detailed descriptions (actual sub-services)
+  // Show services from specific categories to create different view from main Services
   const subServices = allServices?.filter(service => 
-    service.description && service.description.length > 100 && service.categoryId && service.categoryId <= 15
+    service.categoryId && [35, 36, 37, 38, 39, 40].includes(service.categoryId) // Show services from specific high category IDs
   ) || [];
 
   const deleteSubServiceMutation = useMutation({
@@ -362,11 +362,7 @@ export function SubServicesManagement() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Sub-Services Management</h2>
-          <p className="text-muted-foreground">Manage your detailed service offerings and sub-services</p>
-        </div>
+      <div className="flex items-center justify-end">
         <CreateSubServiceDialog />
       </div>
 

@@ -392,11 +392,7 @@ export function ServicesManagement() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Services Management</h2>
-          <p className="text-muted-foreground">Manage your service portfolio and offerings</p>
-        </div>
+      <div className="flex items-center justify-end">
         <CreateServiceDialog />
       </div>
 

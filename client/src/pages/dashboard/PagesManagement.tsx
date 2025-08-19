@@ -338,11 +338,7 @@ export function PagesManagement() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Pages Management</h2>
-          <p className="text-muted-foreground">Create and manage your website pages</p>
-        </div>
+      <div className="flex items-center justify-end">
         <CreatePageDialog />
       </div>
 

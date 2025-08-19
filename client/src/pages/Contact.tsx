@@ -107,7 +107,7 @@ export default function Contact() {
     {
       icon: Mail,
       title: "Email Us",
-      content: "info@ienet.com",
+      content: "info.indiaespectacular@gmail.com",
       secondary: "We'll respond within 24 hours",
       action: "Send Email"
     },
@@ -237,22 +237,43 @@ export default function Contact() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {contactInfo.map((info, index) => (
-                  <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                {contactInfo.slice(0, 3).map((info, index) => (
+                  <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white dark:bg-gray-800">
                     <CardContent className="p-8 text-center">
-                      <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-all duration-300 ${
+                        index === 0 ? 'bg-purple-600 hover:bg-purple-700' :
+                        index === 1 ? 'bg-blue-600 hover:bg-blue-700' :
+                        'bg-indigo-600 hover:bg-indigo-700'
+                      }`}>
                         <info.icon className="w-8 h-8 text-white" />
                       </div>
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{info.title}</h3>
-                      <p className="text-gray-900 dark:text-white font-medium mb-1">{info.content}</p>
+                      <p className="text-gray-900 dark:text-white font-medium mb-1 break-all">{info.content}</p>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{info.secondary}</p>
-                      <Button variant="outline" size="sm" className="w-full">
+                      <Button variant="outline" size="sm" className="w-full border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">
                         {info.action}
                       </Button>
                     </CardContent>
                   </Card>
                 ))}
+              </div>
+              
+              {/* Office Hours Card - Separate row */}
+              <div className="max-w-md mx-auto mt-8">
+                <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group bg-white dark:bg-gray-800">
+                  <CardContent className="p-8 text-center">
+                    <div className="w-16 h-16 bg-green-600 hover:bg-green-700 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-all duration-300">
+                      <Clock className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Office Hours</h3>
+                    <p className="text-gray-900 dark:text-white font-medium mb-1">Monday - Friday: 9AM - 6PM</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Saturday: 10AM - 2PM</p>
+                    <Button variant="outline" size="sm" className="w-full border-green-600 text-green-600 hover:bg-green-600 hover:text-white">
+                      Schedule Meeting
+                    </Button>
+                  </CardContent>
+                </Card>
               </div>
             </div>
           </div>
@@ -493,28 +514,28 @@ export default function Contact() {
                     </CardHeader>
                     <CardContent className="space-y-4">
                       <div className="flex items-start space-x-3">
-                        <MapPin className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
+                        <MapPin className="w-5 h-5 text-purple-600 mt-1 flex-shrink-0" />
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Address</p>
                           <p className="text-gray-600 dark:text-gray-300">Sandy Babb Street, Kitty<br />Georgetown, Guyana</p>
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
-                        <Phone className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
+                        <Phone className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Phone</p>
                           <p className="text-gray-600 dark:text-gray-300">+592 750-3901</p>
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
-                        <Mail className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
+                        <Mail className="w-5 h-5 text-indigo-600 mt-1 flex-shrink-0" />
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Email</p>
-                          <p className="text-gray-600 dark:text-gray-300">info.indiaespectacular@gmail.com</p>
+                          <p className="text-gray-600 dark:text-gray-300 break-all">info.indiaespectacular@gmail.com</p>
                         </div>
                       </div>
                       <div className="flex items-start space-x-3">
-                        <Clock className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
+                        <Clock className="w-5 h-5 text-green-600 mt-1 flex-shrink-0" />
                         <div>
                           <p className="font-medium text-gray-900 dark:text-white">Office Hours</p>
                           <p className="text-gray-600 dark:text-gray-300">Mon-Fri: 9AM-6PM<br />Sat: 10AM-2PM</p>

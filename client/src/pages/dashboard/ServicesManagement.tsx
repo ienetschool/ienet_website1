@@ -316,6 +316,7 @@ function CreateServiceDialog() {
 
 export function ServicesManagement() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [editingService, setEditingService] = useState<ServiceItem | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -325,7 +326,7 @@ export function ServicesManagement() {
 
   const deleteServiceMutation = useMutation({
     mutationFn: (serviceId: number) => 
-      apiRequest('DELETE', `/api/services/${serviceId}`),
+      apiRequest('DELETE', `/api/admin/services/${serviceId}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/services'] });
       toast({
@@ -349,6 +350,30 @@ export function ServicesManagement() {
       queryClient.invalidateQueries({ queryKey: ['/api/services'] });
     },
   });
+
+  const updateServiceMutation = useMutation({
+    mutationFn: ({ serviceId, data }: { serviceId: number; data: ServiceFormData }) => 
+      apiRequest('PUT', `/api/admin/services/${serviceId}`, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
+      setEditingService(null);
+      toast({
+        title: "Success",
+        description: "Service updated successfully",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Error",
+        description: "Failed to update service",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleEditService = (service: ServiceItem) => {
+    setEditingService(service);
+  };
 
   const filteredServices = services?.filter(service =>
     service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -494,7 +519,12 @@ export function ServicesManagement() {
                         >
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button size="sm" variant="ghost" data-testid={`button-edit-${service.id}`}>
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          data-testid={`button-edit-${service.id}`}
+                          onClick={() => handleEditService(service)}
+                        >
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button 
@@ -523,6 +553,210 @@ export function ServicesManagement() {
           )}
         </CardContent>
       </Card>
+
+      {/* Edit Service Dialog */}
+      {editingService && (
+        <EditServiceDialog 
+          service={editingService} 
+          onClose={() => setEditingService(null)}
+          onUpdate={(data) => updateServiceMutation.mutate({ serviceId: editingService.id, data })}
+          isLoading={updateServiceMutation.isPending}
+        />
+      )}
     </div>
+  );
+}
+
+// Edit Service Dialog Component
+function EditServiceDialog({ 
+  service, 
+  onClose, 
+  onUpdate, 
+  isLoading 
+}: { 
+  service: ServiceItem; 
+  onClose: () => void; 
+  onUpdate: (data: ServiceFormData) => void;
+  isLoading: boolean;
+}) {
+  const form = useForm<ServiceFormData>({
+    resolver: zodResolver(serviceFormSchema),
+    defaultValues: {
+      name: service.name,
+      slug: service.slug,
+      description: service.description || '',
+      shortDescription: service.shortDescription || '',
+      icon: service.icon || '',
+      isActive: service.isActive,
+      categoryId: service.categoryId,
+      metaTitle: service.metaTitle || '',
+      metaDescription: service.metaDescription || '',
+    },
+  });
+
+  const { data: categories } = useQuery<ServiceCategory[]>({
+    queryKey: ['/api/service-categories'],
+  });
+
+  const onSubmit = (data: ServiceFormData) => {
+    onUpdate(data);
+  };
+
+  return (
+    <Dialog open={true} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Edit Service: {service.name}</DialogTitle>
+          <DialogDescription>
+            Update service information and settings.
+          </DialogDescription>
+        </DialogHeader>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Service Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter service name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="slug"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URL Slug</FormLabel>
+                    <FormControl>
+                      <Input placeholder="service-url-slug" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="shortDescription"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Short Description</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Brief service description..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Detailed Description</FormLabel>
+                  <FormControl>
+                    <Textarea 
+                      placeholder="Detailed service description..." 
+                      className="min-h-[100px]"
+                      {...field} 
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="categoryId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Service Category</FormLabel>
+                    <Select 
+                      onValueChange={(value) => field.onChange(Number(value))}
+                      defaultValue={field.value?.toString()}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {categories?.map((category) => (
+                          <SelectItem key={category.id} value={category.id.toString()}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="icon"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Icon Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="lucide icon name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="metaTitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Meta Title</FormLabel>
+                    <FormControl>
+                      <Input placeholder="SEO meta title" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="metaDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Meta Description</FormLabel>
+                    <FormControl>
+                      <Input placeholder="SEO meta description" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            
+            <div className="flex justify-end space-x-2">
+              <Button type="button" variant="outline" onClick={onClose}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Updating..." : "Update Service"}
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 }

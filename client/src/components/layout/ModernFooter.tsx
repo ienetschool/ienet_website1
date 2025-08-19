@@ -14,7 +14,7 @@ import {
   Award,
   ArrowUp,
   MessageCircle,
-  FileText
+  Quote
 } from "lucide-react";
 
 const quickLinks = [
@@ -159,65 +159,56 @@ export default function ModernFooter() {
             </div>
 
             {/* Connect With Us */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg">
-              <h4 className="text-xl font-bold mb-6 text-gray-800 dark:text-white">Connect With Us</h4>
+            <div className="space-y-6">
+              <h4 className="text-lg font-semibold text-gray-800 dark:text-white">Connect With Us</h4>
               
               {/* Quick Connect Buttons */}
-              <div className="flex space-x-3 mb-6">
+              <div className="flex space-x-3">
                 <Button 
                   onClick={() => window.open('https://wa.me/5927503901', '_blank')}
-                  className="w-12 h-12 bg-gray-700 hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group p-0"
+                  className="w-12 h-12 bg-green-600 hover:bg-green-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white p-0"
                   aria-label="Live Chat on WhatsApp"
                 >
                   <MessageCircle size={20} />
                 </Button>
                 <Button 
                   onClick={() => window.location.href = '/contact'}
-                  className="w-12 h-12 bg-gradient-to-br from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 transition-all duration-300 rounded-xl flex items-center justify-center text-white group p-0 shadow-lg hover:shadow-xl"
+                  className="w-12 h-12 bg-gradient-to-br from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 transition-all duration-300 rounded-xl flex items-center justify-center text-white p-0"
                   aria-label="Get Quote"
                 >
-                  <FileText size={20} />
+                  <Quote size={20} />
                 </Button>
               </div>
               
               {/* Social Media Links */}
-              <div className="flex space-x-3 mb-6">
-                <a href="https://facebook.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="Facebook">
-                  <Facebook size={16} />
-                </a>
-                <a href="https://twitter.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="Twitter">
-                  <Twitter size={16} />
-                </a>
-                <a href="https://linkedin.com/company/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="LinkedIn">
-                  <Linkedin size={16} />
-                </a>
-                <a href="https://youtube.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="YouTube">
-                  <Youtube size={16} />
-                </a>
+              <div>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Follow Us</p>
+                <div className="flex space-x-3">
+                  <a href="https://facebook.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-600 hover:bg-blue-700 transition-all duration-300 rounded-lg flex items-center justify-center text-white" aria-label="Facebook">
+                    <Facebook size={18} />
+                  </a>
+                  <a href="https://twitter.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-sky-500 hover:bg-sky-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white" aria-label="Twitter">
+                    <Twitter size={18} />
+                  </a>
+                  <a href="https://linkedin.com/company/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-700 hover:bg-blue-800 transition-all duration-300 rounded-lg flex items-center justify-center text-white" aria-label="LinkedIn">
+                    <Linkedin size={18} />
+                  </a>
+                  <a href="https://youtube.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-red-600 hover:bg-red-700 transition-all duration-300 rounded-lg flex items-center justify-center text-white" aria-label="YouTube">
+                    <Youtube size={18} />
+                  </a>
+                </div>
               </div>
 
               {/* Payment Methods */}
-              <div className="space-y-4">
-                <p className="text-base font-bold text-gray-700 dark:text-gray-300">We Accept</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
-                    💳 Visa
-                  </div>
-                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
-                    💳 Mastercard
-                  </div>
-                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
-                    💳 Stripe
-                  </div>
-                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
-                    💰 PayPal
-                  </div>
-                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
-                    💳 Razorpay
-                  </div>
-                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
-                    🏦 Wire Transfer
-                  </div>
+              <div>
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Payment Methods</p>
+                <div className="flex flex-wrap gap-2">
+                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Visa">💳</span>
+                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Mastercard">💳</span>
+                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="PayPal">💰</span>
+                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Stripe">💳</span>
+                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Razorpay">💳</span>
+                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Wire Transfer">🏦</span>
                 </div>
               </div>
             </div>

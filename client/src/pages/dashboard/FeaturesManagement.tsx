@@ -47,7 +47,6 @@ import {
   MoreHorizontal
 } from "lucide-react";
 import { DataTable } from "@/components/ui/data-table";
-import { ColumnDef } from "@tanstack/react-table";
 import RichTextEditor from "@/components/page-builder/RichTextEditor";
 import SEOEditor from "@/components/page-builder/SEOEditor";
 import DragDropPageEditor from "@/components/page-builder/DragDropPageEditor";
@@ -115,7 +114,7 @@ function FeatureEditorDialog({ feature, onUpdate }: { feature: FeatureItem; onUp
   const [seoData, setSeoData] = useState({
     title: feature.metaTitle || feature.name || '',
     description: feature.metaDescription || feature.description || '',
-    keywords: [],
+    keywords: [] as string[],
     ogTitle: '',
     ogDescription: '',
     ogImage: '',
@@ -333,112 +332,79 @@ function FeatureEditorDialog({ feature, onUpdate }: { feature: FeatureItem; onUp
   );
 }
 
-// Column definitions for the data table with pagination
+// Simple column configuration for our custom DataTable
 const createColumns = (
   onEdit: (feature: FeatureItem) => void,
   onDelete: (id: number) => void,
   onToggleStatus: (id: number, isActive: boolean) => void
-): ColumnDef<FeatureItem>[] => [
+) => [
   {
-    accessorKey: "name",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Feature Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
-    },
-    cell: ({ row }) => {
-      const feature = row.original;
-      return (
-        <div className="flex items-center space-x-2">
-          {feature.icon && (
-            <div className="w-5 h-5 text-muted-foreground">
-              <Zap className="w-4 h-4" />
-            </div>
-          )}
-          <span className="font-medium">{feature.name}</span>
-        </div>
-      );
-    },
+    key: "name",
+    label: "Feature Name",
+    render: (feature: FeatureItem) => (
+      <div className="flex items-center space-x-2">
+        <Zap className="w-4 h-4 text-muted-foreground" />
+        <span className="font-medium">{feature.name}</span>
+      </div>
+    )
   },
   {
-    accessorKey: "service.name",
-    header: "Service",
-    cell: ({ row }) => {
-      const serviceName = row.original.service?.name;
-      return serviceName ? (
-        <Badge variant="outline">{serviceName}</Badge>
+    key: "service",
+    label: "Service",
+    render: (feature: FeatureItem) => 
+      feature.service?.name ? (
+        <Badge variant="outline">{feature.service.name}</Badge>
       ) : (
         <span className="text-gray-400">No service</span>
-      );
-    },
+      )
   },
   {
-    accessorKey: "slug",
-    header: "Slug",
-    cell: ({ row }) => (
+    key: "slug",
+    label: "Slug",
+    render: (feature: FeatureItem) => (
       <code className="text-xs bg-gray-100 px-2 py-1 rounded">
-        {row.getValue("slug")}
+        {feature.slug}
       </code>
-    ),
+    )
   },
   {
-    accessorKey: "isActive",
-    header: "Status",
-    cell: ({ row }) => {
-      const isActive = row.getValue("isActive") as boolean;
-      return (
-        <Badge variant={isActive ? "default" : "secondary"}>
-          {isActive ? "Active" : "Inactive"}
-        </Badge>
-      );
-    },
+    key: "status",
+    label: "Status",
+    render: (feature: FeatureItem) => (
+      <Badge variant={feature.isActive ? "default" : "secondary"}>
+        {feature.isActive ? "Active" : "Inactive"}
+      </Badge>
+    )
   },
   {
-    accessorKey: "createdAt",
-    header: "Created",
-    cell: ({ row }) => {
-      const date = new Date(row.getValue("createdAt"));
-      return <span className="text-sm text-muted-foreground">{date.toLocaleDateString()}</span>;
-    },
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => {
-      const feature = row.original;
-      return (
-        <div className="flex items-center space-x-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => onToggleStatus(feature.id, !feature.isActive)}
-            className={feature.isActive ? 'text-green-600' : 'text-gray-400'}
-            title={`${feature.isActive ? 'Deactivate' : 'Activate'} feature`}
-          >
-            {feature.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-          </Button>
-          <FeatureEditorDialog 
-            feature={feature} 
-            onUpdate={() => window.location.reload()} 
-          />
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => onDelete(feature.id)}
-            className="text-red-600 hover:text-red-700"
-          >
-            <Trash2 className="w-4 h-4" />
-          </Button>
-        </div>
-      );
-    },
-  },
+    key: "actions",
+    label: "Actions",
+    render: (feature: FeatureItem) => (
+      <div className="flex items-center space-x-1">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onToggleStatus(feature.id, !feature.isActive)}
+          className={feature.isActive ? 'text-green-600' : 'text-gray-400'}
+          title={`${feature.isActive ? 'Deactivate' : 'Activate'} feature`}
+        >
+          {feature.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+        </Button>
+        <FeatureEditorDialog 
+          feature={feature} 
+          onUpdate={() => window.location.reload()} 
+        />
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onDelete(feature.id)}
+          className="text-red-600 hover:text-red-700"
+        >
+          <Trash2 className="w-4 h-4" />
+        </Button>
+      </div>
+    )
+  }
 ];
 
 export function FeaturesManagement() {
@@ -446,11 +412,14 @@ export function FeaturesManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: features, isLoading } = useQuery<FeatureItem[]>({
+  const { data: features, isLoading, error } = useQuery<FeatureItem[]>({
     queryKey: ['/api/features'],
-    select: (data) => (data as any) || [],
+    select: (data) => Array.isArray(data) ? data : [],
     staleTime: 1000 * 60 * 5,
+    retry: 2
   });
+
+  console.log('Features query result:', { features, isLoading, error });
 
   const deleteFeatureMutation = useMutation({
     mutationFn: async (featureId: number) => {
@@ -597,8 +566,12 @@ export function FeaturesManagement() {
           <DataTable
             columns={columns}
             data={filteredFeatures}
-            searchKey="name"
             searchPlaceholder="Search features by name, slug, or service..."
+            searchKeys={['name', 'slug', 'service.name'] as any}
+            defaultItemsPerPage={25}
+            itemsPerPageOptions={[10, 25, 50, 100]}
+            emptyStateMessage="No features found. Create your first feature to get started."
+            isLoading={isLoading}
           />
         </CardContent>
       </Card>

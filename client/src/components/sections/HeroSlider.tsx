@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { Link } from "wouter";
 
 const slides = [
   {
@@ -9,6 +10,7 @@ const slides = [
     subtitle: "Transform Your Business with Cutting-Edge Technology",
     description: "We deliver enterprise-grade software solutions, cloud infrastructure, and digital transformation services that drive growth and innovation for businesses worldwide.",
     cta: "Explore Services",
+    ctaLink: "/services",
     background: "linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(147, 51, 234, 0.9))",
     image: "/api/placeholder/1920/800"
   },
@@ -18,6 +20,7 @@ const slides = [
     subtitle: "Protect Your Digital Assets with Advanced Security",
     description: "Comprehensive cybersecurity services including vulnerability assessments, penetration testing, and 24/7 monitoring to safeguard your business from evolving cyber threats.",
     cta: "Security Solutions",
+    ctaLink: "/services/cybersecurity",
     background: "linear-gradient(135deg, rgba(220, 38, 38, 0.9), rgba(239, 68, 68, 0.9))",
     image: "/api/placeholder/1920/800"
   },
@@ -27,7 +30,38 @@ const slides = [
     subtitle: "Harness the Power of Artificial Intelligence",
     description: "Custom AI solutions, machine learning models, and intelligent automation systems that revolutionize business processes and unlock new opportunities for growth.",
     cta: "AI Solutions",
+    ctaLink: "/services/ai-machine-learning",
     background: "linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9))",
+    image: "/api/placeholder/1920/800"
+  },
+  {
+    id: 4,
+    title: "Professional Pet Care Services",
+    subtitle: "Complete Digital Solutions for Pet Care Businesses",
+    description: "Specialized digital platforms for veterinary clinics, pet grooming services, and animal care facilities. Streamline appointments, manage records, and enhance customer experience.",
+    cta: "Pet Care Solutions",
+    ctaLink: "/services/pet-care-digital",
+    background: "linear-gradient(135deg, rgba(168, 85, 247, 0.9), rgba(139, 69, 19, 0.9))",
+    image: "/api/placeholder/1920/800"
+  },
+  {
+    id: 5,
+    title: "Veterinary Practice Management",
+    subtitle: "Advanced Software for Modern Veterinary Clinics",
+    description: "Comprehensive practice management systems including patient records, scheduling, billing, and telemedicine capabilities designed specifically for veterinary professionals.",
+    cta: "Veterinary Systems",
+    ctaLink: "/services/veterinary-management",
+    background: "linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(21, 128, 61, 0.9))",
+    image: "/api/placeholder/1920/800"
+  },
+  {
+    id: 6,
+    title: "Pet Grooming & Boarding Platforms",
+    subtitle: "Digital Solutions for Pet Service Providers",
+    description: "Complete booking and management systems for pet grooming salons, boarding facilities, and pet daycare centers. Includes online scheduling, payment processing, and customer communications.",
+    cta: "Grooming Solutions",
+    ctaLink: "/services/pet-grooming-platforms",
+    background: "linear-gradient(135deg, rgba(249, 115, 22, 0.9), rgba(194, 65, 12, 0.9))",
     image: "/api/placeholder/1920/800"
   }
 ];
@@ -106,22 +140,25 @@ export default function HeroSlider() {
                   </div>
                   
                   <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up animation-delay-600">
-                    <Button 
-                      size="lg" 
-                      className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105"
-                      onClick={scrollToServices}
-                    >
-                      {slide.cta}
-                      <ChevronRight className="ml-2" size={20} />
-                    </Button>
-                    <Button 
-                      variant="outline" 
-                      size="lg"
-                      className="border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300"
-                    >
-                      Watch Demo
-                      <Play className="ml-2" size={18} />
-                    </Button>
+                    <Link href={slide.ctaLink || "/services"}>
+                      <Button 
+                        size="lg" 
+                        className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105"
+                      >
+                        {slide.cta}
+                        <ChevronRight className="ml-2" size={20} />
+                      </Button>
+                    </Link>
+                    <Link href="/contact">
+                      <Button 
+                        variant="outline" 
+                        size="lg"
+                        className="border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300"
+                      >
+                        Get Quote
+                        <Play className="ml-2" size={18} />
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -147,21 +184,7 @@ export default function HeroSlider() {
         <ChevronRight size={24} />
       </button>
 
-      {/* Slide Indicators */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentSlide 
-                ? 'bg-white scale-125' 
-                : 'bg-white/50 hover:bg-white/80'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+
 
       {/* Auto-play Control */}
       <button
@@ -180,7 +203,7 @@ export default function HeroSlider() {
       </button>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce z-10">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce z-10">
         <div className="flex flex-col items-center text-white/80">
           <div className="w-6 h-10 border-2 border-white/50 rounded-full p-1">
             <div className="w-1 h-3 bg-white/80 rounded-full mx-auto animate-pulse"></div>

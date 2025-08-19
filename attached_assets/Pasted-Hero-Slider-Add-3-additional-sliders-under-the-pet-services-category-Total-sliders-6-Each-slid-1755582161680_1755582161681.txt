@@ -1,0 +1,148 @@
+Hero Slider
+
+✅ Add 3 additional sliders under the pet services category
+
+Total sliders: 6
+
+Each slider must include:
+
+Title
+
+Description
+
+CTA button with working redirection
+
+✅ Remove page navigation (dots/arrows below slider), unless required for UX
+
+🧾 About Section
+
+✅ Add additional <div> sections under About with:
+
+Short company intro (1–2 sentences)
+
+Mission & Vision (icons optional)
+
+"Why Choose Us" features (e.g. Trusted Team, Timely Delivery, Affordable Plans)
+
+Modern design, responsive layout
+
+🥇 Certifications & Partnerships
+
+✅ Update all icons/logos to high-resolution SVG/PNG
+
+✅ Fix any broken buttons/links
+
+Make sure all CTA buttons redirect properly (open in new tab if needed)
+
+✅ Center-align content and use modern card layout
+
+🧩 Our Core Services
+
+✅ Redesign this section to be:
+
+Visually balanced with center-aligned icons, text, and buttons
+
+Use unique icons for each service
+
+Use modern hover effects and subtle animations
+
+Clean, consistent color palette matching brand identity
+
+🗂️ Our Portfolio Section
+
+✅ Redesign using:
+
+Grid or carousel layout
+
+Larger images or previews
+
+Center-aligned text and CTA
+
+Modern icons or project tags (optional)
+
+Bold colors for better visual appeal
+
+👤 Client Review Slider
+
+✅ Upgrade to an interactive, animated testimonial slider
+
+Include:
+
+Profile photo
+
+Name
+
+Rating stars
+
+Testimonial content
+
+Use soft gradients, subtle shadows, modern typography
+
+Optional: client logo or company name
+
+🌍 Trusted by Industry Leaders
+
+✅ Improve layout of brand logos:
+
+Even spacing, responsive scaling
+
+Add hover effect (optional: grayscale → color)
+
+Optional: carousel if too many logos
+
+Section header should be bold and confident
+
+🚀 Ready to Transform Your Business?
+
+✅ Update CTA button color (contrast for visibility)
+
+✅ Fix redirection link — should route to either Contact or Quote form
+
+🧱 Site-Wide Fixes
+🧑‍💻 Live Chat & Get in Touch Button
+
+❌ Not visible on:
+
+Services
+
+Sub-services
+
+Features pages
+
+✅ Fix live chat widget + floating "Get in Touch" icon to:
+
+Appear on every page
+
+Stay in bottom-right corner
+
+Function across all routes
+
+🧩 Sub-Service & Feature Pages Errors
+
+✅ Review all:
+
+Broken links
+
+Missing assets
+
+Incomplete layout or styling
+
+✅ Fix 404s or JS errors for sub-service pages
+
+✅ Ensure each feature/sub-service page has:
+
+Proper title & metadata
+
+Consistent layout
+
+Working back buttons or breadcrumbs
+
+CTA button functionality
+
+📌 Optional Enhancement Ideas (Phase 2)
+Section	Improvement
+Hero Slider	Add autoplay toggle, swipe gesture support on mobile
+Client Reviews	Add video testimonials or star-rating filters
+Portfolio	Enable filter by category or project type
+Footer	Show WhatsApp icon, include newsletter signup
+Live Chat	Integrate with Tawk.to, Crisp, or custom AI chat popup

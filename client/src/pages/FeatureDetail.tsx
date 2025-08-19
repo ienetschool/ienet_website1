@@ -21,6 +21,10 @@ import { TagSystem } from "@/components/seo/TagSystem";
 import { InternalLinking } from "@/components/seo/InternalLinking";
 import ContactModal from "@/components/modals/ContactModal";
 import { useContactModal } from "@/hooks/useContactModal";
+import LiveEditor from "@/components/page-builder/LiveEditor";
+import EditButton from "@/components/page-builder/EditButton";
+import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
 import { 
   ArrowRight,
   CheckCircle,
@@ -44,6 +48,10 @@ import {
 export default function FeatureDetail() {
   const { categorySlug, serviceSlug, featureSlug } = useParams();
   const { isOpen, openModal, closeModal, modalOptions } = useContactModal();
+  const { user, isAuthenticated } = useAuth();
+  const [liveEditorActive, setLiveEditorActive] = useState(false);
+
+  const isAdmin = isAuthenticated && ((user as any)?.role === 'admin' || (user as any)?.email === 'admin@ienet.com');
   
   const { data: category } = useQuery({
     queryKey: ['/api/service-categories', categorySlug],
@@ -57,7 +65,19 @@ export default function FeatureDetail() {
 
   const { data: feature, isLoading } = useQuery({
     queryKey: ['/api/features', categorySlug, serviceSlug, featureSlug],
-    queryFn: () => fetch(`/api/features/${categorySlug}/${serviceSlug}/${featureSlug}`).then(res => res.json()),
+    queryFn: async () => {
+      const response = await fetch(`/api/features/${categorySlug}/${serviceSlug}/${featureSlug}`);
+      const data = await response.json();
+      
+      // Handle redirect if feature is found in different category
+      if (data._redirectTo && data._correctCategory) {
+        console.log(`Feature found in different category, should redirect to: ${data._redirectTo}`);
+        // For now, just use the feature data but log the correct URL
+        return data;
+      }
+      
+      return data;
+    },
   });
 
   const { data: relatedFeatures } = useQuery({
@@ -202,6 +222,15 @@ export default function FeatureDetail() {
         <section className="relative py-20 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10" />
           <div className="container mx-auto px-6 relative">
+            {/* Live Editor Toggle for Admins */}
+            {isAdmin && (
+              <div className="fixed top-20 right-6 z-50">
+                <EditButton 
+                  onVisualEdit={() => setLiveEditorActive(!liveEditorActive)}
+                  onPreview={() => setLiveEditorActive(!liveEditorActive)}
+                />
+              </div>
+            )}
             {/* Breadcrumb */}
             <Breadcrumb className="mb-8">
               <BreadcrumbList>
@@ -692,6 +721,26 @@ export default function FeatureDetail() {
         defaultSubject={modalOptions.subject}
         defaultMessage={modalOptions.message}
       />
+
+      {/* Live Editor */}
+      {liveEditorActive && isAdmin && (
+        <div className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-4xl w-full mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold">Live Feature Editor</h3>
+              <button 
+                onClick={() => setLiveEditorActive(false)}
+                className="px-3 py-1 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400">
+              Live editor for {feature.name} feature page coming soon. This will allow real-time content editing with drag-and-drop functionality.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -645,14 +645,36 @@ export default function SubServiceDetail() {
       />
 
       {/* Admin Edit Tools */}
-      <EditButton onEditToggle={() => setLiveEditorActive(!liveEditorActive)} />
+      {isAdmin && (
+        <div className="fixed top-20 right-6 z-50">
+          <button 
+            onClick={() => setLiveEditorActive(!liveEditorActive)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            {liveEditorActive ? 'Exit Editor' : 'Edit Page'}
+          </button>
+        </div>
+      )}
       
       {/* Live Editor Integration */}
-      <LiveEditor
-        isActive={liveEditorActive}
-        onToggle={() => setLiveEditorActive(!liveEditorActive)}
-        pageSlug={serviceSlug}
-      />
+      {liveEditorActive && isAdmin && (
+        <div className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-4xl w-full mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold">Live Page Editor</h3>
+              <button 
+                onClick={() => setLiveEditorActive(false)}
+                className="px-3 py-1 text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+              >
+                ✕
+              </button>
+            </div>
+            <p className="text-gray-600 dark:text-gray-400">
+              Live editor for {service.name} page coming soon. This will allow real-time content editing.
+            </p>
+          </div>
+        </div>
+      )}
 
       <ModernFooter />
     </div>

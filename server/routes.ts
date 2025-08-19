@@ -195,14 +195,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/features/:categorySlug/:serviceSlug/:featureSlug', async (req, res) => {
     try {
-      const feature = await storage.getFeature(
-        req.params.categorySlug,
-        req.params.serviceSlug,
-        req.params.featureSlug
-      );
+      const { categorySlug, serviceSlug, featureSlug } = req.params;
+      
+      // First try with provided category
+      let feature = await storage.getFeature(categorySlug, serviceSlug, featureSlug);
+      
       if (!feature) {
+        console.log(`Feature not found with category ${categorySlug}, searching across all categories...`);
+        
+        // Search for feature across all categories by getting all features and filtering
+        const allFeatures = await storage.getFeatures();
+        const matchingFeature = allFeatures.find((f: any) => 
+          f.slug === featureSlug
+        );
+        
+        if (matchingFeature) {
+          // Get the service to find correct category
+          const service = await storage.getServiceById(matchingFeature.serviceId);
+          if (service) {
+            const correctCategory = await storage.getServiceCategoryById(service.categoryId);
+            if (correctCategory) {
+              console.log(`Found feature in correct category: ${correctCategory.slug}`);
+              
+              // Fetch feature with correct category
+              feature = await storage.getFeature(
+                correctCategory.slug, 
+                serviceSlug, 
+                featureSlug
+              );
+              
+              if (feature) {
+                // Add redirect information
+                const correctUrl = `/features/${correctCategory.slug}/${serviceSlug}/${featureSlug}`;
+                return res.json({
+                  ...feature,
+                  _redirectTo: correctUrl,
+                  _correctCategory: correctCategory.slug
+                });
+              }
+            }
+          }
+        }
+        
         return res.status(404).json({ message: "Feature not found" });
       }
+      
       res.json(feature);
     } catch (error) {
       console.error("Error fetching feature:", error);

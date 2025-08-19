@@ -75,16 +75,19 @@ export default function ServicesSection() {
     <section className="py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Our Core Services
+          <Badge variant="outline" className="mb-4 text-primary border-primary px-4 py-2">
+            Our Services
+          </Badge>
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-primary dark:from-white dark:to-primary bg-clip-text text-transparent mb-6">
+            Core IT Solutions
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Comprehensive IT solutions designed to accelerate your digital transformation and business growth.
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Comprehensive technology solutions designed to accelerate your digital transformation and drive measurable business growth with cutting-edge innovation.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories?.map((category: any) => {
+          {(categories || []).map((category: any) => {
             const IconComponent = iconMap[category.icon as keyof typeof iconMap] || Code;
             const colorClass = colorMap[category.color as keyof typeof colorMap] || colorMap.primary;
             const buttonClass = buttonColorMap[category.color as keyof typeof buttonColorMap] || buttonColorMap.primary;
@@ -92,16 +95,20 @@ export default function ServicesSection() {
             return (
               <Card 
                 key={category.id} 
-                className="group bg-white dark:bg-gray-800 hover:shadow-xl transition-all duration-300 border border-gray-200 dark:border-gray-700 overflow-hidden"
+                className="group bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 hover:shadow-2xl transition-all duration-500 border-0 overflow-hidden relative"
               >
-                <CardContent className="p-8">
-                  <div className={`w-16 h-16 ${colorClass} rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <IconComponent size={24} />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <CardContent className="p-8 text-center relative z-10">
+                  <div className="relative mb-6">
+                    <div className={`w-20 h-20 ${colorClass} rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg`}>
+                      <IconComponent size={32} />
+                    </div>
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-primary to-purple-600 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-primary transition-colors duration-300">
                     {category.name}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                     {category.description}
                   </p>
                   
@@ -121,7 +128,7 @@ export default function ServicesSection() {
                     </div>
                   </div>
 
-                  <Button asChild className={`w-full text-white ${buttonClass}`}>
+                  <Button asChild className={`w-full text-white transition-all duration-300 group-hover:scale-105 ${buttonClass}`}>
                     <Link href={`/services/${category.slug}`}>
                       Explore Services
                     </Link>

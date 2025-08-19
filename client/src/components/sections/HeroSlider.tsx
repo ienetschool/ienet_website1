@@ -167,22 +167,7 @@ export default function HeroSlider() {
         ))}
       </div>
 
-      {/* Navigation Arrows */}
-      <button
-        onClick={goToPrevious}
-        className="absolute left-6 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20 hover:scale-110 z-10"
-        aria-label="Previous slide"
-      >
-        <ChevronLeft size={24} />
-      </button>
 
-      <button
-        onClick={goToNext}
-        className="absolute right-6 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white p-3 rounded-full transition-all duration-300 backdrop-blur-sm border border-white/20 hover:scale-110 z-10"
-        aria-label="Next slide"
-      >
-        <ChevronRight size={24} />
-      </button>
 
 
 

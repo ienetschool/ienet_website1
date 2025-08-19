@@ -17,7 +17,8 @@ import {
   Zap,
   Heart,
   Star,
-  ArrowRight
+  ArrowRight,
+  Cloud
 } from "lucide-react";
 
 const companyValues = [
@@ -84,11 +85,11 @@ const expertiseAreas = [
 ];
 
 const certifications = [
-  { name: "ISO 27001", type: "Security", verified: true },
-  { name: "AWS Partner", type: "Cloud", verified: true },
-  { name: "Microsoft Gold", type: "Enterprise", verified: true },
-  { name: "Google Cloud", type: "Infrastructure", verified: true },
-  { name: "CMMI Level 3", type: "Process", verified: true }
+  { name: "ISO 27001", type: "Security", verified: true, icon: Shield, color: "text-red-600" },
+  { name: "AWS Partner", type: "Cloud", verified: true, icon: Cloud, color: "text-orange-600" },
+  { name: "Microsoft Gold", type: "Enterprise", verified: true, icon: Award, color: "text-blue-600" },
+  { name: "Google Cloud", type: "Infrastructure", verified: true, icon: Globe, color: "text-green-600" },
+  { name: "CMMI Level 3", type: "Process", verified: true, icon: CheckCircle, color: "text-purple-600" }
 ];
 
 export default function AboutSection() {
@@ -98,16 +99,44 @@ export default function AboutSection() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4 text-primary border-primary px-4 py-2">
-            About IeNet
+            About India Espectacular
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
             Transforming Businesses Through
             <span className="text-primary block">Technology Innovation</span>
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            We are a premier technology solutions provider specializing in enterprise software development, 
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed mb-8">
+            India Espectacular is a premier technology solutions provider specializing in enterprise software development, 
             cybersecurity, cloud infrastructure, and digital transformation services that drive measurable business growth.
+            With over 8 years of industry expertise, we've successfully delivered innovative solutions to hundreds of businesses worldwide.
           </p>
+          
+          {/* Mission & Vision Cards */}
+          <div className="grid md:grid-cols-2 gap-8 mb-12 max-w-5xl mx-auto">
+            <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 group">
+              <CardContent className="p-8 text-center">
+                <div className="bg-gradient-to-br from-blue-500 to-cyan-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Target className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Our Mission</h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  To empower businesses with cutting-edge technology solutions that drive innovation, efficiency, and sustainable growth in the digital era.
+                </p>
+              </CardContent>
+            </Card>
+            
+            <Card className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-0 shadow-2xl hover:shadow-3xl transition-all duration-300 group">
+              <CardContent className="p-8 text-center">
+                <div className="bg-gradient-to-br from-green-500 to-emerald-500 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <Globe className="w-10 h-10 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Our Vision</h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                  To be the globally recognized leader in IT services, known for delivering exceptional value and transformative solutions to businesses worldwide.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
         </div>
 
         {/* Company Values */}

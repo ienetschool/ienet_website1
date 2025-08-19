@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
 
 const testimonials = [
@@ -114,15 +115,18 @@ export default function TestimonialSlider() {
   };
 
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section className="py-20 bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-purple-900 dark:to-blue-900">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <Badge variant="outline" className="mb-4 text-primary border-primary px-4 py-2">
+            Client Success Stories
+          </Badge>
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-primary dark:from-white dark:to-primary bg-clip-text text-transparent mb-6">
             What Our Clients Say
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Don't just take our word for it. Here's what industry leaders and satisfied clients have to say about our services.
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Don't just take our word for it. Here's what industry leaders and satisfied clients have to say about India Espectacular's innovative solutions.
           </p>
         </div>
 

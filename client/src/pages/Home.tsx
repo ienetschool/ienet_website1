@@ -74,7 +74,7 @@ export default function Home() {
         <TestimonialSlider />
 
         {/* Contact CTA Section */}
-        <section id="contact-section" className="py-20 bg-gradient-to-r from-primary to-purple-600">
+        <section id="contact-section" className="py-20 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600">
           <div className="container mx-auto px-6 text-center">
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Ready to Transform Your Business?
@@ -87,7 +87,7 @@ export default function Home() {
               <Link href="/contact">
                 <Button 
                   size="lg" 
-                  className="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105"
+                  className="bg-white text-indigo-600 hover:bg-gray-100 hover:text-indigo-700 px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-xl"
                 >
                   Get Started Today
                   <ArrowRight className="ml-2" size={18} />
@@ -97,7 +97,7 @@ export default function Home() {
                 <Button 
                   size="lg" 
                   variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-full transition-all duration-300"
+                  className="border-white text-white hover:bg-white hover:text-indigo-600 px-8 py-4 rounded-full transition-all duration-300 shadow-xl"
                 >
                   Explore Our Services
                   <Globe className="ml-2" size={18} />

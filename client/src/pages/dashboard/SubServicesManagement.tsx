@@ -48,27 +48,29 @@ import {
   Trash2,
   Eye,
   EyeOff,
-  Zap,
+  Building2,
   Star,
   Calendar,
   User
 } from "lucide-react";
 
-const featureFormSchema = z.object({
-  name: z.string().min(1, "Feature name is required"),
+const subServiceFormSchema = z.object({
+  name: z.string().min(1, "Service name is required"),
   slug: z.string().min(1, "Slug is required"),
   description: z.string().optional(),
   content: z.string().optional(),
   icon: z.string().optional(),
   isActive: z.boolean().default(true),
-  serviceId: z.number().optional(),
+  categoryId: z.number().min(1, "Category is required"),
   metaTitle: z.string().optional(),
   metaDescription: z.string().optional(),
+  pricing: z.string().optional(),
+  estimatedDuration: z.string().optional(),
 });
 
-type FeatureFormData = z.infer<typeof featureFormSchema>;
+type SubServiceFormData = z.infer<typeof subServiceFormSchema>;
 
-interface FeatureItem {
+interface SubServiceItem {
   id: number;
   name: string;
   slug: string;
@@ -76,30 +78,32 @@ interface FeatureItem {
   content?: string;
   icon?: string;
   isActive: boolean;
-  serviceId?: number;
-  service?: {
+  categoryId: number;
+  category?: {
     id: number;
     name: string;
   };
   metaTitle?: string;
   metaDescription?: string;
+  pricing?: string;
+  estimatedDuration?: string;
   createdAt: string;
   updatedAt: string;
 }
 
-interface Service {
+interface ServiceCategory {
   id: number;
   name: string;
   slug: string;
 }
 
-function CreateFeatureDialog() {
+function CreateSubServiceDialog() {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   
-  const form = useForm<FeatureFormData>({
-    resolver: zodResolver(featureFormSchema),
+  const form = useForm<SubServiceFormData>({
+    resolver: zodResolver(subServiceFormSchema),
     defaultValues: {
       name: '',
       slug: '',
@@ -109,51 +113,53 @@ function CreateFeatureDialog() {
       isActive: true,
       metaTitle: '',
       metaDescription: '',
+      pricing: '',
+      estimatedDuration: '',
     },
   });
 
-  const { data: services } = useQuery<Service[]>({
-    queryKey: ['/api/services'],
+  const { data: categories } = useQuery<ServiceCategory[]>({
+    queryKey: ['/api/service-categories'],
   });
 
-  const createFeatureMutation = useMutation({
-    mutationFn: (data: FeatureFormData) => 
-      apiRequest('POST', '/api/features', data),
+  const createSubServiceMutation = useMutation({
+    mutationFn: (data: SubServiceFormData) => 
+      apiRequest('POST', '/api/services', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/features'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
       setOpen(false);
       form.reset();
       toast({
         title: "Success",
-        description: "Feature created successfully",
+        description: "Sub-service created successfully",
       });
     },
     onError: (error) => {
       toast({
         title: "Error",
-        description: "Failed to create feature",
+        description: "Failed to create sub-service",
         variant: "destructive",
       });
     },
   });
 
-  const onSubmit = (data: FeatureFormData) => {
-    createFeatureMutation.mutate(data);
+  const onSubmit = (data: SubServiceFormData) => {
+    createSubServiceMutation.mutate(data);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button data-testid="button-create-feature">
+        <Button data-testid="button-create-subservice">
           <Plus className="w-4 h-4 mr-2" />
-          Create Feature
+          Create Sub-Service
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Create New Feature</DialogTitle>
+          <DialogTitle>Create New Sub-Service</DialogTitle>
           <DialogDescription>
-            Add a new feature to your services with detailed information and SEO settings.
+            Add a new sub-service under a main service category with detailed information and pricing.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -164,9 +170,9 @@ function CreateFeatureDialog() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Feature Name</FormLabel>
+                    <FormLabel>Sub-Service Name</FormLabel>
                     <FormControl>
-                      <Input data-testid="input-feature-name" placeholder="Enter feature name" {...field} />
+                      <Input data-testid="input-subservice-name" placeholder="Enter sub-service name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -179,7 +185,7 @@ function CreateFeatureDialog() {
                   <FormItem>
                     <FormLabel>URL Slug</FormLabel>
                     <FormControl>
-                      <Input data-testid="input-feature-slug" placeholder="feature-url-slug" {...field} />
+                      <Input data-testid="input-subservice-slug" placeholder="sub-service-url-slug" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -195,8 +201,8 @@ function CreateFeatureDialog() {
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea 
-                      data-testid="input-feature-description"
-                      placeholder="Feature description..." 
+                      data-testid="input-subservice-description"
+                      placeholder="Sub-service description..." 
                       className="min-h-[100px]"
                       {...field} 
                     />
@@ -209,20 +215,20 @@ function CreateFeatureDialog() {
             <div className="grid grid-cols-2 gap-4">
               <FormField
                 control={form.control}
-                name="serviceId"
+                name="categoryId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Parent Service</FormLabel>
+                    <FormLabel>Service Category</FormLabel>
                     <Select onValueChange={(value) => field.onChange(Number(value))}>
                       <FormControl>
-                        <SelectTrigger data-testid="select-feature-service">
-                          <SelectValue placeholder="Select service" />
+                        <SelectTrigger data-testid="select-subservice-category">
+                          <SelectValue placeholder="Select category" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {services?.map((service) => (
-                          <SelectItem key={service.id} value={service.id.toString()}>
-                            {service.name}
+                        {categories?.map((category) => (
+                          <SelectItem key={category.id} value={category.id.toString()}>
+                            {category.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -238,7 +244,36 @@ function CreateFeatureDialog() {
                   <FormItem>
                     <FormLabel>Icon Name</FormLabel>
                     <FormControl>
-                      <Input data-testid="input-feature-icon" placeholder="lucide icon name" {...field} />
+                      <Input data-testid="input-subservice-icon" placeholder="lucide icon name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="pricing"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Pricing</FormLabel>
+                    <FormControl>
+                      <Input data-testid="input-subservice-pricing" placeholder="e.g., Starting at $299" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="estimatedDuration"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Estimated Duration</FormLabel>
+                    <FormControl>
+                      <Input data-testid="input-subservice-duration" placeholder="e.g., 2-3 weeks" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -252,10 +287,10 @@ function CreateFeatureDialog() {
               </Button>
               <Button 
                 type="submit" 
-                data-testid="button-submit-feature"
-                disabled={createFeatureMutation.isPending}
+                data-testid="button-submit-subservice"
+                disabled={createSubServiceMutation.isPending}
               >
-                {createFeatureMutation.isPending ? "Creating..." : "Create Feature"}
+                {createSubServiceMutation.isPending ? "Creating..." : "Create Sub-Service"}
               </Button>
             </div>
           </form>
@@ -265,51 +300,51 @@ function CreateFeatureDialog() {
   );
 }
 
-export function FeaturesManagement() {
+export function SubServicesManagement() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [editingFeature, setEditingFeature] = useState<FeatureItem | null>(null);
+  const [editingSubService, setEditingSubService] = useState<SubServiceItem | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: features, isLoading } = useQuery<FeatureItem[]>({
-    queryKey: ['/api/features'],
+  const { data: subServices, isLoading } = useQuery<SubServiceItem[]>({
+    queryKey: ['/api/services'],
   });
 
-  const deleteFeatureMutation = useMutation({
-    mutationFn: (featureId: number) => 
-      apiRequest('DELETE', `/api/features/${featureId}`),
+  const deleteSubServiceMutation = useMutation({
+    mutationFn: (subServiceId: number) => 
+      apiRequest('DELETE', `/api/admin/services/${subServiceId}`),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/features'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
       toast({
         title: "Success",
-        description: "Feature deleted successfully",
+        description: "Sub-service deleted successfully",
       });
     },
     onError: () => {
       toast({
         title: "Error",
-        description: "Failed to delete feature",
+        description: "Failed to delete sub-service",
         variant: "destructive",
       });
     },
   });
 
-  const toggleFeatureMutation = useMutation({
-    mutationFn: ({ featureId, isActive }: { featureId: number; isActive: boolean }) => 
-      apiRequest('PATCH', `/api/features/${featureId}`, { isActive }),
+  const toggleSubServiceMutation = useMutation({
+    mutationFn: ({ subServiceId, isActive }: { subServiceId: number; isActive: boolean }) => 
+      apiRequest('PATCH', `/api/services/${subServiceId}`, { isActive }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['/api/features'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/services'] });
     },
   });
 
-  const handleEditFeature = (feature: FeatureItem) => {
-    setEditingFeature(feature);
+  const handleEditSubService = (subService: SubServiceItem) => {
+    setEditingSubService(subService);
   };
 
-  const filteredFeatures = features?.filter(feature =>
-    feature.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    feature.slug.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    feature.service?.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredSubServices = subServices?.filter(subService =>
+    subService.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    subService.slug.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    subService.category?.name.toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
   if (isLoading) {
@@ -324,34 +359,34 @@ export function FeaturesManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Features Management</h2>
-          <p className="text-muted-foreground">Manage your service features and detailed offerings</p>
+          <h2 className="text-2xl font-bold">Sub-Services Management</h2>
+          <p className="text-muted-foreground">Manage your detailed service offerings and sub-services</p>
         </div>
-        <CreateFeatureDialog />
+        <CreateSubServiceDialog />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Features</CardTitle>
-            <Zap className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">Total Sub-Services</CardTitle>
+            <Building2 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{features?.length || 0}</div>
+            <div className="text-2xl font-bold">{subServices?.length || 0}</div>
             <p className="text-xs text-muted-foreground">
-              Available feature pages
+              Available sub-services
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Features</CardTitle>
+            <CardTitle className="text-sm font-medium">Active Services</CardTitle>
             <Star className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {features?.filter(f => f.isActive).length || 0}
+              {subServices?.filter(s => s.isActive).length || 0}
             </div>
             <p className="text-xs text-muted-foreground">
               Currently published
@@ -361,15 +396,30 @@ export function FeaturesManagement() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Services Coverage</CardTitle>
+            <CardTitle className="text-sm font-medium">Categories</CardTitle>
             <Star className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {new Set(features?.map(f => f.serviceId).filter(Boolean)).size || 0}
+              {new Set(subServices?.map(s => s.categoryId).filter(Boolean)).size || 0}
             </div>
             <p className="text-xs text-muted-foreground">
-              Services with features
+              Service categories
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">With Pricing</CardTitle>
+            <Star className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">
+              {subServices?.filter(s => s.pricing).length || 0}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Services with pricing
             </p>
           </CardContent>
         </Card>
@@ -379,15 +429,15 @@ export function FeaturesManagement() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center">
-              <Zap className="w-5 h-5 mr-2" />
-              All Features ({filteredFeatures.length})
+              <Building2 className="w-5 h-5 mr-2" />
+              All Sub-Services ({filteredSubServices.length})
             </CardTitle>
             <div className="flex items-center space-x-2">
               <div className="relative">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  data-testid="input-search-features"
-                  placeholder="Search features..."
+                  data-testid="input-search-subservices"
+                  placeholder="Search sub-services..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-8 w-64"
@@ -397,68 +447,71 @@ export function FeaturesManagement() {
           </div>
         </CardHeader>
         <CardContent>
-          {filteredFeatures.length > 0 ? (
+          {filteredSubServices.length > 0 ? (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Feature Name</TableHead>
-                  <TableHead>Parent Service</TableHead>
+                  <TableHead>Sub-Service Name</TableHead>
+                  <TableHead>Category</TableHead>
                   <TableHead>Slug</TableHead>
+                  <TableHead>Pricing</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Created</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredFeatures.map((feature) => (
-                  <TableRow key={feature.id}>
-                    <TableCell className="font-medium">{feature.name}</TableCell>
+                {filteredSubServices.map((subService) => (
+                  <TableRow key={subService.id}>
+                    <TableCell className="font-medium">{subService.name}</TableCell>
                     <TableCell>
-                      {feature.service ? (
-                        <Badge variant="secondary">{feature.service.name}</Badge>
+                      {subService.category ? (
+                        <Badge variant="outline">{subService.category.name}</Badge>
                       ) : (
-                        <span className="text-muted-foreground">No service</span>
+                        <span className="text-muted-foreground">No category</span>
                       )}
                     </TableCell>
                     <TableCell>
-                      <code className="text-xs bg-muted px-1 rounded">/{feature.slug}</code>
+                      <code className="text-xs bg-muted px-1 rounded">/{subService.slug}</code>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={feature.isActive ? "default" : "secondary"}>
-                        {feature.isActive ? "Active" : "Inactive"}
+                      {subService.pricing || <span className="text-muted-foreground">Not set</span>}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={subService.isActive ? "default" : "secondary"}>
+                        {subService.isActive ? "Active" : "Inactive"}
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      {new Date(feature.createdAt).toLocaleDateString()}
+                      {new Date(subService.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end space-x-2">
                         <Button 
                           size="sm" 
                           variant="ghost" 
-                          data-testid={`button-toggle-${feature.id}`}
-                          onClick={() => toggleFeatureMutation.mutate({ 
-                            featureId: feature.id, 
-                            isActive: !feature.isActive 
+                          data-testid={`button-toggle-${subService.id}`}
+                          onClick={() => toggleSubServiceMutation.mutate({ 
+                            subServiceId: subService.id, 
+                            isActive: !subService.isActive 
                           })}
-                          title={`${feature.isActive ? 'Deactivate' : 'Activate'} feature`}
-                          className={feature.isActive ? 'text-green-600 hover:text-green-700' : 'text-gray-400 hover:text-gray-600'}
+                          title={`${subService.isActive ? 'Deactivate' : 'Activate'} sub-service`}
                         >
-                          {feature.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                          {subService.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                         </Button>
                         <Button 
                           size="sm" 
                           variant="ghost" 
-                          data-testid={`button-edit-${feature.id}`}
-                          onClick={() => handleEditFeature(feature)}
+                          data-testid={`button-edit-${subService.id}`}
+                          onClick={() => handleEditSubService(subService)}
                         >
                           <Edit className="w-4 h-4" />
                         </Button>
                         <Button 
                           size="sm" 
                           variant="ghost" 
-                          data-testid={`button-delete-${feature.id}`}
-                          onClick={() => deleteFeatureMutation.mutate(feature.id)}
+                          data-testid={`button-delete-${subService.id}`}
+                          onClick={() => deleteSubServiceMutation.mutate(subService.id)}
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
@@ -470,12 +523,12 @@ export function FeaturesManagement() {
             </Table>
           ) : (
             <div className="text-center py-8">
-              <Zap className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No features found</h3>
+              <Building2 className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">No sub-services found</h3>
               <p className="text-muted-foreground mb-4">
-                {searchTerm ? 'No features match your search criteria.' : 'Get started by creating your first feature.'}
+                {searchTerm ? 'No sub-services match your search criteria.' : 'Get started by creating your first sub-service.'}
               </p>
-              <CreateFeatureDialog />
+              <CreateSubServiceDialog />
             </div>
           )}
         </CardContent>

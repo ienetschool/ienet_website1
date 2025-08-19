@@ -29,6 +29,7 @@ import {
   ChevronRight,
   Home,
   Building,
+  Building2,
   ShoppingCart,
   CreditCard,
   Database,
@@ -68,7 +69,8 @@ const menuItems: MenuItem[] = [
     children: [
       { id: "pages", label: "Pages", icon: Layout, path: "/dashboard/pages" },
       { id: "services", label: "Services", icon: Building, path: "/dashboard/services" },
-      { id: "features", label: "Features", icon: Zap, path: "/dashboard/features" },
+      { id: "sub-services", label: "Sub-Services", icon: Building2, path: "/dashboard/sub-services" },
+      { id: "features", label: "Feature Pages", icon: Zap, path: "/dashboard/features" },
       { id: "projects", label: "Projects", icon: Star, path: "/dashboard/projects" },
       { id: "blog", label: "Blog Posts", icon: Edit, path: "/dashboard/blog" },
     ]

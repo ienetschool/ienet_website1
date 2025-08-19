@@ -47,6 +47,7 @@ import {
   Edit,
   Trash2,
   Eye,
+  EyeOff,
   Building,
   Star,
   Calendar,
@@ -516,8 +517,10 @@ export function ServicesManagement() {
                             serviceId: service.id, 
                             isActive: !service.isActive 
                           })}
+                          title={`${service.isActive ? 'Deactivate' : 'Activate'} service`}
+                          className={service.isActive ? 'text-green-600 hover:text-green-700' : 'text-gray-400 hover:text-gray-600'}
                         >
-                          <Eye className="w-4 h-4" />
+                          {service.isActive ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
                         </Button>
                         <Button 
                           size="sm" 

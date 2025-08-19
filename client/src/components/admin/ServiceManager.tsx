@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { isUnauthorizedError } from "@/lib/authUtils";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -33,7 +33,7 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Plus, Edit, Trash2, Eye, EyeOff } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, EyeOff, ExternalLink } from "lucide-react";
 
 const serviceCategorySchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -312,6 +312,22 @@ export default function ServiceManager() {
     serviceForm.reset(service);
   };
 
+  const handleEditFeature = (feature: any) => {
+    // For now, we'll show a notification that feature editing is coming soon
+    toast({
+      title: "Feature Editing",
+      description: "Feature editing functionality is being implemented. For now, you can view the feature page.",
+    });
+    
+    // Find the service and category for proper navigation
+    const service = (services as any[]).find((s: any) => s.id === feature.serviceId);
+    const category = (categories as any[]).find((c: any) => c.id === service?.categoryId);
+    
+    if (service && category) {
+      window.open(`/services/${category.slug}/${service.slug}/${feature.slug}`, '_blank');
+    }
+  };
+
   const iconOptions = [
     { value: "code", label: "Code" },
     { value: "server", label: "Server" },
@@ -558,7 +574,7 @@ export default function ServiceManager() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {categories.map((category: any) => (
+                                {(categories as any[]).map((category: any) => (
                                   <SelectItem key={category.id} value={category.id.toString()}>
                                     {category.name}
                                   </SelectItem>
@@ -662,8 +678,8 @@ export default function ServiceManager() {
                 <p>Loading services...</p>
               ) : (
                 <div className="space-y-4">
-                  {services.map((service: any) => {
-                    const category = categories.find((c: any) => c.id === service.categoryId);
+                  {(services as any[]).map((service: any) => {
+                    const category = (categories as any[]).find((c: any) => c.id === service.categoryId);
                     return (
                       <div key={service.id} className="flex items-center justify-between p-4 border rounded-lg">
                         <div>
@@ -715,9 +731,9 @@ export default function ServiceManager() {
                 <p>Loading features...</p>
               ) : (
                 <div className="space-y-4">
-                  {features.map((feature: any) => {
-                    const service = services.find((s: any) => s.id === feature.serviceId);
-                    const category = categories.find((c: any) => c.id === service?.categoryId);
+                  {(features as any[]).map((feature: any) => {
+                    const service = (services as any[]).find((s: any) => s.id === feature.serviceId);
+                    const category = (categories as any[]).find((c: any) => c.id === service?.categoryId);
                     return (
                       <div key={feature.id} className="flex items-center justify-between p-4 border rounded-lg">
                         <div>
@@ -740,7 +756,11 @@ export default function ServiceManager() {
                           >
                             <ExternalLink size={16} />
                           </Button>
-                          <Button size="sm" variant="outline">
+                          <Button 
+                            size="sm" 
+                            variant="outline"
+                            onClick={() => handleEditFeature(feature)}
+                          >
                             <Edit size={16} />
                           </Button>
                         </div>

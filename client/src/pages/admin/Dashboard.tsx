@@ -44,7 +44,7 @@ export default function Dashboard() {
 
   // Check admin/editor permissions
   useEffect(() => {
-    if (user && user.role !== 'admin' && user.role !== 'editor') {
+    if (user && (user as any).role !== 'admin' && (user as any).role !== 'editor') {
       toast({
         title: "Access Denied",
         description: "You don't have permission to access the admin dashboard.",
@@ -72,7 +72,7 @@ export default function Dashboard() {
     return null;
   }
 
-  if (user.role !== 'admin' && user.role !== 'editor') {
+  if ((user as any).role !== 'admin' && (user as any).role !== 'editor') {
     return null;
   }
 
@@ -87,12 +87,12 @@ export default function Dashboard() {
                 Admin Dashboard
               </h1>
               <p className="text-gray-600 dark:text-gray-300">
-                Welcome back, {user.firstName || user.email}
+                Welcome back, {(user as any).firstName || (user as any).email}
               </p>
             </div>
             <div className="flex items-center space-x-4">
-              <Badge variant={user.role === 'admin' ? 'default' : 'secondary'}>
-                {user.role}
+              <Badge variant={(user as any).role === 'admin' ? 'default' : 'secondary'}>
+                {(user as any).role}
               </Badge>
               <Button variant="outline" asChild>
                 <Link href="/">
@@ -111,7 +111,7 @@ export default function Dashboard() {
       {/* Main Content */}
       <div className="p-6">
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5">
+          <TabsList className="grid w-full grid-cols-6">
             <TabsTrigger value="overview" className="flex items-center">
               <BarChart3 className="mr-2" size={16} />
               Overview
@@ -119,6 +119,10 @@ export default function Dashboard() {
             <TabsTrigger value="services" className="flex items-center">
               <Cog className="mr-2" size={16} />
               Services
+            </TabsTrigger>
+            <TabsTrigger value="content" className="flex items-center">
+              <Edit className="mr-2" size={16} />
+              Content
             </TabsTrigger>
             <TabsTrigger value="projects" className="flex items-center">
               <Database className="mr-2" size={16} />
@@ -140,6 +144,74 @@ export default function Dashboard() {
 
           <TabsContent value="services">
             <ServiceManager />
+          </TabsContent>
+
+          <TabsContent value="content">
+            <Card>
+              <CardHeader>
+                <CardTitle>Content Management</CardTitle>
+                <p className="text-gray-600 dark:text-gray-400">Manage all your website content from here</p>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-3 gap-6">
+                  <Card className="p-6 hover:shadow-lg transition-shadow">
+                    <div className="text-center">
+                      <Cog className="mx-auto mb-4 text-primary" size={48} />
+                      <h3 className="text-lg font-semibold mb-2">Service Categories</h3>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        Manage main service categories and their settings
+                      </p>
+                      <Button variant="outline" className="w-full" onClick={() => {
+                        const servicesTab = document.querySelector('[value="services"]') as HTMLElement;
+                        servicesTab?.click();
+                      }}>
+                        Manage Categories
+                      </Button>
+                    </div>
+                  </Card>
+                  
+                  <Card className="p-6 hover:shadow-lg transition-shadow">
+                    <div className="text-center">
+                      <Database className="mx-auto mb-4 text-primary" size={48} />
+                      <h3 className="text-lg font-semibold mb-2">Sub-Service Pages</h3>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        Edit detailed service pages and their content
+                      </p>
+                      <Button variant="outline" className="w-full" onClick={() => {
+                        const servicesTab = document.querySelector('[value="services"]') as HTMLElement;
+                        servicesTab?.click();
+                        setTimeout(() => {
+                          const servicesTabButton = document.querySelector('[data-tab="services"]') as HTMLElement;
+                          servicesTabButton?.click();
+                        }, 100);
+                      }}>
+                        Manage Sub-Services
+                      </Button>
+                    </div>
+                  </Card>
+                  
+                  <Card className="p-6 hover:shadow-lg transition-shadow">
+                    <div className="text-center">
+                      <Edit className="mx-auto mb-4 text-primary" size={48} />
+                      <h3 className="text-lg font-semibold mb-2">Feature Pages</h3>
+                      <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                        Manage detailed feature pages and specifications
+                      </p>
+                      <Button variant="outline" className="w-full" onClick={() => {
+                        const servicesTab = document.querySelector('[value="services"]') as HTMLElement;
+                        servicesTab?.click();
+                        setTimeout(() => {
+                          const featuresTabButton = document.querySelector('[data-tab="features"]') as HTMLElement;
+                          featuresTabButton?.click();
+                        }, 100);
+                      }}>
+                        Manage Features
+                      </Button>
+                    </div>
+                  </Card>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="projects">

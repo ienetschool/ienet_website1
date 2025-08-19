@@ -286,9 +286,11 @@ export function PagesManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: pages, isLoading } = useQuery<PageItem[]>({
+  const { data: pagesResponse, isLoading } = useQuery<any>({
     queryKey: ['/api/pages'],
   });
+  
+  const pages = (pagesResponse as any)?.data || [];
 
   const deletePageMutation = useMutation({
     mutationFn: (pageId: number) => 
@@ -309,10 +311,10 @@ export function PagesManagement() {
     },
   });
 
-  const filteredPages = pages?.filter(page =>
+  const filteredPages = (pages || []).filter((page: any) =>
     page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     page.slug.toLowerCase().includes(searchTerm.toLowerCase())
-  ) || [];
+  );
 
   const getStatusBadge = (status: string) => {
     const variants = {

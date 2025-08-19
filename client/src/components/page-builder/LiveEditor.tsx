@@ -1,393 +1,307 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { useAuth } from '@/hooks/useAuth';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { 
-  Edit3, 
-  Save, 
-  X, 
-  Settings, 
+import { apiRequest } from '@/lib/queryClient';
+import {
+  Edit3,
+  Save,
+  X,
   Eye,
-  EyeOff,
-  Loader2 
+  Settings,
+  Type,
+  Image,
+  Layout,
+  MousePointer
 } from 'lucide-react';
 
 interface LiveEditorProps {
-  pageId: string;
-  initialContent?: any;
-  onSave?: (content: any) => Promise<void>;
+  isActive: boolean;
+  onToggle: () => void;
+  pageSlug?: string;
 }
 
-interface EditableElement {
-  id: string;
-  type: 'text' | 'heading' | 'image' | 'link';
-  content: any;
-  selector: string;
-}
-
-export function LiveEditor({ pageId, initialContent, onSave }: LiveEditorProps) {
-  const { user } = useAuth();
+export function LiveEditor({ isActive, onToggle, pageSlug }: LiveEditorProps) {
   const { toast } = useToast();
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [editableElements, setEditableElements] = useState<EditableElement[]>([]);
-  const [selectedElement, setSelectedElement] = useState<string | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
-
-  // Check if user has editing permissions
-  const canEdit = (user as any)?.role === 'admin' || (user as any)?.role === 'editor';
+  const [selectedElement, setSelectedElement] = useState<HTMLElement | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableContent, setEditableContent] = useState('');
 
   useEffect(() => {
-    if (isEditMode) {
-      // Initialize editable elements on the page
-      const elements = findEditableElements();
-      setEditableElements(elements);
-      addEditingOverlays();
-    } else {
-      removeEditingOverlays();
-      setSelectedElement(null);
+    if (!isActive) {
+      // Clean up when editor is disabled
+      document.querySelectorAll('.live-editor-highlight').forEach(el => {
+        el.classList.remove('live-editor-highlight');
+      });
+      document.querySelectorAll('.live-editor-overlay').forEach(el => {
+        el.remove();
+      });
+      return;
     }
 
-    return () => removeEditingOverlays();
-  }, [isEditMode]);
-
-  const findEditableElements = (): EditableElement[] => {
-    const elements: EditableElement[] = [];
-    
-    // Find all editable text elements
-    document.querySelectorAll('[data-editable="text"], h1, h2, h3, h4, h5, h6, p').forEach((el, index) => {
-      if (!el.hasAttribute('data-editor-processed')) {
-        elements.push({
-          id: `text_${index}`,
-          type: el.tagName.toLowerCase().startsWith('h') ? 'heading' : 'text',
-          content: { text: el.textContent || '' },
-          selector: generateSelector(el as HTMLElement)
-        });
-        el.setAttribute('data-editor-processed', 'true');
-      }
-    });
-
-    // Find all editable images
-    document.querySelectorAll('[data-editable="image"], img').forEach((el, index) => {
-      if (!el.hasAttribute('data-editor-processed')) {
-        const img = el as HTMLImageElement;
-        elements.push({
-          id: `image_${index}`,
-          type: 'image',
-          content: { 
-            src: img.src, 
-            alt: img.alt || '', 
-            title: img.title || '' 
-          },
-          selector: generateSelector(el as HTMLElement)
-        });
-        el.setAttribute('data-editor-processed', 'true');
-      }
-    });
-
-    return elements;
-  };
-
-  const generateSelector = (element: HTMLElement): string => {
-    // Generate a unique CSS selector for the element
-    const path: string[] = [];
-    let current: HTMLElement | null = element;
-
-    while (current && current.tagName !== 'HTML') {
-      let selector = current.tagName.toLowerCase();
-      
-      if (current.id) {
-        selector += `#${current.id}`;
-        path.unshift(selector);
-        break;
-      }
-      
-      if (current.className) {
-        const classes = current.className.split(' ').filter(c => c.trim());
-        if (classes.length > 0) {
-          selector += `.${classes.join('.')}`;
-        }
-      }
-      
-      // Add nth-child if needed for uniqueness
-      const siblings = Array.from(current.parentElement?.children || []);
-      const sameTagSiblings = siblings.filter(s => s.tagName === current!.tagName);
-      if (sameTagSiblings.length > 1) {
-        const index = sameTagSiblings.indexOf(current) + 1;
-        selector += `:nth-of-type(${index})`;
-      }
-      
-      path.unshift(selector);
-      current = current.parentElement;
-    }
-
-    return path.join(' > ');
-  };
-
-  const addEditingOverlays = () => {
-    // Add visual indicators for editable elements
+    // Add live editor styles
     const style = document.createElement('style');
-    style.id = 'live-editor-styles';
-    style.textContent = `
-      [data-editor-processed]:hover {
-        outline: 2px solid #3b82f6 !important;
+    style.innerHTML = `
+      .live-editor-highlight {
+        outline: 2px dashed #3b82f6 !important;
         outline-offset: 2px !important;
+        position: relative !important;
         cursor: pointer !important;
       }
-      [data-editor-selected="true"] {
-        outline: 2px solid #10b981 !important;
-        outline-offset: 2px !important;
-        background-color: rgba(16, 185, 129, 0.1) !important;
+      .live-editor-highlight:hover {
+        outline-color: #1d4ed8 !important;
+        background-color: rgba(59, 130, 246, 0.1) !important;
       }
-      .live-editor-toolbar {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 10000;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        padding: 12px;
+      .live-editor-overlay {
+        position: absolute;
+        background: #3b82f6;
+        color: white;
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 4px;
+        z-index: 1000;
+        pointer-events: none;
+        top: -30px;
+        left: 0;
+      }
+      .live-editor-editing {
+        outline: 2px solid #10b981 !important;
+        background-color: rgba(16, 185, 129, 0.1) !important;
       }
     `;
     document.head.appendChild(style);
 
-    // Add click handlers to editable elements
-    document.querySelectorAll('[data-editor-processed]').forEach((el) => {
-      el.addEventListener('click', handleElementClick);
-    });
-  };
+    // Make elements editable
+    const editableSelectors = [
+      'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+      'p', 'span', 'div.text-',
+      '.service-title', '.service-description',
+      '.feature-title', '.feature-description',
+      'button', 'a'
+    ];
 
-  const removeEditingOverlays = () => {
-    // Remove visual indicators and event listeners
-    const style = document.getElementById('live-editor-styles');
-    if (style) style.remove();
+    editableSelectors.forEach(selector => {
+      document.querySelectorAll(selector).forEach((element: Element) => {
+        if (element instanceof HTMLElement && element.textContent?.trim()) {
+          element.classList.add('live-editor-highlight');
+          element.addEventListener('click', handleElementClick);
+          
+          // Add overlay with element info
+          const overlay = document.createElement('div');
+          overlay.className = 'live-editor-overlay';
+          overlay.textContent = element.tagName.toLowerCase();
+          overlay.style.display = 'none';
+          element.appendChild(overlay);
 
-    document.querySelectorAll('[data-editor-processed]').forEach((el) => {
-      el.removeEventListener('click', handleElementClick);
-      el.removeAttribute('data-editor-selected');
-      el.removeAttribute('data-editor-processed');
-    });
-  };
+          element.addEventListener('mouseenter', () => {
+            overlay.style.display = 'block';
+          });
 
-  const handleElementClick = (event: Event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    
-    const element = event.target as HTMLElement;
-    const elementData = editableElements.find(el => {
-      const targetEl = document.querySelector(el.selector);
-      return targetEl === element;
-    });
-    
-    if (elementData) {
-      // Clear previous selection
-      document.querySelectorAll('[data-editor-selected="true"]').forEach(el => {
-        el.removeAttribute('data-editor-selected');
-      });
-      
-      // Mark new selection
-      element.setAttribute('data-editor-selected', 'true');
-      setSelectedElement(elementData.id);
-    }
-  };
-
-  const updateElement = (elementId: string, newContent: any) => {
-    setEditableElements(prev => 
-      prev.map(el => 
-        el.id === elementId 
-          ? { ...el, content: { ...el.content, ...newContent } }
-          : el
-      )
-    );
-    setHasUnsavedChanges(true);
-
-    // Update the actual DOM element
-    const element = editableElements.find(el => el.id === elementId);
-    if (element) {
-      const domElement = document.querySelector(element.selector);
-      if (domElement) {
-        if (element.type === 'text' || element.type === 'heading') {
-          domElement.textContent = newContent.text;
-        } else if (element.type === 'image') {
-          const img = domElement as HTMLImageElement;
-          if (newContent.src) img.src = newContent.src;
-          if (newContent.alt !== undefined) img.alt = newContent.alt;
-          if (newContent.title !== undefined) img.title = newContent.title;
+          element.addEventListener('mouseleave', () => {
+            overlay.style.display = 'none';
+          });
         }
-      }
-    }
+      });
+    });
+
+    return () => {
+      document.head.removeChild(style);
+      document.querySelectorAll('.live-editor-highlight').forEach(el => {
+        el.removeEventListener('click', handleElementClick);
+      });
+    };
+  }, [isActive]);
+
+  const handleElementClick = (e: Event) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (isEditing) return;
+    
+    const element = e.target as HTMLElement;
+    setSelectedElement(element);
+    setEditableContent(element.textContent || '');
+    setIsEditing(true);
+    
+    // Highlight selected element
+    document.querySelectorAll('.live-editor-editing').forEach(el => {
+      el.classList.remove('live-editor-editing');
+    });
+    element.classList.add('live-editor-editing');
   };
 
-  const handleSave = async () => {
-    if (!onSave) return;
-    
-    setIsSaving(true);
+  const saveChanges = async () => {
+    if (!selectedElement) return;
+
     try {
-      const saveData = {
-        pageId,
-        elements: editableElements,
-        timestamp: new Date().toISOString()
-      };
+      // Update the element content
+      selectedElement.textContent = editableContent;
       
-      await onSave(saveData);
-      setHasUnsavedChanges(false);
-      toast({
-        title: "Success",
-        description: "Page changes saved successfully",
+      // Save to backend
+      await apiRequest('POST', '/api/pages/live-edit', {
+        pageSlug,
+        elementSelector: getElementSelector(selectedElement),
+        content: editableContent,
+        timestamp: new Date().toISOString()
       });
+
+      toast({
+        title: "Content Updated",
+        description: "Your changes have been saved successfully.",
+      });
+
+      setIsEditing(false);
+      setSelectedElement(null);
+      selectedElement.classList.remove('live-editor-editing');
+      
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to save changes",
+        description: "Failed to save changes. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setIsSaving(false);
     }
   };
 
-  const renderPropertyEditor = () => {
-    if (!selectedElement) return null;
-    
-    const element = editableElements.find(el => el.id === selectedElement);
-    if (!element) return null;
-
-    return (
-      <Card className="w-80">
-        <CardHeader>
-          <CardTitle className="text-lg flex items-center">
-            <Settings className="w-5 h-5 mr-2" />
-            Edit {element.type}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {(element.type === 'text' || element.type === 'heading') && (
-            <div>
-              <Label htmlFor="element-text">Text Content</Label>
-              <Textarea
-                id="element-text"
-                value={element.content.text || ''}
-                onChange={(e) => updateElement(element.id, { text: e.target.value })}
-                className="mt-1"
-              />
-            </div>
-          )}
-
-          {element.type === 'image' && (
-            <>
-              <div>
-                <Label htmlFor="image-src">Image URL</Label>
-                <Input
-                  id="image-src"
-                  value={element.content.src || ''}
-                  onChange={(e) => updateElement(element.id, { src: e.target.value })}
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label htmlFor="image-alt">Alt Text</Label>
-                <Input
-                  id="image-alt"
-                  value={element.content.alt || ''}
-                  onChange={(e) => updateElement(element.id, { alt: e.target.value })}
-                  className="mt-1"
-                />
-              </div>
-              <div>
-                <Label htmlFor="image-title">Title</Label>
-                <Input
-                  id="image-title"
-                  value={element.content.title || ''}
-                  onChange={(e) => updateElement(element.id, { title: e.target.value })}
-                  className="mt-1"
-                />
-              </div>
-            </>
-          )}
-
-          <div className="pt-4 border-t">
-            <Button 
-              size="sm" 
-              variant="outline" 
-              onClick={() => setSelectedElement(null)}
-            >
-              <X className="w-4 h-4 mr-2" />
-              Close
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    );
+  const cancelEditing = () => {
+    if (selectedElement) {
+      selectedElement.classList.remove('live-editor-editing');
+    }
+    setIsEditing(false);
+    setSelectedElement(null);
+    setEditableContent('');
   };
 
-  if (!canEdit) {
-    return null; // Don't render editor for users without permissions
+  const getElementSelector = (element: HTMLElement): string => {
+    let selector = element.tagName.toLowerCase();
+    if (element.id) {
+      selector += `#${element.id}`;
+    }
+    if (element.className) {
+      selector += `.${element.className.split(' ').join('.')}`;
+    }
+    return selector;
+  };
+
+  if (!isActive) {
+    return (
+      <div className="fixed bottom-4 right-4 z-50">
+        <Button
+          onClick={onToggle}
+          className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg"
+          size="lg"
+        >
+          <Edit3 className="w-5 h-5 mr-2" />
+          Enable Live Editing
+        </Button>
+      </div>
+    );
   }
 
   return (
     <>
       {/* Live Editor Toolbar */}
-      <div className="live-editor-toolbar">
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center space-x-2">
-            <Switch
-              checked={isEditMode}
-              onCheckedChange={setIsEditMode}
-              id="edit-mode-toggle"
-            />
-            <Label htmlFor="edit-mode-toggle" className="text-sm font-medium">
-              {isEditMode ? 'Exit Edit' : 'Edit Mode'}
-            </Label>
+      <div className="fixed top-0 left-0 right-0 bg-blue-600 text-white z-50 shadow-lg">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <Badge variant="secondary" className="bg-white text-blue-600">
+              <Eye className="w-4 h-4 mr-1" />
+              Live Editor Active
+            </Badge>
+            <span className="text-sm">
+              Click on any text element to edit it directly
+            </span>
           </div>
-
-          {isEditMode && (
-            <>
-              <div className="text-xs text-gray-500">
-                {hasUnsavedChanges ? '● Unsaved changes' : '✓ All saved'}
-              </div>
-              
-              <Button
-                size="sm"
-                onClick={handleSave}
-                disabled={!hasUnsavedChanges || isSaving}
-              >
-                {isSaving ? (
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                ) : (
-                  <Save className="w-4 h-4 mr-2" />
-                )}
-                Save
-              </Button>
-            </>
-          )}
+          
+          <div className="flex items-center space-x-2">
+            {isEditing && (
+              <>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={saveChanges}
+                  className="bg-green-600 hover:bg-green-700 text-white"
+                >
+                  <Save className="w-4 h-4 mr-1" />
+                  Save
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={cancelEditing}
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                >
+                  <X className="w-4 h-4 mr-1" />
+                  Cancel
+                </Button>
+              </>
+            )}
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={onToggle}
+              className="bg-gray-600 hover:bg-gray-700 text-white"
+            >
+              <X className="w-4 h-4 mr-1" />
+              Exit Editor
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* Property Editor Panel */}
-      {isEditMode && selectedElement && (
-        <div className="fixed top-20 right-6 z-10000">
-          {renderPropertyEditor()}
+      {/* Editing Modal */}
+      {isEditing && selectedElement && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <Card className="w-96 max-w-90vw">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold">Edit Content</h3>
+                <Badge variant="outline">
+                  {selectedElement.tagName.toLowerCase()}
+                </Badge>
+              </div>
+              
+              <textarea
+                value={editableContent}
+                onChange={(e) => setEditableContent(e.target.value)}
+                className="w-full p-3 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows={4}
+                placeholder="Enter your content..."
+              />
+              
+              <div className="flex justify-end space-x-2 mt-4">
+                <Button variant="outline" onClick={cancelEditing}>
+                  Cancel
+                </Button>
+                <Button onClick={saveChanges}>
+                  Save Changes
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       )}
 
-      {/* Edit Mode Status Indicator */}
-      {isEditMode && (
-        <div className="fixed bottom-6 left-6 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg z-10000">
-          <div className="flex items-center space-x-2">
-            <Edit3 className="w-4 h-4" />
-            <span className="text-sm font-medium">Edit Mode Active</span>
-          </div>
-          <p className="text-xs opacity-90 mt-1">
-            Click on elements to edit them
-          </p>
-        </div>
-      )}
+      {/* Helper Instructions */}
+      <div className="fixed bottom-4 left-4 z-50">
+        <Card className="bg-blue-50 border-blue-200">
+          <CardContent className="p-4">
+            <div className="flex items-start space-x-3">
+              <MousePointer className="w-5 h-5 text-blue-600 mt-1" />
+              <div>
+                <h4 className="font-semibold text-blue-900 mb-2">Live Editor Guide</h4>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• Click any highlighted text to edit</li>
+                  <li>• Blue outline = editable element</li>
+                  <li>• Green outline = currently editing</li>
+                  <li>• Changes are saved automatically</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </>
   );
 }

@@ -39,10 +39,18 @@ import {
 import { InlineEditor, EditModeToggle } from "@/components/InlineEditor";
 import ContactModal from "@/components/modals/ContactModal";
 import { useContactModal } from "@/hooks/useContactModal";
+import LiveEditor from "@/components/page-builder/LiveEditor";
+import EditButton from "@/components/page-builder/EditButton";
+import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
 
 export default function SubServiceDetail() {
   const { categorySlug, serviceSlug } = useParams();
   const { isOpen, openModal, closeModal, modalOptions } = useContactModal();
+  const { user, isAuthenticated } = useAuth();
+  const [liveEditorActive, setLiveEditorActive] = useState(false);
+
+  const isAdmin = isAuthenticated && ((user as any)?.role === 'admin' || (user as any)?.email === 'admin@ienet.com');
   
   const { data: category } = useQuery({
     queryKey: ['/api/service-categories', categorySlug],
@@ -622,6 +630,16 @@ export default function SubServiceDetail() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(generateFAQSchema(faqData))
         }}
+      />
+
+      {/* Admin Edit Tools */}
+      <EditButton onEditToggle={() => setLiveEditorActive(!liveEditorActive)} />
+      
+      {/* Live Editor Integration */}
+      <LiveEditor
+        isActive={liveEditorActive}
+        onToggle={() => setLiveEditorActive(!liveEditorActive)}
+        pageSlug={serviceSlug}
       />
 
       <ModernFooter />

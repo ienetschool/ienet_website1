@@ -337,9 +337,9 @@ const createColumns = (
   onEdit: (feature: FeatureItem) => void,
   onDelete: (id: number) => void,
   onToggleStatus: (id: number, isActive: boolean) => void
-) => [
+): any[] => [
   {
-    key: "name",
+    key: "name" as keyof FeatureItem,
     label: "Feature Name",
     render: (feature: FeatureItem) => (
       <div className="flex items-center space-x-2">
@@ -349,17 +349,17 @@ const createColumns = (
     )
   },
   {
-    key: "service",
+    key: "serviceId" as keyof FeatureItem,
     label: "Service",
     render: (feature: FeatureItem) => 
-      feature.service?.name ? (
+      (feature.service && feature.service.name) ? (
         <Badge variant="outline">{feature.service.name}</Badge>
       ) : (
-        <span className="text-gray-400">No service</span>
+        <span className="text-muted-foreground">No service</span>
       )
   },
   {
-    key: "slug",
+    key: "slug" as keyof FeatureItem,
     label: "Slug",
     render: (feature: FeatureItem) => (
       <code className="text-xs bg-gray-100 px-2 py-1 rounded">
@@ -368,7 +368,7 @@ const createColumns = (
     )
   },
   {
-    key: "status",
+    key: "isActive" as keyof FeatureItem,
     label: "Status",
     render: (feature: FeatureItem) => (
       <Badge variant={feature.isActive ? "default" : "secondary"}>
@@ -377,7 +377,7 @@ const createColumns = (
     )
   },
   {
-    key: "actions",
+    key: "id" as keyof FeatureItem,
     label: "Actions",
     render: (feature: FeatureItem) => (
       <div className="flex items-center space-x-1">

@@ -31,7 +31,10 @@ import {
   MessageCircle,
   Phone,
   Send,
-  Users
+  Users,
+  Calendar,
+  Headphones,
+  Shield
 } from "lucide-react";
 
 export default function Contact() {
@@ -56,12 +59,12 @@ export default function Contact() {
   };
 
   const seoConfig = {
-    title: "Contact IeNet - Get Expert IT Consulting & Support",
-    description: "Contact IeNet's expert team for professional IT services consultation. Get quotes for web development, cybersecurity, cloud solutions, and digital transformation projects.",
-    keywords: "contact IeNet, IT consulting, web development quote, cybersecurity consultation, cloud services contact, digital transformation support",
+    title: "Contact India Espectacular - Get Expert IT Consulting & Support",
+    description: "Contact India Espectacular's expert team for professional IT services consultation. Get quotes for web development, cybersecurity, cloud solutions, and digital transformation projects.",
+    keywords: "contact India Espectacular, IT consulting, web development quote, cybersecurity consultation, cloud services contact, digital transformation support",
     openGraph: {
-      title: "Contact IeNet - Get Expert IT Consulting & Support",
-      description: "Get in touch with IeNet's expert team for professional IT services consultation and project quotes.",
+      title: "Contact India Espectacular - Get Expert IT Consulting & Support",
+      description: "Get in touch with India Espectacular's expert team for professional IT services consultation and project quotes.",
       type: "website"
     }
   };
@@ -73,67 +76,67 @@ export default function Contact() {
 
   const faqSchema = generateFAQSchema([
     {
-      question: "How quickly do you respond to contact inquiries?",
-      answer: "We typically respond to all contact inquiries within 24 hours during business days. For urgent matters, please call our support line for immediate assistance."
+      question: "How can I get a quote for my project?",
+      answer: "You can get a project quote by filling out our contact form with your project details, calling us directly, or scheduling a free consultation through our website."
+    },
+    {
+      question: "What is India Espectacular's response time?",
+      answer: "We typically respond to all inquiries within 24 hours during business days. For urgent matters, you can call our support line for immediate assistance."
     },
     {
       question: "Do you offer free consultations?",
-      answer: "Yes, we provide complimentary initial consultations to discuss your project requirements and how our services can help achieve your business goals."
-    },
-    {
-      question: "What information should I include in my inquiry?",
-      answer: "Please include details about your project scope, timeline, budget range, and any specific technical requirements. This helps us provide more accurate recommendations and quotes."
+      answer: "Yes, we offer free initial consultations to discuss your project requirements and determine how we can best assist your business goals."
     }
   ]);
 
   const contactInfo = [
     {
+      icon: MapPin,
+      title: "Visit Our Office",
+      content: "123 Tech Street, Innovation District",
+      secondary: "Business City, State 12345",
+      action: "Get Directions"
+    },
+    {
       icon: Phone,
-      title: "Phone Support",
-      details: ["+1 (800) IENET-IT", "+1 (555) 123-4567"],
-      description: "Available 24/7 for urgent support"
+      title: "Call Us Today",
+      content: "+1 (555) 123-4567",
+      secondary: "Monday - Friday, 9AM - 6PM EST",
+      action: "Call Now"
     },
     {
       icon: Mail,
-      title: "Email Contact",
-      details: ["info@ienet.io", "support@ienet.io"],
-      description: "Response within 24 hours"
-    },
-    {
-      icon: MapPin,
-      title: "Office Locations",
-      details: ["San Francisco, CA", "New York, NY", "London, UK"],
-      description: "Multiple locations worldwide"
+      title: "Email Us",
+      content: "hello@indiaespectacular.com",
+      secondary: "We'll respond within 24 hours",
+      action: "Send Email"
     },
     {
       icon: Clock,
-      title: "Business Hours",
-      details: ["Mon-Fri: 9:00 AM - 6:00 PM", "Weekend: Emergency only"],
-      description: "All time zones supported"
+      title: "Office Hours",
+      content: "Monday - Friday: 9AM - 6PM",
+      secondary: "Saturday: 10AM - 2PM",
+      action: "Schedule Meeting"
     }
   ];
 
   const services = [
-    "Website Development",
+    "Web Development",
     "Mobile App Development", 
-    "Cybersecurity Solutions",
-    "Cloud Infrastructure",
-    "Digital Marketing",
-    "E-commerce Solutions",
-    "Custom Software",
+    "Cloud Services",
+    "Cybersecurity",
+    "Digital Transformation",
     "IT Consulting",
-    "Data Analytics",
-    "Other"
+    "E-commerce Solutions",
+    "Custom Software Development"
   ];
 
   const budgetRanges = [
-    "Under $10,000",
-    "$10,000 - $25,000",
-    "$25,000 - $50,000",
+    "Under $5,000",
+    "$5,000 - $15,000",
+    "$15,000 - $50,000",
     "$50,000 - $100,000",
-    "$100,000 - $250,000",
-    "Over $250,000",
-    "Discuss with consultant"
+    "Over $100,000"
   ];
 
   return (
@@ -144,12 +147,12 @@ export default function Contact() {
         structuredData={faqSchema}
       />
       <SEOAnalytics 
-        pageType="service"
+        pageType="contact"
         pageName="Contact"
       />
       <LocalSEO 
-        serviceArea="Contact IeNet"
-        services={["IT Consulting", "Web Development", "Support Services"]}
+        serviceArea="Contact India Espectacular"
+        services={["IT Consulting", "Web Development", "Cloud Services", "Cybersecurity"]}
       />
       <TopBar />
       <ModernHeader />
@@ -157,8 +160,8 @@ export default function Contact() {
       {/* Floating CTA Button */}
       <div className="fixed bottom-6 right-6 z-40">
         <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
-          <Phone size={20} />
-          <span className="hidden sm:block">Call Now</span>
+          <MessageCircle size={20} />
+          <span className="hidden sm:block">Live Chat</span>
         </Button>
       </div>
 
@@ -168,19 +171,18 @@ export default function Contact() {
           <div className="container mx-auto px-6">
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-                Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">Our Experts</span>
+                Contact <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-primary-800">India Espectacular</span>
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-                Ready to transform your business with innovative IT solutions? Get in touch with our expert team for personalized consultation and project quotes.
+                Ready to transform your business with cutting-edge technology? Get in touch with our expert team for a free consultation and project quote.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700">
-                  Start Conversation
-                  <MessageCircle className="ml-2" size={16} />
+                  Get Free Quote
+                  <ArrowRight className="ml-2" size={16} />
                 </Button>
                 <Button size="lg" variant="outline">
-                  Call Us Now
-                  <Phone className="ml-2" size={16} />
+                  Schedule Meeting
                 </Button>
               </div>
             </div>
@@ -211,46 +213,39 @@ export default function Contact() {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto">
               <TagSystem 
-                tags={['Contact IeNet', 'IT Consultation', 'Project Quote', 'Expert Support', 'Business Solutions']}
+                tags={['Contact India Espectacular', 'Get Quote', 'IT Consulting', 'Free Consultation', 'Expert Support']}
                 showRelatedTags={true}
               />
             </div>
           </div>
         </section>
 
-        {/* Contact Information */}
-        <section className="py-16 bg-white dark:bg-gray-900">
+        {/* Contact Information Cards */}
+        <section className="py-20 bg-gray-50 dark:bg-gray-800">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                  Get in Touch
+                <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
+                  Get In Touch With Us
                 </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Multiple ways to reach our expert team for support, consultation, and project discussions.
+                <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                  Multiple ways to reach our expert team. Choose the method that works best for you.
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {contactInfo.map((info, index) => (
-                  <Card key={index} className="text-center bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-800/50 dark:to-gray-900/50 border-none shadow-lg hover:shadow-xl transition-all duration-300">
-                    <CardContent className="p-6">
-                      <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <info.icon className="text-white" size={20} />
+                  <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                    <CardContent className="p-8 text-center">
+                      <div className="w-16 h-16 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <info.icon className="w-8 h-8 text-white" />
                       </div>
-                      <h3 className="font-bold text-gray-900 dark:text-white mb-3">
-                        {info.title}
-                      </h3>
-                      <div className="space-y-1 mb-3">
-                        {info.details.map((detail, detailIndex) => (
-                          <p key={detailIndex} className="text-sm text-gray-700 dark:text-gray-300 font-medium">
-                            {detail}
-                          </p>
-                        ))}
-                      </div>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {info.description}
-                      </p>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{info.title}</h3>
+                      <p className="text-gray-900 dark:text-white font-medium mb-1">{info.content}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{info.secondary}</p>
+                      <Button variant="outline" size="sm" className="w-full">
+                        {info.action}
+                      </Button>
                     </CardContent>
                   </Card>
                 ))}
@@ -259,199 +254,240 @@ export default function Contact() {
           </div>
         </section>
 
-        {/* Contact Form */}
-        <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <Card className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm border-none shadow-xl">
-                <CardHeader className="text-center">
-                  <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
-                    Start Your Project Today
-                  </CardTitle>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Fill out the form below and our experts will contact you within 24 hours to discuss your project requirements.
-                  </p>
-                </CardHeader>
-                <CardContent className="p-8">
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="name">Full Name *</Label>
-                        <Input
-                          id="name"
-                          type="text"
-                          value={formData.name}
-                          onChange={(e) => handleChange("name", e.target.value)}
-                          placeholder="Enter your full name"
-                          required
-                          className="bg-white/80 dark:bg-gray-800/80"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email">Email Address *</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => handleChange("email", e.target.value)}
-                          placeholder="your.email@company.com"
-                          required
-                          className="bg-white/80 dark:bg-gray-800/80"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="company">Company Name</Label>
-                        <Input
-                          id="company"
-                          type="text"
-                          value={formData.company}
-                          onChange={(e) => handleChange("company", e.target.value)}
-                          placeholder="Your company name"
-                          className="bg-white/80 dark:bg-gray-800/80"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="phone">Phone Number</Label>
-                        <Input
-                          id="phone"
-                          type="tel"
-                          value={formData.phone}
-                          onChange={(e) => handleChange("phone", e.target.value)}
-                          placeholder="+1 (555) 123-4567"
-                          className="bg-white/80 dark:bg-gray-800/80"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="service">Service Interested In *</Label>
-                        <Select value={formData.service} onValueChange={(value) => handleChange("service", value)}>
-                          <SelectTrigger className="bg-white/80 dark:bg-gray-800/80">
-                            <SelectValue placeholder="Select a service" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {services.map((service) => (
-                              <SelectItem key={service} value={service}>{service}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="budget">Budget Range</Label>
-                        <Select value={formData.budget} onValueChange={(value) => handleChange("budget", value)}>
-                          <SelectTrigger className="bg-white/80 dark:bg-gray-800/80">
-                            <SelectValue placeholder="Select budget range" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {budgetRanges.map((range) => (
-                              <SelectItem key={range} value={range}>{range}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label htmlFor="message">Project Details *</Label>
-                      <Textarea
-                        id="message"
-                        value={formData.message}
-                        onChange={(e) => handleChange("message", e.target.value)}
-                        placeholder="Please describe your project requirements, timeline, and any specific technical needs..."
-                        required
-                        rows={6}
-                        className="bg-white/80 dark:bg-gray-800/80"
-                      />
-                    </div>
-
-                    <div className="text-center">
-                      <Button type="submit" size="lg" className="bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700">
-                        Send Message
-                        <Send className="ml-2" size={16} />
-                      </Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us */}
-        <section className="py-16 bg-white dark:bg-gray-900">
+        {/* Contact Form & Map Section */}
+        <section className="py-20 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
-              <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                  Why Partner With IeNet?
-                </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-300">
-                  Join hundreds of satisfied clients who trust us with their technology needs.
-                </p>
-              </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                
+                {/* Contact Form */}
+                <div>
+                  <div className="mb-8">
+                    <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                      Send Us A Message
+                    </h2>
+                    <p className="text-lg text-gray-600 dark:text-gray-300">
+                      Fill out the form below and our team will get back to you within 24 hours.
+                    </p>
+                  </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {[
-                  {
-                    icon: Users,
-                    title: "Expert Team",
-                    description: "50+ certified professionals with diverse technology expertise"
-                  },
-                  {
-                    icon: Clock,
-                    title: "Fast Response",
-                    description: "24-hour response time with 24/7 emergency support available"
-                  },
-                  {
-                    icon: Building2,
-                    title: "Enterprise Grade",
-                    description: "Solutions built to enterprise standards with scalability in mind"
-                  },
-                  {
-                    icon: Globe,
-                    title: "Global Reach",
-                    description: "Worldwide presence with local support in multiple time zones"
-                  }
-                ].map((benefit, index) => (
-                  <Card key={index} className="text-center bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-800/50 dark:to-gray-900/50 border-none shadow-lg hover:shadow-xl transition-all duration-300">
-                    <CardContent className="p-6">
-                      <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mx-auto mb-4">
-                        <benefit.icon className="text-white" size={20} />
-                      </div>
-                      <h3 className="font-bold text-gray-900 dark:text-white mb-2">
-                        {benefit.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                        {benefit.description}
-                      </p>
+                  <Card className="border-0 shadow-lg">
+                    <CardContent className="p-8">
+                      <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="name">Full Name *</Label>
+                            <Input
+                              id="name"
+                              value={formData.name}
+                              onChange={(e) => handleChange("name", e.target.value)}
+                              placeholder="Your full name"
+                              required
+                              className="mt-1"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="email">Email Address *</Label>
+                            <Input
+                              id="email"
+                              type="email"
+                              value={formData.email}
+                              onChange={(e) => handleChange("email", e.target.value)}
+                              placeholder="your@email.com"
+                              required
+                              className="mt-1"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="company">Company</Label>
+                            <Input
+                              id="company"
+                              value={formData.company}
+                              onChange={(e) => handleChange("company", e.target.value)}
+                              placeholder="Your company name"
+                              className="mt-1"
+                            />
+                          </div>
+                          <div>
+                            <Label htmlFor="phone">Phone Number</Label>
+                            <Input
+                              id="phone"
+                              value={formData.phone}
+                              onChange={(e) => handleChange("phone", e.target.value)}
+                              placeholder="+1 (555) 123-4567"
+                              className="mt-1"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <Label htmlFor="service">Service Needed</Label>
+                            <Select onValueChange={(value) => handleChange("service", value)}>
+                              <SelectTrigger className="mt-1">
+                                <SelectValue placeholder="Select a service" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {services.map((service) => (
+                                  <SelectItem key={service} value={service.toLowerCase()}>
+                                    {service}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label htmlFor="budget">Project Budget</Label>
+                            <Select onValueChange={(value) => handleChange("budget", value)}>
+                              <SelectTrigger className="mt-1">
+                                <SelectValue placeholder="Select budget range" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {budgetRanges.map((range) => (
+                                  <SelectItem key={range} value={range.toLowerCase()}>
+                                    {range}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+
+                        <div>
+                          <Label htmlFor="message">Project Details *</Label>
+                          <Textarea
+                            id="message"
+                            value={formData.message}
+                            onChange={(e) => handleChange("message", e.target.value)}
+                            placeholder="Tell us about your project requirements, timeline, and any specific needs..."
+                            required
+                            className="mt-1 min-h-[120px]"
+                          />
+                        </div>
+
+                        <Button 
+                          type="submit" 
+                          size="lg" 
+                          className="w-full bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700"
+                        >
+                          <Send className="mr-2" size={16} />
+                          Send Message
+                        </Button>
+                      </form>
                     </CardContent>
                   </Card>
-                ))}
+                </div>
+
+                {/* Map & Additional Info */}
+                <div className="space-y-8">
+                  {/* Google Map */}
+                  <Card className="border-0 shadow-lg">
+                    <CardContent className="p-0">
+                      <div className="h-64 bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-primary-800 rounded-lg flex items-center justify-center">
+                        <div className="text-center">
+                          <MapPin className="w-12 h-12 text-primary-600 mx-auto mb-4" />
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                            Our Location
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-300">
+                            Interactive map will be embedded here
+                          </p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Company Info */}
+                  <Card className="border-0 shadow-lg">
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Building2 className="w-6 h-6 mr-2 text-primary-600" />
+                        India Espectacular
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="flex items-start space-x-3">
+                        <MapPin className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
+                        <div>
+                          <p className="font-medium text-gray-900 dark:text-white">Address</p>
+                          <p className="text-gray-600 dark:text-gray-300">123 Tech Street, Innovation District<br />Business City, State 12345</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <Phone className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
+                        <div>
+                          <p className="font-medium text-gray-900 dark:text-white">Phone</p>
+                          <p className="text-gray-600 dark:text-gray-300">+1 (555) 123-4567</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <Mail className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
+                        <div>
+                          <p className="font-medium text-gray-900 dark:text-white">Email</p>
+                          <p className="text-gray-600 dark:text-gray-300">hello@indiaespectacular.com</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start space-x-3">
+                        <Clock className="w-5 h-5 text-primary-600 mt-1 flex-shrink-0" />
+                        <div>
+                          <p className="font-medium text-gray-900 dark:text-white">Office Hours</p>
+                          <p className="text-gray-600 dark:text-gray-300">Mon-Fri: 9AM-6PM<br />Sat: 10AM-2PM</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Support Options */}
+                  <Card className="border-0 shadow-lg">
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Headphones className="w-6 h-6 mr-2 text-primary-600" />
+                        Support Options
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                          <span className="font-medium">24/7 Emergency Support</span>
+                          <Shield className="w-5 h-5 text-green-600" />
+                        </div>
+                        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                          <span className="font-medium">Live Chat Available</span>
+                          <MessageCircle className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                          <span className="font-medium">Free Consultation</span>
+                          <Calendar className="w-5 h-5 text-purple-600" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 bg-primary text-white">
+        {/* Call to Action */}
+        <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-700">
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl font-bold mb-4">Ready to Start Your Project?</h2>
-              <p className="text-xl opacity-90 mb-8 max-w-2xl mx-auto">
-                Don't let technology challenges hold your business back. Contact our experts today for a free consultation and project assessment.
+              <h2 className="text-4xl font-bold text-white mb-6">
+                Ready to Start Your Project?
+              </h2>
+              <p className="text-xl text-primary-100 mb-8">
+                Join hundreds of satisfied clients who trust India Espectacular for their technology needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" variant="secondary">
-                  Schedule Consultation
+                <Button size="lg" className="bg-white text-primary-600 hover:bg-gray-100">
+                  Get Free Quote Today
                   <ArrowRight className="ml-2" size={16} />
                 </Button>
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-                  Call +1 (800) IENET-IT
-                  <Phone className="ml-2" size={16} />
+                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary-600">
+                  Schedule a Call
                 </Button>
               </div>
             </div>

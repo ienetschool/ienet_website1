@@ -40,11 +40,11 @@ export default function Projects() {
   });
 
   const seoConfig = {
-    title: "IeNet Portfolio - Successful IT Projects & Case Studies",
-    description: "Explore IeNet's portfolio of successful IT projects including web development, cybersecurity implementations, cloud migrations, and digital transformation case studies.",
-    keywords: "IeNet portfolio, IT projects, case studies, web development projects, cybersecurity implementations, cloud migration success stories, digital transformation",
+    title: "India Espectacular Portfolio - Successful IT Projects & Case Studies",
+    description: "Explore India Espectacular's portfolio of successful IT projects including web development, cybersecurity implementations, cloud migrations, and digital transformation case studies.",
+    keywords: "India Espectacular portfolio, IT projects, case studies, web development projects, cybersecurity implementations, cloud migration success stories, digital transformation",
     openGraph: {
-      title: "IeNet Portfolio - Successful IT Projects & Case Studies",
+      title: "India Espectacular Portfolio - Successful IT Projects & Case Studies",
       description: "Discover our proven track record with comprehensive case studies and project showcases.",
       type: "website"
     }
@@ -57,7 +57,7 @@ export default function Projects() {
 
   const faqSchema = generateFAQSchema([
     {
-      question: "What types of projects does IeNet work on?",
+      question: "What types of projects does India Espectacular work on?",
       answer: "We work on diverse IT projects including web development, mobile applications, cybersecurity implementations, cloud migrations, e-commerce platforms, and custom software solutions across various industries."
     },
     {

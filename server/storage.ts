@@ -5,6 +5,12 @@ import {
   features,
   projects,
   enquiries,
+  quotes,
+  galleryImages,
+  products,
+  orders,
+  payments,
+  roles,
   siteSettings,
   pageComponents,
   sliders,
@@ -20,6 +26,7 @@ import {
   activityLogs,
   type User,
   type UpsertUser,
+  type InsertUser,
   type ServiceCategory,
   type InsertServiceCategory,
   type Service,
@@ -30,6 +37,18 @@ import {
   type InsertProject,
   type Enquiry,
   type InsertEnquiry,
+  type Quote,
+  type InsertQuote,
+  type GalleryImage,
+  type InsertGalleryImage,
+  type Product,
+  type InsertProduct,
+  type Order,
+  type InsertOrder,
+  type Payment,
+  type InsertPayment,
+  type Role,
+  type InsertRole,
   type SiteSetting,
   type InsertSiteSetting,
   type PageComponent,
@@ -184,31 +203,57 @@ export interface IStorage {
   updatePricingPlan(id: number, plan: Partial<InsertPricingPlan>): Promise<PricingPlan>;
   deletePricingPlan(id: number): Promise<void>;
 
+  // Quote operations
+  getQuotes(status?: string): Promise<Quote[]>;
+  getQuote(id: number): Promise<Quote | undefined>;
+  createQuote(quote: InsertQuote): Promise<Quote>;
+  updateQuote(id: number, quote: Partial<InsertQuote>): Promise<Quote>;
+  deleteQuote(id: number): Promise<void>;
+
+  // Gallery operations
+  getGalleryImages(category?: string): Promise<GalleryImage[]>;
+  getGalleryImage(id: number): Promise<GalleryImage | undefined>;
+  createGalleryImage(image: InsertGalleryImage): Promise<GalleryImage>;
+  updateGalleryImage(id: number, image: Partial<InsertGalleryImage>): Promise<GalleryImage>;
+  deleteGalleryImage(id: number): Promise<void>;
+
+  // Product operations
+  getProducts(category?: string): Promise<Product[]>;
+  getProduct(id: number): Promise<Product | undefined>;
+  createProduct(product: InsertProduct): Promise<Product>;
+  updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product>;
+  deleteProduct(id: number): Promise<void>;
+
+  // Order operations
+  getOrders(status?: string): Promise<Order[]>;
+  getOrder(id: number): Promise<Order | undefined>;
+  createOrder(order: InsertOrder): Promise<Order>;
+  updateOrder(id: number, order: Partial<InsertOrder>): Promise<Order>;
+  deleteOrder(id: number): Promise<void>;
+
+  // Payment operations
+  getPayments(status?: string): Promise<Payment[]>;
+  getPayment(id: number): Promise<Payment | undefined>;
+  createPayment(payment: InsertPayment): Promise<Payment>;
+  updatePayment(id: number, payment: Partial<InsertPayment>): Promise<Payment>;
+  deletePayment(id: number): Promise<void>;
+
+  // Role operations
+  getRoles(): Promise<Role[]>;
+  getRole(id: number): Promise<Role | undefined>;
+  createRole(role: InsertRole): Promise<Role>;
+  updateRole(id: number, role: Partial<InsertRole>): Promise<Role>;
+  deleteRole(id: number): Promise<void>;
+
+  // User management operations
+  getAllUsers(): Promise<User[]>;
+  createUser(user: InsertUser): Promise<User>;
+  updateUser(id: string, user: Partial<InsertUser>): Promise<User | undefined>;
+  deleteUser(id: string): Promise<boolean>;
+
   // Activity log operations
   createActivityLog(log: InsertActivityLog): Promise<ActivityLog>;
   getActivityLogs(userId?: string, limit?: number): Promise<ActivityLog[]>;
-
-  // Dashboard-specific operations
-  getPageBuilderPages(): Promise<any[]>;
-  getPageVersions(pageId: number): Promise<any[]>;
-  updatePageBuilderPage(pageId: number, pageData: any): Promise<any>;
-  createPageBuilderPage(pageData: any): Promise<any>;
-  deletePageBuilderPage(pageId: number): Promise<void>;
-  getSEOPages(): Promise<any[]>;
-  getSchemaMarkups(): Promise<any[]>;
-  validateSchema(schemaId: number): Promise<any>;
-  crawlPage(pageId: number): Promise<any>;
-  getRobotsTxt(): Promise<string>;
-  updateRobotsTxt(content: string): Promise<void>;
-  getSitemapXml(): Promise<string>;
-  generateSitemap(): Promise<any>;
-  getNotifications(): Promise<any[]>;
-  getNotificationSettings(): Promise<any>;
-  updateNotificationSettings(settings: any): Promise<any>;
-  markNotificationAsRead(notificationId: number): Promise<void>;
-  markAllNotificationsAsRead(): Promise<void>;
-  archiveNotification(notificationId: number): Promise<void>;
-  deleteNotification(notificationId: number): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -936,6 +981,221 @@ export class DatabaseStorage implements IStorage {
 
   async deletePricingPlan(id: number): Promise<void> {
     await db.delete(pricingPlans).where(eq(pricingPlans.id, id));
+  }
+
+  // Quote operations
+  async getQuotes(status?: string): Promise<Quote[]> {
+    if (status) {
+      return await db
+        .select()
+        .from(quotes)
+        .where(eq(quotes.status, status))
+        .orderBy(desc(quotes.createdAt));
+    }
+    return await db.select().from(quotes).orderBy(desc(quotes.createdAt));
+  }
+
+  async getQuote(id: number): Promise<Quote | undefined> {
+    const [quote] = await db.select().from(quotes).where(eq(quotes.id, id));
+    return quote;
+  }
+
+  async createQuote(quote: InsertQuote): Promise<Quote> {
+    const [newQuote] = await db.insert(quotes).values(quote).returning();
+    return newQuote;
+  }
+
+  async updateQuote(id: number, quote: Partial<InsertQuote>): Promise<Quote> {
+    const [updatedQuote] = await db
+      .update(quotes)
+      .set({ ...quote, updatedAt: new Date() })
+      .where(eq(quotes.id, id))
+      .returning();
+    return updatedQuote;
+  }
+
+  async deleteQuote(id: number): Promise<void> {
+    await db.delete(quotes).where(eq(quotes.id, id));
+  }
+
+  // Gallery operations
+  async getGalleryImages(category?: string): Promise<GalleryImage[]> {
+    if (category) {
+      return await db
+        .select()
+        .from(galleryImages)
+        .where(and(eq(galleryImages.category, category), eq(galleryImages.isActive, true)))
+        .orderBy(asc(galleryImages.sortOrder), desc(galleryImages.createdAt));
+    }
+    return await db
+      .select()
+      .from(galleryImages)
+      .where(eq(galleryImages.isActive, true))
+      .orderBy(asc(galleryImages.sortOrder), desc(galleryImages.createdAt));
+  }
+
+  async getGalleryImage(id: number): Promise<GalleryImage | undefined> {
+    const [image] = await db.select().from(galleryImages).where(eq(galleryImages.id, id));
+    return image;
+  }
+
+  async createGalleryImage(image: InsertGalleryImage): Promise<GalleryImage> {
+    const [newImage] = await db.insert(galleryImages).values(image).returning();
+    return newImage;
+  }
+
+  async updateGalleryImage(id: number, image: Partial<InsertGalleryImage>): Promise<GalleryImage> {
+    const [updatedImage] = await db
+      .update(galleryImages)
+      .set({ ...image, updatedAt: new Date() })
+      .where(eq(galleryImages.id, id))
+      .returning();
+    return updatedImage;
+  }
+
+  async deleteGalleryImage(id: number): Promise<void> {
+    await db.delete(galleryImages).where(eq(galleryImages.id, id));
+  }
+
+  // Product operations
+  async getProducts(category?: string): Promise<Product[]> {
+    if (category) {
+      return await db
+        .select()
+        .from(products)
+        .where(and(eq(products.category, category), eq(products.isActive, true)))
+        .orderBy(desc(products.createdAt));
+    }
+    return await db
+      .select()
+      .from(products)
+      .where(eq(products.isActive, true))
+      .orderBy(desc(products.createdAt));
+  }
+
+  async getProduct(id: number): Promise<Product | undefined> {
+    const [product] = await db.select().from(products).where(eq(products.id, id));
+    return product;
+  }
+
+  async createProduct(product: InsertProduct): Promise<Product> {
+    const [newProduct] = await db.insert(products).values(product).returning();
+    return newProduct;
+  }
+
+  async updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product> {
+    const [updatedProduct] = await db
+      .update(products)
+      .set({ ...product, updatedAt: new Date() })
+      .where(eq(products.id, id))
+      .returning();
+    return updatedProduct;
+  }
+
+  async deleteProduct(id: number): Promise<void> {
+    await db.delete(products).where(eq(products.id, id));
+  }
+
+  // Order operations
+  async getOrders(status?: string): Promise<Order[]> {
+    if (status) {
+      return await db
+        .select()
+        .from(orders)
+        .where(eq(orders.status, status))
+        .orderBy(desc(orders.createdAt));
+    }
+    return await db.select().from(orders).orderBy(desc(orders.createdAt));
+  }
+
+  async getOrder(id: number): Promise<Order | undefined> {
+    const [order] = await db.select().from(orders).where(eq(orders.id, id));
+    return order;
+  }
+
+  async createOrder(order: InsertOrder): Promise<Order> {
+    const [newOrder] = await db.insert(orders).values(order).returning();
+    return newOrder;
+  }
+
+  async updateOrder(id: number, order: Partial<InsertOrder>): Promise<Order> {
+    const [updatedOrder] = await db
+      .update(orders)
+      .set({ ...order, updatedAt: new Date() })
+      .where(eq(orders.id, id))
+      .returning();
+    return updatedOrder;
+  }
+
+  async deleteOrder(id: number): Promise<void> {
+    await db.delete(orders).where(eq(orders.id, id));
+  }
+
+  // Payment operations
+  async getPayments(status?: string): Promise<Payment[]> {
+    if (status) {
+      return await db
+        .select()
+        .from(payments)
+        .where(eq(payments.status, status))
+        .orderBy(desc(payments.createdAt));
+    }
+    return await db.select().from(payments).orderBy(desc(payments.createdAt));
+  }
+
+  async getPayment(id: number): Promise<Payment | undefined> {
+    const [payment] = await db.select().from(payments).where(eq(payments.id, id));
+    return payment;
+  }
+
+  async createPayment(payment: InsertPayment): Promise<Payment> {
+    const [newPayment] = await db.insert(payments).values(payment).returning();
+    return newPayment;
+  }
+
+  async updatePayment(id: number, payment: Partial<InsertPayment>): Promise<Payment> {
+    const [updatedPayment] = await db
+      .update(payments)
+      .set({ ...payment, updatedAt: new Date() })
+      .where(eq(payments.id, id))
+      .returning();
+    return updatedPayment;
+  }
+
+  async deletePayment(id: number): Promise<void> {
+    await db.delete(payments).where(eq(payments.id, id));
+  }
+
+  // Role operations
+  async getRoles(): Promise<Role[]> {
+    return await db
+      .select()
+      .from(roles)
+      .where(eq(roles.isActive, true))
+      .orderBy(asc(roles.name));
+  }
+
+  async getRole(id: number): Promise<Role | undefined> {
+    const [role] = await db.select().from(roles).where(eq(roles.id, id));
+    return role;
+  }
+
+  async createRole(role: InsertRole): Promise<Role> {
+    const [newRole] = await db.insert(roles).values(role).returning();
+    return newRole;
+  }
+
+  async updateRole(id: number, role: Partial<InsertRole>): Promise<Role> {
+    const [updatedRole] = await db
+      .update(roles)
+      .set({ ...role, updatedAt: new Date() })
+      .where(eq(roles.id, id))
+      .returning();
+    return updatedRole;
+  }
+
+  async deleteRole(id: number): Promise<void> {
+    await db.delete(roles).where(eq(roles.id, id));
   }
 
   // Activity log operations

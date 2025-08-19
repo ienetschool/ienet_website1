@@ -13,6 +13,12 @@ import {
   insertFeatureSchema,
   insertProjectSchema,
   insertEnquirySchema,
+  insertQuoteSchema,
+  insertGalleryImageSchema,
+  insertProductSchema,
+  insertOrderSchema,
+  insertPaymentSchema,
+  insertRoleSchema,
   insertSiteSettingSchema,
   insertPageComponentSchema,
   insertSliderSchema,
@@ -1102,6 +1108,344 @@ ${allUrls.map(url => `  <url>
     } catch (error) {
       console.error('Error getting sitemap status dashboard:', error);
       res.status(500).json({ error: 'Failed to get sitemap status dashboard' });
+    }
+  });
+
+  // Contacts/Enquiries API
+  app.get('/api/contacts', async (req, res) => {
+    try {
+      const status = req.query.status as string;
+      const enquiries = await storage.getEnquiries(status);
+      res.json(enquiries);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+      res.status(500).json({ message: "Failed to fetch contacts" });
+    }
+  });
+
+  app.post('/api/contacts', async (req, res) => {
+    try {
+      const validatedData = insertEnquirySchema.parse(req.body);
+      const enquiry = await storage.createEnquiry(validatedData);
+      res.status(201).json(enquiry);
+    } catch (error) {
+      console.error("Error creating contact:", error);
+      res.status(500).json({ message: "Failed to create contact" });
+    }
+  });
+
+  app.put('/api/contacts/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updatedEnquiry = await storage.updateEnquiry(id, req.body);
+      res.json(updatedEnquiry);
+    } catch (error) {
+      console.error("Error updating contact:", error);
+      res.status(500).json({ message: "Failed to update contact" });
+    }
+  });
+
+  app.delete('/api/contacts/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteEnquiry(id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting contact:", error);
+      res.status(500).json({ message: "Failed to delete contact" });
+    }
+  });
+
+  // Quotes API
+  app.get('/api/quotes', async (req, res) => {
+    try {
+      const status = req.query.status as string;
+      const quotes = await storage.getQuotes(status);
+      res.json(quotes);
+    } catch (error) {
+      console.error("Error fetching quotes:", error);
+      res.status(500).json({ message: "Failed to fetch quotes" });
+    }
+  });
+
+  app.post('/api/quotes', async (req, res) => {
+    try {
+      const validatedData = insertQuoteSchema.parse(req.body);
+      const quote = await storage.createQuote(validatedData);
+      res.status(201).json(quote);
+    } catch (error) {
+      console.error("Error creating quote:", error);
+      res.status(500).json({ message: "Failed to create quote" });
+    }
+  });
+
+  app.put('/api/quotes/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updatedQuote = await storage.updateQuote(id, req.body);
+      res.json(updatedQuote);
+    } catch (error) {
+      console.error("Error updating quote:", error);
+      res.status(500).json({ message: "Failed to update quote" });
+    }
+  });
+
+  app.delete('/api/quotes/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteQuote(id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting quote:", error);
+      res.status(500).json({ message: "Failed to delete quote" });
+    }
+  });
+
+  // Gallery API
+  app.get('/api/gallery', async (req, res) => {
+    try {
+      const category = req.query.category as string;
+      const images = await storage.getGalleryImages(category);
+      res.json(images);
+    } catch (error) {
+      console.error("Error fetching gallery:", error);
+      res.status(500).json({ message: "Failed to fetch gallery" });
+    }
+  });
+
+  app.post('/api/gallery', async (req, res) => {
+    try {
+      const validatedData = insertGalleryImageSchema.parse(req.body);
+      const image = await storage.createGalleryImage(validatedData);
+      res.status(201).json(image);
+    } catch (error) {
+      console.error("Error creating gallery image:", error);
+      res.status(500).json({ message: "Failed to create gallery image" });
+    }
+  });
+
+  app.put('/api/gallery/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updatedImage = await storage.updateGalleryImage(id, req.body);
+      res.json(updatedImage);
+    } catch (error) {
+      console.error("Error updating gallery image:", error);
+      res.status(500).json({ message: "Failed to update gallery image" });
+    }
+  });
+
+  app.delete('/api/gallery/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteGalleryImage(id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting gallery image:", error);
+      res.status(500).json({ message: "Failed to delete gallery image" });
+    }
+  });
+
+  // Products API
+  app.get('/api/products', async (req, res) => {
+    try {
+      const category = req.query.category as string;
+      const products = await storage.getProducts(category);
+      res.json(products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      res.status(500).json({ message: "Failed to fetch products" });
+    }
+  });
+
+  app.post('/api/products', async (req, res) => {
+    try {
+      const validatedData = insertProductSchema.parse(req.body);
+      const product = await storage.createProduct(validatedData);
+      res.status(201).json(product);
+    } catch (error) {
+      console.error("Error creating product:", error);
+      res.status(500).json({ message: "Failed to create product" });
+    }
+  });
+
+  app.put('/api/products/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updatedProduct = await storage.updateProduct(id, req.body);
+      res.json(updatedProduct);
+    } catch (error) {
+      console.error("Error updating product:", error);
+      res.status(500).json({ message: "Failed to update product" });
+    }
+  });
+
+  app.delete('/api/products/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteProduct(id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      res.status(500).json({ message: "Failed to delete product" });
+    }
+  });
+
+  // Orders API
+  app.get('/api/orders', async (req, res) => {
+    try {
+      const status = req.query.status as string;
+      const orders = await storage.getOrders(status);
+      res.json(orders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      res.status(500).json({ message: "Failed to fetch orders" });
+    }
+  });
+
+  app.post('/api/orders', async (req, res) => {
+    try {
+      const validatedData = insertOrderSchema.parse(req.body);
+      const order = await storage.createOrder(validatedData);
+      res.status(201).json(order);
+    } catch (error) {
+      console.error("Error creating order:", error);
+      res.status(500).json({ message: "Failed to create order" });
+    }
+  });
+
+  app.put('/api/orders/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updatedOrder = await storage.updateOrder(id, req.body);
+      res.json(updatedOrder);
+    } catch (error) {
+      console.error("Error updating order:", error);
+      res.status(500).json({ message: "Failed to update order" });
+    }
+  });
+
+  app.delete('/api/orders/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteOrder(id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting order:", error);
+      res.status(500).json({ message: "Failed to delete order" });
+    }
+  });
+
+  // Payments API
+  app.get('/api/payments', async (req, res) => {
+    try {
+      const status = req.query.status as string;
+      const payments = await storage.getPayments(status);
+      res.json(payments);
+    } catch (error) {
+      console.error("Error fetching payments:", error);
+      res.status(500).json({ message: "Failed to fetch payments" });
+    }
+  });
+
+  app.post('/api/payments', async (req, res) => {
+    try {
+      const validatedData = insertPaymentSchema.parse(req.body);
+      const payment = await storage.createPayment(validatedData);
+      res.status(201).json(payment);
+    } catch (error) {
+      console.error("Error creating payment:", error);
+      res.status(500).json({ message: "Failed to create payment" });
+    }
+  });
+
+  app.put('/api/payments/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updatedPayment = await storage.updatePayment(id, req.body);
+      res.json(updatedPayment);
+    } catch (error) {
+      console.error("Error updating payment:", error);
+      res.status(500).json({ message: "Failed to update payment" });
+    }
+  });
+
+  app.delete('/api/payments/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deletePayment(id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting payment:", error);
+      res.status(500).json({ message: "Failed to delete payment" });
+    }
+  });
+
+  // Users API
+  app.get('/api/users', async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      res.json(users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ message: "Failed to fetch users" });
+    }
+  });
+
+  // Roles API
+  app.get('/api/roles', async (req, res) => {
+    try {
+      const roles = await storage.getRoles();
+      res.json(roles);
+    } catch (error) {
+      console.error("Error fetching roles:", error);
+      res.status(500).json({ message: "Failed to fetch roles" });
+    }
+  });
+
+  app.post('/api/roles', async (req, res) => {
+    try {
+      const validatedData = insertRoleSchema.parse(req.body);
+      const role = await storage.createRole(validatedData);
+      res.status(201).json(role);
+    } catch (error) {
+      console.error("Error creating role:", error);
+      res.status(500).json({ message: "Failed to create role" });
+    }
+  });
+
+  app.put('/api/roles/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const updatedRole = await storage.updateRole(id, req.body);
+      res.json(updatedRole);
+    } catch (error) {
+      console.error("Error updating role:", error);
+      res.status(500).json({ message: "Failed to update role" });
+    }
+  });
+
+  app.delete('/api/roles/:id', async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deleteRole(id);
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting role:", error);
+      res.status(500).json({ message: "Failed to delete role" });
+    }
+  });
+
+  // Activity API
+  app.get('/api/activity', async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 100;
+      const activities = await storage.getActivityLogs(userId, limit);
+      res.json(activities);
+    } catch (error) {
+      console.error("Error fetching activity:", error);
+      res.status(500).json({ message: "Failed to fetch activity" });
     }
   });
 

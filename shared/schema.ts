@@ -137,6 +137,10 @@ export const enquiries = pgTable("enquiries", {
   message: text("message").notNull(),
   status: varchar("status", { length: 50 }).default("new"), // 'new', 'contacted', 'qualified', 'closed'
   source: varchar("source", { length: 100 }).default("website"),
+  pageUrl: varchar("page_url", { length: 1000 }), // Hidden field - page where form was submitted
+  userIp: varchar("user_ip", { length: 45 }), // Hidden field - user's IP address
+  userAgent: text("user_agent"), // Hidden field - user's browser info
+  referrer: varchar("referrer", { length: 1000 }), // Hidden field - referring page
   assignedTo: varchar("assigned_to").references(() => users.id),
   respondedAt: timestamp("responded_at"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -327,6 +331,116 @@ export const pricingPlans = pgTable("pricing_plans", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Quotes/Estimates
+export const quotes = pgTable("quotes", {
+  id: serial("id").primaryKey(),
+  clientName: varchar("client_name", { length: 255 }).notNull(),
+  clientEmail: varchar("client_email", { length: 255 }).notNull(),
+  clientPhone: varchar("client_phone", { length: 50 }),
+  clientCompany: varchar("client_company", { length: 255 }),
+  projectTitle: varchar("project_title", { length: 500 }).notNull(),
+  projectDescription: text("project_description").notNull(),
+  services: text("services"), // JSON array of requested services
+  estimatedBudget: integer("estimated_budget"), // in cents
+  timelineWeeks: integer("timeline_weeks"),
+  status: varchar("status", { length: 50 }).default("pending"), // 'pending', 'sent', 'accepted', 'rejected', 'expired'
+  validUntil: timestamp("valid_until"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Gallery images
+export const galleryImages = pgTable("gallery_images", {
+  id: serial("id").primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  imageUrl: varchar("image_url", { length: 500 }).notNull(),
+  thumbnailUrl: varchar("thumbnail_url", { length: 500 }),
+  category: varchar("category", { length: 100 }),
+  tags: text("tags"), // JSON array of tags
+  altText: varchar("alt_text", { length: 255 }),
+  isActive: boolean("is_active").default(true),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Products
+export const products = pgTable("products", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  slug: varchar("slug", { length: 255 }).notNull().unique(),
+  description: text("description"),
+  shortDescription: varchar("short_description", { length: 500 }),
+  price: integer("price").notNull(), // in cents
+  salePrice: integer("sale_price"), // in cents
+  sku: varchar("sku", { length: 100 }).unique(),
+  stockQuantity: integer("stock_quantity").default(0),
+  images: text("images"), // JSON array of image URLs
+  category: varchar("category", { length: 100 }),
+  tags: text("tags"), // JSON array of tags
+  features: text("features"), // JSON array of product features
+  specifications: text("specifications"), // JSON object of specs
+  isActive: boolean("is_active").default(true),
+  isFeatured: boolean("is_featured").default(false),
+  metaTitle: varchar("meta_title", { length: 255 }),
+  metaDescription: text("meta_description"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Orders
+export const orders = pgTable("orders", {
+  id: serial("id").primaryKey(),
+  orderNumber: varchar("order_number", { length: 50 }).notNull().unique(),
+  customerName: varchar("customer_name", { length: 255 }).notNull(),
+  customerEmail: varchar("customer_email", { length: 255 }).notNull(),
+  customerPhone: varchar("customer_phone", { length: 50 }),
+  billingAddress: jsonb("billing_address"),
+  shippingAddress: jsonb("shipping_address"),
+  items: jsonb("items"), // Array of order items with product details
+  subtotal: integer("subtotal").notNull(), // in cents
+  tax: integer("tax").default(0), // in cents
+  shipping: integer("shipping").default(0), // in cents
+  total: integer("total").notNull(), // in cents
+  status: varchar("status", { length: 50 }).default("pending"), // 'pending', 'processing', 'shipped', 'delivered', 'cancelled'
+  paymentStatus: varchar("payment_status", { length: 50 }).default("pending"), // 'pending', 'paid', 'failed', 'refunded'
+  paymentMethod: varchar("payment_method", { length: 50 }),
+  paymentId: varchar("payment_id", { length: 255 }),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Payments
+export const payments = pgTable("payments", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id").references(() => orders.id),
+  paymentId: varchar("payment_id", { length: 255 }).notNull(),
+  amount: integer("amount").notNull(), // in cents
+  currency: varchar("currency", { length: 3 }).default("USD"),
+  status: varchar("status", { length: 50 }).notNull(), // 'pending', 'completed', 'failed', 'cancelled', 'refunded'
+  method: varchar("method", { length: 50 }).notNull(), // 'stripe', 'paypal', 'bank_transfer'
+  gatewayResponse: jsonb("gateway_response"),
+  refundAmount: integer("refund_amount").default(0),
+  refundReason: text("refund_reason"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// User roles
+export const roles = pgTable("roles", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 100 }).notNull().unique(),
+  displayName: varchar("display_name", { length: 255 }).notNull(),
+  description: text("description"),
+  permissions: jsonb("permissions"), // JSON object with module permissions
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Activity logs
 export const activityLogs = pgTable("activity_logs", {
   id: serial("id").primaryKey(),
@@ -504,6 +618,42 @@ export const insertPricingPlanSchema = createInsertSchema(pricingPlans).omit({
   updatedAt: true,
 });
 
+export const insertQuoteSchema = createInsertSchema(quotes).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertGalleryImageSchema = createInsertSchema(galleryImages).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertProductSchema = createInsertSchema(products).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertOrderSchema = createInsertSchema(orders).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertPaymentSchema = createInsertSchema(payments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertRoleSchema = createInsertSchema(roles).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export const insertActivityLogSchema = createInsertSchema(activityLogs).omit({
   id: true,
   createdAt: true,
@@ -513,6 +663,18 @@ export const insertActivityLogSchema = createInsertSchema(activityLogs).omit({
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
+export type Quote = typeof quotes.$inferSelect;
+export type InsertQuote = z.infer<typeof insertQuoteSchema>;
+export type GalleryImage = typeof galleryImages.$inferSelect;
+export type InsertGalleryImage = z.infer<typeof insertGalleryImageSchema>;
+export type Product = typeof products.$inferSelect;
+export type InsertProduct = z.infer<typeof insertProductSchema>;
+export type Order = typeof orders.$inferSelect;
+export type InsertOrder = z.infer<typeof insertOrderSchema>;
+export type Payment = typeof payments.$inferSelect;
+export type InsertPayment = z.infer<typeof insertPaymentSchema>;
+export type Role = typeof roles.$inferSelect;
+export type InsertRole = z.infer<typeof insertRoleSchema>;
 export type ServiceCategory = typeof serviceCategories.$inferSelect;
 export type InsertServiceCategory = z.infer<typeof insertServiceCategorySchema>;
 export type Service = typeof services.$inferSelect;

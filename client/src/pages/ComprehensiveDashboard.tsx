@@ -13,6 +13,10 @@ import { SubServicesManagement } from "./dashboard/SubServicesManagement";
 import { FeaturesManagement } from "./dashboard/FeaturesManagement";
 import { EnquiriesManagement } from "./dashboard/EnquiriesManagement";
 import { ProjectsManagement } from "./dashboard/ProjectsManagement";
+import ContactsManagement from "./dashboard/ContactsManagement";
+import QuotesManagement from "./dashboard/QuotesManagement";
+import SlidersManagement from "./dashboard/SlidersManagement";
+import TestimonialsManagement from "./dashboard/TestimonialsManagement";
 import AnalyticsWidget from "./dashboard/AnalyticsWidget";
 import PageBuilder from "./dashboard/PageBuilder";
 import SEOManager from "./dashboard/SEOManager";
@@ -269,16 +273,18 @@ export default function ComprehensiveDashboard() {
         return <GenericSection title="Blog Management" description="Manage your blog posts and articles" icon={Edit} />;
       case 'enquiries':
         return <EnquiriesManagement />;
-      case 'contacts':
-        return <GenericSection title="Contact Forms" description="Manage contact form submissions" icon={Mail} />;
       case 'seo':
         return <SEOManager />;
       case 'analytics':
         return <AnalyticsWidget />;
+      case 'contacts':
+        return <ContactsManagement />;
+      case 'quotes':
+        return <QuotesManagement />;
       case 'sliders':
-        return <GenericSection title="Hero Sliders" description="Manage homepage hero sliders" icon={Sliders} />;
+        return <SlidersManagement />;
       case 'testimonials':
-        return <GenericSection title="Testimonials" description="Manage customer testimonials" icon={Star} />;
+        return <TestimonialsManagement />;
       case 'team':
         return <GenericSection title="Team Members" description="Manage team member profiles" icon={Users} />;
       case 'users':
@@ -304,6 +310,14 @@ export default function ComprehensiveDashboard() {
         return { title: "Feature Pages Management", description: "Manage your service feature pages and detailed offerings" };
       case 'analytics':
         return { title: "Analytics Dashboard", description: "Monitor website performance and visitor insights" };
+      case 'contacts':
+        return { title: "Contacts Management", description: "Manage customer enquiries and contact submissions" };
+      case 'quotes':
+        return { title: "Quotes Management", description: "Manage project estimates and client quotes" };
+      case 'sliders':
+        return { title: "Sliders Management", description: "Manage homepage sliders and banners" };
+      case 'testimonials':
+        return { title: "Testimonials Management", description: "Manage client testimonials and reviews" };
       case 'page-builder':
         return { title: "Page Builder", description: "Visual page editor with drag-and-drop blocks" };
       case 'seo':

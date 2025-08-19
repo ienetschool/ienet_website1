@@ -117,16 +117,16 @@ export default function ModernHeader() {
               <div className="w-14 h-14 rounded-xl overflow-hidden transform group-hover:scale-110 transition-transform duration-300">
                 <img 
                   src="/IE vector logo-01_1755535165852.png" 
-                  alt="IeNet Logo" 
+                  alt="India Espectacular Logo" 
                   className="w-full h-full object-contain"
                 />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-900 dark:text-white">
-                  IeNet
+                  India Espectacular
                 </h1>
                 <p className="text-xs text-gray-600 dark:text-gray-300 -mt-1">
-                  IT & Business Solutions
+                  Digital Innovation & Cultural Solutions
                 </p>
               </div>
             </div>

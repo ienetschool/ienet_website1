@@ -17,7 +17,7 @@ import {
 import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
 import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import LocalSEO from "@/components/seo/LocalSEO";
-import { TagSystem } from "@/components/seo/TagSystem";
+
 import { InternalLinking } from "@/components/seo/InternalLinking";
 import { 
   ArrowRight,
@@ -652,9 +652,7 @@ export default function ServiceDetail() {
         <LocalSEO 
           serviceArea={`${category.name} Services`}
         />
-        <TagSystem 
-          tags={[category.name, 'IT Services', 'Business Solutions', 'Professional Services']}
-        />
+
         
         {/* Internal Linking System */}
         <InternalLinking

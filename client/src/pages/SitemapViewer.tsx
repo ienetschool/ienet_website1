@@ -16,7 +16,7 @@ import {
 import { SEOHead } from "@/components/seo/SEOHead";
 import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import LocalSEO from "@/components/seo/LocalSEO";
-import { TagSystem } from "@/components/seo/TagSystem";
+
 import { 
   ArrowRight,
   CheckCircle,
@@ -202,17 +202,7 @@ export default function SitemapViewer() {
           </div>
         </section>
 
-        {/* Tag System */}
-        <section className="py-12 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <TagSystem 
-                tags={['Sitemap', 'Site Structure', 'Navigation', 'Page Directory', 'Website Map']}
-                showRelatedTags={true}
-              />
-            </div>
-          </div>
-        </section>
+
 
         {/* Statistics */}
         <section className="py-16 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">

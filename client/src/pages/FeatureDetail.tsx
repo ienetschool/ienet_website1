@@ -17,7 +17,7 @@ import {
 import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
 import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import LocalSEO from "@/components/seo/LocalSEO";
-import { TagSystem } from "@/components/seo/TagSystem";
+
 import { InternalLinking } from "@/components/seo/InternalLinking";
 import ContactModal from "@/components/modals/ContactModal";
 import { useContactModal } from "@/hooks/useContactModal";
@@ -701,9 +701,7 @@ export default function FeatureDetail() {
       <LocalSEO 
         serviceArea={`${feature.name} Implementation`}
       />
-      <TagSystem 
-        tags={[feature.name, service?.name || '', category?.name || '', 'Technical Implementation']}
-      />
+
       
       {/* Internal Linking System */}
       <InternalLinking

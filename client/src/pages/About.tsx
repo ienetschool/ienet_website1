@@ -275,20 +275,10 @@ export default function About() {
           </div>
         </section>
 
-        {/* Tag System */}
-        <section className="py-12 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <TagSystem 
-                tags={['About India Espectacular', 'IT Company', 'Technology Experts', 'Digital Solutions', 'Innovation']}
-                showRelatedTags={true}
-              />
-            </div>
-          </div>
-        </section>
+
 
         {/* Company Overview */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        <section className="py-20 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-indigo-900/20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -340,7 +330,7 @@ export default function About() {
         </section>
 
         {/* Mission & Vision */}
-        <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        <section className="py-20 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-800 dark:via-emerald-900/20 dark:to-teal-900/20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -379,7 +369,7 @@ export default function About() {
         </section>
 
         {/* Our Values */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        <section className="py-20 bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-gray-900 dark:via-rose-900/20 dark:to-pink-900/20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -409,7 +399,7 @@ export default function About() {
         </section>
 
         {/* Our Journey - Enhanced Timeline */}
-        <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        <section className="py-20 bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 dark:from-gray-800 dark:via-amber-900/20 dark:to-orange-900/20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -452,7 +442,7 @@ export default function About() {
         </section>
 
         {/* Milestones */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        <section className="py-20 bg-gradient-to-br from-violet-50 via-purple-50 to-indigo-50 dark:from-gray-900 dark:via-violet-900/20 dark:to-purple-900/20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -480,7 +470,7 @@ export default function About() {
         </section>
 
         {/* Client Testimonials */}
-        <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        <section className="py-20 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 dark:from-gray-800 dark:via-green-900/20 dark:to-emerald-900/20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">

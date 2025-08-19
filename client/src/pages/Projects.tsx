@@ -238,20 +238,10 @@ export default function Projects() {
           </div>
         </section>
 
-        {/* Tag System */}
-        <section className="py-12 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <TagSystem 
-                tags={['Portfolio', 'Case Studies', 'Successful Projects', 'Client Results', 'IT Solutions']}
-                showRelatedTags={true}
-              />
-            </div>
-          </div>
-        </section>
+
 
         {/* Project Statistics */}
-        <section className="py-16 bg-white dark:bg-gray-900">
+        <section className="py-16 bg-gradient-to-br from-purple-50 via-violet-50 to-indigo-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-violet-900/20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">

@@ -147,7 +147,7 @@ export default function Contact() {
         structuredData={faqSchema}
       />
       <SEOAnalytics 
-        pageType="contact"
+        pageType="service"
         pageName="Contact"
       />
       <LocalSEO 
@@ -208,20 +208,10 @@ export default function Contact() {
           </div>
         </section>
 
-        {/* Tag System */}
-        <section className="py-12 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <TagSystem 
-                tags={['Contact India Espectacular', 'Get Quote', 'IT Consulting', 'Free Consultation', 'Expert Support']}
-                showRelatedTags={true}
-              />
-            </div>
-          </div>
-        </section>
+
 
         {/* Contact Information Cards */}
-        <section className="py-20 bg-gray-50 dark:bg-gray-800">
+        <section className="py-20 bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 dark:from-gray-800 dark:via-sky-900/20 dark:to-blue-900/20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -255,7 +245,7 @@ export default function Contact() {
         </section>
 
         {/* Contact Form & Map Section */}
-        <section className="py-20 bg-white dark:bg-gray-900">
+        <section className="py-20 bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 dark:from-gray-900 dark:via-emerald-900/20 dark:to-teal-900/20">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">

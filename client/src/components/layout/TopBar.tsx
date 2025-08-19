@@ -12,15 +12,15 @@ export default function TopBar() {
         <div className="hidden md:flex items-center space-x-6">
           <div className="flex items-center space-x-2">
             <Mail size={14} className="text-primary" />
-            <span>info@ienet.com</span>
+            <span>info.indiaespectacular@gmail.com</span>
           </div>
           <div className="flex items-center space-x-2">
             <Phone size={14} className="text-primary" />
-            <span>+1 (555) 123-4567</span>
+            <span>+592 750-3901</span>
           </div>
           <div className="flex items-center space-x-2">
             <MapPin size={14} className="text-primary" />
-            <span>New York, NY</span>
+            <span>Georgetown, Guyana</span>
           </div>
         </div>
 
@@ -29,7 +29,7 @@ export default function TopBar() {
           {/* Social Media Icons */}
           <div className="flex items-center space-x-2">
             <a 
-              href="https://facebook.com" 
+              href="https://facebook.com/IndiaEspectacular" 
               target="_blank" 
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors duration-200"
@@ -38,7 +38,7 @@ export default function TopBar() {
               <Facebook size={16} />
             </a>
             <a 
-              href="https://twitter.com" 
+              href="https://twitter.com/IndiaEspectacular" 
               target="_blank" 
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors duration-200"
@@ -47,7 +47,7 @@ export default function TopBar() {
               <Twitter size={16} />
             </a>
             <a 
-              href="https://linkedin.com" 
+              href="https://linkedin.com/company/IndiaEspectacular" 
               target="_blank" 
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors duration-200"
@@ -56,7 +56,7 @@ export default function TopBar() {
               <Linkedin size={16} />
             </a>
             <a 
-              href="https://instagram.com" 
+              href="https://instagram.com/IndiaEspectacular" 
               target="_blank" 
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors duration-200"

@@ -17,7 +17,7 @@ import {
 import { SEOHead, generateFAQSchema } from "@/components/seo/SEOHead";
 import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import LocalSEO from "@/components/seo/LocalSEO";
-import { TagSystem } from "@/components/seo/TagSystem";
+
 import { 
   ArrowRight,
   Check,
@@ -316,17 +316,7 @@ export default function Pricing() {
           </div>
         </section>
 
-        {/* Tag System */}
-        <section className="py-12 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <TagSystem 
-                tags={['Pricing', 'Project Quotes', 'Support Plans', 'Transparent Pricing', 'Flexible Payment']}
-                showRelatedTags={true}
-              />
-            </div>
-          </div>
-        </section>
+
 
         {/* Support Plans */}
         <section className="py-16 bg-white dark:bg-gray-900">

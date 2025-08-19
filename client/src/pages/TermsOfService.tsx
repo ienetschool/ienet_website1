@@ -14,7 +14,7 @@ import {
 import { SEOHead } from "@/components/seo/SEOHead";
 import { SEOAnalytics } from "@/components/seo/SEOAnalytics";
 import LocalSEO from "@/components/seo/LocalSEO";
-import { TagSystem } from "@/components/seo/TagSystem";
+
 import { 
   ArrowRight,
   AlertTriangle,
@@ -274,17 +274,7 @@ Contact us if you have questions about any of these terms or need clarification 
           </div>
         </section>
 
-        {/* Tag System */}
-        <section className="py-12 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <TagSystem 
-                tags={['Terms of Service', 'Legal Agreement', 'User Agreement', 'Service Terms', 'Legal Conditions']}
-                showRelatedTags={true}
-              />
-            </div>
-          </div>
-        </section>
+
 
         {/* Important Notice */}
         <section className="py-8 bg-yellow-50 dark:bg-yellow-900/20">

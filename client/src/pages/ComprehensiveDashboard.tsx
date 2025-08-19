@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { PagesManagement } from "./dashboard/PagesManagement";
 import { ServicesManagement } from "./dashboard/ServicesManagement";
+import { FeaturesManagement } from "./dashboard/FeaturesManagement";
 import { EnquiriesManagement } from "./dashboard/EnquiriesManagement";
 import { ProjectsManagement } from "./dashboard/ProjectsManagement";
 import AnalyticsWidget from "./dashboard/AnalyticsWidget";
@@ -254,7 +255,7 @@ export default function ComprehensiveDashboard() {
       case 'services':  
         return <ServicesManagement />;
       case 'features':
-        return <GenericSection title="Features Management" description="Manage your service features" icon={Zap} />;
+        return <FeaturesManagement />;
       case 'page-builder':
         return <PageBuilder />;
       case 'notifications':
@@ -294,6 +295,8 @@ export default function ComprehensiveDashboard() {
         return { title: "Pages Management", description: "Create and manage your website pages" };
       case 'services':
         return { title: "Services Management", description: "Manage your service categories and offerings" };
+      case 'features':
+        return { title: "Features Management", description: "Manage your service features and detailed offerings" };
       case 'analytics':
         return { title: "Analytics Dashboard", description: "Monitor website performance and visitor insights" };
       case 'page-builder':

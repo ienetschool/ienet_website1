@@ -14,7 +14,7 @@ import {
   Award,
   ArrowUp,
   MessageCircle,
-  Quote
+  Calculator
 } from "lucide-react";
 
 const quickLinks = [
@@ -166,32 +166,32 @@ export default function ModernFooter() {
               <div className="flex space-x-3 mb-6">
                 <Button 
                   onClick={() => window.open('https://wa.me/5927503901', '_blank')}
-                  className="w-12 h-12 bg-green-600 hover:bg-green-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group p-0"
+                  className="w-12 h-12 bg-gray-700 hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group p-0"
                   aria-label="Live Chat on WhatsApp"
                 >
                   <MessageCircle size={20} />
                 </Button>
                 <Button 
                   onClick={() => window.location.href = '/contact'}
-                  className="w-12 h-12 bg-blue-600 hover:bg-blue-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group p-0"
+                  className="w-12 h-12 bg-gray-700 hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group p-0"
                   aria-label="Get Quote"
                 >
-                  <Quote size={20} />
+                  <Calculator size={20} />
                 </Button>
               </div>
               
               {/* Social Media Links */}
               <div className="flex space-x-3 mb-6">
-                <a href="https://facebook.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-600 hover:bg-blue-700 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="Facebook">
+                <a href="https://facebook.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="Facebook">
                   <Facebook size={16} />
                 </a>
-                <a href="https://twitter.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-sky-500 hover:bg-sky-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="Twitter">
+                <a href="https://twitter.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="Twitter">
                   <Twitter size={16} />
                 </a>
-                <a href="https://linkedin.com/company/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-700 hover:bg-blue-800 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="LinkedIn">
+                <a href="https://linkedin.com/company/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="LinkedIn">
                   <Linkedin size={16} />
                 </a>
-                <a href="https://youtube.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-red-600 hover:bg-red-700 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="YouTube">
+                <a href="https://youtube.com/IndiaEspectacular" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-300 rounded-lg flex items-center justify-center text-white group" aria-label="YouTube">
                   <Youtube size={16} />
                 </a>
               </div>
@@ -200,22 +200,22 @@ export default function ModernFooter() {
               <div className="space-y-4">
                 <p className="text-base font-bold text-gray-700 dark:text-gray-300">We Accept</p>
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
                     💳 Visa
                   </div>
-                  <div className="bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
                     💳 Mastercard
                   </div>
-                  <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
                     💳 Stripe
                   </div>
-                  <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
                     💰 PayPal
                   </div>
-                  <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
                     💳 Razorpay
                   </div>
-                  <div className="bg-gradient-to-r from-gray-600 to-gray-700 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md">
+                  <div className="bg-gray-600 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white rounded-lg px-4 py-3 text-center font-bold shadow-md transition-colors">
                     🏦 Wire Transfer
                   </div>
                 </div>

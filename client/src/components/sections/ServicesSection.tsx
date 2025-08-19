@@ -11,7 +11,13 @@ import {
   Smartphone, 
   Database, 
   Cog,
-  Check
+  Check,
+  Monitor,
+  Globe,
+  Lock,
+  Megaphone,
+  Brush,
+  Cloud
 } from "lucide-react";
 
 const iconMap = {
@@ -21,6 +27,12 @@ const iconMap = {
   smartphone: Smartphone,
   database: Database,
   cog: Cog,
+  monitor: Monitor,
+  globe: Globe,
+  lock: Lock,
+  megaphone: Megaphone,
+  brush: Brush,
+  cloud: Cloud
 };
 
 const colorMap = {
@@ -87,8 +99,19 @@ export default function ServicesSection() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {(categories || []).map((category: any) => {
-            const IconComponent = iconMap[category.icon as keyof typeof iconMap] || Code;
+          {(categories || []).map((category: any, index: number) => {
+            // Custom icon mapping based on service name/index for unique icons
+            const getServiceIcon = (name: string, index: number) => {
+              if (name.toLowerCase().includes('website') || name.toLowerCase().includes('design')) return Monitor;
+              if (name.toLowerCase().includes('hosting') || name.toLowerCase().includes('infrastructure')) return Server;
+              if (name.toLowerCase().includes('cybersecurity') || name.toLowerCase().includes('security')) return Lock;
+              if (name.toLowerCase().includes('marketing') || name.toLowerCase().includes('promotion')) return Megaphone;
+              if (name.toLowerCase().includes('mobile') || name.toLowerCase().includes('app')) return Smartphone;
+              if (name.toLowerCase().includes('branding') || name.toLowerCase().includes('graphics')) return Brush;
+              return [Monitor, Server, Lock, Megaphone, Smartphone, Brush][index % 6];
+            };
+            
+            const IconComponent = getServiceIcon(category.name, index);
             const colorClass = colorMap[category.color as keyof typeof colorMap] || colorMap.primary;
             const buttonClass = buttonColorMap[category.color as keyof typeof buttonColorMap] || buttonColorMap.primary;
 

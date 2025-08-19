@@ -222,19 +222,24 @@ export default function AboutSection() {
 
           <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
             {certifications.map((cert, index) => (
-              <Card key={index} className="group hover:shadow-lg transition-all duration-300 bg-gray-50 dark:bg-gray-700 border-0">
-                <CardContent className="p-6 text-center">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Award className="text-primary" size={24} />
+              <Card key={index} className="group hover:shadow-xl hover:scale-105 transition-all duration-500 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-0 overflow-hidden">
+                <CardContent className="p-6 text-center relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className={`w-16 h-16 bg-gradient-to-br ${cert.color === 'text-red-600' ? 'from-red-500 to-red-600' : 
+                    cert.color === 'text-orange-600' ? 'from-orange-500 to-orange-600' :
+                    cert.color === 'text-blue-600' ? 'from-blue-500 to-blue-600' :
+                    cert.color === 'text-green-600' ? 'from-green-500 to-green-600' :
+                    'from-purple-500 to-purple-600'} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg`}>
+                    <cert.icon className="text-white" size={28} />
                   </div>
-                  <div className="font-bold text-gray-900 dark:text-white mb-1">
+                  <div className="font-bold text-gray-900 dark:text-white mb-1 relative z-10">
                     {cert.name}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-2 relative z-10">
                     {cert.type}
                   </div>
                   {cert.verified && (
-                    <div className="flex items-center justify-center space-x-1">
+                    <div className="flex items-center justify-center space-x-1 relative z-10">
                       <CheckCircle className="text-emerald-500" size={16} />
                       <span className="text-xs text-emerald-600 dark:text-emerald-400">Verified</span>
                     </div>

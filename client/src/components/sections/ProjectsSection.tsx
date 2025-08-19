@@ -15,28 +15,52 @@ import {
   ShoppingCart,
   Monitor,
   Users,
-  Activity
+  Activity,
+  Globe,
+  BookOpen,
+  Zap,
+  TrendingUp,
+  Settings,
+  FileText,
+  Briefcase
 } from "lucide-react";
 
 const projectIcons = {
   'hospital': Activity,
   'optical': Monitor,
-  'school': Users,
+  'school': BookOpen,
   'ecommerce': ShoppingCart,
   'fintech': Shield,
   'logistics': Database,
+  'web': Globe,
+  'mobile': Smartphone,
+  'automation': Zap,
+  'analytics': TrendingUp,
+  'management': Settings,
+  'portfolio': FileText,
+  'business': Briefcase,
   'default': Code
 };
 
-const getProjectIcon = (title: string) => {
+const getProjectIcon = (title: string, index: number) => {
   const titleLower = title.toLowerCase();
-  if (titleLower.includes('hospital') || titleLower.includes('health')) return projectIcons.hospital;
-  if (titleLower.includes('optical') || titleLower.includes('store')) return projectIcons.optical;
-  if (titleLower.includes('school') || titleLower.includes('education')) return projectIcons.school;
-  if (titleLower.includes('ecommerce') || titleLower.includes('shop')) return projectIcons.ecommerce;
-  if (titleLower.includes('fintech') || titleLower.includes('financial')) return projectIcons.fintech;
-  if (titleLower.includes('logistics') || titleLower.includes('transport')) return projectIcons.logistics;
-  return projectIcons.default;
+  if (titleLower.includes('hospital') || titleLower.includes('health') || titleLower.includes('medical')) return projectIcons.hospital;
+  if (titleLower.includes('optical') || titleLower.includes('store') || titleLower.includes('retail')) return projectIcons.optical;
+  if (titleLower.includes('school') || titleLower.includes('education') || titleLower.includes('learning')) return projectIcons.school;
+  if (titleLower.includes('ecommerce') || titleLower.includes('shop') || titleLower.includes('commerce')) return projectIcons.ecommerce;
+  if (titleLower.includes('fintech') || titleLower.includes('financial') || titleLower.includes('banking')) return projectIcons.fintech;
+  if (titleLower.includes('logistics') || titleLower.includes('transport') || titleLower.includes('delivery')) return projectIcons.logistics;
+  if (titleLower.includes('web') || titleLower.includes('website') || titleLower.includes('platform')) return projectIcons.web;
+  if (titleLower.includes('mobile') || titleLower.includes('app') || titleLower.includes('android') || titleLower.includes('ios')) return projectIcons.mobile;
+  if (titleLower.includes('automation') || titleLower.includes('iot') || titleLower.includes('manufacturing')) return projectIcons.automation;
+  if (titleLower.includes('analytics') || titleLower.includes('data') || titleLower.includes('intelligence')) return projectIcons.analytics;
+  if (titleLower.includes('management') || titleLower.includes('system') || titleLower.includes('crm')) return projectIcons.management;
+  if (titleLower.includes('portfolio') || titleLower.includes('personal') || titleLower.includes('blog')) return projectIcons.portfolio;
+  if (titleLower.includes('business') || titleLower.includes('corporate') || titleLower.includes('enterprise')) return projectIcons.business;
+  
+  // Fallback based on index for variety
+  const fallbackIcons = [Globe, ShoppingCart, Activity, BookOpen, Shield, Database, Smartphone, Zap, TrendingUp, Settings];
+  return fallbackIcons[index % fallbackIcons.length];
 };
 
 const getGradientColors = (index: number) => {
@@ -107,7 +131,7 @@ export default function ProjectsSection() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {projects?.slice(0, 6).map((project: any, index: number) => {
             const technologies = project.technologies ? JSON.parse(project.technologies) : [];
-            const IconComponent = getProjectIcon(project.title);
+            const IconComponent = getProjectIcon(project.title, index);
             const gradientColors = getGradientColors(index);
             
             return (

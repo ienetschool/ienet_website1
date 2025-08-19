@@ -14,7 +14,7 @@ import {
   Award,
   ArrowUp,
   MessageCircle,
-  Calculator
+  FileText
 } from "lucide-react";
 
 const quickLinks = [
@@ -173,10 +173,10 @@ export default function ModernFooter() {
                 </Button>
                 <Button 
                   onClick={() => window.location.href = '/contact'}
-                  className="w-12 h-12 bg-gray-700 hover:bg-gray-800 dark:bg-gray-600 dark:hover:bg-gray-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white group p-0"
+                  className="w-12 h-12 bg-gradient-to-br from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 transition-all duration-300 rounded-xl flex items-center justify-center text-white group p-0 shadow-lg hover:shadow-xl"
                   aria-label="Get Quote"
                 >
-                  <Calculator size={20} />
+                  <FileText size={20} />
                 </Button>
               </div>
               

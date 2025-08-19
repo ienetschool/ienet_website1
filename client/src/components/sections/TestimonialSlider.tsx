@@ -139,12 +139,13 @@ export default function TestimonialSlider() {
             >
               {testimonials.map((testimonial, index) => (
                 <div key={testimonial.id} className="w-full flex-shrink-0">
-                  <Card className="bg-white dark:bg-gray-900 shadow-xl border border-gray-200 dark:border-gray-700">
-                    <CardContent className="p-12">
+                  <Card className="bg-gradient-to-br from-white via-blue-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900 shadow-2xl border-0 overflow-hidden relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-purple-600/5 opacity-50"></div>
+                    <CardContent className="p-12 relative z-10">
                       <div className="text-center mb-8">
                         {/* Quote Icon */}
-                        <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                          <Quote className="text-primary" size={32} />
+                        <div className="w-20 h-20 bg-gradient-to-br from-primary to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                          <Quote className="text-white" size={36} />
                         </div>
                         
                         {/* Rating */}

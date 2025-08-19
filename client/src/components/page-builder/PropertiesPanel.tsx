@@ -36,7 +36,7 @@ import {
   Palette,
   Type,
   Layout,
-  Spacing,
+  Move,
   Resize,
   RotateCcw,
   Eye,
@@ -317,7 +317,7 @@ function StyleControls({
       <AccordionItem value="spacing">
         <AccordionTrigger className="text-sm font-medium">
           <div className="flex items-center gap-2">
-            <Spacing className="w-4 h-4" />
+            <Move className="w-4 h-4" />
             Spacing
           </div>
         </AccordionTrigger>

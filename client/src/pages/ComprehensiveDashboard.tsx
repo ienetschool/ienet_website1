@@ -48,7 +48,7 @@ import {
   Sliders,
   Image,
   ShoppingCart,
-  CreditCard,
+  CreditCard as CreditCardIcon,
   Shield
 } from "lucide-react";
 

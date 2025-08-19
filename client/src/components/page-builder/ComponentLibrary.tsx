@@ -285,7 +285,7 @@ const componentTemplates: ComponentTemplate[] = [
   {
     id: 'card-basic',
     name: 'Card',
-    icon: Card,
+    icon: Square,
     category: 'Components',
     description: 'Content card with image and text',
     template: {

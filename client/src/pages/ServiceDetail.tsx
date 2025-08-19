@@ -179,19 +179,10 @@ export default function ServiceDetail() {
         description={category.description || `Professional ${category.name} services for businesses. Expert solutions, proven results, and comprehensive support.`}
         canonical={`/services/${categorySlug}`}
         keywords={`${category.name}, IT Services, Business Solutions, Technology, Professional Services`}
-        openGraph={{
-          title: `${category.name} Services | IeNet`,
-          description: category.description || `Professional ${category.name} services for your business`,
-          image: '/images/og-service.jpg',
-          url: `/services/${categorySlug}`,
-          type: 'website'
-        }}
-        twitter={{
-          card: 'summary_large_image',
-          title: `${category.name} Services | IeNet`,
-          description: category.description || `Professional ${category.name} services for your business`,
-          image: '/images/twitter-service.jpg'
-        }}
+        ogTitle={`${category.name} Services | IeNet`}
+        ogDescription={category.description || `Professional ${category.name} services for your business`}
+        ogImage="/images/og-service.jpg"
+        ogType="website"
         structuredData={[
           {
             "@context": "https://schema.org",
@@ -262,7 +253,7 @@ export default function ServiceDetail() {
                 {category.name}
               </h1>
               <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-                {category.description || `Modern, scalable, and innovative ${category.name.toLowerCase()} solutions tailored for your business success`}
+                {category.description || `Modern, scalable, and innovative ${category.name?.toLowerCase() || 'technology'} solutions tailored for your business success`}
               </p>
               <Button 
                 size="lg" 
@@ -683,7 +674,7 @@ export default function ServiceDetail() {
       />
 
       {/* Admin Edit Tools */}
-      <EditButton onEditToggle={() => setLiveEditorActive(!liveEditorActive)} />
+      <EditButton onVisualEdit={() => setLiveEditorActive(!liveEditorActive)} />
       
       {/* Live Editor Integration */}
       <LiveEditor

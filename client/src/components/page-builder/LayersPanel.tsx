@@ -25,7 +25,7 @@ import {
   Layout,
   Grid,
   Navigation,
-  Card,
+  RectangleHorizontal,
   Zap
 } from "lucide-react";
 import type { PageElement } from "./AdvancedPageBuilder";
@@ -48,7 +48,7 @@ const elementIcons = {
   hero: Layout,
   grid: Grid,
   navigation: Navigation,
-  card: Card,
+  card: RectangleHorizontal,
   form: Zap,
 } as const;
 

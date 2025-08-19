@@ -59,12 +59,12 @@ export default function Contact() {
   };
 
   const seoConfig = {
-    title: "Contact India Espectacular - Get Expert IT Consulting & Support",
-    description: "Contact India Espectacular's expert team for professional IT services consultation. Get quotes for web development, cybersecurity, cloud solutions, and digital transformation projects.",
-    keywords: "contact India Espectacular, IT consulting, web development quote, cybersecurity consultation, cloud services contact, digital transformation support",
+    title: "Contact IeNet - Get Expert IT Consulting & Support",
+    description: "Contact IeNet's expert team for professional IT services consultation. Get quotes for web development, cybersecurity, cloud solutions, and digital transformation projects.",
+    keywords: "contact IeNet, IT consulting, web development quote, cybersecurity consultation, cloud services contact, digital transformation support",
     openGraph: {
-      title: "Contact India Espectacular - Get Expert IT Consulting & Support",
-      description: "Get in touch with India Espectacular's expert team for professional IT services consultation and project quotes.",
+      title: "Contact IeNet - Get Expert IT Consulting & Support",
+      description: "Get in touch with IeNet's expert team for professional IT services consultation and project quotes.",
       type: "website"
     }
   };
@@ -93,21 +93,21 @@ export default function Contact() {
     {
       icon: MapPin,
       title: "Visit Our Office",
-      content: "123 Tech Street, Innovation District",
-      secondary: "Business City, State 12345",
+      content: "Sandy Babb Street, Kitty",
+      secondary: "Georgetown, Guyana",
       action: "Get Directions"
     },
     {
       icon: Phone,
       title: "Call Us Today",
-      content: "+1 (555) 123-4567",
-      secondary: "Monday - Friday, 9AM - 6PM EST",
+      content: "+592 750-3901",
+      secondary: "Monday - Friday, 9AM - 6PM",
       action: "Call Now"
     },
     {
       icon: Mail,
       title: "Email Us",
-      content: "hello@indiaespectacular.com",
+      content: "info@ienet.com",
       secondary: "We'll respond within 24 hours",
       action: "Send Email"
     },
@@ -160,12 +160,18 @@ export default function Contact() {
       {/* Floating Buttons */}
       <div className="fixed bottom-6 right-6 z-40 flex flex-col space-y-3">
         {/* Live Chat Button */}
-        <Button className="bg-green-600 hover:bg-green-700 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
+        <Button 
+          className="bg-green-600 hover:bg-green-700 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
+          onClick={() => window.open('https://wa.me/5927503901', '_blank')}
+        >
           <MessageCircle size={24} />
         </Button>
         
         {/* Get Quote Button */}
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center">
+        <Button 
+          className="bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
+          onClick={() => window.location.href = '/contact'}
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 11h6v2H9zm0-4h6v2H9zm0 8h4v2H9z" fill="currentColor"/>
             <path d="M4 2v18l4-4h12V2H4z" stroke="currentColor" strokeWidth="2" fill="none"/>
@@ -198,7 +204,7 @@ export default function Contact() {
           <div className="container mx-auto px-6">
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-5xl font-bold text-white mb-6">
-                Contact <span className="text-yellow-300">India Espectacular</span>
+                Contact <span className="text-yellow-300">IeNet</span>
               </h1>
               <p className="text-xl text-emerald-100 mb-8">
                 Ready to transform your business with cutting-edge technology? Get in touch with our expert team for a free consultation and project quote.

@@ -6,17 +6,27 @@ import { Link } from "wouter";
 const slides = [
   {
     id: 1,
-    title: "Innovative IT & Software Solutions",
-    subtitle: "Transform Your Business with Cutting-Edge Technology",
-    description: "We deliver enterprise-grade software solutions, cloud infrastructure, and digital transformation services that drive growth and innovation for businesses worldwide.",
-    cta: "Explore Services",
-    ctaLink: "/services",
+    title: "Website Design & Development",
+    subtitle: "Beautiful, Responsive Websites That Convert",
+    description: "Custom website design and development services that combine stunning visuals with seamless functionality. From corporate websites to e-commerce platforms, we create digital experiences that drive results.",
+    cta: "Explore Web Services",
+    ctaLink: "/services/website-design-development",
     background: "linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(147, 51, 234, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
     id: 2,
-    title: "Cybersecurity Excellence",
+    title: "Web Hosting & Infrastructure",
+    subtitle: "Reliable, Scalable Hosting Solutions",
+    description: "Enterprise-grade web hosting, cloud infrastructure, and server management services. Ensure your website performs optimally with our secure, fast, and reliable hosting solutions.",
+    cta: "Hosting Solutions",
+    ctaLink: "/services/web-hosting-infrastructure",
+    background: "linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(21, 128, 61, 0.9))",
+    image: "/api/placeholder/1920/800"
+  },
+  {
+    id: 3,
+    title: "Cybersecurity",
     subtitle: "Protect Your Digital Assets with Advanced Security",
     description: "Comprehensive cybersecurity services including vulnerability assessments, penetration testing, and 24/7 monitoring to safeguard your business from evolving cyber threats.",
     cta: "Security Solutions",
@@ -25,43 +35,33 @@ const slides = [
     image: "/api/placeholder/1920/800"
   },
   {
-    id: 3,
-    title: "AI & Machine Learning",
-    subtitle: "Harness the Power of Artificial Intelligence",
-    description: "Custom AI solutions, machine learning models, and intelligent automation systems that revolutionize business processes and unlock new opportunities for growth.",
-    cta: "AI Solutions",
-    ctaLink: "/services/ai-machine-learning",
-    background: "linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9))",
-    image: "/api/placeholder/1920/800"
-  },
-  {
     id: 4,
-    title: "Professional Pet Care Services",
-    subtitle: "Complete Digital Solutions for Pet Care Businesses",
-    description: "Specialized digital platforms for veterinary clinics, pet grooming services, and animal care facilities. Streamline appointments, manage records, and enhance customer experience.",
-    cta: "Pet Care Solutions",
-    ctaLink: "/services/pet-care-digital",
-    background: "linear-gradient(135deg, rgba(168, 85, 247, 0.9), rgba(139, 69, 19, 0.9))",
+    title: "Digital Marketing & Promotion",
+    subtitle: "Grow Your Business with Strategic Digital Marketing",
+    description: "Comprehensive digital marketing strategies including SEO, social media marketing, PPC advertising, and content marketing to boost your online presence and drive conversions.",
+    cta: "Marketing Solutions",
+    ctaLink: "/services/digital-marketing-promotion",
+    background: "linear-gradient(135deg, rgba(168, 85, 247, 0.9), rgba(124, 58, 237, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
     id: 5,
-    title: "Veterinary Practice Management",
-    subtitle: "Advanced Software for Modern Veterinary Clinics",
-    description: "Comprehensive practice management systems including patient records, scheduling, billing, and telemedicine capabilities designed specifically for veterinary professionals.",
-    cta: "Veterinary Systems",
-    ctaLink: "/services/veterinary-management",
-    background: "linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(21, 128, 61, 0.9))",
+    title: "Mobile App Development",
+    subtitle: "Native & Cross-Platform Mobile Applications",
+    description: "Custom mobile app development for iOS and Android platforms. From concept to deployment, we create engaging mobile experiences that connect with your audience.",
+    cta: "App Development",
+    ctaLink: "/services/mobile-app-development",
+    background: "linear-gradient(135deg, rgba(249, 115, 22, 0.9), rgba(194, 65, 12, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
     id: 6,
-    title: "Pet Grooming & Boarding Platforms",
-    subtitle: "Digital Solutions for Pet Service Providers",
-    description: "Complete booking and management systems for pet grooming salons, boarding facilities, and pet daycare centers. Includes online scheduling, payment processing, and customer communications.",
-    cta: "Grooming Solutions",
-    ctaLink: "/services/pet-grooming-platforms",
-    background: "linear-gradient(135deg, rgba(249, 115, 22, 0.9), rgba(194, 65, 12, 0.9))",
+    title: "Business Branding & Graphics",
+    subtitle: "Professional Brand Identity & Visual Design",
+    description: "Complete branding solutions including logo design, brand identity, marketing materials, and graphic design services that make your business stand out in the marketplace.",
+    cta: "Branding Services",
+    ctaLink: "/services/business-branding-graphics",
+    background: "linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9))",
     image: "/api/placeholder/1920/800"
   }
 ];

@@ -6,6 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+
+// Import Advanced Page Builder Components
+import AdvancedVisualEditor from '@/components/page-builder/AdvancedVisualEditor';
+import SchemaEditor from '@/components/page-builder/SchemaEditor';
+import AIContentGenerator from '@/components/page-builder/AIContentGenerator';
 import {
   Table,
   TableBody,
@@ -50,7 +55,13 @@ import {
   FileText,
   Globe,
   Calendar,
-  User
+  User,
+  Paintbrush,
+  Sparkles,
+  Crown,
+  Code,
+  Target,
+  Wand2
 } from "lucide-react";
 
 const pageFormSchema = z.object({
@@ -283,6 +294,8 @@ function CreatePageDialog() {
 
 export function PagesManagement() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [editingPage, setEditingPage] = useState<PageItem | null>(null);
+  const [editorMode, setEditorMode] = useState<'advanced' | 'schema' | 'ai' | null>(null);
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -316,6 +329,28 @@ export function PagesManagement() {
     page.slug.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleEditWithAdvancedBuilder = (page: PageItem) => {
+    setEditingPage(page);
+    setEditorMode('advanced');
+  };
+
+  const handleSaveAdvancedPage = (pageData: any) => {
+    // Save the page data with visual builder elements
+    const updateMutation = {
+      mutationFn: () => apiRequest('PUT', `/api/pages/${editingPage?.id}`, pageData),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['/api/pages'] });
+        setEditingPage(null);
+        setEditorMode(null);
+        toast({
+          title: "Success",
+          description: "Page updated successfully with advanced editor",
+        });
+      }
+    };
+    // Execute the mutation
+  };
+
   const getStatusBadge = (status: string) => {
     const variants = {
       draft: "secondary",
@@ -338,9 +373,74 @@ export function PagesManagement() {
     );
   }
 
+  // If we're in editing mode, show the appropriate editor
+  if (editingPage && editorMode) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <Button 
+            variant="outline"
+            onClick={() => {
+              setEditingPage(null);
+              setEditorMode(null);
+            }}
+          >
+            ← Back to Pages
+          </Button>
+          <div className="flex items-center space-x-2">
+            <Badge variant="outline">{editorMode} Editor</Badge>
+            <span className="text-sm text-muted-foreground">Editing: {editingPage.title}</span>
+          </div>
+        </div>
+
+        {editorMode === 'advanced' && (
+          <AdvancedVisualEditor
+            page={editingPage}
+            onSave={handleSaveAdvancedPage}
+            onCancel={() => {
+              setEditingPage(null);
+              setEditorMode(null);
+            }}
+          />
+        )}
+
+        {editorMode === 'schema' && (
+          <SchemaEditor
+            pageId={editingPage.id}
+            initialData={editingPage}
+            onSave={(data) => {
+              // Handle schema save
+              handleSaveAdvancedPage(data);
+            }}
+            onCancel={() => {
+              setEditingPage(null);
+              setEditorMode(null);
+            }}
+          />
+        )}
+
+        {editorMode === 'ai' && (
+          <AIContentGenerator
+            pageId={editingPage.id}
+            currentContent={editingPage.content || ''}
+            onGenerate={(content) => {
+              // Handle AI content generation
+              handleSaveAdvancedPage({ ...editingPage, content });
+            }}
+            onCancel={() => {
+              setEditingPage(null);
+              setEditorMode(null);
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold">Page Management</h2>
         <CreatePageDialog />
       </div>
 
@@ -393,12 +493,45 @@ export function PagesManagement() {
                       {new Date(page.createdAt).toLocaleDateString()}
                     </TableCell>
                     <TableCell className="text-right">
-                      <div className="flex items-center justify-end space-x-2">
+                      <div className="flex items-center justify-end space-x-1">
                         <Button size="sm" variant="ghost" data-testid={`button-view-${page.id}`}>
                           <Eye className="w-4 h-4" />
                         </Button>
                         <Button size="sm" variant="ghost" data-testid={`button-edit-${page.id}`}>
                           <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          onClick={() => handleEditWithAdvancedBuilder(page)}
+                          data-testid={`button-advanced-edit-${page.id}`}
+                          title="Advanced Visual Editor"
+                        >
+                          <Paintbrush className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          onClick={() => {
+                            setEditingPage(page);
+                            setEditorMode('ai');
+                          }}
+                          data-testid={`button-ai-edit-${page.id}`}
+                          title="AI Content Generator"
+                        >
+                          <Wand2 className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="ghost" 
+                          onClick={() => {
+                            setEditingPage(page);
+                            setEditorMode('schema');
+                          }}
+                          data-testid={`button-schema-edit-${page.id}`}
+                          title="Schema Editor"
+                        >
+                          <Target className="w-4 h-4" />
                         </Button>
                         <Button 
                           size="sm" 

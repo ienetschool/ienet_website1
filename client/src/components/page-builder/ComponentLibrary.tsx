@@ -426,7 +426,7 @@ const componentTemplates: ComponentTemplate[] = [
   {
     id: 'contact-form',
     name: 'Contact Form',
-    icon: Form,
+    icon: Zap,
     category: 'Forms',
     description: 'Contact form with fields',
     template: {

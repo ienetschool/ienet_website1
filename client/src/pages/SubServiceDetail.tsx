@@ -59,7 +59,19 @@ export default function SubServiceDetail() {
 
   const { data: service, isLoading } = useQuery({
     queryKey: ['/api/services', categorySlug, serviceSlug],
-    queryFn: () => fetch(`/api/services/${categorySlug}/${serviceSlug}`).then(res => res.json()),
+    queryFn: async () => {
+      const response = await fetch(`/api/services/${categorySlug}/${serviceSlug}`);
+      const data = await response.json();
+      
+      // Handle redirect if service is found in different category
+      if (data._redirectTo && data._correctCategory) {
+        console.log(`Service found in different category, should redirect to: ${data._redirectTo}`);
+        // For now, just use the service data but log the correct URL
+        return data;
+      }
+      
+      return data;
+    },
   });
 
   const { data: features } = useQuery({

@@ -150,10 +150,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/services/:categorySlug/:serviceSlug', async (req, res) => {
     try {
-      const service = await storage.getService(req.params.categorySlug, req.params.serviceSlug);
+      const { categorySlug, serviceSlug } = req.params;
+      let service = await storage.getService(categorySlug, serviceSlug);
+      
+      // If service not found with provided category, try to find it in the correct category
       if (!service) {
+        console.log(`Service not found with category ${categorySlug}, searching across all categories...`);
+        const allServices = await storage.getServices();
+        const foundService = allServices.find(s => s.slug === serviceSlug);
+        
+        if (foundService) {
+          const correctCategory = await storage.getServiceCategoryById(foundService.categoryId);
+          if (correctCategory) {
+            console.log(`Found service in correct category: ${correctCategory.slug}`);
+            // Return the service with redirect information
+            return res.json({
+              ...foundService,
+              _redirectTo: `/services/${correctCategory.slug}/${serviceSlug}`,
+              _correctCategory: correctCategory.slug
+            });
+          }
+        }
         return res.status(404).json({ message: "Service not found" });
       }
+      
       res.json(service);
     } catch (error) {
       console.error("Error fetching service:", error);

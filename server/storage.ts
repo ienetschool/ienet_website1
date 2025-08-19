@@ -87,6 +87,7 @@ export interface IStorage {
   // Service Category operations
   getServiceCategories(): Promise<ServiceCategory[]>;
   getServiceCategory(slug: string): Promise<ServiceCategory | undefined>;
+  getServiceCategoryById(id: number): Promise<ServiceCategory | undefined>;
   createServiceCategory(category: InsertServiceCategory): Promise<ServiceCategory>;
   updateServiceCategory(id: number, category: Partial<InsertServiceCategory>): Promise<ServiceCategory>;
   deleteServiceCategory(id: number): Promise<void>;
@@ -320,6 +321,14 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(serviceCategories)
       .where(and(eq(serviceCategories.slug, slug), eq(serviceCategories.isActive, true)));
+    return category;
+  }
+
+  async getServiceCategoryById(id: number): Promise<ServiceCategory | undefined> {
+    const [category] = await db
+      .select()
+      .from(serviceCategories)
+      .where(eq(serviceCategories.id, id));
     return category;
   }
 

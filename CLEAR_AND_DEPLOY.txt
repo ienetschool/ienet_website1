@@ -1,0 +1,27 @@
+CLEAR AND FRESH DEPLOY - Run these commands in SSH:
+
+1. Stop all servers:
+pkill -f "node" || true
+
+2. Clear all files:
+rm -rf /var/www/html/*
+mkdir -p /tmp/fresh-deploy
+
+3. Download fresh working files:
+cd /tmp/
+rm -f ienet-fresh-deploy.tar.gz
+# Upload the fresh build manually or use:
+wget YOUR_FRESH_BUILD_URL -O ienet-fresh-deploy.tar.gz
+tar -xzf ienet-fresh-deploy.tar.gz
+
+4. Deploy fresh files:
+cp -r dist/public/* /var/www/html/
+
+5. Verify deployment:
+ls -la /var/www/html/
+ls -la /var/www/html/assets/
+
+6. Start API server:
+nohup node ~/api-server-only.cjs > ~/api.log 2>&1 &
+
+This will completely clear old files and deploy fresh working version.

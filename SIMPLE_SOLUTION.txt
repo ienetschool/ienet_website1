@@ -1,25 +1,14 @@
-SIMPLEST SOLUTION FOR IMMEDIATE RESULTS
+SIMPLE SOLUTION:
 
-CURRENT STATUS: ienet.online showing error page
-CAUSE: Node.js configuration issues in Plesk
+DOWNLOAD: ienet-deployment-package.tar.gz
 
-IMMEDIATE ACTION:
-1. Upload MINIMAL_HTML_VERSION.html to Plesk File Manager
-2. Rename to index.html in /ienet.online/
-3. Website works instantly
+UPLOAD TO PLESK /ienet.online/:
+- Delete old files
+- Upload and extract package
 
-FEATURES INCLUDED:
-✅ India Espectacular branding
-✅ Professional design matching React app
-✅ Hero section with company info
-✅ About section with stats (25+ categories, 143+ services, 1,328 solutions)
-✅ 6 service cards with icons
-✅ Testimonials section
-✅ Contact information
-✅ 3 floating action buttons
-✅ Responsive mobile design
-✅ Smooth animations
+PLESK SETTINGS:
+- Startup file: index.js
+- NPM install
+- Restart app
 
-RESULT: Professional working website in 2 minutes
-
-This static solution provides immediate business continuity while Node.js issues are resolved separately.
+DONE: React website shows on ienet.online

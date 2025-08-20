@@ -1,63 +1,43 @@
-HOW TO UPLOAD THE INDEX.HTML FILE TO YOUR SERVER
+STEP-BY-STEP DEPLOYMENT INSTRUCTIONS FOR IENET.ONLINE
 
-=== METHOD 1: Via SSH (Recommended) ===
+PACKAGE READY: ienet-deployment-package.tar.gz
 
-1. SSH into your server:
-   ssh root@5.181.218.15
+WHAT TO DO:
 
-2. Create the directory and file:
-   cd /var/www/vhosts/vivaindia.com/ienet.online
-   mkdir -p public
+1. DOWNLOAD PACKAGE
+   - Download: ienet-deployment-package.tar.gz from this Replit
 
-3. Create the index.html file:
-   nano public/index.html
+2. UPLOAD TO PLESK
+   - Login to your Plesk control panel
+   - Go to File Manager
+   - Navigate to /ienet.online/ folder
+   - DELETE all existing files in /ienet.online/
+   - Upload and extract ienet-deployment-package.tar.gz
 
-4. Copy and paste the entire contents of the index.html file from this project
+3. CONFIGURE NODE.JS
+   - Go to Node.js settings in Plesk
+   - Application startup file: index.js
+   - Application mode: production
+   - Node.js version: 18.x
 
-5. Save and exit:
-   Ctrl+X, then Y, then Enter
+4. INSTALL AND START
+   - Click "NPM install"
+   - Click "Restart app"
 
-6. Set permissions:
-   chown -R ienet:ienet public/
-   chmod -R 755 public/
+RESULT: ienet.online shows React application instead of static page
 
-=== METHOD 2: Via Plesk File Manager ===
+FILES INCLUDED:
+- index.js (Express server)
+- package.json (dependencies)
+- public/ (React application)
+  - index.html
+  - assets/ (CSS and JS files)
+  - IE vector logo
 
-1. Login to Plesk
-2. Go to Files > File Manager
-3. Navigate to: /var/www/vhosts/vivaindia.com/ienet.online/
-4. Create new folder called "public"
-5. Enter the public folder
-6. Upload the index.html file OR create new file called "index.html"
-7. If creating new file, copy and paste the HTML content
-8. Set permissions: 755 for directories, 644 for files
-
-=== METHOD 3: Via FTP/SFTP ===
-
-1. Connect via FTP client (FileZilla, WinSCP, etc.)
-2. Server: 5.181.218.15
-3. Username: root (or your FTP user)
-4. Navigate to: /var/www/vhosts/vivaindia.com/ienet.online/
-5. Create "public" folder
-6. Upload index.html to the public folder
-
-=== VERIFY THE UPLOAD ===
-
-After uploading, test via SSH:
-ls -la /var/www/vhosts/vivaindia.com/ienet.online/public/
-# Should show index.html file
-
-curl -I http://localhost/
-# Should return 200 OK
-
-=== WHAT THE FILE CONTAINS ===
-
-The index.html file includes:
-- Professional India Espectacular homepage with 🇮🇳 flag
-- Production status showing 1,328 pages ready
-- 3 floating action buttons (WhatsApp, Email, Live Chat)
-- Modern responsive design with animations
-- SEO optimized structure
-- Professional service showcase
-
-Once uploaded and Apache is configured correctly, your website will be live immediately!
+YOUR REACT APP WILL SHOW:
+- HeroSlider with website development theme
+- ModernHeader with navigation
+- About section with stats
+- Services section with 6 cards
+- Testimonials with gradient
+- 3 FloatingCTA buttons

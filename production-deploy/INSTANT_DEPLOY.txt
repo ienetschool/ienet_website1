@@ -1,0 +1,27 @@
+INSTANT DEPLOYMENT INSTRUCTIONS
+
+UPLOAD THESE FILES TO PLESK FILE MANAGER:
+
+1. COPY: index.js
+   TO: /ienet.online/index.js
+
+2. COPY: simple-package.json  
+   TO: /ienet.online/package.json
+
+3. COPY: .env
+   TO: /ienet.online/.env
+
+4. COPY: dist/public/ (entire folder)
+   TO: /ienet.online/dist/public/
+
+PLESK NODE.JS SETTINGS:
+- Startup File: index.js (change from dist/index.js)
+- Mode: production
+- Version: 18.x
+
+FINAL STEPS:
+1. NPM install
+2. Restart App
+3. Visit ienet.online
+
+RESULT: React app with HeroSlider, ModernHeader, FloatingCTA will be live

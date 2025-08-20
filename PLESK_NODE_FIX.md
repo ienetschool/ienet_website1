@@ -1,52 +1,53 @@
-# PLESK NODE.JS STARTUP FIX
+# Plesk Node.js Setup Guide
 
-The error shows Plesk can't start your Node.js application. Let me create a simplified solution.
+## Problem
+Your production server doesn't have Node.js installed, which is why the API server can't start.
 
-## Problem: 
-Plesk Node.js application failing to start, showing "something went wrong" error.
+## Solution: Enable Node.js in Plesk
 
-## Solution:
-Change startup approach to use simpler configuration that Plesk can handle.
+### Step 1: Install Node.js Extension
+1. Log into Plesk Panel
+2. Go to **Extensions** (in the left sidebar)
+3. Search for "**Node.js**"
+4. Click **Install** on the Node.js extension
 
-## New Startup File (index.js in root):
-```javascript
-const express = require('express');
-const path = require('path');
+### Step 2: Enable Node.js for Your Domain
+1. Go to **Websites & Domains**
+2. Find **ienet.online** domain
+3. Click on **Node.js** (should appear after extension is installed)
+4. **Enable Node.js** for this domain
+5. Select **Node.js version 18.x** or **20.x**
+6. Set **Application root**: `/var/www/vhosts/vivaindia.com/ienet.online/`
+7. Set **Application startup file**: `working-production-server.cjs`
+8. Click **Apply** or **Enable**
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+### Step 3: Start Your Application
+1. In the Node.js interface, click **Start** or **Restart**
+2. The server should start automatically
+3. Check logs for "=== SERVER STARTED SUCCESSFULLY ==="
 
-// Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
+### Step 4: Test the API
+```bash
+curl https://www.ienet.online/api/health
+```
+Should return JSON data instead of 502 error.
 
-// Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', app: 'IeNet React', port: PORT });
-});
+## Alternative: Manual Installation
+If Plesk doesn't have Node.js extension:
 
-// Serve React app
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.listen(PORT, () => {
-  console.log(`IeNet app running on port ${PORT}`);
-});
+```bash
+ssh root@5.181.218.15
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+apt-get install -y nodejs
+node --version
 ```
 
-## Package.json (CommonJS instead of ES modules):
-```json
-{
-  "name": "ienet-production",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2"
-  }
-}
-```
+## Result
+Once Node.js is properly installed and configured:
+- ✅ API server will start on port 3001
+- ✅ Service categories will load on homepage
+- ✅ Projects section will show data
+- ✅ All navigation will work
+- ✅ No more 502 Bad Gateway errors
 
-This uses CommonJS which is more compatible with Plesk hosting.
+Your website will be fully functional!

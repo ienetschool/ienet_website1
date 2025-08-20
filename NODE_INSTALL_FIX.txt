@@ -1,0 +1,44 @@
+NODE.JS NOT INSTALLED ON PRODUCTION SERVER
+
+DIAGNOSIS: curl localhost:3001 shows "Connection refused" 
+This means Node.js is either not installed or not working.
+
+SOLUTION: Install Node.js on your production server
+
+METHOD 1: Install Node.js via Plesk
+1. Go to Plesk Panel > Extensions
+2. Search for "Node.js" 
+3. Install Node.js extension
+4. Enable Node.js for ienet.online domain
+5. Select Node.js version 18 or 20
+
+METHOD 2: Install via SSH (if you have root access)
+ssh root@5.181.218.15
+
+# Install Node.js
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+apt-get install -y nodejs
+
+# Verify installation
+node --version
+npm --version
+
+# Then start the server
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+node working-production-server.cjs
+
+METHOD 3: Contact Hosting Provider
+If neither method works, contact your hosting provider to:
+- Enable Node.js on your account
+- Install Node.js runtime environment
+- Configure Node.js for your domain
+
+AFTER NODE.JS IS INSTALLED:
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+node working-production-server.cjs
+
+Expected output: "=== SERVER STARTED SUCCESSFULLY ==="
+
+Then test: curl localhost:3001/api/health
+Should return JSON instead of "Connection refused"

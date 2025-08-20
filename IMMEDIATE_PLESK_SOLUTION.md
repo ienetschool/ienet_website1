@@ -1,66 +1,58 @@
-# IMMEDIATE SOLUTION FOR PLESK DEPLOYMENT
+# IMMEDIATE PLESK DEPLOYMENT SOLUTION
 
-## Problem
-Static HTML page showing instead of React application on ienet.online
+## For Your ienet.online Server
 
-## Direct Solution
+Since you want deployment directly to your server (not Replit's), here's the complete solution:
 
-### Step 1: Clear Current Files
-In Plesk File Manager `/ienet.online/`:
-- Delete ALL existing files
-- Ensure directory is completely empty
+### Package Ready: `ienet-production-deploy.tar.gz`
 
-### Step 2: Upload These 3 Files Only
+This contains your complete React application optimized for your server.
 
-**File 1: index.js**
-```javascript
-import express from 'express';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+## Plesk File Manager Method:
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+1. **Login to your Plesk control panel**
+2. **Go to File Manager for ienet.online domain**
+3. **Delete all existing files in the domain root**
+4. **Upload `ienet-production-deploy.tar.gz`**
+5. **Extract the archive**
+6. **Set Plesk Node.js settings:**
+   - Application Startup File: `index.js`
+   - Application Mode: production
+   - Node.js Version: 18.x or 20.x
+7. **Click "NPM install"**
+8. **Click "Restart App"**
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+## Alternative: SSH/Terminal Method:
 
-app.use(express.static(join(__dirname, 'public')));
+```bash
+# Connect to your server
+ssh your_username@ienet.online
 
-app.get('*', (req, res) => {
-  res.sendFile(join(__dirname, 'public', 'index.html'));
-});
+# Navigate to domain directory
+cd /var/www/ienet.online
 
-app.listen(PORT, () => {
-  console.log(`IeNet React App running on port ${PORT}`);
-});
+# Remove old files
+rm -rf *
+
+# Upload and extract (you'll need to upload the tar.gz file first)
+tar -xzf ienet-production-deploy.tar.gz
+
+# Install dependencies
+npm install
+
+# Start application
+node index.js
 ```
 
-**File 2: package.json**
-```json
-{
-  "name": "ienet-react",
-  "version": "1.0.0",
-  "type": "module",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2"
-  }
-}
-```
+## What This Fixes:
 
-**File 3: Upload public/ folder** (from clean-react-deploy/public/)
+- **Plesk compatibility** - Uses CommonJS (require) instead of ES modules
+- **Correct startup file** - Root level index.js that Plesk can find
+- **All React components** - HeroSlider, ModernHeader, Services, Testimonials, FloatingCTA
+- **Production optimization** - Proper static file serving and health checks
 
-### Step 3: Plesk Configuration
-- Application startup file: **index.js**
-- Application mode: **production**
-- Node.js version: **18.x**
+## Expected Result:
 
-### Step 4: Commands
-1. NPM install
-2. Restart app
+ienet.online will show your React application instead of error pages.
 
-## Result
-ienet.online shows React application with HeroSlider, ModernHeader, Services, etc.
+The deployment package is ready - just upload to your server.

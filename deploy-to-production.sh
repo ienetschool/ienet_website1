@@ -1,62 +1,119 @@
 #!/bin/bash
 
-# Deploy React Development Server to Production
-echo "🚀 Deploying IeNet React Application to Production Server..."
+# Direct deployment script for ienet.online server
+# This script deploys your React application to your production server
 
-# Create final deployment package
+echo "🚀 Starting deployment to ienet.online..."
+
+# Server configuration
+SERVER_HOST="ienet.online"
+SERVER_USER="your_username"  # Replace with your server username
+SERVER_PATH="/var/www/ienet.online"  # Replace with your server path
+
+# Create deployment package
 echo "📦 Creating deployment package..."
-rm -rf final-deploy
-mkdir -p final-deploy
+rm -rf deploy-package
+mkdir -p deploy-package/public/assets
 
-# Copy built React application
-cp -r dist/public final-deploy/
-cp production-deploy/server-start.js final-deploy/
-cp production-deploy/production-package.json final-deploy/package.json
+# Copy all necessary files
+cp plesk-compatible/index.js deploy-package/
+cp plesk-compatible/package.json deploy-package/
+cp plesk-compatible/public/index.html deploy-package/public/
+cp -r plesk-compatible/public/assets/* deploy-package/public/assets/
+cp "plesk-compatible/public/IE vector logo-01_1755535165852.png" deploy-package/public/
 
-# Create deployment script for server
-cat > final-deploy/deploy.sh << 'EOF'
+# Create deployment instructions
+cat > deploy-package/INSTALL.sh << 'EOF'
 #!/bin/bash
-echo "Installing dependencies..."
-npm install --production
+echo "Installing IeNet React Application..."
 
-echo "Starting IeNet React Application..."
-pm2 stop ienet-production 2>/dev/null || true
-pm2 start package.json --name ienet-production
-pm2 save
+# Install dependencies
+npm install
 
-echo "✅ IeNet React Application deployed successfully"
-echo "🌐 Visit http://ienet.online to view your website"
+# Start application
+echo "Starting Node.js application..."
+node index.js &
+
+echo "Application started on port 3000"
+echo "Visit http://ienet.online to view your website"
 EOF
 
-chmod +x final-deploy/deploy.sh
+chmod +x deploy-package/INSTALL.sh
 
-# Create Plesk configuration
-cat > final-deploy/plesk-config.txt << 'EOF'
-PLESK NODE.JS CONFIGURATION:
-
-1. Application Startup File: server-start.js
-2. Application Mode: production  
-3. Node.js Version: 18.x
-4. Document Root: /
-
-COMMANDS:
-1. Upload all files to /ienet.online/
-2. Click "NPM install" 
-3. Click "Restart App"
-
-RESULT: ienet.online shows React application
+# Create server configuration files
+cat > deploy-package/nginx.conf << 'EOF'
+server {
+    listen 80;
+    server_name ienet.online www.ienet.online;
+    
+    root /var/www/ienet.online/public;
+    index index.html;
+    
+    location / {
+        try_files $uri $uri/ @nodejs;
+    }
+    
+    location @nodejs {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+    
+    location /health {
+        proxy_pass http://localhost:3000;
+    }
+}
 EOF
 
-echo "✅ Deployment package ready in final-deploy/"
-echo "📁 Files prepared:"
-ls -la final-deploy/
+# Create systemd service
+cat > deploy-package/ienet.service << 'EOF'
+[Unit]
+Description=IeNet React Application
+After=network.target
 
-echo ""
-echo "🎯 Ready for production deployment:"
-echo "- server-start.js (Express server)"
-echo "- package.json (dependencies)"
-echo "- public/ (React application)"
-echo "- deploy.sh (deployment script)"
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/ienet.online
+ExecStart=/usr/bin/node index.js
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+Environment=PORT=3000
 
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Package everything
+cd deploy-package
+tar -czf ../ienet-production-deploy.tar.gz .
+cd ..
+
+echo "✅ Deployment package created: ienet-production-deploy.tar.gz"
+
+# Manual deployment instructions
+cat > DEPLOYMENT_INSTRUCTIONS.txt << 'EOF'
+MANUAL DEPLOYMENT TO YOUR SERVER:
+
+1. Upload ienet-production-deploy.tar.gz to your server
+2. Extract: tar -xzf ienet-production-deploy.tar.gz
+3. Run: ./INSTALL.sh
+4. Configure Nginx with nginx.conf
+5. Set up systemd service with ienet.service
+
+Your React application will be live at http://ienet.online
+EOF
+
+echo "📋 Instructions created: DEPLOYMENT_INSTRUCTIONS.txt"
 echo ""
-echo "📤 Upload final-deploy/ contents to /ienet.online/ on your server"
+echo "🎯 READY FOR YOUR SERVER DEPLOYMENT"
+echo "Download: ienet-production-deploy.tar.gz"
+echo "Follow: DEPLOYMENT_INSTRUCTIONS.txt"

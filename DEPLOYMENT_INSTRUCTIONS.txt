@@ -1,0 +1,9 @@
+MANUAL DEPLOYMENT TO YOUR SERVER:
+
+1. Upload ienet-production-deploy.tar.gz to your server
+2. Extract: tar -xzf ienet-production-deploy.tar.gz
+3. Run: ./INSTALL.sh
+4. Configure Nginx with nginx.conf
+5. Set up systemd service with ienet.service
+
+Your React application will be live at http://ienet.online

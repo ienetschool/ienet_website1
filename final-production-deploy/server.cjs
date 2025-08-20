@@ -1,330 +1,309 @@
 const express = require('express');
 const path = require('path');
+const { execSync } = require('child_process');
+const fs = require('fs');
 
 const app = express();
 const PORT = 5000;
-
-// Import mysql2 if available, otherwise use fallback
-let mysql2;
-let pool = null;
-
-try {
-  mysql2 = require('mysql2/promise');
-  console.log('✅ mysql2 loaded successfully');
-} catch (error) {
-  console.warn('⚠️ mysql2 not available, will use fallback connection');
-  mysql2 = null;
-}
 
 // Database configuration
 const dbConfig = {
   host: '5.181.218.15',
   user: 'netiedb',
   password: 'h5pLF9833',
-  database: 'ienetdb',
-  port: 3306
+  database: 'ienetdb'
 };
 
-// Initialize database connection
-async function initDatabase() {
-  if (mysql2) {
-    try {
-      pool = mysql2.createPool({
-        ...dbConfig,
-        waitForConnections: true,
-        connectionLimit: 10,
-        queueLimit: 0
-      });
-      
-      const connection = await pool.getConnection();
-      await connection.execute('SELECT 1');
-      connection.release();
-      console.log('✅ MySQL database connected with mysql2');
-      return true;
-    } catch (error) {
-      console.error('❌ mysql2 connection failed:', error.message);
-      pool = null;
-    }
-  }
-  
-  console.log('Using fallback database connection');
-  return false;
-}
-
-// Execute SQL query with fallback
-async function executeQuery(sql, params = []) {
-  if (pool) {
-    try {
-      const connection = await pool.getConnection();
-      const [rows] = await connection.execute(sql, params);
-      connection.release();
-      return rows;
-    } catch (error) {
-      console.error('Query error:', error);
-      throw error;
-    }
-  } else {
-    // Fallback using mysql command line
-    return new Promise((resolve, reject) => {
-      const { spawn } = require('child_process');
-      
-      // Escape parameters for command line
-      let query = sql;
-      params.forEach((param, index) => {
-        query = query.replace('?', `'${param.toString().replace(/'/g, "\\'")}'`);
-      });
-      
-      const mysql = spawn('mysql', [
-        '-u', dbConfig.user,
-        '-p' + dbConfig.password,
-        '-h', dbConfig.host,
-        '-D', dbConfig.database,
-        '-e', query,
-        '--skip-column-names',
-        '--silent'
-      ]);
-      
-      let output = '';
-      let error = '';
-      
-      mysql.stdout.on('data', (data) => output += data.toString());
-      mysql.stderr.on('data', (data) => error += data.toString());
-      
-      mysql.on('close', (code) => {
-        if (code === 0) {
-          const lines = output.trim().split('\n').filter(line => line.trim());
-          // Convert tab-separated output to objects
-          resolve(lines.map(line => {
-            const parts = line.split('\t');
-            return parts;
-          }));
-        } else {
-          reject(new Error(error || 'MySQL query failed'));
-        }
-      });
-    });
-  }
-}
-
-// Convert command line results to JSON
-function convertToJSON(results, columns) {
-  if (!results || results.length === 0) return [];
-  
-  if (pool) {
-    // Already JSON from mysql2
-    return results;
-  } else {
-    // Convert from command line tab-separated format
-    return results.map(row => {
-      const obj = {};
-      columns.forEach((col, index) => {
-        obj[col] = row[index] || null;
-      });
-      return obj;
-    });
+function queryDatabase(sql) {
+  try {
+    const command = `mysql -u ${dbConfig.user} -p${dbConfig.password} -h ${dbConfig.host} -D ${dbConfig.database} -e "${sql}" --skip-column-names --silent`;
+    const result = execSync(command, { encoding: 'utf-8', timeout: 10000 });
+    const lines = result.trim().split('\n').filter(line => line.trim());
+    console.log(`[DB] Query executed: ${sql.substring(0, 50)}... returned ${lines.length} rows`);
+    return lines;
+  } catch (error) {
+    console.error('Database query error:', error.message);
+    return [];
   }
 }
 
 // Middleware
 app.use(express.json());
-app.use(express.static('dist'));
+
+// Request logging
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.path}`);
+  next();
+});
+
+// Static file serving with enhanced logging
+app.use('/assets', express.static(path.join(__dirname, 'dist/assets'), {
+  setHeaders: (res, filePath) => {
+    console.log(`[STATIC] Serving: ${filePath}`);
+    if (filePath.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
+    } else if (filePath.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css; charset=utf-8');
+    }
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+  }
+}));
+
+// Additional static files
+app.use(express.static(path.join(__dirname, 'dist'), {
+  index: false, // Prevent automatic index.html serving
+  setHeaders: (res, filePath) => {
+    console.log(`[STATIC] Other file: ${filePath}`);
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  }
+}));
+
+// Authentication endpoint - return user data as null
+app.get('/api/auth/user', (req, res) => {
+  console.log('[AUTH] Authentication request');
+  res.status(200).json(null);
+});
 
 // Health check
-app.get('/api/health', async (req, res) => {
+app.get('/api/health', (req, res) => {
   try {
-    await executeQuery('SELECT 1');
+    const test = queryDatabase('SELECT 1 as test');
+    const categoryCount = queryDatabase('SELECT COUNT(*) FROM service_categories')[0];
+    const serviceCount = queryDatabase('SELECT COUNT(*) FROM services')[0];
+    const featureCount = queryDatabase('SELECT COUNT(*) FROM features')[0];
+    const projectCount = queryDatabase('SELECT COUNT(*) FROM projects')[0];
+    
     res.json({ 
       status: 'healthy',
       database: 'ienetdb',
-      connection: pool ? 'mysql2' : 'command-line',
+      counts: {
+        categories: parseInt(categoryCount),
+        services: parseInt(serviceCount),
+        features: parseInt(featureCount),
+        projects: parseInt(projectCount)
+      },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    res.status(503).json({ 
-      status: 'unhealthy', 
-      error: error.message 
-    });
+    res.status(503).json({ status: 'unhealthy', error: error.message });
   }
 });
 
 // Service Categories
-app.get('/api/service-categories', async (req, res) => {
+app.get('/api/service-categories', (req, res) => {
   try {
-    const results = await executeQuery('SELECT * FROM service_categories ORDER BY id');
-    const categories = convertToJSON(results, ['id', 'name', 'slug', 'description', 'icon', 'color', 'meta_title', 'meta_description', 'is_active', 'sort_order', 'created_at', 'updated_at']);
+    console.log('[API] Fetching service categories');
+    const rows = queryDatabase('SELECT id, name, slug, description, icon, color FROM service_categories ORDER BY id');
+    const categories = rows.map(row => {
+      const parts = row.split('\t');
+      return { 
+        id: parseInt(parts[0] || '0'), 
+        name: parts[1] || '', 
+        slug: parts[2] || '', 
+        description: parts[3] || '', 
+        icon: parts[4] || '', 
+        color: parts[5] || '' 
+      };
+    });
+    console.log(`[API] Returning ${categories.length} categories`);
     res.json(categories);
   } catch (error) {
-    console.error('Error fetching service categories:', error);
-    res.status(500).json({ error: 'Database error' });
+    console.error('[API] Categories error:', error);
+    res.status(500).json({ error: 'Database error fetching categories' });
   }
 });
 
-// Individual Service Category
-app.get('/api/service-categories/:slug', async (req, res) => {
+// Services (all)
+app.get('/api/services', (req, res) => {
   try {
-    const results = await executeQuery('SELECT * FROM service_categories WHERE slug = ?', [req.params.slug]);
-    const categories = convertToJSON(results, ['id', 'name', 'slug', 'description', 'icon', 'color', 'meta_title', 'meta_description', 'is_active', 'sort_order', 'created_at', 'updated_at']);
-    
-    if (categories.length === 0) {
-      return res.status(404).json({ error: 'Service category not found' });
-    }
-    
-    res.json(categories[0]);
-  } catch (error) {
-    console.error('Error fetching service category:', error);
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Services
-app.get('/api/services', async (req, res) => {
-  try {
-    const results = await executeQuery('SELECT * FROM services ORDER BY category_id, id');
-    const services = convertToJSON(results, ['id', 'category_id', 'name', 'slug', 'description', 'icon', 'short_description', 'content', 'meta_title', 'meta_description', 'price_range', 'duration', 'is_active', 'sort_order', 'created_at', 'updated_at']);
+    console.log('[API] Fetching all services');
+    const rows = queryDatabase('SELECT id, category_id, name, slug, description, icon FROM services ORDER BY category_id, id');
+    const services = rows.map(row => {
+      const parts = row.split('\t');
+      return { 
+        id: parseInt(parts[0] || '0'), 
+        category_id: parseInt(parts[1] || '0'), 
+        name: parts[2] || '', 
+        slug: parts[3] || '', 
+        description: parts[4] || '', 
+        icon: parts[5] || '' 
+      };
+    });
+    console.log(`[API] Returning ${services.length} services`);
     res.json(services);
   } catch (error) {
-    console.error('Error fetching services:', error);
-    res.status(500).json({ error: 'Database error' });
+    console.error('[API] Services error:', error);
+    res.status(500).json({ error: 'Database error fetching services' });
   }
 });
 
 // Services by Category
-app.get('/api/services/category/:categoryId', async (req, res) => {
+app.get('/api/services/category/:categoryId', (req, res) => {
   try {
-    const results = await executeQuery('SELECT * FROM services WHERE category_id = ? ORDER BY id', [req.params.categoryId]);
-    const services = convertToJSON(results, ['id', 'category_id', 'name', 'slug', 'description', 'icon', 'short_description', 'content', 'meta_title', 'meta_description', 'price_range', 'duration', 'is_active', 'sort_order', 'created_at', 'updated_at']);
+    console.log(`[API] Fetching services for category: ${req.params.categoryId}`);
+    const rows = queryDatabase(`SELECT id, category_id, name, slug, description, icon FROM services WHERE category_id = ${req.params.categoryId} ORDER BY id`);
+    const services = rows.map(row => {
+      const parts = row.split('\t');
+      return { 
+        id: parseInt(parts[0] || '0'), 
+        category_id: parseInt(parts[1] || '0'), 
+        name: parts[2] || '', 
+        slug: parts[3] || '', 
+        description: parts[4] || '', 
+        icon: parts[5] || '' 
+      };
+    });
+    console.log(`[API] Returning ${services.length} services for category`);
     res.json(services);
   } catch (error) {
-    console.error('Error fetching services by category:', error);
+    console.error('[API] Services by category error:', error);
     res.status(500).json({ error: 'Database error' });
   }
 });
 
-// Individual Service
-app.get('/api/services/:slug', async (req, res) => {
+// Individual Service (by slug)
+app.get('/api/services/:slug', (req, res) => {
   try {
-    const results = await executeQuery('SELECT * FROM services WHERE slug = ?', [req.params.slug]);
-    const services = convertToJSON(results, ['id', 'category_id', 'name', 'slug', 'description', 'icon', 'short_description', 'content', 'meta_title', 'meta_description', 'price_range', 'duration', 'is_active', 'sort_order', 'created_at', 'updated_at']);
-    
-    if (services.length === 0) {
+    console.log(`[API] Fetching service: ${req.params.slug}`);
+    const rows = queryDatabase(`SELECT id, category_id, name, slug, description, icon FROM services WHERE slug = '${req.params.slug}'`);
+    if (rows.length === 0) {
+      console.log(`[API] Service not found: ${req.params.slug}`);
       return res.status(404).json({ error: 'Service not found' });
     }
-    
-    res.json(services[0]);
+    const parts = rows[0].split('\t');
+    const service = { 
+      id: parseInt(parts[0] || '0'), 
+      category_id: parseInt(parts[1] || '0'), 
+      name: parts[2] || '', 
+      slug: parts[3] || '', 
+      description: parts[4] || '', 
+      icon: parts[5] || '' 
+    };
+    console.log(`[API] Found service: ${service.name}`);
+    res.json(service);
   } catch (error) {
-    console.error('Error fetching service:', error);
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Features
-app.get('/api/features', async (req, res) => {
-  try {
-    const results = await executeQuery('SELECT * FROM features ORDER BY service_id, id');
-    const features = convertToJSON(results, ['id', 'service_id', 'name', 'slug', 'description', 'content', 'technical_details', 'benefits', 'meta_title', 'meta_description', 'price', 'is_active', 'sort_order', 'created_at', 'updated_at']);
-    res.json(features);
-  } catch (error) {
-    console.error('Error fetching features:', error);
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Features by Service
-app.get('/api/features/service/:serviceId', async (req, res) => {
-  try {
-    const results = await executeQuery('SELECT * FROM features WHERE service_id = ? ORDER BY id', [req.params.serviceId]);
-    const features = convertToJSON(results, ['id', 'service_id', 'name', 'slug', 'description', 'content', 'technical_details', 'benefits', 'meta_title', 'meta_description', 'price', 'is_active', 'sort_order', 'created_at', 'updated_at']);
-    res.json(features);
-  } catch (error) {
-    console.error('Error fetching features by service:', error);
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Individual Feature
-app.get('/api/features/:slug', async (req, res) => {
-  try {
-    const results = await executeQuery('SELECT * FROM features WHERE slug = ?', [req.params.slug]);
-    const features = convertToJSON(results, ['id', 'service_id', 'name', 'slug', 'description', 'content', 'technical_details', 'benefits', 'meta_title', 'meta_description', 'price', 'is_active', 'sort_order', 'created_at', 'updated_at']);
-    
-    if (features.length === 0) {
-      return res.status(404).json({ error: 'Feature not found' });
-    }
-    
-    res.json(features[0]);
-  } catch (error) {
-    console.error('Error fetching feature:', error);
+    console.error('[API] Individual service error:', error);
     res.status(500).json({ error: 'Database error' });
   }
 });
 
 // Projects
-app.get('/api/projects', async (req, res) => {
+app.get('/api/projects', (req, res) => {
   try {
-    const results = await executeQuery('SELECT * FROM projects ORDER BY id DESC');
-    const projects = convertToJSON(results, ['id', 'title', 'slug', 'description', 'image', 'techStack', 'projectUrl', 'category', 'client', 'duration', 'year', 'featured', 'meta_title', 'meta_description', 'is_active', 'created_at', 'updated_at']);
+    console.log('[API] Fetching projects');
+    const rows = queryDatabase('SELECT id, title, slug, description, technologies, category FROM projects ORDER BY id DESC');
+    const projects = rows.map(row => {
+      const parts = row.split('\t');
+      return { 
+        id: parseInt(parts[0] || '0'), 
+        title: parts[1] || '', 
+        slug: parts[2] || '', 
+        description: parts[3] || '', 
+        technologies: parts[4] || '', 
+        category: parts[5] || '' 
+      };
+    });
+    console.log(`[API] Returning ${projects.length} projects`);
     res.json(projects);
   } catch (error) {
-    console.error('Error fetching projects:', error);
-    res.status(500).json({ error: 'Database error' });
+    console.error('[API] Projects error:', error);
+    res.status(500).json({ error: 'Database error fetching projects' });
   }
 });
 
-// Individual Project
-app.get('/api/projects/:slug', async (req, res) => {
+// Features
+app.get('/api/features', (req, res) => {
   try {
-    const results = await executeQuery('SELECT * FROM projects WHERE slug = ?', [req.params.slug]);
-    const projects = convertToJSON(results, ['id', 'title', 'slug', 'description', 'image', 'techStack', 'projectUrl', 'category', 'client', 'duration', 'year', 'featured', 'meta_title', 'meta_description', 'is_active', 'created_at', 'updated_at']);
-    
-    if (projects.length === 0) {
-      return res.status(404).json({ error: 'Project not found' });
-    }
-    
-    res.json(projects[0]);
-  } catch (error) {
-    console.error('Error fetching project:', error);
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Debug endpoint
-app.get('/api/debug', async (req, res) => {
-  try {
-    const categoryCount = await executeQuery('SELECT COUNT(*) as count FROM service_categories');
-    const serviceCount = await executeQuery('SELECT COUNT(*) as count FROM services');
-    const featureCount = await executeQuery('SELECT COUNT(*) as count FROM features');
-    const projectCount = await executeQuery('SELECT COUNT(*) as count FROM projects');
-    
-    res.json({
-      environment: 'production',
-      database: {
-        connection: pool ? 'mysql2' : 'command-line',
-        serviceCategories: pool ? categoryCount[0].count : categoryCount[0] || 0,
-        services: pool ? serviceCount[0].count : serviceCount[0] || 0,
-        features: pool ? featureCount[0].count : featureCount[0] || 0,
-        projects: pool ? projectCount[0].count : projectCount[0] || 0,
-        status: 'connected'
-      },
-      timestamp: new Date().toISOString()
+    console.log('[API] Fetching features');
+    const rows = queryDatabase('SELECT id, service_id, name, slug, description FROM features ORDER BY service_id, id');
+    const features = rows.map(row => {
+      const parts = row.split('\t');
+      return { 
+        id: parseInt(parts[0] || '0'), 
+        service_id: parseInt(parts[1] || '0'), 
+        name: parts[2] || '', 
+        slug: parts[3] || '', 
+        description: parts[4] || '' 
+      };
     });
+    console.log(`[API] Returning ${features.length} features`);
+    res.json(features);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('[API] Features error:', error);
+    res.status(500).json({ error: 'Database error fetching features' });
   }
 });
 
-// Handle React routes
+// Enhanced React Router fallback
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  const indexPath = path.join(__dirname, 'dist', 'index.html');
+  console.log(`[REACT] Serving React app for route: ${req.path}`);
+  
+  // Check if index.html exists
+  if (!fs.existsSync(indexPath)) {
+    console.error(`[ERROR] Index.html not found at: ${indexPath}`);
+    return res.status(500).send(`
+      <html><body>
+        <h1>React App Not Found</h1>
+        <p>Index.html missing at: ${indexPath}</p>
+        <p>Available files: ${fs.readdirSync(path.join(__dirname, 'dist')).join(', ')}</p>
+      </body></html>
+    `);
+  }
+  
+  res.sendFile(indexPath, {
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    }
+  }, (err) => {
+    if (err) {
+      console.error('[ERROR] Error serving index.html:', err);
+      res.status(500).send('Error loading React app');
+    } else {
+      console.log(`[REACT] Successfully served index.html for ${req.path}`);
+    }
+  });
+});
+
+// Error handling
+app.use((err, req, res, next) => {
+  console.error('[ERROR] Server error:', err);
+  res.status(500).json({ 
+    error: 'Internal server error',
+    message: err.message 
+  });
 });
 
 // Start server
-async function start() {
-  await initDatabase();
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log('🚀 IeNet Final Production Server running on port', PORT);
-    console.log('✅ All API endpoints available');
-    console.log('📍 React app serving from dist directory');
-  });
-}
-
-start().catch(console.error);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 Enhanced Production Server running on port ${PORT}`);
+  console.log('✅ Enhanced logging and error handling');
+  console.log('✅ MySQL database connected');
+  console.log('📍 React app serving with detailed diagnostics');
+  
+  // Test database connection and file structure on startup
+  try {
+    const testResult = queryDatabase('SELECT COUNT(*) FROM service_categories');
+    console.log(`✅ Database test: ${testResult[0]} categories found`);
+    
+    const distPath = path.join(__dirname, 'dist');
+    const assetsPath = path.join(distPath, 'assets');
+    const indexPath = path.join(distPath, 'index.html');
+    
+    console.log(`📁 Dist directory exists: ${fs.existsSync(distPath)}`);
+    console.log(`📁 Assets directory exists: ${fs.existsSync(assetsPath)}`);
+    console.log(`📄 Index.html exists: ${fs.existsSync(indexPath)}`);
+    
+    if (fs.existsSync(assetsPath)) {
+      const assets = fs.readdirSync(assetsPath);
+      console.log(`📦 Assets found: ${assets.join(', ')}`);
+    }
+  } catch (error) {
+    console.error('❌ Startup test failed:', error.message);
+  }
+});

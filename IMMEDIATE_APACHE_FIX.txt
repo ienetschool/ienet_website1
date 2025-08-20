@@ -1,0 +1,52 @@
+IMMEDIATE FIX - Use Apache Only (Skip nginx)
+
+Since nginx has duplicate location error, let's use Apache only:
+
+STEP 1: Clear nginx directives
+- Delete everything from "Additional nginx directives" box
+- Leave it completely empty
+
+STEP 2: Add Apache directives
+In "Additional Apache directives for HTTP" add:
+
+DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online
+DirectoryIndex index.html
+
+<Directory "/var/www/vhosts/vivaindia.com/ienet.online">
+    Options -Indexes +FollowSymLinks
+    AllowOverride All
+    Require all granted
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ /index.html [L]
+</Directory>
+
+STEP 3: Add same for HTTPS
+In "Additional Apache directives for HTTPS" add the same:
+
+DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online
+DirectoryIndex index.html
+
+<Directory "/var/www/vhosts/vivaindia.com/ienet.online">
+    Options -Indexes +FollowSymLinks
+    AllowOverride All
+    Require all granted
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ /index.html [L]
+</Directory>
+
+STEP 4: Create index.html file
+Use Plesk File Manager:
+1. Navigate to /var/www/vhosts/vivaindia.com/ienet.online/
+2. Create file: index.html
+3. Paste the complete HTML content
+
+STEP 5: Apply
+1. Click OK
+2. Click Apply
+3. Visit https://www.ienet.online
+
+This will work with Apache only, avoiding the nginx duplicate location error.

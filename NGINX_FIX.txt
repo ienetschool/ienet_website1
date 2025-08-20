@@ -1,0 +1,50 @@
+NGINX DUPLICATE LOCATION FIX
+
+The error shows there's already a location "/" block. Here are the solutions:
+
+=== SOLUTION 1: Clear nginx directives and use only this ===
+
+Clear the "Additional nginx directives" box completely and add ONLY this:
+
+location / {
+    root /var/www/vhosts/vivaindia.com/ienet.online;
+    try_files $uri $uri/ /index.html;
+    index index.html;
+}
+
+=== SOLUTION 2: Use different location block ===
+
+If Solution 1 doesn't work, try this instead:
+
+location ~ ^/(.*)$ {
+    root /var/www/vhosts/vivaindia.com/ienet.online;
+    try_files $uri $uri/ /index.html;
+}
+
+=== SOLUTION 3: Modify existing location ===
+
+If there's already a location "/" block, replace the nginx box with:
+
+try_files $uri $uri/ /index.html;
+root /var/www/vhosts/vivaindia.com/ienet.online;
+index index.html;
+
+=== SOLUTION 4: Use Apache only ===
+
+Remove ALL nginx directives and use only Apache directives:
+
+Additional Apache directives for HTTP:
+DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online
+DirectoryIndex index.html
+
+<Directory "/var/www/vhosts/vivaindia.com/ienet.online">
+    Options -Indexes +FollowSymLinks
+    AllowOverride All
+    Require all granted
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^.*$ /index.html [L]
+</Directory>
+
+Try these solutions in order. Solution 4 (Apache only) is most likely to work.

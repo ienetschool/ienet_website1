@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Page</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 40px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            text-align: center; 
+            padding: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+        .test-btn {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 IeNet Test Page</h1>
+        <p>If you can see this page, the server is working correctly.</p>
+        
+        <h2>API Tests:</h2>
+        <button class="test-btn" onclick="testAPI()">Test Health API</button>
+        <button class="test-btn" onclick="testCategories()">Test Categories API</button>
+        
+        <div id="results"></div>
+        
+        <h2>React Bundle Test:</h2>
+        <button class="test-btn" onclick="testReactBundle()">Test React JS Bundle</button>
+        <div id="react-results"></div>
+    </div>
+
+    <script>
+        function testAPI() {
+            fetch('/api/health')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('results').innerHTML = 
+                        '<h3>✅ Health API Works!</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                })
+                .catch(error => {
+                    document.getElementById('results').innerHTML = 
+                        '<h3>❌ Health API Failed</h3><p>' + error.message + '</p>';
+                });
+        }
+        
+        function testCategories() {
+            fetch('/api/service-categories')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('results').innerHTML = 
+                        '<h3>✅ Categories API Works!</h3><p>Found ' + data.length + ' categories</p><pre>' + 
+                        JSON.stringify(data.slice(0, 2), null, 2) + '</pre>';
+                })
+                .catch(error => {
+                    document.getElementById('results').innerHTML = 
+                        '<h3>❌ Categories API Failed</h3><p>' + error.message + '</p>';
+                });
+        }
+        
+        function testReactBundle() {
+            fetch('/assets/index-BOus7yXH.js')
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error('Bundle fetch failed');
+                })
+                .then(data => {
+                    const size = (data.length / 1024 / 1024).toFixed(2);
+                    const hasReact = data.includes('React') || data.includes('createElement');
+                    const hasDOM = data.includes('getElementById') || data.includes('createRoot');
+                    
+                    document.getElementById('react-results').innerHTML = 
+                        '<h3>React Bundle Analysis:</h3>' +
+                        '<p>✅ Bundle Size: ' + size + ' MB</p>' +
+                        '<p>' + (hasReact ? '✅' : '❌') + ' Contains React Code: ' + hasReact + '</p>' +
+                        '<p>' + (hasDOM ? '✅' : '❌') + ' Contains DOM Mounting: ' + hasDOM + '</p>';
+                })
+                .catch(error => {
+                    document.getElementById('react-results').innerHTML = 
+                        '<h3>❌ React Bundle Test Failed</h3><p>' + error.message + '</p>';
+                });
+        }
+        
+        // Auto-run tests on page load
+        setTimeout(() => {
+            testAPI();
+            testReactBundle();
+        }, 1000);
+    </script>
+</body>
+</html>

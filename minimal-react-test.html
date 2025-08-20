@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minimal React Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background: #f5f5f5; 
+        }
+        .test-container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+        }
+        #react-root { 
+            border: 2px dashed #ccc; 
+            padding: 20px; 
+            margin: 20px 0; 
+            min-height: 100px; 
+            background: #f9f9f9; 
+        }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Minimal React Test</h1>
+        <p>Testing React 18 createRoot functionality...</p>
+        
+        <div id="react-root">
+            <p style="color: #666; font-style: italic;">React should replace this content...</p>
+        </div>
+        
+        <div id="test-results"></div>
+    </div>
+
+    <script type="module">
+        console.log('Starting minimal React test...');
+        
+        let testResults = '';
+        
+        function updateResults(message, type = 'info') {
+            console.log(message);
+            testResults += `<div class="status ${type}">${message}</div>`;
+            document.getElementById('test-results').innerHTML = testResults;
+        }
+        
+        // Test 1: Check if React modules can be imported
+        try {
+            updateResults('✅ Step 1: Module script is executing', 'success');
+            
+            // Test 2: Try to create a simple React element
+            const testElement = document.createElement('div');
+            testElement.innerHTML = '<h2 style="color: green;">✅ Direct DOM manipulation works!</h2><p>If you see this, the browser can execute JavaScript and manipulate the DOM.</p>';
+            document.getElementById('react-root').appendChild(testElement);
+            
+            updateResults('✅ Step 2: DOM manipulation successful', 'success');
+            
+            // Test 3: Try to load React from the bundle
+            import('/assets/index-BOus7yXH.js')
+                .then(() => {
+                    updateResults('✅ Step 3: React bundle loaded successfully', 'success');
+                    
+                    // Check if React is available in global scope after import
+                    setTimeout(() => {
+                        if (window.React || document.querySelector('[data-reactroot]') || document.querySelector('#root')?.children.length > 1) {
+                            updateResults('✅ Step 4: React application initialized', 'success');
+                        } else {
+                            updateResults('⚠️ Step 4: React bundle loaded but app not initialized', 'warning');
+                            updateResults('This suggests the React app is stuck in loading/authentication state', 'warning');
+                        }
+                    }, 3000);
+                })
+                .catch(error => {
+                    updateResults(`❌ Step 3: React bundle loading failed: ${error.message}`, 'error');
+                    console.error('React bundle error:', error);
+                });
+                
+        } catch (error) {
+            updateResults(`❌ JavaScript execution error: ${error.message}`, 'error');
+            console.error('Test error:', error);
+        }
+        
+        // Monitor the main React root for changes
+        const originalRoot = document.querySelector('#root');
+        if (originalRoot) {
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList' && mutation.target.children.length > 0) {
+                        updateResults('✅ React mounted to #root element!', 'success');
+                        observer.disconnect();
+                    }
+                });
+            });
+            observer.observe(originalRoot, { childList: true, subtree: true });
+        }
+    </script>
+    
+    <!-- Hidden root element that React should mount to -->
+    <div id="root" style="display: none;"></div>
+</body>
+</html>

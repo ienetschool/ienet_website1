@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>IeNet - React Loading Test</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 40px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+        }
+        .loading {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+        .error {
+            color: #ff6b6b;
+            background: rgba(255,0,0,0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success {
+            color: #51cf66;
+            background: rgba(0,255,0,0.1);
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        #root {
+            min-height: 200px;
+            border: 2px dashed rgba(255,255,255,0.3);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 IeNet React Loading Test</h1>
+        <p>Testing React application initialization...</p>
+        
+        <div class="loading" id="status">Loading React application...</div>
+        
+        <!-- This is where React should mount -->
+        <div id="root">
+            <div style="color: rgba(255,255,255,0.5); font-style: italic;">
+                React app should load here...
+            </div>
+        </div>
+        
+        <div id="diagnostics"></div>
+    </div>
+
+    <!-- Load React bundles -->
+    <link rel="stylesheet" crossorigin href="/assets/index-5acz5IyP.css">
+    <script type="module" crossorigin src="/assets/index-BOus7yXH.js"></script>
+    
+    <script>
+        let loadTimeout;
+        let diagnostics = '';
+        
+        // Check if React loaded successfully
+        function checkReactLoad() {
+            const statusEl = document.getElementById('status');
+            const diagnosticsEl = document.getElementById('diagnostics');
+            const rootEl = document.getElementById('root');
+            
+            // Check if React has populated the root element
+            if (rootEl && rootEl.children.length > 1) {
+                statusEl.innerHTML = '<div class="success">✅ React Application Loaded Successfully!</div>';
+                clearTimeout(loadTimeout);
+                return;
+            }
+            
+            // Check for React in global scope
+            if (window.React || window.__REACT_DEVTOOLS_GLOBAL_HOOK__) {
+                diagnostics += '<p>✅ React library detected in global scope</p>';
+            } else {
+                diagnostics += '<p>❌ React library not found in global scope</p>';
+            }
+            
+            // Check if bundle loaded
+            const scripts = document.querySelectorAll('script[src*="index-BOus7yXH.js"]');
+            if (scripts.length > 0) {
+                diagnostics += '<p>✅ React bundle script tag found</p>';
+            } else {
+                diagnostics += '<p>❌ React bundle script tag not found</p>';
+            }
+            
+            // Check for CSS
+            const styles = document.querySelectorAll('link[href*="index-5acz5IyP.css"]');
+            if (styles.length > 0) {
+                diagnostics += '<p>✅ React styles loaded</p>';
+            } else {
+                diagnostics += '<p>❌ React styles not loaded</p>';
+            }
+            
+            diagnosticsEl.innerHTML = '<h3>Diagnostics:</h3>' + diagnostics;
+        }
+        
+        // Set timeout for React loading
+        loadTimeout = setTimeout(() => {
+            const statusEl = document.getElementById('status');
+            statusEl.innerHTML = '<div class="error">❌ React failed to load within 10 seconds</div>';
+            checkReactLoad();
+            
+            // Additional error checking
+            if (window.console && window.console.error) {
+                document.getElementById('diagnostics').innerHTML += 
+                    '<h3>Please check browser console for JavaScript errors</h3>' +
+                    '<p>Press F12 to open developer tools and check the Console tab for any red error messages.</p>';
+            }
+        }, 10000);
+        
+        // Check React loading status every 2 seconds
+        const checkInterval = setInterval(() => {
+            checkReactLoad();
+            const rootEl = document.getElementById('root');
+            if (rootEl && rootEl.children.length > 1) {
+                clearInterval(checkInterval);
+            }
+        }, 2000);
+        
+        // Initial check
+        setTimeout(checkReactLoad, 1000);
+        
+        // Check for module loading errors
+        window.addEventListener('error', (e) => {
+            console.error('Script loading error:', e);
+            document.getElementById('diagnostics').innerHTML += 
+                '<div class="error">Script Error: ' + e.message + '</div>';
+        });
+        
+        // Check for module loading errors  
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Promise rejection:', e);
+            document.getElementById('diagnostics').innerHTML += 
+                '<div class="error">Promise Rejection: ' + e.reason + '</div>';
+        });
+    </script>
+</body>
+</html>

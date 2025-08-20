@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>IeNet - Auth Bypass Test</title>
+    <link rel="stylesheet" crossorigin href="/assets/index-5acz5IyP.css">
+    <style>
+        .auth-debug {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #ff4444;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            z-index: 9999;
+            font-size: 14px;
+        }
+        .auth-debug.success {
+            background: #44aa44;
+        }
+    </style>
+</head>
+<body>
+    <div id="auth-status" class="auth-debug">Checking authentication...</div>
+    <div id="root"></div>
+    
+    <script type="module">
+        console.log('Starting auth bypass test...');
+        
+        const statusEl = document.getElementById('auth-status');
+        
+        // Test the auth endpoint first
+        fetch('/api/auth/user')
+            .then(response => {
+                if (response.status === 401) {
+                    statusEl.textContent = 'Auth returned 401 (expected) - Loading React app...';
+                    statusEl.className = 'auth-debug success';
+                } else {
+                    statusEl.textContent = `Auth returned ${response.status} (unexpected)`;
+                }
+                return response.json().catch(() => ({}));
+            })
+            .catch(error => {
+                statusEl.textContent = `Auth error: ${error.message}`;
+            })
+            .finally(() => {
+                // Now load the React bundle
+                import('/assets/index-BOus7yXH.js')
+                    .then(() => {
+                        console.log('React bundle loaded');
+                        statusEl.textContent = 'React bundle loaded - Waiting for mount...';
+                        
+                        // Check if React mounts
+                        let checkCount = 0;
+                        const checkMount = setInterval(() => {
+                            checkCount++;
+                            const root = document.getElementById('root');
+                            
+                            if (root && root.children.length > 0) {
+                                statusEl.textContent = 'SUCCESS: React app mounted!';
+                                statusEl.className = 'auth-debug success';
+                                clearInterval(checkMount);
+                            } else if (checkCount > 15) {
+                                statusEl.textContent = 'ISSUE: React app not mounting after 15 seconds';
+                                clearInterval(checkMount);
+                            } else {
+                                statusEl.textContent = `Waiting for React mount... (${checkCount}/15)`;
+                            }
+                        }, 1000);
+                    })
+                    .catch(error => {
+                        statusEl.textContent = `React bundle error: ${error.message}`;
+                        console.error('React bundle error:', error);
+                    });
+            });
+    </script>
+</body>
+</html>

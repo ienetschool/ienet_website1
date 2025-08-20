@@ -1,32 +1,32 @@
-#!/usr/bin/env node
-import mysql from 'mysql2/promise';
+// Quick database connection test for ienet.online
+const mysql = require('mysql2/promise');
 
-const config = {
-  host: '5.181.218.15',
-  port: 3306,
-  user: 'netiedb',
-  password: 'h5pLF9833',
-  database: 'ienetdb'
-};
-
-async function checkStatus() {
+async function testDatabase() {
   try {
-    const connection = await mysql.createConnection(config);
-    const [tables] = await connection.execute('SHOW TABLES');
-    const [categories] = await connection.execute('SELECT COUNT(*) as count FROM service_categories');
+    const connection = await mysql.createConnection({
+      host: 'localhost',
+      port: 3306,
+      user: 'netiedb',
+      password: 'h5pLF9833',
+      database: 'ienetdb'
+    });
+
+    console.log('✅ Database connection successful');
     
-    console.log('🟢 Database Status: HEALTHY');
-    console.log(`📊 Tables: ${tables.length}`);
-    console.log(`📋 Categories: ${categories[0].count}`);
-    console.log('🌐 Domain: ienet.online');
-    console.log('✅ Ready for production');
+    // Test a simple query
+    const [rows] = await connection.execute('SELECT COUNT(*) as count FROM service_categories');
+    console.log('✅ Database query successful:', rows[0]);
     
     await connection.end();
+    return true;
   } catch (error) {
-    console.log('🔴 Database Status: ERROR');
-    console.error(error.message);
-    process.exit(1);
+    console.error('❌ Database connection failed:', error.message);
+    return false;
   }
 }
 
-checkStatus();
+testDatabase().then(success => {
+  process.exit(success ? 0 : 1);
+});
+
+// Run this with: node check-database-status.js

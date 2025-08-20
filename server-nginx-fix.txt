@@ -1,33 +1,53 @@
-# Server Commands for Nginx (since Apache not found)
-# Run these commands in your SSH terminal:
+# Emergency server fix for ienet.online - Run these commands immediately:
 
-# Check what web server is running
-systemctl status nginx
-ps aux | grep nginx
+cd /var/www/vhosts/vivaindia.com/ienet.online
 
-# If Nginx is running, restart it:
-systemctl restart nginx
+# Check if Node.js process is still running
+ps aux | grep node
+pm2 status
 
-# If Nginx is not running, start it:
-systemctl start nginx
-systemctl enable nginx
+# Check application logs for errors
+pm2 logs ienet --lines 50
 
-# Check if there are any other web servers:
-ps aux | grep -E "apache|nginx|httpd"
-
-# Test if the site is now working:
-curl -I http://localhost
-curl -I http://ienet.online
-
-# Check Nginx configuration:
-nginx -t
-
-# View Nginx error logs if needed:
+# Check Nginx error logs
 tail -f /var/log/nginx/error.log
 
-# If still having issues, check what's listening on port 80:
-netstat -tlnp | grep :80
+# Restart the Node.js application
+pm2 restart ienet
 
-# Alternative commands if systemctl doesn't work:
-service nginx restart
-/etc/init.d/nginx restart
+# If that doesn't work, kill and restart fresh:
+pm2 delete ienet
+cd /var/www/vhosts/vivaindia.com/ienet.online
+
+# Create proper environment file
+cat > .env << 'EOF'
+NODE_ENV=production
+PORT=3000
+DATABASE_URL=mysql://netiedb:h5pLF9833@localhost:3306/ienetdb
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=ienetdb
+DB_USER=netiedb
+DB_PASSWORD=h5pLF9833
+DOMAIN=ienet.online
+EOF
+
+# Start fresh with PM2
+pm2 start --name "ienet" --env NODE_ENV=production -- npx tsx server/index.ts
+pm2 save
+
+# Test local connection
+curl -I http://localhost:3000
+
+# If still not working, check if files exist and rebuild:
+ls -la server/index.ts
+npm run build
+
+# Alternative: Run without PM2 to see error messages
+NODE_ENV=production PORT=3000 npx tsx server/index.ts
+
+# Check what's listening on port 3000
+netstat -tlnp | grep :3000
+
+# Final test
+curl -v http://ienet.online

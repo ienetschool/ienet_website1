@@ -177,8 +177,69 @@ async function fixSchema() {
     console.log('✅ Updated categories:', updatedCategories);
     console.log('✅ Updated projects:', updatedProjects);
 
-    console.log('🎉 Schema fix complete!');
-    console.log('📊 Database ready for application');
+    // Fix services table
+    console.log('🔧 Fixing services table...');
+    
+    const [servicesColumns] = await connection.execute(`
+      SELECT COLUMN_NAME 
+      FROM INFORMATION_SCHEMA.COLUMNS 
+      WHERE TABLE_SCHEMA = 'ienetdb' 
+      AND TABLE_NAME = 'services'
+    `);
+    
+    console.log('📋 services columns:', servicesColumns.map(c => c.COLUMN_NAME));
+
+    // Add missing columns to services
+    const servicesColumnsToAdd = [
+      { name: 'short_description', sql: 'ADD COLUMN `short_description` VARCHAR(500) AFTER `description`' },
+      { name: 'content', sql: 'ADD COLUMN `content` TEXT AFTER `short_description`' },
+      { name: 'meta_title', sql: 'ADD COLUMN `meta_title` VARCHAR(255) AFTER `content`' },
+      { name: 'meta_description', sql: 'ADD COLUMN `meta_description` TEXT AFTER `meta_title`' }
+    ];
+
+    for (const column of servicesColumnsToAdd) {
+      const hasColumn = servicesColumns.some(c => c.COLUMN_NAME === column.name);
+      if (!hasColumn) {
+        console.log(`➕ Adding ${column.name} to services...`);
+        await connection.execute(`ALTER TABLE services ${column.sql}`);
+        console.log(`✅ Added ${column.name}`);
+      } else {
+        console.log(`✓ ${column.name} already exists`);
+      }
+    }
+
+    // Fix features table
+    console.log('🔧 Fixing features table...');
+    
+    const [featuresColumns] = await connection.execute(`
+      SELECT COLUMN_NAME 
+      FROM INFORMATION_SCHEMA.COLUMNS 
+      WHERE TABLE_SCHEMA = 'ienetdb' 
+      AND TABLE_NAME = 'features'
+    `);
+    
+    console.log('📋 features columns:', featuresColumns.map(c => c.COLUMN_NAME));
+
+    // Add missing columns to features
+    const featuresColumnsToAdd = [
+      { name: 'content', sql: 'ADD COLUMN `content` TEXT AFTER `description`' },
+      { name: 'meta_title', sql: 'ADD COLUMN `meta_title` VARCHAR(255) AFTER `content`' },
+      { name: 'meta_description', sql: 'ADD COLUMN `meta_description` TEXT AFTER `meta_title`' }
+    ];
+
+    for (const column of featuresColumnsToAdd) {
+      const hasColumn = featuresColumns.some(c => c.COLUMN_NAME === column.name);
+      if (!hasColumn) {
+        console.log(`➕ Adding ${column.name} to features...`);
+        await connection.execute(`ALTER TABLE features ${column.sql}`);
+        console.log(`✅ Added ${column.name}`);
+      } else {
+        console.log(`✓ ${column.name} already exists`);
+      }
+    }
+
+    console.log('🎉 Complete schema fix finished!');
+    console.log('📊 All tables ready for application');
     
   } catch (error) {
     console.error('❌ Schema fix failed:', error.message);

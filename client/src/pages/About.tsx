@@ -2,6 +2,8 @@ import { Link } from "wouter";
 import ModernHeader from "@/components/layout/ModernHeader";
 import TopBar from "@/components/layout/TopBar";
 import ModernFooter from "@/components/layout/ModernFooter";
+import LiveChat from "@/components/sections/LiveChat";
+import FloatingActionButtons from "@/components/ui/floating-action-buttons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -534,6 +536,10 @@ export default function About() {
       </main>
 
       <ModernFooter />
+      
+      {/* Add floating components */}
+      <LiveChat />
+      <FloatingActionButtons />
     </div>
   );
 }

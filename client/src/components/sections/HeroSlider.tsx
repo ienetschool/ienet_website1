@@ -11,7 +11,7 @@ const slides = [
     description: "Custom website design and development services that combine stunning visuals with seamless functionality. From corporate websites to e-commerce platforms, we create digital experiences that drive results.",
     cta: "Explore Web Services",
     ctaLink: "/services/website-design-development",
-    background: "linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(147, 51, 234, 0.9))",
+    background: "linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(51, 65, 85, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -21,7 +21,7 @@ const slides = [
     description: "Enterprise-grade web hosting, cloud infrastructure, and server management services. Ensure your website performs optimally with our secure, fast, and reliable hosting solutions.",
     cta: "Hosting Solutions",
     ctaLink: "/services/web-hosting-infrastructure",
-    background: "linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(21, 128, 61, 0.9))",
+    background: "linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 58, 138, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -31,7 +31,7 @@ const slides = [
     description: "Comprehensive cybersecurity services including vulnerability assessments, penetration testing, and 24/7 monitoring to safeguard your business from evolving cyber threats.",
     cta: "Security Solutions",
     ctaLink: "/services/cybersecurity",
-    background: "linear-gradient(135deg, rgba(220, 38, 38, 0.9), rgba(239, 68, 68, 0.9))",
+    background: "linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(75, 85, 99, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -41,7 +41,7 @@ const slides = [
     description: "Comprehensive digital marketing strategies including SEO, social media marketing, PPC advertising, and content marketing to boost your online presence and drive conversions.",
     cta: "Marketing Solutions",
     ctaLink: "/services/digital-marketing-promotion",
-    background: "linear-gradient(135deg, rgba(168, 85, 247, 0.9), rgba(124, 58, 237, 0.9))",
+    background: "linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(64, 64, 64, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -51,7 +51,7 @@ const slides = [
     description: "Custom mobile app development for iOS and Android platforms. From concept to deployment, we create engaging mobile experiences that connect with your audience.",
     cta: "App Development",
     ctaLink: "/services/mobile-app-development",
-    background: "linear-gradient(135deg, rgba(249, 115, 22, 0.9), rgba(194, 65, 12, 0.9))",
+    background: "linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(55, 65, 81, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -61,7 +61,7 @@ const slides = [
     description: "Complete branding solutions including logo design, brand identity, marketing materials, and graphic design services that make your business stand out in the marketplace.",
     cta: "Branding Services",
     ctaLink: "/services/business-branding-graphics",
-    background: "linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9))",
+    background: "linear-gradient(135deg, rgba(24, 24, 27, 0.95), rgba(39, 39, 42, 0.9))",
     image: "/api/placeholder/1920/800"
   }
 ];

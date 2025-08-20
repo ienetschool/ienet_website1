@@ -3,6 +3,8 @@ import { Link } from "wouter";
 import ModernHeader from "@/components/layout/ModernHeader";
 import TopBar from "@/components/layout/TopBar";
 import ModernFooter from "@/components/layout/ModernFooter";
+import LiveChat from "@/components/sections/LiveChat";
+import FloatingActionButtons from "@/components/ui/floating-action-buttons";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -53,13 +55,7 @@ export default function Services() {
       <TopBar />
       <ModernHeader />
 
-      {/* Floating CTA Button */}
-      <div className="fixed bottom-6 right-6 z-40">
-        <Button className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2">
-          <MessageCircle size={20} />
-          <span className="hidden sm:block">Get Quote</span>
-        </Button>
-      </div>
+
 
       <main>
         {/* Hero Section */}
@@ -113,7 +109,7 @@ export default function Services() {
               </div>
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {categories?.map((category: any) => {
+                {categories && Array.isArray(categories) && categories.map((category: any) => {
                   const IconComponent = iconMap[category.icon as keyof typeof iconMap] || Code;
                   const gradientClass = colorMap[category.color as keyof typeof colorMap] || colorMap.primary;
 
@@ -148,7 +144,7 @@ export default function Services() {
               </div>
             )}
 
-            {categories?.length === 0 && !isLoading && (
+            {categories && Array.isArray(categories) && categories.length === 0 && !isLoading && (
               <div className="text-center py-12">
                 <p className="text-gray-600 dark:text-gray-400 text-lg">
                   No services available at the moment. Please check back later.
@@ -183,7 +179,11 @@ export default function Services() {
         </section>
       </main>
 
-      <Footer />
+      <ModernFooter />
+      
+      {/* Add floating components */}
+      <LiveChat />
+      <FloatingActionButtons />
     </div>
   );
 }

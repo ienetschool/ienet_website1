@@ -2,6 +2,8 @@ import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import ModernHeader from "@/components/layout/ModernHeader";
 import ModernFooter from "@/components/layout/ModernFooter";
+import LiveChat from "@/components/sections/LiveChat";
+import FloatingActionButtons from "@/components/ui/floating-action-buttons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -680,6 +682,10 @@ export default function ServiceDetail() {
         onToggle={() => setLiveEditorActive(!liveEditorActive)}
         pageSlug={categorySlug}
       />
+      
+      {/* Add floating components */}
+      <LiveChat />
+      <FloatingActionButtons />
     </div>
   );
 }

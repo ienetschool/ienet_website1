@@ -52,7 +52,17 @@ import {
   Headphones,
   BookOpen,
   TrendingDown,
-  Gamepad2
+  Gamepad2,
+  Heart,
+  CreditCard,
+  GraduationCap,
+  Home,
+  Factory,
+  Laptop,
+  Building,
+  Camera,
+  Briefcase,
+  Plane
 } from "lucide-react";
 
 const iconMap: { [key: string]: any } = {
@@ -423,18 +433,18 @@ export default function Services() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                "Healthcare & Medical",
-                "Financial Services", 
-                "E-commerce & Retail",
-                "Education & E-learning",
-                "Real Estate",
-                "Manufacturing",
-                "Technology & SaaS",
-                "Non-profit Organizations",
-                "Government & Public Sector",
-                "Entertainment & Media",
-                "Professional Services",
-                "Hospitality & Tourism"
+                { name: "Healthcare & Medical", icon: Heart },
+                { name: "Financial Services", icon: CreditCard }, 
+                { name: "E-commerce & Retail", icon: ShoppingCart },
+                { name: "Education & E-learning", icon: GraduationCap },
+                { name: "Real Estate", icon: Home },
+                { name: "Manufacturing", icon: Factory },
+                { name: "Technology & SaaS", icon: Laptop },
+                { name: "Non-profit Organizations", icon: Users },
+                { name: "Government & Public Sector", icon: Building },
+                { name: "Entertainment & Media", icon: Camera },
+                { name: "Professional Services", icon: Briefcase },
+                { name: "Hospitality & Tourism", icon: Plane }
               ].map((industry, index) => (
                 <div 
                   key={index}
@@ -442,10 +452,10 @@ export default function Services() {
                 >
                   <div className="flex items-center">
                     <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                      <Target className="text-white" size={20} />
+                      <industry.icon className="text-white" size={20} />
                     </div>
                     <p className="font-semibold text-gray-900 dark:text-white text-sm">
-                      {industry}
+                      {industry.name}
                     </p>
                   </div>
                 </div>
@@ -479,7 +489,7 @@ export default function Services() {
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <Button 
                   size="lg" 
-                  className="bg-white text-slate-800 hover:bg-blue-50 px-8 py-4 text-lg font-semibold shadow-2xl hover:shadow-white/25 transition-all duration-300 transform hover:-translate-y-1"
+                  className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 px-8 py-4 text-lg font-semibold shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-1 border-0"
                   asChild
                 >
                   <Link href="/contact">
@@ -491,7 +501,7 @@ export default function Services() {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 px-8 py-4 text-lg font-semibold backdrop-blur-sm transition-all duration-300"
+                  className="border-2 border-white/40 bg-white/10 text-white hover:bg-white/20 hover:border-white/60 px-8 py-4 text-lg font-semibold backdrop-blur-sm transition-all duration-300 hover:scale-105"
                   asChild
                 >
                   <Link href="/projects">

@@ -1,75 +1,62 @@
-# STEP-BY-STEP MANUAL FIX FOR PLESK
+# Step-by-Step Production Server Fix
 
-Your Plesk keeps showing "The file does not exist" because the upload isn't working correctly.
+## Issue Identified
+The Node.js server isn't responding on port 3001, causing 502 errors.
 
-## Manual Solution:
+## Solution Steps
 
-### Step 1: Create Folder Structure in Plesk File Manager
-Go to /ienet.online/ and create these folders:
-1. Create folder: `dist`
-2. Create folder: `public` 
-3. Create folder: `public/assets`
+### 1. Upload New Complete Server
+Upload `complete-working-server.cjs` to replace the current server file.
 
-### Step 2: Create dist/index.js File
-In Plesk File Manager, create new file: `/ienet.online/dist/index.js`
-Copy and paste this exact code:
+### 2. Kill Existing Process and Start New Server
+```bash
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
 
-```javascript
-import express from 'express';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+# Kill any existing Node.js processes
+pkill -f node
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+# Start the new complete server
+nohup node complete-working-server.cjs > complete-server.log 2>&1 &
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-console.log('Starting IeNet React Application...');
-
-app.use(express.static(join(__dirname, '..', 'public')));
-
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'IeNet React App Running', timestamp: new Date() });
-});
-
-app.get('*', (req, res) => {
-  const indexPath = join(__dirname, '..', 'public', 'index.html');
-  res.sendFile(indexPath);
-});
-
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`IeNet React Application started on port ${PORT}`);
-  console.log(`Visit http://ienet.online to view your website`);
-});
+# Check if it's running
+ps aux | grep node
 ```
 
-### Step 3: Create package.json File
-In Plesk File Manager, create new file: `/ienet.online/package.json`
-Copy and paste:
+### 3. Verify Server is Listening
+```bash
+# Check if port 3001 is listening
+netstat -tulpn | grep 3001
 
-```json
-{
-  "name": "ienet-production",
-  "version": "1.0.0",
-  "type": "module",
-  "main": "dist/index.js",
-  "scripts": {
-    "start": "node dist/index.js"
-  },
-  "dependencies": {
-    "express": "^4.18.2"
-  }
-}
+# Test local connection
+curl http://127.0.0.1:3001/api/health
 ```
 
-### Step 4: Upload React Files
-Download final-plesk-exact-structure.tar.gz, extract it, and upload:
-- All files from `public/` folder to `/ienet.online/public/`
+### 4. Test API Endpoints
+```bash
+# Test health endpoint
+curl https://www.ienet.online/api/health
 
-### Step 5: Plesk Configuration
-- Keep Application Startup File: `dist/index.js`
-- Click "NPM install"
-- Click "Restart App"
+# Test service categories
+curl https://www.ienet.online/api/service-categories
+```
 
-This will fix the "file does not exist" error.
+### 5. Update Plesk Configuration (Optional)
+In Plesk Node.js panel:
+- Change Application Startup File to `complete-working-server.cjs`
+- Click Apply
+
+## Expected Results
+- Server responds on port 3001
+- API endpoints return JSON data from MySQL
+- Website loads service categories and content
+- No more "Service Not Found" errors
+
+## New Server Features
+- Enhanced error handling
+- Detailed logging
+- Proper CORS configuration
+- MySQL connection management
+- All endpoints implemented with real database queries
+
+This complete server should resolve all communication issues between Nginx and Node.js.

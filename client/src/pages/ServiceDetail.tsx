@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import ModernHeader from "@/components/layout/ModernHeader";
 import ModernFooter from "@/components/layout/ModernFooter";
 import LiveChat from "@/components/sections/LiveChat";
-import FloatingActionButtons from "@/components/ui/floating-action-buttons";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -214,13 +214,7 @@ export default function ServiceDetail() {
       <ModernHeader />
       <EditModeToggle />
 
-      <FloatingCTA 
-        onGetQuoteClick={() => openModal({
-          subject: `Get Quote for ${category?.name} Services`,
-          message: `I'm interested in ${category?.name} services. Please provide a detailed quote and consultation.`
-        })}
-        getQuoteText={`Get Quote for ${category?.name}`}
-      />
+
       
       <main>
         {/* Hero Section */}
@@ -669,19 +663,31 @@ export default function ServiceDetail() {
         }}
       />
 
-      {/* Admin Edit Tools */}
-      <EditButton onVisualEdit={() => setLiveEditorActive(!liveEditorActive)} />
-      
-      {/* Live Editor Integration */}
-      <LiveEditor
-        isActive={liveEditorActive}
-        onToggle={() => setLiveEditorActive(!liveEditorActive)}
-        pageSlug={categorySlug}
-      />
+      {/* Admin Edit Tools - Only show for authenticated admin/editor users */}
+      {isAdmin && (
+        <>
+          <EditButton onVisualEdit={() => setLiveEditorActive(!liveEditorActive)} />
+          
+          {/* Live Editor Integration */}
+          <LiveEditor
+            isActive={liveEditorActive}
+            onToggle={() => setLiveEditorActive(!liveEditorActive)}
+            pageSlug={categorySlug}
+          />
+        </>
+      )}
       
       {/* Add floating components */}
       <LiveChat />
-      <FloatingActionButtons />
+      <FloatingCTA 
+        onGetQuoteClick={() => {
+          const contactSection = document.getElementById('contact-section');
+          if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
+        getQuoteText="Get Quote"
+      />
     </div>
   );
 }

@@ -46,7 +46,7 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import LiveChat from "@/components/sections/LiveChat";
-import FloatingActionButtons from "@/components/ui/floating-action-buttons";
+import FloatingCTA from "@/components/FloatingCTA";
 
 export default function DatabaseViewer() {
   const [connectionTest, setConnectionTest] = useState<{status: 'idle' | 'testing' | 'success' | 'error', message: string}>({
@@ -445,7 +445,7 @@ export default function DatabaseViewer() {
       
       {/* Add floating components */}
       <LiveChat />
-      <FloatingActionButtons />
+      <FloatingCTA />
     </div>
   );
 }

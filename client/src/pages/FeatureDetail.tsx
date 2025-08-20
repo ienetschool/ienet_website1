@@ -4,6 +4,7 @@ import ModernHeader from "@/components/layout/ModernHeader";
 import ModernFooter from "@/components/layout/ModernFooter";
 import QuickContactModal from "@/components/sections/QuickContactModal";
 import LiveChat from "@/components/sections/LiveChat";
+import FloatingCTA from "@/components/FloatingCTA";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -756,6 +757,15 @@ export default function FeatureDetail() {
           </div>
         </div>
       )}
+
+      {/* Floating CTA for quick actions */}
+      <FloatingCTA 
+        onGetQuoteClick={() => openModal({
+          subject: `Get Quote for ${feature.name}`,
+          message: `I would like to receive a quote for ${feature.name} implementation. Please provide pricing details.`
+        })}
+        getQuoteText="Get Quote"
+      />
     </div>
   );
 }

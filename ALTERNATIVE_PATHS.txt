@@ -1,0 +1,28 @@
+ALTERNATIVE FILE LOCATIONS TO TRY
+
+If the current setup isn't working, try these different paths in Plesk File Manager:
+
+=== OPTION 1: httpdocs folder ===
+Create: /var/www/vhosts/vivaindia.com/ienet.online/httpdocs/index.html
+Apache directive: DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online/httpdocs
+
+=== OPTION 2: public_html folder ===
+Create: /var/www/vhosts/vivaindia.com/ienet.online/public_html/index.html
+Apache directive: DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online/public_html
+
+=== OPTION 3: www folder ===
+Create: /var/www/vhosts/vivaindia.com/ienet.online/www/index.html
+Apache directive: DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online/www
+
+=== OPTION 4: Default Plesk path ===
+Check what's the default document root in Plesk domain settings and put index.html there.
+
+=== QUICK TEST ===
+For each option:
+1. Create the folder if it doesn't exist
+2. Copy index.html content there
+3. Update Apache directive to point to that folder
+4. Click Apply
+5. Test https://www.ienet.online
+
+The correct path will show your professional India Espectacular website immediately.

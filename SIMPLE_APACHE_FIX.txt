@@ -1,0 +1,39 @@
+SIMPLE APACHE FIX FOR INTERNAL SERVER ERROR
+
+The 500 error suggests Apache configuration issues. Let's use the simplest possible setup:
+
+=== STEP 1: Clear All Directives ===
+In Plesk:
+- Clear "Additional Apache directives for HTTP" (delete everything)
+- Clear "Additional Apache directives for HTTPS" (delete everything)  
+- Clear "Additional nginx directives" (delete everything)
+
+=== STEP 2: Simple Apache Directives ===
+Add ONLY this to "Additional Apache directives for HTTP":
+
+DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online
+
+Add ONLY this to "Additional Apache directives for HTTPS":
+
+DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online
+
+=== STEP 3: Move index.html to Root ===
+In Plesk File Manager:
+1. Make sure index.html is in: /var/www/vhosts/vivaindia.com/ienet.online/index.html
+2. NOT in a subfolder
+
+=== STEP 4: Alternative Location ===
+If the above doesn't work, try putting index.html in:
+/var/www/vhosts/vivaindia.com/ienet.online/httpdocs/index.html
+
+And use these directives:
+HTTP: DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online/httpdocs
+HTTPS: DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online/httpdocs
+
+=== STEP 5: Test ===
+1. Click OK
+2. Click Apply  
+3. Wait 30 seconds
+4. Visit https://www.ienet.online
+
+This minimal configuration should eliminate the 500 error and serve your professional India Espectacular website.

@@ -32,6 +32,8 @@ COMPLETE WEBSITE FUNCTIONALITY RESTORED (Aug 20, 2025): Successfully resolved al
 
 AUTHENTICATION INFINITE LOOP ISSUE RESOLVED (Aug 20, 2025): CRITICAL FIX - Identified and resolved the React authentication infinite loop that was causing blank pages on both development and production servers. Problem was authentication query configuration causing continuous 401 requests. Solution: Modified queryClient to return null on 401 responses instead of throwing errors, and updated production server authentication endpoint to return null instead of 401. Both development (PostgreSQL) and production (MySQL) servers now properly display the Landing page with all components (HeroSlider, ModernHeader, Services, Projects, Navigation) functioning correctly.
 
+PRODUCTION DEPLOYMENT PLAN (Aug 20, 2025): User provided comprehensive deployment plan to move website from https://www.ienet.online:5000 to root domain https://www.ienet.online (port 443). Key tasks: 1) Configure web server (Nginx/Apache) to proxy app at root, 2) Fix broken pages especially sub-services and project pages, 3) Ensure full MySQL connectivity, 4) Complete manual testing checklist. User emphasized keeping development server unchanged and focusing solely on production deployment. Need to identify web server type, app stack, access method, and current database status.
+
 ## System Architecture
 
 ### Frontend Architecture

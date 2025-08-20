@@ -1,0 +1,116 @@
+Deployment Plan for Production Server
+1. Move Website from Port 5000 to Root Domain
+
+Current: https://www.ienet.online:5000
+
+Target: https://www.ienet.online (default HTTPS port 443)
+
+Steps:
+
+Update web server configuration (likely Nginx or Apache) to:
+
+Proxy or serve your app at root /
+
+Remove port 5000 from public access
+
+Update any hardcoded URLs in:
+
+Frontend templates
+
+Backend redirects
+
+Restart web server and test deployment
+
+📌 Check if Gunicorn/Uvicorn is used, and if so, reverse-proxy it correctly behind Nginx.
+
+2. Fix Broken Pages
+
+Especially pages like:
+
+/services/cybersecurity-solutions/cybersecurity-solutions-custom-development
+
+Sub-services, project pages, features, etc.
+
+Steps:
+
+Audit the routing and URL generation logic (Flask/Django/Express/etc.)
+
+Check database content for those pages
+
+Confirm slugs/URLs are correct
+
+Check for:
+
+404s
+
+Template rendering errors
+
+Broken links or missing data
+
+3. Ensure Full Site Works with MySQL
+
+Confirm the app is connected to MySQL in production (not SQLite or memory DB)
+
+Test:
+
+Data fetching (pages load data correctly)
+
+Data submission (forms, contact, etc.)
+
+Admin/backend panels if any
+
+Check database logs for any SQL errors
+
+4. Manual Testing Checklist
+
+ Homepage and all navigation links
+
+ Services main page + each service subpage
+
+ Projects page and individual projects
+
+ Contact form and any user input
+
+ Login/Signup (if applicable)
+
+ Admin panel (if exists)
+
+ Mobile responsiveness
+
+ SEO tags & sitemaps
+
+ Load time/performance
+
+ HTTPS and SSL certificates (no mixed content)
+
+✅ Deliverables
+
+Once completed, you will receive:
+
+Live site on root domain (https://www.ienet.online)
+
+All broken links and pages fixed
+
+Functionality verified end-to-end with MySQL
+
+Final deployment + testing report
+
+🔧 Before I proceed
+
+Please confirm the following:
+
+Web server used: Nginx, Apache, or something else?
+
+App stack: Flask, Django, Node.js, PHP, etc.?
+
+Access info: Do you have SSH or cPanel access to the production server?
+
+Current DB setup: Is MySQL already populated and in use, or does it need to be migrated from another DB?
+
+Once I have this info, I can give you either:
+
+The exact commands/configuration needed, or
+
+Help you execute it step-by-step.
+
+Let me know how you'd like to proceed.

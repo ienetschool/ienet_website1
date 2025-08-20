@@ -23,11 +23,17 @@ async function connectDB() {
     db = await mysql.createConnection(dbConfig);
     console.log('Connected to MariaDB database');
     
-    // Test connection
-    const [rows] = await db.execute('SELECT COUNT(*) as count FROM service_categories');
-    console.log(`Database test: ${rows[0].count} service categories found`);
+    // Test connection with better error handling
+    try {
+      const [rows] = await db.execute('SELECT COUNT(*) as count FROM service_categories');
+      console.log(`Database test: ${rows[0].count} service categories found`);
+    } catch (tableError) {
+      console.log('Service categories table not found - database needs schema setup');
+      console.log('Run: node create-mysql-schema.js');
+    }
   } catch (error) {
     console.error('Database connection error:', error.message);
+    console.log('Check MySQL credentials and server connectivity');
   }
 }
 

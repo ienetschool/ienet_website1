@@ -1,0 +1,13 @@
+PLESK NODE.JS CONFIGURATION:
+
+1. Application Startup File: server-start.js
+2. Application Mode: production  
+3. Node.js Version: 18.x
+4. Document Root: /
+
+COMMANDS:
+1. Upload all files to /ienet.online/
+2. Click "NPM install" 
+3. Click "Restart App"
+
+RESULT: ienet.online shows React application

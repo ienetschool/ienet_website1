@@ -1,0 +1,30 @@
+403 FORBIDDEN ERROR FIX
+
+The files are uploaded and Node.js is disabled, but you're getting 403 Forbidden.
+This means Apache doesn't have permission to read your files.
+
+RUN THESE COMMANDS ON YOUR SERVER:
+
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Fix file permissions
+chown -R vivaiind:psacln ./*
+chmod -R 644 ./*
+chmod 755 .
+chmod 755 assets/
+
+# Verify files are there
+ls -la
+
+# Check if .htaccess is uploaded (upload it if not)
+ls -la .htaccess
+
+# Restart Apache (if needed)
+systemctl reload apache2
+
+# Check the website
+curl -I https://www.ienet.online
+
+The 403 error should be fixed after setting the correct file permissions.
+Your files are there, they just need the right ownership and permissions.

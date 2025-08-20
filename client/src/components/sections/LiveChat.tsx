@@ -120,6 +120,7 @@ export default function LiveChat() {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
+          data-testid="live-chat-toggle"
           className={`relative bg-primary hover:bg-primary/90 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ${
             isOpen ? 'scale-0' : 'scale-100'
           }`}

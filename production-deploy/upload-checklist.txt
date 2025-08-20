@@ -1,0 +1,26 @@
+UPLOAD CHECKLIST FOR PLESK DEPLOYMENT
+
+REQUIRED FILES TO UPLOAD:
+
+✅ 1. index.js → /ienet.online/index.js
+   (Express server that serves React app)
+
+✅ 2. simple-package.json → /ienet.online/package.json  
+   (Contains express and mysql2 dependencies)
+
+✅ 3. .env.production → /ienet.online/.env
+   (Database connection settings)
+
+✅ 4. dist/public/ → /ienet.online/dist/public/
+   (React build files with index.html)
+
+PLESK SETTINGS:
+- Startup File: index.js
+- Mode: production  
+- Node.js: 18.x
+
+COMMANDS:
+1. NPM install
+2. Restart App
+
+RESULT: ienet.online shows React app

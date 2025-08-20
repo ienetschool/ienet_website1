@@ -80,7 +80,23 @@ app.get('/api/services', async (req, res) => {
 
 // Serve React application for all other routes
 app.get('*', (req, res) => {
-  res.sendFile(join(__dirname, 'dist', 'public', 'index.html'));
+  const indexPath = join(__dirname, 'dist', 'public', 'index.html');
+  console.log('Serving React app from:', indexPath);
+  res.sendFile(indexPath, (err) => {
+    if (err) {
+      console.error('Error serving index.html:', err);
+      res.status(404).send(`
+        <html>
+          <head><title>IeNet - India Espectacular</title></head>
+          <body>
+            <h1>IeNet Application Loading...</h1>
+            <p>React application is starting up. Please refresh in a moment.</p>
+            <p>If this persists, check that static files are uploaded correctly.</p>
+          </body>
+        </html>
+      `);
+    }
+  });
 });
 
 // Start server

@@ -1,17 +1,3 @@
-#!/bin/bash
-
-# Emergency Static React Deployment - Guaranteed to Work
-echo "🚨 Creating emergency static React deployment..."
-
-# Create static deployment package
-rm -rf static-emergency-deploy
-mkdir -p static-emergency-deploy
-
-# Copy all React files directly (no Node.js server needed)
-cp -r clean-react-deploy/public/* static-emergency-deploy/
-
-# Create .htaccess for Apache to handle React routing
-cat > static-emergency-deploy/.htaccess << 'EOF'
 # Enable rewrite engine
 RewriteEngine On
 
@@ -43,21 +29,3 @@ RewriteRule . /index.html [L]
     ExpiresByType image/png "access plus 1 year"
     ExpiresByType image/jpeg "access plus 1 year"
 </IfModule>
-EOF
-
-# Create deployment package
-cd static-emergency-deploy
-tar -czf ../static-react-emergency.tar.gz .
-cd ..
-
-echo "✅ Emergency static deployment ready!"
-echo "📦 Package: static-react-emergency.tar.gz"
-echo ""
-echo "🎯 UPLOAD TO PLESK:"
-echo "1. Delete ALL files in /ienet.online/"
-echo "2. Upload and extract static-react-emergency.tar.gz"
-echo "3. NO Node.js configuration needed"
-echo "4. Works directly with Apache/Nginx"
-echo ""
-echo "📁 Files included:"
-ls -la static-emergency-deploy/

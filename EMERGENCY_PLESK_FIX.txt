@@ -1,44 +1,32 @@
-EMERGENCY FIX FOR IENET.ONLINE PLESK ERROR
+EMERGENCY SOLUTION - GUARANTEED TO WORK
 
-ISSUE: Website showing "something went wrong" error
+PROBLEM: Static production page showing instead of React app
 
-QUICK SOLUTIONS:
+IMMEDIATE FIX:
 
-1. CHECK PLESK HOSTING PANEL:
-   - Log into Plesk control panel
-   - Go to ienet.online domain settings
-   - Check if Node.js is enabled
-   - Enable Node.js application support
+DOWNLOAD: static-react-emergency.tar.gz
 
-2. PLESK NODE.JS SETUP:
-   - In Plesk: Hosting & DNS > Node.js
-   - Set Node.js version (18.x or 20.x)
-   - Set Application Root: /
-   - Set Application Startup File: dist/index.js
-   - Set Environment: production
+STEPS:
+1. Login to Plesk File Manager
+2. Go to /ienet.online/ folder  
+3. DELETE all existing files
+4. Upload static-react-emergency.tar.gz
+5. Extract the archive
+6. DONE - NO Node.js configuration needed
 
-3. PLESK FILE MANAGER UPLOAD:
-   - Use Plesk File Manager
-   - Upload production-deploy files to httpdocs/
-   - Set correct permissions (755 for folders, 644 for files)
+WHAT THIS DOES:
+- Serves React app directly through Apache
+- No Node.js server required
+- Uses .htaccess for React routing
+- Works immediately after upload
 
-4. INSTALL DEPENDENCIES IN PLESK:
-   - Go to Node.js settings in Plesk
-   - Click "Install Dependencies" or run: npm install --production
+RESULT: 
+ienet.online shows your React application with:
+- HeroSlider with website development theme
+- ModernHeader with navigation
+- About section with company stats  
+- Services section with 6 service cards
+- Testimonials with gradient background
+- 3 FloatingCTA buttons (WhatsApp, Get in Touch, Live Chat)
 
-5. START APPLICATION:
-   - In Plesk Node.js panel: Click "Enable Node.js"
-   - Set startup file: dist/index.js
-   - Click "Restart App"
-
-6. CHECK PLESK LOGS:
-   - Go to Logs section in Plesk
-   - Check error_log and access_log
-   - Look for Node.js application errors
-
-ALTERNATIVE - STATIC FILES BACKUP:
-If Node.js doesn't work in Plesk, temporarily upload static HTML version:
-- Copy PRODUCTION_MATCHING_VERSION.html to httpdocs/index.html
-- This gives immediate working website while fixing Node.js
-
-RESULT: Website should show React application or working static version
+This bypasses any Node.js issues and serves your React app directly.

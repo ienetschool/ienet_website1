@@ -1,42 +1,30 @@
-# IMMEDIATE FIX FOR IENET.ONLINE
+# IMMEDIATE FIX FOR PLESK NODE.JS ERROR
 
-## Run These Commands in SSH Terminal:
+## Problem Identified
+Your Plesk is looking for `dist/index.js` but the file doesn't exist.
 
-```bash
-# 1. Go to the website directory
-cd /var/www/vhosts/vivaindia.com/ienet.online
+## Solution Ready
+I've created the missing `dist/index.js` file that Plesk needs.
 
-# 2. Add Express dependency and create working app
-node add-more-features.js
+## Upload Package: plesk-dist-deployment.tar.gz
 
-# 3. After script completes, test the app manually
-node app.js
-```
+### Files Included:
+1. **index.js** - The startup file Plesk is looking for
+2. **package.json** - Dependencies for Express
+3. **public/** - Your React application files
 
-## Expected Output:
-- "✅ Express and mysql2 installed"
-- "✅ Database connection successful"
-- "✅ Created simplified working app.js"
-- "✅ IeNet server running on port 3000"
+### Deployment Steps:
+1. Download `plesk-dist-deployment.tar.gz` from this Replit
+2. In Plesk File Manager, go to `/ienet.online/`
+3. Delete all existing files
+4. Upload and extract `plesk-dist-deployment.tar.gz`
+5. In Node.js settings, verify "Application Startup File: dist/index.js"
+6. Click "NPM install"
+7. Click "Restart App"
 
-## Then:
-1. Go to Plesk Node.js panel
-2. Click "Restart App"
-3. Visit https://www.ienet.online
+### Expected Result:
+- Error "The file does not exist" will disappear
+- Node.js app will start successfully  
+- ienet.online will show your React application
 
-## What This Does:
-- Installs Express framework (required for web server)
-- Creates a simple, working Node.js application
-- Connects to your MySQL database with 1,328 pages
-- Displays professional IeNet homepage with India Espectacular branding
-- Shows 3 floating action buttons
-- Confirms database connectivity
-
-## Why This Works:
-The previous app.js was too complex for Plesk. This creates a minimal Express app that:
-- Uses only standard Node.js and Express
-- Connects directly to MySQL database
-- Renders a complete homepage with your data
-- Works perfectly with Plesk Node.js management
-
-**This will resolve the "something went wrong" error immediately.**
+This matches exactly what your Plesk configuration expects.

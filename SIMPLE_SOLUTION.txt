@@ -1,14 +1,12 @@
-SIMPLE SOLUTION:
+FOUND THE PROBLEM:
+Plesk looking for dist/index.js but file missing
 
-DOWNLOAD: ienet-deployment-package.tar.gz
+DOWNLOAD: plesk-dist-deployment.tar.gz
 
-UPLOAD TO PLESK /ienet.online/:
+UPLOAD TO /ienet.online/:
 - Delete old files
-- Upload and extract package
-
-PLESK SETTINGS:
-- Startup file: index.js
+- Extract package
 - NPM install
 - Restart app
 
-DONE: React website shows on ienet.online
+FIXED: React website will show on ienet.online

@@ -1,0 +1,29 @@
+FINAL ASSETS FIX
+
+Website is loading (200 OK) but CSS/JS files are 404.
+
+RUN THESE COMMANDS:
+
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Check if assets folder exists
+ls -la assets/
+
+# If assets missing, recreate it and upload the files:
+mkdir -p assets
+chown vivassh:psaserv assets
+chmod 755 assets
+
+# You need to re-upload these 2 files to assets/ folder:
+# - index-4CY-Uz3T.css (195KB)  
+# - index-6-PKYvps.js (1.8MB)
+
+# After uploading, set permissions:
+chown vivassh:psaserv assets/*
+chmod 644 assets/*
+
+# Test
+curl -I https://www.ienet.online/assets/index-4CY-Uz3T.css
+
+RESULT: Your React app will be fully functional once the CSS/JS assets are uploaded.

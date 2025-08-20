@@ -2,7 +2,7 @@ import { useParams, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import ModernHeader from "@/components/layout/ModernHeader";
 import ModernFooter from "@/components/layout/ModernFooter";
-import LiveChat from "@/components/sections/LiveChat";
+
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -678,7 +678,6 @@ export default function ServiceDetail() {
       )}
       
       {/* Add floating components */}
-      <LiveChat />
       <FloatingCTA 
         onGetQuoteClick={() => {
           const contactSection = document.getElementById('contact-section');

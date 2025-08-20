@@ -45,7 +45,7 @@ import {
   XCircle
 } from "lucide-react";
 import { Link } from "wouter";
-import LiveChat from "@/components/sections/LiveChat";
+
 import FloatingCTA from "@/components/FloatingCTA";
 
 export default function DatabaseViewer() {
@@ -444,7 +444,6 @@ export default function DatabaseViewer() {
       <ModernFooter />
       
       {/* Add floating components */}
-      <LiveChat />
       <FloatingCTA />
     </div>
   );

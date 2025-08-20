@@ -165,9 +165,13 @@ export default function ModernFooter() {
               {/* Quick Connect Buttons */}
               <div className="flex space-x-3">
                 <Button 
-                  onClick={() => window.open('https://wa.me/5927503901', '_blank')}
-                  className="w-12 h-12 bg-green-600 hover:bg-green-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white p-0"
+                  onClick={() => {
+                    console.log('WhatsApp clicked');
+                    window.open('https://wa.me/5927503901?text=Hello%20from%20IeNet%20website!%20I%20would%20like%20to%20know%20more%20about%20your%20services.', '_blank');
+                  }}
+                  className="w-12 h-12 bg-green-600 hover:bg-green-700 transition-all duration-300 rounded-xl flex items-center justify-center text-white p-0 transform hover:scale-110"
                   aria-label="Live Chat on WhatsApp"
+                  data-testid="footer-whatsapp"
                 >
                   <MessageCircle size={20} />
                 </Button>

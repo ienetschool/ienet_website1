@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import ModernHeader from "@/components/layout/ModernHeader";
 import ModernFooter from "@/components/layout/ModernFooter";
 import QuickContactModal from "@/components/sections/QuickContactModal";
-import LiveChat from "@/components/sections/LiveChat";
+
 import FloatingCTA from "@/components/FloatingCTA";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -156,20 +156,7 @@ export default function FeatureDetail() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Floating Quick Contact Button */}
-      <div className="fixed bottom-24 right-6 z-40">
-        <QuickContactModal 
-          trigger={
-            <div className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer">
-              <MessageCircle size={20} />
-              <span className="hidden sm:block">Quick Contact</span>
-            </div>
-          }
-        />
-      </div>
 
-      {/* Live Chat Component */}
-      <LiveChat />
 
       <SEOHead
         title={feature.metaTitle || `${feature.name} - ${service?.name} | IeNet Technical Features`}

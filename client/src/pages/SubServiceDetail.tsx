@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import ModernHeader from "@/components/layout/ModernHeader";
 import ModernFooter from "@/components/layout/ModernFooter";
 import QuickContactModal from "@/components/sections/QuickContactModal";
-import LiveChat from "@/components/sections/LiveChat";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -158,8 +158,7 @@ export default function SubServiceDetail() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Live Chat Component */}
-      <LiveChat />
+
 
       <SEOHead 
         title={`${service.name} - ${category?.name} | IeNet IT Services`}

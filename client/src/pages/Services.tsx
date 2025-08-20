@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import ModernHeader from "@/components/layout/ModernHeader";
 import TopBar from "@/components/layout/TopBar";
 import ModernFooter from "@/components/layout/ModernFooter";
-import LiveChat from "@/components/sections/LiveChat";
+
 import FloatingCTA from "@/components/FloatingCTA";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -182,7 +182,6 @@ export default function Services() {
       <ModernFooter />
       
       {/* Add floating components */}
-      <LiveChat />
       <FloatingCTA 
         onGetQuoteClick={() => {
           const contactSection = document.getElementById('contact-section');

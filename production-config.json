@@ -1,22 +1,25 @@
 {
-  "database": {
-    "type": "mysql",
-    "host": "5.181.218.15",
-    "port": 3306,
-    "database": "ienetdb",
-    "user": "netiedb"
+  "plesk_configuration": {
+    "application_startup_file": "app.js",
+    "application_mode": "production",
+    "node_version": "24.5.0",
+    "environment_variables": {
+      "NODE_ENV": "production",
+      "PORT": "3000",
+      "DATABASE_URL": "mysql://netiedb:h5pLF9833@localhost:3306/ienetdb",
+      "DB_HOST": "localhost",
+      "DB_PORT": "3306",
+      "DB_NAME": "ienetdb", 
+      "DB_USER": "netiedb",
+      "DB_PASSWORD": "h5pLF9833",
+      "DOMAIN": "ienet.online"
+    }
   },
-  "domain": "ienet.online",
-  "environment": "production",
-  "features": {
-    "ssl": true,
-    "compression": true,
-    "caching": true,
-    "analytics": true
-  },
-  "deployment": {
-    "status": "ready",
-    "date": "2025-08-20T00:11:41.495Z",
-    "version": "1.0.0"
-  }
+  "deployment_status": "ready",
+  "notes": [
+    "1. Upload all files to /var/www/vhosts/vivaindia.com/ienet.online/",
+    "2. Run: chmod +x deploy-to-production.sh && ./deploy-to-production.sh",
+    "3. In Plesk Node.js panel, click 'Restart App'",
+    "4. Application will be available at http://ienet.online"
+  ]
 }

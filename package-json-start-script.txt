@@ -1,0 +1,26 @@
+# Add start script to package.json if missing
+# Run this in your application directory:
+
+cd /var/www/vhosts/vivaindia.com/ienet.online
+
+# Check if start script exists
+cat package.json | grep '"start"'
+
+# If start script is missing, add it:
+npm pkg set scripts.start="node dist/index.js"
+
+# Alternative: manually edit package.json to add:
+# "scripts": {
+#   "start": "node dist/index.js",
+#   "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+#   "dev": "NODE_ENV=development tsx server/index.ts"
+# }
+
+# Then start the application:
+npm start &
+
+# Or use PM2:
+pm2 start "npm start" --name ienet
+
+# Check if Node.js is running on port 3000:
+netstat -tlnp | grep :3000

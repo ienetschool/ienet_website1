@@ -1,0 +1,34 @@
+SIMPLE DEPLOYMENT - Copy these commands exactly:
+
+1. In your SSH terminal (you're already connected):
+
+pkill -f "node" || true
+
+2. Download the exact same application:
+wget https://your-repl-url/exact-same-app.tar.gz -O exact-same-app.tar.gz
+
+3. OR upload from local machine:
+# From local terminal:
+scp exact-same-app.tar.gz root@5.181.218.15:~/
+
+4. Back in SSH terminal:
+cd ~/
+tar -xzf exact-same-app.tar.gz
+rm -rf /var/www/html/*
+cp -r dist/public/* /var/www/html/
+ls -la /var/www/html/assets/
+
+5. Start API server:
+nohup node api-server-only.cjs > api.log 2>&1 &
+
+6. Test:
+curl http://localhost/
+
+Expected result: ienet.online shows EXACT same application as development
+
+Files that should be deployed:
+- index.html
+- assets/index-4CY-Uz3T.css 
+- assets/index-6-PKYvps.js
+
+This will push the identical React application to production.

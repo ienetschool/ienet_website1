@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, Play } from "lucide-react";
+import { ChevronLeft, ChevronRight, Play, Quote } from "lucide-react";
 import { Link } from "wouter";
 
 const slides = [
@@ -11,7 +11,7 @@ const slides = [
     description: "Custom website design and development services that combine stunning visuals with seamless functionality. From corporate websites to e-commerce platforms, we create digital experiences that drive results.",
     cta: "Explore Web Services",
     ctaLink: "/services/website-design-development",
-    background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)",
+    background: "radial-gradient(circle at 30% 40%, #ff6b6b 0%, #ffa726 15%, #ffeb3b 30%, #66bb6a 45%, #42a5f5 60%, #ab47bc 75%, #ec407a 90%, #ff5722 100%)",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -21,7 +21,7 @@ const slides = [
     description: "Enterprise-grade web hosting, cloud infrastructure, and server management services. Ensure your website performs optimally with our secure, fast, and reliable hosting solutions.",
     cta: "Hosting Solutions",
     ctaLink: "/services/web-hosting-infrastructure",
-    background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #43e97b 100%)",
+    background: "conic-gradient(from 45deg at 50% 50%, #e91e63 0deg, #f44336 51deg, #ff9800 102deg, #ffeb3b 153deg, #8bc34a 204deg, #00bcd4 255deg, #3f51b5 306deg, #9c27b0 357deg)",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -31,7 +31,7 @@ const slides = [
     description: "Comprehensive cybersecurity services including vulnerability assessments, penetration testing, and 24/7 monitoring to safeguard your business from evolving cyber threats.",
     cta: "Security Solutions",
     ctaLink: "/services/cybersecurity",
-    background: "linear-gradient(135deg, #fa709a 0%, #fee140 50%, #ff6b6b 100%)",
+    background: "radial-gradient(ellipse at top left, #ff9a9e 0%, #fecfef 25%, #fecfef 50%, #a8edea 75%, #fed6e3 100%)",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -41,7 +41,7 @@ const slides = [
     description: "Comprehensive digital marketing strategies including SEO, social media marketing, PPC advertising, and content marketing to boost your online presence and drive conversions.",
     cta: "Marketing Solutions",
     ctaLink: "/services/digital-marketing-promotion",
-    background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #ffeaa7 100%)",
+    background: "linear-gradient(45deg, #ff6b6b 0%, #ffa726 12.5%, #ffeb3b 25%, #66bb6a 37.5%, #42a5f5 50%, #7e57c2 62.5%, #ab47bc 75%, #ec407a 87.5%, #ff5722 100%)",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -51,7 +51,7 @@ const slides = [
     description: "Custom mobile app development for iOS and Android platforms. From concept to deployment, we create engaging mobile experiences that connect with your audience.",
     cta: "App Development",
     ctaLink: "/services/mobile-app-development",
-    background: "linear-gradient(135deg, #667eea 0%, #764ba2 50%, #6b73ff 100%)",
+    background: "radial-gradient(circle at 70% 30%, #667eea 0%, #764ba2 20%, #f093fb 40%, #ff6b6b 60%, #ffa726 80%, #66bb6a 100%)",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -61,7 +61,7 @@ const slides = [
     description: "Complete branding solutions including logo design, brand identity, marketing materials, and graphic design services that make your business stand out in the marketplace.",
     cta: "Branding Services",
     ctaLink: "/services/business-branding-graphics",
-    background: "linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%)",
+    background: "conic-gradient(from 180deg at 50% 50%, #ff6b6b 0deg, #ff9800 40deg, #ffeb3b 80deg, #8bc34a 120deg, #00bcd4 160deg, #3f51b5 200deg, #9c27b0 240deg, #e91e63 280deg, #ff5722 320deg, #ff6b6b 360deg)",
     image: "/api/placeholder/1920/800"
   }
 ];
@@ -154,10 +154,9 @@ export default function HeroSlider() {
                       <Button 
                         variant="outline" 
                         size="lg"
-                        className="border-2 border-white/80 bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-gray-900 px-8 py-4 text-lg font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110"
+                        className="border-2 border-white/80 bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-gray-900 w-16 h-16 p-0 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center"
                       >
-                        Get Quote
-                        <Play className="ml-2" size={18} />
+                        <Quote size={24} />
                       </Button>
                     </Link>
                   </div>

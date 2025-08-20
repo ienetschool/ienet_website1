@@ -21,6 +21,7 @@ import {
   Settings,
   Users,
   MessageCircle,
+  Quote,
   Sun,
   Moon
 } from "lucide-react";
@@ -236,7 +237,7 @@ export default function ModernHeader() {
               onClick={handleContactClick}
               className="hidden lg:flex bg-primary hover:bg-primary/90 text-white w-10 h-10 p-0 rounded-full transition-all duration-300 transform hover:scale-105 items-center justify-center"
             >
-              <MessageCircle size={16} />
+              <Quote size={16} />
             </Button>
 
             {/* Mobile Menu Toggle */}

@@ -213,16 +213,22 @@ export default function ServiceDetail() {
       <ModernHeader />
       <EditModeToggle />
 
-      {/* Floating CTA Button */}
-      <div className="fixed bottom-6 right-6 z-40">
+      {/* Floating Buttons - Horizontal Layout with 3D Effects */}
+      <div className="fixed bottom-6 right-6 z-40 flex space-x-3">
+        {/* Live Chat Button */}
+        <Button className="bg-gradient-to-br from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:via-green-600 hover:to-green-700 text-white w-16 h-16 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center transform hover:scale-110 hover:-translate-y-1">
+          <MessageCircle size={28} />
+        </Button>
+        
+        {/* Get Quote Button */}
         <Button 
           onClick={() => openModal({
             subject: `Get Quote for ${category?.name} Services`,
             message: `I'm interested in ${category?.name} services. Please provide a detailed quote and consultation.`
           })}
-          className="bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
+          className="bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:via-blue-600 hover:to-blue-700 text-white w-16 h-16 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center transform hover:scale-110 hover:-translate-y-1"
         >
-          <Quote size={20} />
+          <Quote size={28} />
         </Button>
       </div>
       

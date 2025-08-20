@@ -22,7 +22,8 @@ import {
   Database,
   Activity,
   ArrowRight,
-  Globe
+  Globe,
+  Quote
 } from "lucide-react";
 import { Link } from "wouter";
 
@@ -36,9 +37,8 @@ export default function Landing() {
       <div className="fixed bottom-24 right-6 z-40">
         <QuickContactModal 
           trigger={
-            <div className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer">
-              <MessageCircle size={20} />
-              <span className="hidden sm:block">Get Quote</span>
+            <div className="bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center cursor-pointer">
+              <Quote size={20} />
             </div>
           }
         />

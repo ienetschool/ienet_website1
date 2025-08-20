@@ -13,7 +13,8 @@ import {
   Shield, 
   Smartphone, 
   Database,
-  Cog
+  Cog,
+  Quote
 } from "lucide-react";
 
 const serviceCategories = [
@@ -110,9 +111,9 @@ export default function MegaMenu() {
                   </div>
                   <Link 
                     href="/contact" 
-                    className="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium"
+                    className="inline-flex items-center justify-center w-10 h-10 bg-primary text-white rounded-full hover:bg-primary/90 transition-colors"
                   >
-                    Get Quote
+                    <Quote size={16} />
                   </Link>
                 </div>
               </div>

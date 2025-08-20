@@ -88,28 +88,6 @@ app.get('/api/service-categories/:slug', (req, res) => {
   }
 });
 
-// Service lookup with category context for hierarchical URLs
-app.get('/api/services/:categorySlug/:serviceSlug', (req, res) => {
-  try {
-    // First get the category ID
-    const categoryRows = queryDatabase(`SELECT id FROM service_categories WHERE slug = '${req.params.categorySlug}'`);
-    if (categoryRows.length === 0) {
-      return res.status(404).json({ error: 'Service category not found' });
-    }
-    const categoryId = parseInt(categoryRows[0]);
-    
-    // Then get the service in that category
-    const serviceRows = queryDatabase(`SELECT id, category_id, name, slug, description, icon FROM services WHERE slug = '${req.params.serviceSlug}' AND category_id = ${categoryId}`);
-    if (serviceRows.length === 0) {
-      return res.status(404).json({ error: 'Service not found in this category' });
-    }
-    const [id, category_id, name, slug, description, icon] = serviceRows[0].split('\t');
-    res.json({ id: parseInt(id), category_id: parseInt(category_id), name, slug, description, icon });
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
 // Services
 app.get('/api/services', (req, res) => {
   try {
@@ -188,35 +166,6 @@ app.get('/api/features/:slug', (req, res) => {
       return res.status(404).json({ error: 'Feature not found' });
     }
     const [id, service_id, name, slug, description] = rows[0].split('\t');
-    res.json({ id: parseInt(id), service_id: parseInt(service_id), name, slug, description });
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Feature lookup with full hierarchy for URLs like /features/category/service/feature
-app.get('/api/features/:categorySlug/:serviceSlug/:featureSlug', (req, res) => {
-  try {
-    // Get category ID
-    const categoryRows = queryDatabase(`SELECT id FROM service_categories WHERE slug = '${req.params.categorySlug}'`);
-    if (categoryRows.length === 0) {
-      return res.status(404).json({ error: 'Service category not found' });
-    }
-    const categoryId = parseInt(categoryRows[0]);
-    
-    // Get service ID in that category
-    const serviceRows = queryDatabase(`SELECT id FROM services WHERE slug = '${req.params.serviceSlug}' AND category_id = ${categoryId}`);
-    if (serviceRows.length === 0) {
-      return res.status(404).json({ error: 'Service not found in this category' });
-    }
-    const serviceId = parseInt(serviceRows[0]);
-    
-    // Get feature in that service
-    const featureRows = queryDatabase(`SELECT id, service_id, name, slug, description FROM features WHERE slug = '${req.params.featureSlug}' AND service_id = ${serviceId}`);
-    if (featureRows.length === 0) {
-      return res.status(404).json({ error: 'Feature not found in this service' });
-    }
-    const [id, service_id, name, slug, description] = featureRows[0].split('\t');
     res.json({ id: parseInt(id), service_id: parseInt(service_id), name, slug, description });
   } catch (error) {
     res.status(500).json({ error: 'Database error' });

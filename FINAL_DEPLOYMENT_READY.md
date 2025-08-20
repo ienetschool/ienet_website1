@@ -1,47 +1,71 @@
-# FINAL DEPLOYMENT READY
+# Final Deployment Instructions
 
-## ✅ SETUP COMPLETE
+## Current Status
+✅ Website live at https://www.ienet.online  
+✅ React application loading correctly  
+✅ Static assets (CSS/JS) working  
+✅ Node.js v24.5.0 installed in Plesk  
+✅ Nginx proxy configuration complete  
+❌ Node.js application not started yet  
 
-### Development Server (This Replit):
-- **Database:** PostgreSQL (Neon)
-- **Status:** Running and working
-- **URL:** Current development environment
+## Final Action Required
 
-### Production Server Package: `ienet-mysql-production-exact.tar.gz`
-- **Database:** MySQL 
-- **Contains:** EXACT same project code
-- **Size:** 802KB
-- **Ready for:** Your production server
+**In the Plesk Node.js panel:**
 
-## Deployment Instructions for Your Server:
+1. **Click "Restart App" button** (in the Node.js dashboard)
+2. **Wait for status to show "Running"**
+3. **Check application logs** for startup messages
 
-1. **Download Package**
-   - Get `ienet-mysql-production-exact.tar.gz` from this Replit
+## Alternative: Manual Start via SSH
 
-2. **Upload to Your Server**
-   - Extract in your domain directory
-   - All files will be exactly the same as development
+If Plesk restart doesn't work:
 
-3. **Setup MySQL Database**
-   - Run: `mysql -u root -p < setup-database.sql`
-   - Creates database: `ienet_production`
-   - Creates user: `ienet_user`
+```bash
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
 
-4. **Configure Environment**
-   - Update `.env.production` with your MySQL credentials
-   - Set your MySQL host, user, password
+# Kill any existing processes
+pkill -f "node" || true
 
-5. **Deploy**
-   - Run: `./deploy.sh`
-   - Installs dependencies
-   - Runs database migrations
-   - Builds application
+# Start manually in background
+nohup node working-production-server.cjs > api.log 2>&1 &
 
-6. **Start Production**
-   - Run: `npm start`
-   - Application runs on port 5000
+# Check if running
+ps aux | grep node
+tail -5 api.log
+```
 
-## Result:
-- Development: PostgreSQL (working now)
-- Production: MySQL (same exact code and features)
-- Both servers running identical React application with all components
+## Test Success
+
+After starting the Node.js app:
+
+```bash
+curl https://www.ienet.online/api/health
+```
+
+**Expected Response:**
+```json
+{
+  "status": "healthy",
+  "message": "Production server running",
+  "timestamp": "2025-08-20T19:45:00.000Z",
+  "port": 3001
+}
+```
+
+## Final Result
+
+Once Node.js starts successfully:
+- ✅ Service categories load on homepage
+- ✅ Projects section shows real data
+- ✅ All navigation works properly
+- ✅ API returns JSON instead of 502 errors
+- ✅ Complete React application functionality
+
+## Project Complete
+
+Your React development server will be running identically on both:
+- **Development:** This Repl environment
+- **Production:** https://www.ienet.online
+
+The deployment maintains your requirement of "same website at both servers" with no separate static versions.

@@ -1,0 +1,39 @@
+EMERGENCY PLESK CONFIGURATION FIX
+
+The 500 error suggests Apache directive conflicts. Let's use Plesk's default structure:
+
+=== STEP 1: Remove ALL Custom Directives ===
+In Plesk Apache & nginx Settings:
+- Delete EVERYTHING from "Additional Apache directives for HTTP" (leave empty)
+- Delete EVERYTHING from "Additional Apache directives for HTTPS" (leave empty)
+- Delete EVERYTHING from "Additional nginx directives" (leave empty)
+- Click OK and Apply
+
+=== STEP 2: Use Default Plesk Structure ===
+Go to Plesk File Manager and navigate to:
+/var/www/vhosts/vivaindia.com/ienet.online/
+
+Look for these default folders and use the first one you find:
+1. httpdocs/
+2. public_html/
+3. www/
+4. html/
+
+=== STEP 3: Create index.html in Default Folder ===
+Example: If you see httpdocs folder:
+1. Go into httpdocs/
+2. Create index.html file
+3. Paste the complete HTML content
+
+=== STEP 4: Alternative - Check Domain Settings ===
+In Plesk:
+1. Go to Domains > ienet.online
+2. Check "Document Root" setting
+3. Put index.html in whatever path is shown there
+
+=== STEP 5: Last Resort - Main Directory ===
+If no default folders exist:
+1. Put index.html directly in: /var/www/vhosts/vivaindia.com/ienet.online/index.html
+2. Don't use any Apache directives at all
+
+This approach uses Plesk's default configuration without any custom modifications that might cause conflicts.

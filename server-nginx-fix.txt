@@ -1,0 +1,33 @@
+# Server Commands for Nginx (since Apache not found)
+# Run these commands in your SSH terminal:
+
+# Check what web server is running
+systemctl status nginx
+ps aux | grep nginx
+
+# If Nginx is running, restart it:
+systemctl restart nginx
+
+# If Nginx is not running, start it:
+systemctl start nginx
+systemctl enable nginx
+
+# Check if there are any other web servers:
+ps aux | grep -E "apache|nginx|httpd"
+
+# Test if the site is now working:
+curl -I http://localhost
+curl -I http://ienet.online
+
+# Check Nginx configuration:
+nginx -t
+
+# View Nginx error logs if needed:
+tail -f /var/log/nginx/error.log
+
+# If still having issues, check what's listening on port 80:
+netstat -tlnp | grep :80
+
+# Alternative commands if systemctl doesn't work:
+service nginx restart
+/etc/init.d/nginx restart

@@ -1,0 +1,32 @@
+API SERVER NOT RUNNING PROPERLY
+
+The website is loading but API calls are returning HTML instead of JSON.
+This means the Node.js API server is not handling requests correctly.
+
+IMMEDIATE FIX:
+
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Stop any existing Node.js processes
+pkill -f "node" || true
+pkill -f "production-server" || true
+
+# Check if MySQL dependencies are installed
+npm list mysql2 2>/dev/null || npm install mysql2
+
+# Restart the API server
+nohup node production-server.cjs > api.log 2>&1 &
+
+# Verify server is running
+ps aux | grep node
+tail -5 api.log
+
+# Test API endpoints
+curl https://www.ienet.online/api/health
+curl https://www.ienet.online/api/service-categories
+
+EXPECTED RESULT:
+- API should return JSON data instead of HTML
+- Service categories, projects, and features should load on website
+- Logo image should appear

@@ -152,7 +152,10 @@
                     <input type="password" id="dbPassword" value="h5pLF9833" placeholder="password">
                 </div>
 
-                <button type="submit" class="btn">🔧 Generate Production Files</button>
+                <div class="btn-group" style="grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <button type="submit" class="btn">🔧 Generate Files</button>
+                    <button type="button" onclick="window.open('auto-deploy-config.html', '_blank')" class="btn" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">🚀 Auto-Deploy Tool</button>
+                </div>
             </form>
 
             <div id="status" class="status"></div>

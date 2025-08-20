@@ -1,0 +1,244 @@
+Generated Files:
+1. production-server.cjs
+const express = require('express');
+const mysql = require('mysql2/promise');
+const app = express();
+const PORT = 3001;
+
+// CORS and JSON middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
+app.use(express.json());
+
+console.log('=== STARTING IENET.ONLINE PRODUCTION SERVER ===');
+console.log('Time:', new Date().toISOString());
+console.log('Domain: ienet.online');
+console.log('Port:', PORT);
+
+// MySQL database configuration
+const dbConfig = {
+  host: '5.181.218.15',
+  port: 3306,
+  user: 'netiedb',
+  password: 'h5pLF9833',
+  database: 'ienetdb',
+  charset: 'utf8mb4',
+  acquireTimeout: 60000,
+  timeout: 60000
+};
+
+let db;
+
+async function connectDB() {
+  try {
+    console.log('🔌 Connecting to MySQL database...');
+    db = await mysql.createConnection(dbConfig);
+    console.log('✅ Connected to MySQL database successfully');
+    
+    const [result] = await db.execute('SELECT COUNT(*) as count FROM service_categories');
+    console.log(`✅ Database test: ${result[0].count} service categories found`);
+    
+    return true;
+  } catch (error) {
+    console.error('❌ Database connection failed:', error.message);
+    db = null;
+    return false;
+  }
+}
+
+connectDB();
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  console.log('🩺 Health check requested');
+  res.json({ 
+    status: 'healthy',
+    message: 'ienet.online Production Server Running',
+    timestamp: new Date().toISOString(),
+    database: db ? 'connected' : 'disconnected',
+    port: PORT
+  });
+});
+
+// Auth endpoint
+app.get('/api/auth/user', (req, res) => {
+  res.json(null);
+});
+
+// Service Categories endpoint
+app.get('/api/service-categories', async (req, res) => {
+  try {
+    if (!db) {
+      console.log('❌ Database not connected for service-categories');
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    const [rows] = await db.execute(`
+      SELECT id, name, slug, description, icon, meta_title, meta_description 
+      FROM service_categories 
+      WHERE is_active = TRUE 
+      ORDER BY sort_order, id
+    `);
+    
+    console.log(`✅ Returning ${rows.length} service categories from MySQL`);
+    res.json(rows);
+  } catch (error) {
+    console.error('❌ Service categories error:', error.message);
+    res.status(500).json({ error: 'Database error', details: error.message });
+  }
+});
+
+// Services endpoint
+app.get('/api/services', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    let sql = `
+      SELECT id, name, slug, description, category_id as categoryId, meta_title, meta_description 
+      FROM services 
+      WHERE is_active = TRUE
+    `;
+    let params = [];
+    
+    if (req.query.categoryId) {
+      sql += ' AND category_id = ?';
+      params.push(parseInt(req.query.categoryId));
+    }
+    
+    sql += ' ORDER BY sort_order, id';
+    const [rows] = await db.execute(sql, params);
+    
+    console.log(`✅ Returning ${rows.length} services from MySQL`);
+    res.json(rows);
+  } catch (error) {
+    console.error('❌ Services error:', error.message);
+    res.status(500).json({ error: 'Database error', details: error.message });
+  }
+});
+
+// Projects endpoint
+app.get('/api/projects', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    const [rows] = await db.execute(`
+      SELECT id, title, slug, description, image_url, client_name, project_url, technologies, completion_date, is_featured 
+      FROM projects 
+      WHERE is_active = TRUE 
+      ORDER BY is_featured DESC, id DESC
+    `);
+    
+    console.log(`✅ Returning ${rows.length} projects from MySQL`);
+    res.json(rows);
+  } catch (error) {
+    console.error('❌ Projects error:', error.message);
+    res.status(500).json({ error: 'Database error', details: error.message });
+  }
+});
+
+// Start server
+const server = app.listen(PORT, '127.0.0.1', () => {
+  console.log('========================================');
+  console.log('🚀 IENET.ONLINE PRODUCTION SERVER STARTED');
+  console.log('========================================');
+  console.log(`✅ Server running on http://127.0.0.1:${PORT}`);
+  console.log(`✅ Database: ${dbConfig.database} on ${dbConfig.host}`);
+  console.log(`✅ Domain: ienet.online`);
+  console.log(`✅ Time: ${new Date().toISOString()}`);
+  console.log('========================================');
+});
+
+server.on('error', (error) => {
+  console.error('🚨 Server failed to start:', error);
+  if (error.code === 'EADDRINUSE') {
+    console.log('💡 Port 3001 is already in use. Kill existing process first.');
+    process.exit(1);
+  }
+});
+
+process.on('SIGINT', async () => {
+  console.log('\n🛑 Shutting down server gracefully...');
+  if (db) {
+    await db.end();
+    console.log('✅ Database connection closed');
+  }
+  server.close(() => {
+    console.log('✅ Server shut down successfully');
+    process.exit(0);
+  });
+});
+2. deploy.sh
+#!/bin/bash
+# ienet.online Production Deployment Commands
+
+echo "🚀 Starting ienet.online Production Deployment"
+echo "=========================================="
+
+# Navigate to website directory
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Kill any existing Node.js processes
+echo "🔄 Stopping existing server..."
+pkill -f node
+
+# Start the production server
+echo "🚀 Starting production server..."
+nohup node production-server.cjs > server.log 2>&1 &
+
+# Get the process ID
+PID=$!
+echo "✅ Server started with PID: $PID"
+
+# Wait a moment for server to start
+sleep 3
+
+# Check if server is running
+if ps -p $PID > /dev/null; then
+    echo "✅ Server is running successfully"
+else
+    echo "❌ Server failed to start"
+    exit 1
+fi
+
+# Test the server
+echo "🧪 Testing server endpoints..."
+
+# Test health endpoint
+echo "Testing health endpoint..."
+curl -s http://127.0.0.1:3001/api/health | head -20
+
+echo ""
+echo "Testing service categories..."
+curl -s http://127.0.0.1:3001/api/service-categories | head -20
+
+echo ""
+echo "=========================================="
+echo "✅ Deployment complete!"
+echo "🌐 Website: https://ienet.online"
+echo "📊 Server running on port 3001"
+echo "📋 Check logs: tail -f server.log"
+echo "=========================================="
+🔧 Quick Deployment Commands:
+# Upload files to server, then run:
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+chmod +x deploy.sh
+./deploy.sh
+
+# Or manual deployment:
+pkill -f node
+nohup node production-server.cjs > server.log 2>&1 &
+curl http://127.0.0.1:3001/api/health

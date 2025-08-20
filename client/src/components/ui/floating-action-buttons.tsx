@@ -12,11 +12,11 @@ export default function FloatingActionButtons() {
       <div className="relative group">
         <Button
           size="lg"
-          className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full p-4"
+          className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full w-14 h-14 p-0 flex items-center justify-center"
           asChild
         >
           <Link href="/contact?type=quote">
-            <Quote size={24} data-testid="button-get-quote" />
+            <Quote size={20} data-testid="button-get-quote" />
           </Link>
         </Button>
         <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
@@ -29,11 +29,11 @@ export default function FloatingActionButtons() {
       <div className="relative group">
         <Button
           size="lg"
-          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full p-4"
+          className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full w-14 h-14 p-0 flex items-center justify-center"
           asChild
         >
           <a href="tel:+1-555-123-4567" data-testid="button-call">
-            <Phone size={24} />
+            <Phone size={20} />
           </a>
         </Button>
         <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
@@ -46,11 +46,11 @@ export default function FloatingActionButtons() {
       <div className="relative group">
         <Button
           size="lg"
-          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full p-4"
+          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 rounded-full w-14 h-14 p-0 flex items-center justify-center"
           asChild
         >
           <a href="mailto:info.indiaespectacular@gmail.com" data-testid="button-email">
-            <Mail size={24} />
+            <Mail size={20} />
           </a>
         </Button>
         <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">

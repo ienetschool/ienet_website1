@@ -11,7 +11,7 @@ const slides = [
     description: "Custom website design and development services that combine stunning visuals with seamless functionality. From corporate websites to e-commerce platforms, we create digital experiences that drive results.",
     cta: "Explore Web Services",
     ctaLink: "/services/website-design-development",
-    background: "linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(51, 65, 85, 0.9))",
+    background: "linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(139, 92, 246, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -21,7 +21,7 @@ const slides = [
     description: "Enterprise-grade web hosting, cloud infrastructure, and server management services. Ensure your website performs optimally with our secure, fast, and reliable hosting solutions.",
     cta: "Hosting Solutions",
     ctaLink: "/services/web-hosting-infrastructure",
-    background: "linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 58, 138, 0.9))",
+    background: "linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -31,7 +31,7 @@ const slides = [
     description: "Comprehensive cybersecurity services including vulnerability assessments, penetration testing, and 24/7 monitoring to safeguard your business from evolving cyber threats.",
     cta: "Security Solutions",
     ctaLink: "/services/cybersecurity",
-    background: "linear-gradient(135deg, rgba(17, 24, 39, 0.95), rgba(75, 85, 99, 0.9))",
+    background: "linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(185, 28, 28, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -41,7 +41,7 @@ const slides = [
     description: "Comprehensive digital marketing strategies including SEO, social media marketing, PPC advertising, and content marketing to boost your online presence and drive conversions.",
     cta: "Marketing Solutions",
     ctaLink: "/services/digital-marketing-promotion",
-    background: "linear-gradient(135deg, rgba(20, 20, 20, 0.95), rgba(64, 64, 64, 0.9))",
+    background: "linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -51,7 +51,7 @@ const slides = [
     description: "Custom mobile app development for iOS and Android platforms. From concept to deployment, we create engaging mobile experiences that connect with your audience.",
     cta: "App Development",
     ctaLink: "/services/mobile-app-development",
-    background: "linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(55, 65, 81, 0.9))",
+    background: "linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(37, 99, 235, 0.9))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -61,7 +61,7 @@ const slides = [
     description: "Complete branding solutions including logo design, brand identity, marketing materials, and graphic design services that make your business stand out in the marketplace.",
     cta: "Branding Services",
     ctaLink: "/services/business-branding-graphics",
-    background: "linear-gradient(135deg, rgba(24, 24, 27, 0.95), rgba(39, 39, 42, 0.9))",
+    background: "linear-gradient(135deg, rgba(168, 85, 247, 0.95), rgba(124, 58, 237, 0.9))",
     image: "/api/placeholder/1920/800"
   }
 ];
@@ -143,7 +143,7 @@ export default function HeroSlider() {
                     <Link href={slide.ctaLink || "/services"}>
                       <Button 
                         size="lg" 
-                        className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300 transform hover:scale-105"
+                        className="bg-gradient-to-r from-white to-gray-100 text-gray-900 hover:from-gray-100 hover:to-white px-8 py-4 text-lg font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 border-2 border-white/20"
                       >
                         {slide.cta}
                         <ChevronRight className="ml-2" size={20} />
@@ -153,7 +153,7 @@ export default function HeroSlider() {
                       <Button 
                         variant="outline" 
                         size="lg"
-                        className="border-white text-white hover:bg-white hover:text-gray-900 px-8 py-4 text-lg font-semibold rounded-full transition-all duration-300"
+                        className="border-2 border-white/80 bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-gray-900 px-8 py-4 text-lg font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110"
                       >
                         Get Quote
                         <Play className="ml-2" size={18} />

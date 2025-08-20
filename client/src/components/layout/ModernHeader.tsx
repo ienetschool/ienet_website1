@@ -234,9 +234,10 @@ export default function ModernHeader() {
             {/* Get in Touch Button */}
             <Button 
               onClick={handleContactClick}
-              className="hidden lg:flex bg-primary hover:bg-primary/90 text-white px-3 py-2 rounded-full transition-all duration-300 transform hover:scale-105"
+              className="hidden lg:flex bg-primary hover:bg-primary/90 text-white px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105 font-medium"
             >
-              <MessageCircle size={16} />
+              <MessageCircle size={16} className="mr-2" />
+              Get Quote
             </Button>
 
             {/* Mobile Menu Toggle */}

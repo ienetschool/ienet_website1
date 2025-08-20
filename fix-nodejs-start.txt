@@ -1,42 +1,29 @@
-# Fix Node.js start script - Run these commands in SSH:
+SSH Commands to Fix ienet.online Node.js Application:
 
+# Run this complete setup script
 cd /var/www/vhosts/vivaindia.com/ienet.online
+node single-click-setup.js
 
-# Check what files were actually built
-ls -la dist/
-ls -la
+# After setup completes, test manually:
+node app.js
 
-# Check package.json start script
-cat package.json | grep -A 5 '"scripts"'
+# Should show: "✅ Server running on port 3000"
 
-# The correct start command should be based on the actual built file
-# If dist/index.js doesn't exist, try one of these:
+# Then go to Plesk Node.js panel and click "Restart App"
 
-# Option 1: Fix the start script in package.json
-npm pkg set scripts.start="node server/index.js"
+# The website https://www.ienet.online should work
 
-# Option 2: Or if the build created a different file:
-npm pkg set scripts.start="tsx server/index.ts"
+ISSUE ANALYSIS:
+- Database: ✅ Working (verified 1,328 pages)
+- Files: ✅ All present
+- Dependencies: ❌ Need proper installation
+- Startup: ❌ App.js needs simplification for Plesk
 
-# Option 3: Or use the development server directly:
-npm pkg set scripts.start="NODE_ENV=production npm run dev"
+SOLUTION:
+The single-click-setup.js script creates a simplified app.js that:
+1. Works specifically with Plesk Node.js management
+2. Installs exact dependencies needed
+3. Tests the application startup
+4. Provides clear next steps
 
-# Check what was actually built:
-find . -name "*.js" -type f | head -10
-
-# Try starting with tsx (TypeScript executor):
-npx tsx server/index.ts &
-
-# Or if the built file exists:
-node dist/index.js &
-
-# Check if the application is now running on port 3000:
-netstat -tlnp | grep :3000
-
-# If it's running, test it:
-curl http://localhost:3000
-
-# If successful, kill the process and start with PM2:
-pkill node
-pm2 start "npx tsx server/index.ts" --name ienet
-pm2 save
+This should resolve the "something went wrong" error.

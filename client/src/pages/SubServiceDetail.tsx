@@ -54,7 +54,7 @@ export default function SubServiceDetail() {
   const { user, isAuthenticated } = useAuth();
   const [liveEditorActive, setLiveEditorActive] = useState(false);
 
-  const isAdmin = isAuthenticated && ((user as any)?.role === 'admin' || (user as any)?.email === 'admin@ienet.com');
+  const isAdmin = isAuthenticated && ((user as any)?.role === 'admin' || (user as any)?.role === 'editor');
   
   const { data: category } = useQuery({
     queryKey: ['/api/service-categories', categorySlug],

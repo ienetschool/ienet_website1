@@ -243,121 +243,27 @@ export default function ServiceDetail() {
         </section>
 
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 dark:from-gray-900 dark:via-blue-900 dark:to-gray-800 overflow-hidden">
-          {/* Background Pattern */}
-          <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid-16"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
-          
-          {/* Floating Elements */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
-          
-          <div className="relative container mx-auto px-6 py-24">
-            <div className="max-w-5xl mx-auto">
-              <div className="grid lg:grid-cols-2 gap-12 items-center">
-                <div>
-                  {/* Category Badge */}
-                  <div className="flex flex-wrap gap-3 mb-6">
-                    <Badge className="bg-white/10 text-white border-white/20 hover:bg-white/20 px-4 py-2 text-sm font-medium">
-                      Professional Services
-                    </Badge>
-                    <Badge className="bg-gradient-to-r from-blue-400 to-cyan-500 text-black hover:from-blue-500 hover:to-cyan-600 px-4 py-2 text-sm font-bold">
-                      Enterprise Solutions
-                    </Badge>
-                  </div>
-                  
-                  {/* Title */}
-                  <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                    {category.name}
-                  </h1>
-                  
-                  {/* Description */}
-                  <p className="text-xl text-gray-300 leading-relaxed mb-8 max-w-2xl">
-                    {category.description || `Modern, scalable, and innovative ${category.name?.toLowerCase() || 'technology'} solutions tailored for your business success`}
-                  </p>
-
-                  {/* Key Stats */}
-                  <div className="grid sm:grid-cols-3 gap-6 mb-10">
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10">
-                      <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
-                        <Users className="text-blue-400" size={20} />
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-400 font-medium">Clients Served</p>
-                        <p className="text-white font-semibold">500+</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10">
-                      <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
-                        <Award className="text-green-400" size={20} />
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-400 font-medium">Success Rate</p>
-                        <p className="text-white font-semibold">99%</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center bg-white/5 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10">
-                      <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center mr-3">
-                        <TrendingUp className="text-purple-400" size={20} />
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-400 font-medium">Growth Rate</p>
-                        <p className="text-white font-semibold">150%</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* CTA Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Button 
-                      size="lg" 
-                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-1"
-                      onClick={() => openModal({
-                        subject: `Request Consultation for ${category?.name}`,
-                        message: `I would like to schedule a consultation to discuss ${category?.name} services for my business. Please contact me at your earliest convenience.`
-                      })}
-                    >
-                      Request Consultation
-                      <ArrowRight className="ml-2" size={18} />
-                    </Button>
-                    <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 px-8 py-4 rounded-xl font-semibold backdrop-blur-sm transition-all duration-300" asChild>
-                      <Link href="/contact">
-                        Get Free Quote
-                        <MessageCircle className="ml-2" size={18} />
-                      </Link>
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Right Side - Service Visual */}
-                <div className="relative">
-                  <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl border border-white/20 p-8 shadow-2xl">
-                    <div className="w-full h-64 lg:h-80 bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl flex items-center justify-center">
-                      <div className="text-center text-white/70">
-                        <Shield size={64} className="mx-auto mb-4 opacity-50" />
-                        <p className="text-lg font-medium">Professional {category.name}</p>
-                        <p className="text-sm opacity-75">Enterprise Solutions</p>
-                      </div>
-                    </div>
-                    
-                    {/* Service Features */}
-                    <div className="mt-6">
-                      <p className="text-white/80 text-sm font-medium mb-3">Key Capabilities</p>
-                      <div className="flex flex-wrap gap-2">
-                        {["Strategic Planning", "Expert Implementation", "24/7 Support", "Quality Assurance"].map((feature, index) => (
-                          <Badge key={index} variant="secondary" className="bg-white/10 text-white border-white/20 px-3 py-1">
-                            {feature}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Decorative Elements */}
-                  <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-full blur-2xl opacity-20"></div>
-                  <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full blur-2xl opacity-20"></div>
-                </div>
-              </div>
+        <section className="relative py-20 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10" />
+          <div className="container mx-auto px-6 relative">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-700 via-purple-600 to-indigo-700 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
+                {category.name}
+              </h1>
+              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
+                {category.description || `Modern, scalable, and innovative ${category.name?.toLowerCase() || 'technology'} solutions tailored for your business success`}
+              </p>
+              <Button 
+                size="lg" 
+                onClick={() => openModal({
+                  subject: `Request Consultation for ${category?.name}`,
+                  message: `I would like to schedule a consultation to discuss ${category?.name} services for my business. Please contact me at your earliest convenience.`
+                })}
+                className="bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70"
+              >
+                Request Consultation
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </div>
           </div>
         </section>

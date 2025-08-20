@@ -17,19 +17,47 @@ interface LiveChatProps {
 }
 
 const predefinedResponses: Record<string, string> = {
-  hello: "Hello! Welcome to IeNet. I'm here to help you with any questions about our IT services. How can I assist you today?",
-  services: "We offer a wide range of IT services including:\n• Website Development\n• Mobile App Development\n• Cybersecurity Solutions\n• Cloud Infrastructure\n• AI & Machine Learning\n• E-commerce Solutions\n\nWhich service interests you most?",
-  pricing: "Our pricing varies based on project scope and requirements. For accurate pricing, I recommend speaking with one of our consultants. Would you like me to connect you with a specialist?",
-  support: "We provide 24/7 technical support for all our clients. Our average response time is under 2 hours for urgent issues. What kind of support do you need?",
-  contact: "You can reach us at:\n📧 contact@ieNet.com\n📞 +1 (555) 123-4567\n🕒 Monday-Friday: 9 AM - 6 PM EST\n🕒 24/7 Emergency Support Available",
-  default: "I'm here to help! You can ask me about our services, pricing, support, or anything else related to IeNet. If you need immediate assistance, I can connect you with a human agent."
+  hello: "Hello! Welcome to IeNet - your trusted partner for comprehensive IT solutions. I'm here to help you explore our services and answer any questions. How can I assist you today?",
+  
+  // Service-specific responses
+  website: "Our Website Design & Development services include:\n• Custom Website Development\n• Responsive Design\n• E-commerce Solutions\n• CMS Development\n• SEO Optimization\n• Performance Enhancement\n\nWe've delivered 500+ successful projects. Would you like to see our portfolio or get a custom quote?",
+  
+  mobile: "Our Mobile App Development expertise covers:\n• Native iOS & Android Apps\n• Cross-platform Solutions\n• UI/UX Design\n• App Store Optimization\n• Maintenance & Support\n• Integration Services\n\nWe can discuss your app idea and provide a detailed roadmap. What type of app are you planning?",
+  
+  cybersecurity: "Our Cybersecurity Solutions protect your digital assets:\n• Threat Assessment & Monitoring\n• Penetration Testing\n• Security Audits\n• Compliance Management\n• Incident Response\n• Employee Training\n\nCybersecurity is critical in today's digital landscape. Would you like a free security assessment?",
+  
+  cloud: "Our Cloud Infrastructure services include:\n• Cloud Migration\n• AWS/Azure/GCP Setup\n• DevOps Implementation\n• Scalability Solutions\n• Backup & Recovery\n• 24/7 Monitoring\n\nCloud adoption can reduce costs by 30-50%. Interested in learning how we can help your migration?",
+  
+  ai: "Our AI & Machine Learning solutions offer:\n• Custom AI Development\n• Data Analytics\n• Chatbot Development\n• Process Automation\n• Predictive Analytics\n• Computer Vision\n\nAI can revolutionize your business operations. What specific AI application interests you?",
+  
+  ecommerce: "Our E-commerce Solutions include:\n• Online Store Development\n• Payment Gateway Integration\n• Inventory Management\n• Multi-vendor Platforms\n• Mobile Commerce\n• Analytics & Reporting\n\nWe've helped businesses increase online sales by 200%+. Ready to start your e-commerce journey?",
+  
+  // General responses
+  services: "IeNet offers comprehensive IT services across 6 main categories:\n\n🌐 Website Design & Development\n📱 Mobile App Development\n🔒 Cybersecurity Solutions\n☁️ Cloud Infrastructure\n🤖 AI & Machine Learning\n🛒 E-commerce Solutions\n\nEach category includes 10+ specialized sub-services. Which area interests you most?",
+  
+  pricing: "Our pricing is customized based on:\n• Project complexity & scope\n• Technology requirements\n• Timeline & resources\n• Ongoing support needs\n\n💡 We offer:\n• Free consultation & quote\n• Flexible payment plans\n• Competitive rates\n• No hidden costs\n\nWould you like a personalized quote? I can connect you with our specialists.",
+  
+  portfolio: "Our impressive portfolio includes:\n• 500+ Websites Delivered\n• 200+ Mobile Apps Launched\n• 150+ Security Audits Completed\n• 100+ Cloud Migrations\n• 50+ AI Solutions Deployed\n\nWe've worked with startups to Fortune 500 companies. Would you like to see specific case studies in your industry?",
+  
+  timeline: "Typical project timelines:\n• Simple Website: 2-4 weeks\n• Complex Web App: 8-16 weeks\n• Mobile App: 12-20 weeks\n• E-commerce Platform: 6-12 weeks\n• AI Solution: 16-24 weeks\n\nWe provide detailed project roadmaps with milestones. What's your target launch date?",
+  
+  support: "Our comprehensive support includes:\n• 24/7 Technical Support\n• Response time: <2 hours\n• Dedicated Account Manager\n• Regular Health Checks\n• Performance Monitoring\n• Security Updates\n\nSupport packages start from $299/month. What level of support do you need?",
+  
+  process: "Our proven development process:\n1️⃣ Discovery & Planning\n2️⃣ Design & Prototyping\n3️⃣ Development & Testing\n4️⃣ Deployment & Launch\n5️⃣ Support & Maintenance\n\nWe follow agile methodology with regular client updates. Would you like to start with a free consultation?",
+  
+  contact: "Get in touch with us:\n📧 info@ienet.online\n📞 WhatsApp: +59 2750 3901\n🌐 Website: ienet.online\n📍 Location: Available globally\n\n⏰ Business Hours:\n• Monday-Friday: 9 AM - 6 PM\n• Emergency Support: 24/7\n\nHow would you prefer to continue our conversation?",
+  
+  quote: "Ready for a custom quote? I'll need some details:\n• What type of project?\n• Your budget range?\n• Timeline requirements?\n• Specific features needed?\n\nOr I can connect you directly with our specialists for a detailed discussion. What works better for you?",
+  
+  default: "I'm here to help with any questions about IeNet's services! You can ask me about:\n• Our service offerings\n• Pricing & packages\n• Project timelines\n• Portfolio examples\n• Getting started\n\nOr type 'human' to connect with our team directly."
 };
 
 const quickReplies = [
   "Tell me about your services",
   "What are your pricing options?",
-  "I need technical support",
-  "How can I contact you?",
+  "Show me your portfolio",
+  "How long does development take?",
+  "I need a custom quote",
   "Connect me with an agent"
 ];
 
@@ -63,19 +91,59 @@ export default function LiveChat({ hideToggleButton = false }: LiveChatProps) {
   const generateResponse = (userMessage: string): string => {
     const message = userMessage.toLowerCase();
     
-    if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
+    // Greetings
+    if (message.includes('hello') || message.includes('hi') || message.includes('hey') || message.includes('good')) {
       return predefinedResponses.hello;
-    } else if (message.includes('service') || message.includes('what do you do')) {
+    }
+    
+    // Service-specific queries
+    else if (message.includes('website') || message.includes('web development') || message.includes('web design')) {
+      return predefinedResponses.website;
+    } else if (message.includes('mobile') || message.includes('app') || message.includes('ios') || message.includes('android')) {
+      return predefinedResponses.mobile;
+    } else if (message.includes('security') || message.includes('cyber') || message.includes('protection') || message.includes('hack')) {
+      return predefinedResponses.cybersecurity;
+    } else if (message.includes('cloud') || message.includes('aws') || message.includes('azure') || message.includes('server')) {
+      return predefinedResponses.cloud;
+    } else if (message.includes('ai') || message.includes('artificial intelligence') || message.includes('machine learning') || message.includes('automation')) {
+      return predefinedResponses.ai;
+    } else if (message.includes('ecommerce') || message.includes('e-commerce') || message.includes('online store') || message.includes('shop')) {
+      return predefinedResponses.ecommerce;
+    }
+    
+    // General business queries
+    else if (message.includes('service') || message.includes('what do you do') || message.includes('offerings')) {
       return predefinedResponses.services;
-    } else if (message.includes('price') || message.includes('cost') || message.includes('pricing')) {
+    } else if (message.includes('price') || message.includes('cost') || message.includes('pricing') || message.includes('budget')) {
       return predefinedResponses.pricing;
-    } else if (message.includes('support') || message.includes('help') || message.includes('problem')) {
+    } else if (message.includes('portfolio') || message.includes('work') || message.includes('examples') || message.includes('case study')) {
+      return predefinedResponses.portfolio;
+    } else if (message.includes('time') || message.includes('timeline') || message.includes('how long') || message.includes('duration')) {
+      return predefinedResponses.timeline;
+    } else if (message.includes('quote') || message.includes('estimate') || message.includes('proposal')) {
+      return predefinedResponses.quote;
+    } else if (message.includes('process') || message.includes('methodology') || message.includes('how do you work')) {
+      return predefinedResponses.process;
+    }
+    
+    // Support and contact
+    else if (message.includes('support') || message.includes('help') || message.includes('problem') || message.includes('issue')) {
       return predefinedResponses.support;
-    } else if (message.includes('contact') || message.includes('reach') || message.includes('phone')) {
+    } else if (message.includes('contact') || message.includes('reach') || message.includes('phone') || message.includes('email')) {
       return predefinedResponses.contact;
-    } else if (message.includes('agent') || message.includes('human') || message.includes('representative')) {
-      return "I'd be happy to connect you with one of our specialists. Please provide your email address and someone will reach out to you within 30 minutes during business hours.";
-    } else {
+    } else if (message.includes('agent') || message.includes('human') || message.includes('representative') || message.includes('speak')) {
+      return "I'd be happy to connect you with one of our specialists! Please provide your:\n• Name\n• Email address\n• Phone number (optional)\n• Brief description of your needs\n\nOur team will reach out within 30 minutes during business hours (9 AM - 6 PM).";
+    }
+    
+    // Specific inquiries
+    else if (message.includes('technology') || message.includes('tech stack') || message.includes('programming')) {
+      return "We work with cutting-edge technologies:\n• Frontend: React, Vue, Angular\n• Backend: Node.js, Python, PHP\n• Mobile: React Native, Flutter\n• Cloud: AWS, Azure, Google Cloud\n• Database: MySQL, PostgreSQL, MongoDB\n• AI/ML: TensorFlow, PyTorch\n\nWhat technology are you interested in?";
+    } else if (message.includes('industry') || message.includes('sector') || message.includes('experience')) {
+      return "We have extensive experience across industries:\n• Healthcare & Medical\n• Finance & Banking\n• E-commerce & Retail\n• Education & E-learning\n• Real Estate\n• Manufacturing\n• Startups to Enterprise\n\nWhat industry are you in?";
+    }
+    
+    // Default response
+    else {
       return predefinedResponses.default;
     }
   };
@@ -235,9 +303,9 @@ export default function LiveChat({ hideToggleButton = false }: LiveChatProps) {
                 {/* Quick Replies (show only initially) */}
                 {messages.length <= 1 && (
                   <div className="p-4 border-t border-gray-200 dark:border-gray-700">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Quick replies:</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">Popular questions:</p>
                     <div className="flex flex-wrap gap-2">
-                      {quickReplies.slice(0, 3).map((reply, index) => (
+                      {quickReplies.slice(0, 4).map((reply, index) => (
                         <Button
                           key={index}
                           variant="outline"

@@ -1,0 +1,12 @@
+{
+  "name": "ienet-production",
+  "version": "1.0.0",
+  "description": "IeNet Production Server",
+  "main": "server.cjs",
+  "scripts": {
+    "start": "node server.cjs"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  }
+}

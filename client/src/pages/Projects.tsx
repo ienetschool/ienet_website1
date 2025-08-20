@@ -110,44 +110,7 @@ export default function Projects() {
     }
   ];
 
-  const featuredProjects = [
-    {
-      id: 1,
-      title: "Enterprise Cloud Migration",
-      client: "Fortune 500 Manufacturing",
-      category: "Cloud Solutions",
-      image: "/api/placeholder/600/400",
-      description: "Complete cloud infrastructure migration reducing operational costs by 40% and improving system reliability to 99.9% uptime.",
-      technologies: ["AWS", "Kubernetes", "Docker", "Terraform"],
-      results: ["40% cost reduction", "99.9% uptime", "50% faster deployments"],
-      timeline: "8 months",
-      team: "12 specialists"
-    },
-    {
-      id: 2,
-      title: "E-commerce Platform Redesign",
-      client: "Retail Chain (500+ stores)",
-      category: "E-commerce",
-      image: "/api/placeholder/600/400",
-      description: "Full platform redesign and optimization resulting in 150% increase in online sales and 60% improvement in user experience.",
-      technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-      results: ["150% sales increase", "60% UX improvement", "2x faster load times"],
-      timeline: "6 months",
-      team: "8 specialists"
-    },
-    {
-      id: 3,
-      title: "Cybersecurity Implementation",
-      client: "Healthcare Network",
-      category: "Cybersecurity",
-      image: "/api/placeholder/600/400",
-      description: "Comprehensive security overhaul ensuring HIPAA compliance and implementing zero-trust architecture for 50+ healthcare facilities.",
-      technologies: ["Zero Trust", "SIEM", "Multi-factor Auth", "Encryption"],
-      results: ["100% HIPAA compliance", "Zero security incidents", "99% threat detection"],
-      timeline: "10 months",
-      team: "15 specialists"
-    }
-  ];
+
 
   if (isLoading) {
     return (
@@ -323,7 +286,8 @@ export default function Projects() {
         </section>
 
         {/* Featured Projects */}
-        <section className="py-16 bg-white dark:bg-gray-900">
+        {projects && projects.length > 0 && (
+          <section className="py-16 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="max-w-6xl mx-auto">
               <div className="text-center mb-16">
@@ -336,7 +300,13 @@ export default function Projects() {
               </div>
 
               <div className="space-y-12">
-                {featuredProjects.map((project, index) => (
+                {projects && projects.slice(0, 3).map((project: any, index: number) => {
+                  // Parse technologies if it's a JSON string
+                  const technologies = typeof project.technologies === 'string' 
+                    ? JSON.parse(project.technologies || '[]') 
+                    : project.technologies || [];
+                  
+                  return (
                   <Card key={project.id} className="overflow-hidden bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-800/50 dark:to-gray-900/50 border-none shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className={`grid lg:grid-cols-2 gap-8 ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
                       <div className="aspect-video bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900/20 dark:to-primary-800/20 flex items-center justify-center">
@@ -349,20 +319,22 @@ export default function Projects() {
                       <CardContent className="p-8">
                         <div className="flex items-center justify-between mb-4">
                           <Badge className="bg-primary/10 text-primary">
-                            {project.category}
+                            {project.category || 'Web Development'}
                           </Badge>
                           <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                             <Calendar size={14} className="mr-1" />
-                            {project.timeline}
+                            {new Date(project.createdAt).getFullYear()}
                           </div>
                         </div>
                         
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
                           {project.title}
                         </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                          {project.client}
-                        </p>
+                        {project.clientName && (
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                            {project.clientName}
+                          </p>
+                        )}
                         
                         <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                           {project.description}
@@ -370,44 +342,47 @@ export default function Projects() {
                         
                         <div className="grid md:grid-cols-2 gap-6 mb-6">
                           <div>
-                            <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Key Results</h4>
-                            <ul className="space-y-2">
-                              {project.results.map((result, resultIndex) => (
-                                <li key={resultIndex} className="flex items-center text-sm text-gray-600 dark:text-gray-300">
-                                  <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                                  {result}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          
-                          <div>
                             <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Technologies Used</h4>
                             <div className="flex flex-wrap gap-2">
-                              {project.technologies.map((tech) => (
-                                <Badge key={tech} variant="outline" className="text-xs">
+                              {technologies.map((tech: string, techIndex: number) => (
+                                <Badge key={techIndex} variant="outline" className="text-xs">
                                   {tech}
                                 </Badge>
                               ))}
                             </div>
-                            <div className="mt-4 text-sm text-gray-600 dark:text-gray-300">
-                              <strong>Team Size:</strong> {project.team}
+                          </div>
+                          
+                          <div>
+                            <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Project Status</h4>
+                            <div className="space-y-2">
+                              <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                                <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                                Project Completed
+                              </div>
+                              <div className="flex items-center text-sm text-gray-600 dark:text-gray-300">
+                                <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                                {project.category || 'Web Development'}
+                              </div>
                             </div>
                           </div>
                         </div>
                         
-                        <Button variant="ghost" size="sm" className="p-0">
-                          View Full Case Study
-                          <ExternalLink className="ml-2" size={14} />
+                        <Button variant="ghost" size="sm" className="p-0" asChild>
+                          <Link href={`/projects/${project.slug}`}>
+                            View Full Case Study
+                            <ExternalLink className="ml-2" size={14} />
+                          </Link>
                         </Button>
                       </CardContent>
                     </div>
                   </Card>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>
         </section>
+        )}
 
         {/* All Projects Grid */}
         {projects && projects.length > 0 && (

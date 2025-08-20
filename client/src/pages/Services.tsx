@@ -420,46 +420,167 @@ export default function Services() {
         </section>
 
         {/* Industries We Serve */}
-        <section className="py-20 bg-white dark:bg-gray-900">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-700 via-purple-600 to-indigo-700 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
+        <section className="py-24 bg-gradient-to-br from-slate-50 via-blue-50/50 to-indigo-50 dark:from-slate-900 dark:via-blue-900/30 dark:to-indigo-900/30 relative overflow-hidden">
+          {/* Background Elements */}
+          <div className="absolute top-0 left-0 w-72 h-72 bg-blue-200/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl"></div>
+          
+          <div className="container mx-auto px-6 relative">
+            <div className="text-center mb-20">
+              <Badge className="bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 border-blue-200 px-6 py-2 text-sm font-semibold mb-6">
+                Industry Expertise
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold mb-8 bg-gradient-to-r from-slate-800 via-blue-700 to-indigo-800 dark:from-slate-200 dark:via-blue-300 dark:to-indigo-200 bg-clip-text text-transparent leading-tight">
                 Industries We Serve
               </h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Delivering specialized solutions across diverse industry verticals
+              <p className="text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+                With deep domain knowledge and cutting-edge technology solutions, we deliver 
+                transformative results across diverse industry verticals
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
               {[
-                { name: "Healthcare & Medical", icon: Heart },
-                { name: "Financial Services", icon: CreditCard }, 
-                { name: "E-commerce & Retail", icon: ShoppingCart },
-                { name: "Education & E-learning", icon: GraduationCap },
-                { name: "Real Estate", icon: Home },
-                { name: "Manufacturing", icon: Factory },
-                { name: "Technology & SaaS", icon: Laptop },
-                { name: "Non-profit Organizations", icon: Users },
-                { name: "Government & Public Sector", icon: Building },
-                { name: "Entertainment & Media", icon: Camera },
-                { name: "Professional Services", icon: Briefcase },
-                { name: "Hospitality & Tourism", icon: Plane }
+                { 
+                  name: "Healthcare & Medical", 
+                  icon: Heart, 
+                  description: "HIPAA-compliant solutions, patient management systems, telemedicine platforms",
+                  projects: "120+ Projects",
+                  gradient: "from-red-500 to-pink-600",
+                  bgGradient: "from-red-50 to-pink-50 dark:from-red-900/10 dark:to-pink-900/10",
+                  borderColor: "border-red-200/50 dark:border-red-700/30"
+                },
+                { 
+                  name: "Financial Services", 
+                  icon: CreditCard, 
+                  description: "Banking solutions, payment gateways, blockchain technology, compliance systems",
+                  projects: "85+ Projects",
+                  gradient: "from-green-500 to-emerald-600",
+                  bgGradient: "from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10",
+                  borderColor: "border-green-200/50 dark:border-green-700/30"
+                },
+                { 
+                  name: "E-commerce & Retail", 
+                  icon: ShoppingCart, 
+                  description: "Online stores, inventory management, POS systems, customer analytics",
+                  projects: "150+ Projects",
+                  gradient: "from-orange-500 to-amber-600",
+                  bgGradient: "from-orange-50 to-amber-50 dark:from-orange-900/10 dark:to-amber-900/10",
+                  borderColor: "border-orange-200/50 dark:border-orange-700/30"
+                },
+                { 
+                  name: "Education & E-learning", 
+                  icon: GraduationCap, 
+                  description: "LMS platforms, virtual classrooms, student portals, assessment tools",
+                  projects: "95+ Projects",
+                  gradient: "from-blue-500 to-cyan-600",
+                  bgGradient: "from-blue-50 to-cyan-50 dark:from-blue-900/10 dark:to-cyan-900/10",
+                  borderColor: "border-blue-200/50 dark:border-blue-700/30"
+                },
+                { 
+                  name: "Real Estate", 
+                  icon: Home, 
+                  description: "Property management, CRM systems, virtual tours, listing platforms",
+                  projects: "70+ Projects",
+                  gradient: "from-purple-500 to-violet-600",
+                  bgGradient: "from-purple-50 to-violet-50 dark:from-purple-900/10 dark:to-violet-900/10",
+                  borderColor: "border-purple-200/50 dark:border-purple-700/30"
+                },
+                { 
+                  name: "Manufacturing", 
+                  icon: Factory, 
+                  description: "ERP systems, supply chain management, IoT solutions, quality control",
+                  projects: "60+ Projects",
+                  gradient: "from-gray-500 to-slate-600",
+                  bgGradient: "from-gray-50 to-slate-50 dark:from-gray-900/10 dark:to-slate-900/10",
+                  borderColor: "border-gray-200/50 dark:border-gray-700/30"
+                }
               ].map((industry, index) => (
                 <div 
                   key={index}
-                  className="bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-blue-200/30 dark:border-blue-700/30 group hover:scale-105"
+                  className={`bg-gradient-to-br ${industry.bgGradient} rounded-2xl p-8 hover:shadow-xl transition-all duration-500 border ${industry.borderColor} group hover:scale-105 hover:-translate-y-2 relative overflow-hidden`}
                 >
-                  <div className="flex items-center">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                      <industry.icon className="text-white" size={20} />
+                  {/* Background decoration */}
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${industry.gradient} opacity-5 rounded-full blur-2xl group-hover:opacity-10 transition-opacity duration-500`}></div>
+                  
+                  <div className="relative">
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-6">
+                      <div className={`p-4 bg-gradient-to-br ${industry.gradient} rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                        <industry.icon className="text-white" size={28} />
+                      </div>
+                      <Badge className="bg-white/80 text-gray-700 border-0 px-3 py-1 text-xs font-medium">
+                        {industry.projects}
+                      </Badge>
                     </div>
-                    <p className="font-semibold text-gray-900 dark:text-white text-sm">
+                    
+                    {/* Content */}
+                    <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
                       {industry.name}
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6">
+                      {industry.description}
                     </p>
+                    
+                    {/* Learn More Link */}
+                    <div className="flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
+                      <span>Learn More</span>
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Additional Industries */}
+            <div className="text-center mb-12">
+              <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                And Many More Industries
+              </h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                {[
+                  { name: "Technology & SaaS", icon: Laptop },
+                  { name: "Non-profit", icon: Users },
+                  { name: "Government", icon: Building },
+                  { name: "Media", icon: Camera },
+                  { name: "Professional Services", icon: Briefcase },
+                  { name: "Tourism", icon: Plane }
+                ].map((industry, index) => (
+                  <div 
+                    key={index}
+                    className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl p-4 border border-gray-200/50 dark:border-gray-700/50 hover:shadow-md transition-all duration-300 group hover:scale-105"
+                  >
+                    <div className="text-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
+                        <industry.icon className="text-white" size={18} />
+                      </div>
+                      <p className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                        {industry.name}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Call to Action */}
+            <div className="text-center bg-gradient-to-r from-blue-600/10 to-indigo-600/10 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl p-8 border border-blue-200/30 dark:border-blue-700/30">
+              <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                Don't See Your Industry?
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
+                We work with businesses across all sectors. Our adaptable solutions and industry expertise 
+                ensure we can meet your unique requirements regardless of your field.
+              </p>
+              <Button 
+                className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 px-8 py-3 font-semibold shadow-lg"
+                asChild
+              >
+                <Link href="/contact">
+                  Discuss Your Project
+                  <MessageCircle className="ml-2 w-4 h-4" />
+                </Link>
+              </Button>
             </div>
           </div>
         </section>

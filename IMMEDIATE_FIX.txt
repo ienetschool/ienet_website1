@@ -1,0 +1,31 @@
+IMMEDIATE 502 FIX - NO DATABASE REQUIRED
+
+The problem: API server keeps crashing due to MySQL connection issues.
+SOLUTION: Use simple server with hardcoded data (same as development server).
+
+UPLOAD THIS FILE TO SERVER:
+- simple-production-server.cjs
+
+RUN THESE COMMANDS:
+
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Stop all Node.js processes
+pkill -f "node" || true
+
+# Start simple server (no database needed)
+nohup node simple-production-server.cjs > api.log 2>&1 &
+
+# Test immediately
+curl localhost:3001/api/health
+curl https://www.ienet.online/api/health
+
+EXPECTED RESULT:
+- API returns JSON (not HTML)
+- Service categories load on homepage
+- Projects section shows data
+- No more 502 errors
+
+This bypasses all database issues and gets your website working immediately.
+You can add MySQL database later once the basic API is working.

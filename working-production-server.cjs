@@ -1,143 +1,243 @@
 const express = require('express');
-const path = require('path');
-const { execSync } = require('child_process');
-
 const app = express();
-const PORT = 5000;
+const PORT = 3001;
 
-console.log('🚀 Starting Working Production Server...');
-
-// Database query function
-function queryDatabase(sql) {
-  try {
-    const command = `mysql -u netiedb -ph5pLF9833 -h 5.181.218.15 -D ienetdb -e "${sql}" --skip-column-names --silent`;
-    const result = execSync(command, { encoding: 'utf-8', timeout: 8000 });
-    return result.trim().split('\n').filter(line => line.trim());
-  } catch (error) {
-    console.error('Database error:', error.message);
-    return [];
-  }
-}
-
-// Basic middleware
-app.use(express.json());
+// Enable logging
 app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
   next();
 });
 
-// Serve static files with proper headers
-app.use(express.static(path.join(__dirname, 'dist'), {
-  setHeaders: (res, filePath) => {
-    if (filePath.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-    } else if (filePath.endsWith('.css')) {
-      res.setHeader('Content-Type', 'text/css; charset=utf-8');
-    }
-    res.setHeader('Cache-Control', 'no-cache');
-  }
-}));
+app.use(express.json());
 
-// Authentication - return null to prevent React infinite loops
-app.get('/api/auth/user', (req, res) => {
-  res.json(null);
+console.log('=== STARTING PRODUCTION SERVER ===');
+console.log('Port:', PORT);
+console.log('Time:', new Date().toISOString());
+
+// Test endpoint
+app.get('/test', (req, res) => {
+  res.send('Server is working!');
 });
 
 // Health check
 app.get('/api/health', (req, res) => {
-  try {
-    const categories = queryDatabase('SELECT COUNT(*) FROM service_categories')[0] || '0';
-    res.json({
-      status: 'healthy',
-      database: 'connected',
-      categories: parseInt(categories),
-      timestamp: new Date().toISOString()
-    });
-  } catch (error) {
-    res.status(500).json({ status: 'unhealthy', error: error.message });
-  }
-});
-
-// Service Categories
-app.get('/api/service-categories', (req, res) => {
-  try {
-    const rows = queryDatabase('SELECT id, name, slug, description, icon FROM service_categories ORDER BY id');
-    const categories = rows.map(row => {
-      const parts = row.split('\t');
-      return {
-        id: parseInt(parts[0] || '0'),
-        name: parts[1] || '',
-        slug: parts[2] || '',
-        description: parts[3] || '',
-        icon: parts[4] || ''
-      };
-    });
-    res.json(categories);
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Projects
-app.get('/api/projects', (req, res) => {
-  try {
-    const rows = queryDatabase('SELECT id, title, slug, description FROM projects ORDER BY id DESC LIMIT 10');
-    const projects = rows.map(row => {
-      const parts = row.split('\t');
-      return {
-        id: parseInt(parts[0] || '0'),
-        title: parts[1] || '',
-        slug: parts[2] || '',
-        description: parts[3] || ''
-      };
-    });
-    res.json(projects);
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Services
-app.get('/api/services', (req, res) => {
-  try {
-    const rows = queryDatabase('SELECT id, category_id, name, slug, description FROM services ORDER BY category_id, id LIMIT 50');
-    const services = rows.map(row => {
-      const parts = row.split('\t');
-      return {
-        id: parseInt(parts[0] || '0'),
-        category_id: parseInt(parts[1] || '0'),
-        name: parts[2] || '',
-        slug: parts[3] || '',
-        description: parts[4] || ''
-      };
-    });
-    res.json(services);
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// React Router fallback - serve index.html for all routes
-app.get('*', (req, res) => {
-  const indexPath = path.join(__dirname, 'dist', 'index.html');
-  console.log(`Serving React app for: ${req.path}`);
-  res.sendFile(indexPath, (err) => {
-    if (err) {
-      console.error('Error serving index.html:', err);
-      res.status(500).send('React app not found');
-    }
+  console.log('Health check requested');
+  res.json({ 
+    status: 'healthy',
+    message: 'Production server running',
+    timestamp: new Date().toISOString(),
+    port: PORT
   });
 });
 
-// Start server
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`✅ Working Production Server running on port ${PORT}`);
+// Auth endpoint
+app.get('/api/auth/user', (req, res) => {
+  console.log('Auth check requested');
+  res.json(null);
+});
+
+// Service categories with logging
+app.get('/api/service-categories', (req, res) => {
+  console.log('Service categories requested');
+  const categories = [
+    {
+      id: 1,
+      name: 'Website Design & Development',
+      slug: 'website-design-development',
+      description: 'Comprehensive web design and development services',
+      icon: 'Globe'
+    },
+    {
+      id: 2,
+      name: 'Digital Marketing',
+      slug: 'digital-marketing',
+      description: 'Complete digital marketing solutions',
+      icon: 'TrendingUp'
+    },
+    {
+      id: 3,
+      name: 'E-commerce Solutions',
+      slug: 'ecommerce-solutions',
+      description: 'Professional e-commerce platforms',
+      icon: 'ShoppingCart'
+    },
+    {
+      id: 4,
+      name: 'Mobile App Development',
+      slug: 'mobile-app-development',
+      description: 'Custom mobile application development',
+      icon: 'Smartphone'
+    },
+    {
+      id: 5,
+      name: 'Cloud Services',
+      slug: 'cloud-services',
+      description: 'Enterprise cloud computing solutions',
+      icon: 'Cloud'
+    }
+  ];
   
-  // Test database connection
-  try {
-    const result = queryDatabase('SELECT COUNT(*) FROM service_categories');
-    console.log(`✅ Database connected: ${result[0]} categories found`);
-  } catch (error) {
-    console.error('❌ Database connection failed:', error.message);
+  console.log(`Returning ${categories.length} categories`);
+  res.json(categories);
+});
+
+// Services with logging
+app.get('/api/services', (req, res) => {
+  console.log('Services requested, categoryId:', req.query.categoryId);
+  const services = [
+    {
+      id: 1,
+      name: 'Custom Website Design',
+      slug: 'custom-website-design',
+      description: 'Bespoke website design solutions',
+      categoryId: 1
+    },
+    {
+      id: 2,
+      name: 'E-commerce Development',
+      slug: 'ecommerce-development',
+      description: 'Full-featured online stores',
+      categoryId: 1
+    },
+    {
+      id: 3,
+      name: 'SEO Optimization',
+      slug: 'seo-optimization',
+      description: 'Search engine optimization services',
+      categoryId: 2
+    },
+    {
+      id: 4,
+      name: 'Social Media Marketing',
+      slug: 'social-media-marketing',
+      description: 'Comprehensive social media strategies',
+      categoryId: 2
+    }
+  ];
+
+  let filteredServices = services;
+  if (req.query.categoryId) {
+    filteredServices = services.filter(s => s.categoryId === parseInt(req.query.categoryId));
   }
+  
+  console.log(`Returning ${filteredServices.length} services`);
+  res.json(filteredServices);
+});
+
+// Features with logging
+app.get('/api/features', (req, res) => {
+  console.log('Features requested, serviceId:', req.query.serviceId);
+  const features = [
+    {
+      id: 1,
+      name: 'Responsive Design',
+      slug: 'responsive-design',
+      description: 'Mobile-first responsive web design',
+      serviceId: 1
+    },
+    {
+      id: 2,
+      name: 'User Experience Design',
+      slug: 'user-experience-design',
+      description: 'Intuitive user interface design',
+      serviceId: 1
+    },
+    {
+      id: 3,
+      name: 'Payment Gateway Integration',
+      slug: 'payment-gateway-integration',
+      description: 'Secure payment processing',
+      serviceId: 2
+    }
+  ];
+
+  let filteredFeatures = features;
+  if (req.query.serviceId) {
+    filteredFeatures = features.filter(f => f.serviceId === parseInt(req.query.serviceId));
+  }
+  
+  console.log(`Returning ${filteredFeatures.length} features`);
+  res.json(filteredFeatures);
+});
+
+// Projects with logging
+app.get('/api/projects', (req, res) => {
+  console.log('Projects requested');
+  const projects = [
+    {
+      id: 1,
+      title: 'E-commerce Platform Redesign',
+      slug: 'ecommerce-platform-redesign',
+      description: 'Complete redesign of major e-commerce platform with modern UI/UX'
+    },
+    {
+      id: 2,
+      title: 'Healthcare Management System',
+      slug: 'healthcare-management-system',
+      description: 'Comprehensive healthcare management solution for hospitals'
+    },
+    {
+      id: 3,
+      title: 'Education Portal Development',
+      slug: 'education-portal-development',
+      description: 'Modern learning management system for educational institutions'
+    },
+    {
+      id: 4,
+      title: 'Restaurant Booking App',
+      slug: 'restaurant-booking-app',
+      description: 'Mobile app for restaurant reservations and table management'
+    }
+  ];
+  
+  console.log(`Returning ${projects.length} projects`);
+  res.json(projects);
+});
+
+// Catch all for debugging
+app.use('*', (req, res) => {
+  console.log(`404 - Route not found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ error: 'Route not found', path: req.originalUrl });
+});
+
+// Error handling
+app.use((error, req, res, next) => {
+  console.error('Server error:', error);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+const server = app.listen(PORT, '127.0.0.1', () => {
+  console.log('=== SERVER STARTED SUCCESSFULLY ===');
+  console.log(`API Server running on http://127.0.0.1:${PORT}`);
+  console.log('Time:', new Date().toISOString());
+  console.log('Process ID:', process.pid);
+  console.log('Available endpoints:');
+  console.log('  GET /test');
+  console.log('  GET /api/health');
+  console.log('  GET /api/service-categories');
+  console.log('  GET /api/services');
+  console.log('  GET /api/features');
+  console.log('  GET /api/projects');
+  console.log('=== SERVER READY ===');
+});
+
+server.on('error', (error) => {
+  console.error('Server failed to start:', error);
+  process.exit(1);
+});
+
+process.on('SIGINT', () => {
+  console.log('=== SHUTTING DOWN SERVER ===');
+  server.close(() => {
+    console.log('Server shut down gracefully');
+    process.exit(0);
+  });
+});
+
+process.on('SIGTERM', () => {
+  console.log('=== TERMINATING SERVER ===');
+  server.close(() => {
+    console.log('Server terminated gracefully');
+    process.exit(0);
+  });
 });

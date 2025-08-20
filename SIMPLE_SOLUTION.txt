@@ -1,12 +1,44 @@
-FOUND THE PROBLEM:
-Plesk looking for dist/index.js but file missing
+SIMPLE SOLUTION TO FIX 502 ERRORS
 
-DOWNLOAD: plesk-dist-deployment.tar.gz
+The issue: Node.js server is not starting properly or Nginx cannot connect to it.
 
-UPLOAD TO /ienet.online/:
-- Delete old files
-- Extract package
-- NPM install
-- Restart app
+UPLOAD THIS FILE: working-production-server.cjs (with detailed logging)
 
-FIXED: React website will show on ienet.online
+STEP 1: Fix Nginx Configuration in Plesk
+Go to: Domains > ienet.online > Apache & nginx Settings
+Add to "Additional nginx directives":
+
+location /api/ {
+    proxy_pass http://127.0.0.1:3001/api/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_connect_timeout 10s;
+    proxy_read_timeout 60s;
+}
+
+STEP 2: Start the Server with Logging
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Kill all existing Node.js processes
+pkill -f "node" || true
+
+# Start new server with detailed logging
+node working-production-server.cjs
+
+# Keep this terminal open to see logs
+# Server should show "=== SERVER STARTED SUCCESSFULLY ==="
+
+STEP 3: Test in Another Terminal
+ssh root@5.181.218.15
+
+# Test locally first
+curl localhost:3001/api/health
+curl localhost:3001/api/service-categories
+
+# Then test through Nginx
+curl https://www.ienet.online/api/health
+
+EXPECTED: JSON responses instead of HTML 502 errors
+
+If server starts successfully, you'll see service categories load on your website homepage.

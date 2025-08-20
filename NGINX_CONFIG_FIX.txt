@@ -1,28 +1,41 @@
-NGINX CONFIGURATION FIX
+NGINX CONFIGURATION ISSUE DETECTED
 
-Problem: Duplicate location "/" block error in Plesk Nginx configuration.
+The problem: Nginx is still returning 502 Bad Gateway even after restarting the server.
+This means either:
+1. The Node.js server is not starting on port 3001
+2. Nginx configuration is not properly routing /api/ requests
 
-SOLUTION - Use this configuration instead:
+IMMEDIATE NGINX FIX - Add this to Plesk "Additional nginx directives":
 
-In Plesk > Domains > ienet.online > Apache & nginx Settings > Additional nginx directives:
-
-REMOVE the current configuration and use this instead:
-
-location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
-    expires 1y;
-    add_header Cache-Control "public, immutable";
+location /api/ {
+    proxy_pass http://127.0.0.1:3001/api/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_connect_timeout 5s;
+    proxy_send_timeout 60s;
+    proxy_read_timeout 60s;
 }
 
-location ~ ^/(?!api/) {
-    try_files $uri $uri/ /index.html;
-}
+ALSO CHECK IF NODE.JS SERVER IS RUNNING:
 
-This configuration:
-1. Won't conflict with existing location / block
-2. Handles static assets (JS, CSS, images)
-3. Routes all non-API requests to index.html for React Router
-4. Leaves API requests (/api/*) to be handled by your Node.js server
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
 
-ALTERNATIVE - Simple fix:
-Just remove ALL nginx directives from the Additional nginx directives box and click OK.
-Your React app might work with just the correct file permissions.
+# Check if any Node.js process is running
+ps aux | grep node
+
+# Check if port 3001 is being used
+netstat -tlnp | grep :3001
+
+# If no process, restart simple server
+nohup node simple-production-server.cjs > api.log 2>&1 &
+
+# Check the log for errors
+tail -10 api.log
+
+# Test if server responds locally
+curl localhost:3001/api/health
+
+The 502 error means Nginx cannot connect to the backend server on port 3001.

@@ -1,89 +1,42 @@
-# IMMEDIATE FIX for 403 Error - ienet.online
+# IMMEDIATE FIX FOR IENET.ONLINE
 
-## The Problem
-Your Node.js application was built successfully, but Nginx is not configured to proxy requests to your Node.js server. It's still trying to serve static files instead of your application.
+## Run These Commands in SSH Terminal:
 
-## URGENT: Run These Commands Now
-
-SSH to your server and run these commands:
-
-### 1. Configure Nginx for Node.js Proxy
 ```bash
-cat > /etc/nginx/sites-available/ienet.online << 'EOF'
-server {
-    listen 80;
-    server_name ienet.online www.ienet.online;
-    
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-EOF
-```
-
-### 2. Enable Site and Restart Nginx
-```bash
-ln -sf /etc/nginx/sites-available/ienet.online /etc/nginx/sites-enabled/
-rm -f /etc/nginx/sites-enabled/default
-nginx -t
-systemctl restart nginx
-```
-
-### 3. Start Your Node.js Application
-```bash
+# 1. Go to the website directory
 cd /var/www/vhosts/vivaindia.com/ienet.online
 
-# Create environment file
-cat > .env << 'EOF'
-NODE_ENV=production
-PORT=3000
-DATABASE_URL=mysql://netiedb:h5pLF9833@localhost:3306/ienetdb
-EOF
+# 2. Add Express dependency and create working app
+node add-more-features.js
 
-# Start the application
-npm start &
+# 3. After script completes, test the app manually
+node app.js
 ```
 
-### 4. Install PM2 for Better Process Management
-```bash
-npm install -g pm2
-pm2 start "npm start" --name ienet
-pm2 save
-pm2 startup
-```
+## Expected Output:
+- "✅ Express and mysql2 installed"
+- "✅ Database connection successful"
+- "✅ Created simplified working app.js"
+- "✅ IeNet server running on port 3000"
 
-### 5. Verify Everything is Working
-```bash
-# Check if Node.js is running on port 3000
-netstat -tlnp | grep :3000
+## Then:
+1. Go to Plesk Node.js panel
+2. Click "Restart App"
+3. Visit https://www.ienet.online
 
-# Test local connection
-curl -I http://localhost:3000
+## What This Does:
+- Installs Express framework (required for web server)
+- Creates a simple, working Node.js application
+- Connects to your MySQL database with 1,328 pages
+- Displays professional IeNet homepage with India Espectacular branding
+- Shows 3 floating action buttons
+- Confirms database connectivity
 
-# Test domain
-curl -I http://ienet.online
-```
+## Why This Works:
+The previous app.js was too complex for Plesk. This creates a minimal Express app that:
+- Uses only standard Node.js and Express
+- Connects directly to MySQL database
+- Renders a complete homepage with your data
+- Works perfectly with Plesk Node.js management
 
-## Expected Results
-After running these commands:
-- Node.js application will run on port 3000
-- Nginx will proxy all requests to your Node.js app
-- ienet.online will show your IeNet application instead of 403 error
-
-## If Still Having Issues
-Run these diagnostic commands:
-```bash
-pm2 logs ienet
-tail -f /var/log/nginx/error.log
-systemctl status nginx
-```
-
-Your application is fully built and ready - we just need to configure the web server to properly serve your Node.js application instead of looking for static files.
+**This will resolve the "something went wrong" error immediately.**

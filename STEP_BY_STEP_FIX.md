@@ -1,81 +1,75 @@
-# Step by Step Fix for ienet.online Error
+# STEP-BY-STEP MANUAL FIX FOR PLESK
 
-## Current Problem
-Website shows generic error instead of React application
+Your Plesk keeps showing "The file does not exist" because the upload isn't working correctly.
 
-## Solution Path
+## Manual Solution:
 
-### Option 1: Fix Node.js Application (Preferred)
+### Step 1: Create Folder Structure in Plesk File Manager
+Go to /ienet.online/ and create these folders:
+1. Create folder: `dist`
+2. Create folder: `public` 
+3. Create folder: `public/assets`
 
-**Step 1: Check Current Setup**
-```bash
-# SSH into server or use Plesk terminal
-cd /var/www/ienet.online
-ls -la
+### Step 2: Create dist/index.js File
+In Plesk File Manager, create new file: `/ienet.online/dist/index.js`
+Copy and paste this exact code:
+
+```javascript
+import express from 'express';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+console.log('Starting IeNet React Application...');
+
+app.use(express.static(join(__dirname, '..', 'public')));
+
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'IeNet React App Running', timestamp: new Date() });
+});
+
+app.get('*', (req, res) => {
+  const indexPath = join(__dirname, '..', 'public', 'index.html');
+  res.sendFile(indexPath);
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`IeNet React Application started on port ${PORT}`);
+  console.log(`Visit http://ienet.online to view your website`);
+});
 ```
 
-**Step 2: Verify Files Uploaded**
-Should see: client/, server/, dist/, package.json, ecosystem.config.js
+### Step 3: Create package.json File
+In Plesk File Manager, create new file: `/ienet.online/package.json`
+Copy and paste:
 
-**Step 3: Install Dependencies**
-```bash
-npm install --production
+```json
+{
+  "name": "ienet-production",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
 ```
 
-**Step 4: Test Application**
-```bash
-NODE_ENV=production node dist/index.js
-```
+### Step 4: Upload React Files
+Download final-plesk-exact-structure.tar.gz, extract it, and upload:
+- All files from `public/` folder to `/ienet.online/public/`
 
-**Step 5: Start with PM2**
-```bash
-pm2 start ecosystem.config.js
-pm2 save
-```
+### Step 5: Plesk Configuration
+- Keep Application Startup File: `dist/index.js`
+- Click "NPM install"
+- Click "Restart App"
 
-### Option 2: Quick Plesk Fix
-
-**If using Plesk hosting:**
-1. Go to Plesk Panel > Hosting & DNS > Node.js
-2. Enable Node.js (version 18.x or 20.x)
-3. Set Application Root: /
-4. Set Startup File: dist/index.js
-5. Environment: production
-6. Click "Enable Node.js"
-
-### Option 3: Temporary Static Solution
-
-**If Node.js setup is complex:**
-1. Upload PRODUCTION_MATCHING_VERSION.html as index.html
-2. Provides immediate working website
-3. Shows same design while fixing Node.js
-
-## Diagnostic Commands
-
-```bash
-# Check if Node.js app is running
-ps aux | grep node
-
-# Check port 3000
-netstat -tulpn | grep :3000
-
-# Check Apache/Nginx logs
-tail -f /var/log/apache2/error.log
-tail -f /var/log/nginx/error.log
-
-# Test direct connection
-curl http://localhost:3000
-```
-
-## Expected Results
-
-**Success indicators:**
-- ienet.online shows React application
-- HeroSlider, ModernHeader, FloatingCTA visible
-- 3 floating buttons working
-- Database connected with 1,328 pages
-
-**Next steps after success:**
-- Test all pages and functionality
-- Verify database connection
-- Check admin dashboard access
+This will fix the "file does not exist" error.

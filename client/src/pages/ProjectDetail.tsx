@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "wouter";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
+import ModernHeader from "@/components/layout/ModernHeader";
+import TopBar from "@/components/layout/TopBar";
+import ModernFooter from "@/components/layout/ModernFooter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -46,7 +47,8 @@ export default function ProjectDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <Header />
+        <TopBar />
+        <ModernHeader />
         <main className="py-20">
           <div className="container mx-auto px-6">
             <div className="space-y-8">
@@ -65,7 +67,7 @@ export default function ProjectDetail() {
             </div>
           </div>
         </main>
-        <Footer />
+        <ModernFooter />
       </div>
     );
   }
@@ -73,7 +75,8 @@ export default function ProjectDetail() {
   if (!project) {
     return (
       <div className="min-h-screen bg-background">
-        <Header />
+        <TopBar />
+        <ModernHeader />
         <main className="py-20">
           <div className="container mx-auto px-6 text-center">
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -87,7 +90,7 @@ export default function ProjectDetail() {
             </Button>
           </div>
         </main>
-        <Footer />
+        <ModernFooter />
       </div>
     );
   }
@@ -102,7 +105,8 @@ export default function ProjectDetail() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <TopBar />
+      <ModernHeader />
 
       <FloatingCTA 
         onGetQuoteClick={() => {
@@ -115,6 +119,31 @@ export default function ProjectDetail() {
       />
 
       <main>
+        {/* Breadcrumb */}
+        <section className="bg-white dark:bg-gray-900 py-3 border-b border-gray-200 dark:border-gray-700">
+          <div className="container mx-auto px-6">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href="/" className="text-gray-600 dark:text-gray-400 hover:text-primary">Home</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href="/projects" className="text-gray-600 dark:text-gray-400 hover:text-primary">Projects</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage className="text-gray-900 dark:text-white font-medium">{project.title}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </section>
+
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
           <div className="container mx-auto px-6">
@@ -175,30 +204,7 @@ export default function ProjectDetail() {
           </div>
         </section>
 
-        {/* Breadcrumb */}
-        <section className="bg-gray-50 dark:bg-gray-800 py-4">
-          <div className="container mx-auto px-6">
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href="/">Home</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link href="/projects">Projects</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>{project.title}</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </section>
+
 
         {/* Main Content */}
         <section className="py-20 bg-white dark:bg-gray-900">
@@ -454,7 +460,7 @@ export default function ProjectDetail() {
         </section>
       </main>
 
-      <Footer />
+      <ModernFooter />
     </div>
   );
 }

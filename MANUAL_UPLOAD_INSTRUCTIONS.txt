@@ -1,0 +1,40 @@
+MANUAL UPLOAD INSTRUCTIONS
+
+I cannot directly upload to your server. You need to upload these files manually.
+
+FILES TO UPLOAD:
+
+Download from this Repl and upload to your server:
+- ienet-manual-upload.tar.gz (complete package)
+
+OR upload individual files to /var/www/vhosts/vivaindia.com/ienet.online/:
+
+1. index.html
+2. assets/index-4CY-Uz3T.css
+3. assets/index-6-PKYvps.js  
+4. production-server.cjs
+5. package.json
+
+AFTER UPLOADING, RUN ON SERVER:
+
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# If you uploaded the tar.gz:
+tar -xzf ienet-manual-upload.tar.gz
+mv manual-upload/* ./
+rmdir manual-upload
+
+# Install dependencies and start
+npm install
+chown -R vivaiind:psacln ./*
+chmod -R 755 ./*
+pkill -f "node" || true
+nohup node production-server.cjs > production.log 2>&1 &
+
+# Verify
+ls -la
+ls -la assets/
+
+EXPECTED RESULT:
+https://www.ienet.online shows your React application

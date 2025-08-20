@@ -16,6 +16,8 @@ import {
   MessageCircle,
   Quote
 } from "lucide-react";
+import { SiVisa, SiMastercard, SiStripe, SiPaypal, SiRazorpay } from 'react-icons/si';
+import { FaUniversity } from 'react-icons/fa';
 
 const quickLinks = [
   { name: 'Home', href: '/' },
@@ -45,12 +47,12 @@ const socialLinks = [
 ];
 
 const paymentMethods = [
-  { name: 'Visa', icon: '💳' },
-  { name: 'Mastercard', icon: '💳' },
-  { name: 'Stripe', icon: '💳' },
-  { name: 'PayPal', icon: '💳' },
-  { name: 'Razorpay', icon: '💳' },
-  { name: 'Wire Transfer', icon: '🏦' }
+  { name: 'Visa', icon: SiVisa, color: 'text-blue-600' },
+  { name: 'Mastercard', icon: SiMastercard, color: 'text-red-600' },
+  { name: 'Stripe', icon: SiStripe, color: 'text-purple-600' },
+  { name: 'PayPal', icon: SiPaypal, color: 'text-blue-500' },
+  { name: 'Razorpay', icon: SiRazorpay, color: 'text-blue-700' },
+  { name: 'Wire Transfer', icon: FaUniversity, color: 'text-gray-600' }
 ];
 
 export default function ModernFooter() {
@@ -206,13 +208,19 @@ export default function ModernFooter() {
               {/* Payment Methods */}
               <div>
                 <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3">Payment Methods</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Visa">💳</span>
-                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Mastercard">💳</span>
-                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="PayPal">💰</span>
-                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Stripe">💳</span>
-                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Razorpay">💳</span>
-                  <span className="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Wire Transfer">🏦</span>
+                <div className="flex flex-wrap gap-3">
+                  {paymentMethods.map((method, index) => {
+                    const IconComponent = method.icon;
+                    return (
+                      <div 
+                        key={index}
+                        className="w-10 h-10 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:scale-110 transition-all duration-300 cursor-pointer hover:shadow-md"
+                        title={method.name}
+                      >
+                        <IconComponent className={`text-xl ${method.color} dark:${method.color}`} />
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

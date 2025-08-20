@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple React Test</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .success { color: #28a745; margin: 20px 0; }
+        .error { color: #dc3545; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simple React Test</h1>
+        <p>Testing if React can mount at all...</p>
+        
+        <div id="react-root"></div>
+        
+        <div id="status">Loading React...</div>
+    </div>
+
+    <script>
+        // Simple React component to test basic mounting
+        function TestApp() {
+            const [count, setCount] = React.useState(0);
+            
+            return React.createElement('div', { style: { padding: '20px', background: '#f8f9fa', border: '1px solid #dee2e6', borderRadius: '4px' } },
+                React.createElement('h2', { style: { color: '#28a745' } }, '✅ React is working!'),
+                React.createElement('p', null, 'This proves React can mount and render.'),
+                React.createElement('button', { 
+                    onClick: () => setCount(count + 1),
+                    style: { padding: '10px 20px', background: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }
+                }, `Clicked ${count} times`),
+                React.createElement('div', { style: { marginTop: '20px', fontSize: '14px' } },
+                    'If you can see this and click the button, React is working fine. The issue is with the main application.'
+                )
+            );
+        }
+
+        // Mount the simple React app
+        try {
+            const root = ReactDOM.createRoot(document.getElementById('react-root'));
+            root.render(React.createElement(TestApp));
+            document.getElementById('status').innerHTML = '<div class="success">✅ Simple React app mounted successfully!</div>';
+        } catch (error) {
+            console.error('React mounting error:', error);
+            document.getElementById('status').innerHTML = `<div class="error">❌ React mounting failed: ${error.message}</div>`;
+        }
+    </script>
+</body>
+</html>

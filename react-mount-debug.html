@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>React Mount Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f0f0f0; }
+        .debug-panel { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .error { background: #fee; border-left: 4px solid #f00; }
+        .success { background: #efe; border-left: 4px solid #0f0; }
+        .warning { background: #fff3cd; border-left: 4px solid #ffc107; }
+        .log { font-family: monospace; font-size: 12px; background: #f8f9fa; padding: 10px; border-radius: 4px; margin: 5px 0; }
+        #original-root { border: 2px solid #007bff; min-height: 50px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="debug-panel">
+        <h1>React Mount Debug Tool</h1>
+        <p>This will step through the React mounting process and identify where it fails.</p>
+    </div>
+
+    <div class="debug-panel" id="step1">
+        <h2>Step 1: DOM Ready</h2>
+        <div id="step1-result">Checking...</div>
+    </div>
+
+    <div class="debug-panel" id="step2">
+        <h2>Step 2: React Bundle Loading</h2>
+        <div id="step2-result">Waiting for Step 1...</div>
+    </div>
+
+    <div class="debug-panel" id="step3">
+        <h2>Step 3: Authentication Check</h2>
+        <div id="step3-result">Waiting for Step 2...</div>
+    </div>
+
+    <div class="debug-panel" id="step4">
+        <h2>Step 4: React Mounting</h2>
+        <div id="step4-result">Waiting for Step 3...</div>
+        <div id="original-root">Original Root Element (should be populated by React)</div>
+    </div>
+
+    <div class="debug-panel" id="console-logs">
+        <h2>Console Logs</h2>
+        <div id="logs"></div>
+    </div>
+
+    <!-- Original React mounting point -->
+    <div id="root" style="display: none;"></div>
+
+    <script>
+        let logs = [];
+        function addLog(message, type = 'info') {
+            console.log(message);
+            logs.push(`[${new Date().toISOString().split('T')[1].split('.')[0]}] ${message}`);
+            document.getElementById('logs').innerHTML = logs.map(log => `<div class="log">${log}</div>`).join('');
+        }
+
+        function updateStep(step, message, type = 'info') {
+            const resultEl = document.getElementById(`step${step}-result`);
+            resultEl.innerHTML = `<div class="${type}">${message}</div>`;
+            addLog(`Step ${step}: ${message}`);
+        }
+
+        // Step 1: DOM Ready
+        updateStep(1, 'DOM is ready', 'success');
+
+        // Step 2: React Bundle Loading
+        updateStep(2, 'Loading React bundle...', 'warning');
+        
+        const startTime = Date.now();
+        import('/assets/index-BOus7yXH.js')
+            .then(() => {
+                const loadTime = Date.now() - startTime;
+                updateStep(2, `React bundle loaded successfully (${loadTime}ms)`, 'success');
+                
+                // Step 3: Authentication Check
+                updateStep(3, 'Testing authentication endpoint...', 'warning');
+                return fetch('/api/auth/user');
+            })
+            .then(response => {
+                if (response.status === 401) {
+                    updateStep(3, 'Authentication returned 401 (expected)', 'success');
+                    return response.json();
+                } else {
+                    updateStep(3, `Unexpected auth response: ${response.status}`, 'error');
+                    throw new Error(`Auth returned ${response.status}`);
+                }
+            })
+            .then(authData => {
+                updateStep(3, `Auth response: ${JSON.stringify(authData)}`, 'success');
+                
+                // Step 4: Check React Mounting
+                updateStep(4, 'Monitoring React mounting...', 'warning');
+                
+                let checkCount = 0;
+                const maxChecks = 30; // 30 seconds
+                
+                const checkMount = setInterval(() => {
+                    checkCount++;
+                    const rootEl = document.getElementById('root');
+                    
+                    if (rootEl && rootEl.children.length > 0) {
+                        updateStep(4, `React mounted successfully! (${checkCount} checks)`, 'success');
+                        document.getElementById('original-root').innerHTML = 
+                            '<div class="success">SUCCESS: React app is mounted and rendering!</div>';
+                        clearInterval(checkMount);
+                    } else if (checkCount >= maxChecks) {
+                        updateStep(4, 'React failed to mount after 30 seconds', 'error');
+                        
+                        // Additional debugging
+                        const hasReact = !!window.React;
+                        const hasReactDOM = !!window.ReactDOM;
+                        const hasDevtools = !!window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+                        
+                        updateStep(4, `Debug: React=${hasReact}, ReactDOM=${hasReactDOM}, DevTools=${hasDevtools}`, 'warning');
+                        
+                        document.getElementById('original-root').innerHTML = 
+                            '<div class="error">FAILED: React bundle loaded but app not mounting. Check browser console for errors.</div>';
+                        clearInterval(checkMount);
+                    } else {
+                        updateStep(4, `Waiting for React mount... (${checkCount}/${maxChecks})`, 'warning');
+                    }
+                }, 1000);
+            })
+            .catch(error => {
+                updateStep(2, `Bundle loading failed: ${error.message}`, 'error');
+                addLog(`Error details: ${error.stack}`);
+            });
+
+        // Capture console errors
+        window.addEventListener('error', (e) => {
+            addLog(`ERROR: ${e.message} at ${e.filename}:${e.lineno}:${e.colno}`);
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            addLog(`PROMISE REJECTION: ${e.reason}`);
+        });
+    </script>
+
+    <!-- Load CSS after our debug script -->
+    <link rel="stylesheet" crossorigin href="/assets/index-5acz5IyP.css">
+</body>
+</html>

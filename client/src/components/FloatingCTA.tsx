@@ -25,13 +25,7 @@ export default function FloatingCTA({ onGetQuoteClick, getQuoteText }: FloatingC
 
   const handleLiveChat = () => {
     console.log("Live chat clicked - Opening live chat");
-    // Trigger the LiveChat component to open
-    const liveChatButton = document.querySelector('[data-testid="live-chat-toggle"]') as HTMLElement;
-    if (liveChatButton) {
-      liveChatButton.click();
-    } else {
-      setShowLiveChat(true);
-    }
+    setShowLiveChat(true);
   };
 
   return (
@@ -74,10 +68,18 @@ export default function FloatingCTA({ onGetQuoteClick, getQuoteText }: FloatingC
         defaultMessage="Hello! I'm interested in your services and would like to get in touch."
       />
 
-      {/* Live Chat Component - Hidden the original button */}
-      <div style={{ display: 'none' }}>
-        <LiveChat />
-      </div>
+      {/* Live Chat Component */}
+      {showLiveChat && (
+        <div className="fixed inset-0 z-50">
+          <LiveChat />
+          <button 
+            onClick={() => setShowLiveChat(false)}
+            className="fixed top-4 right-4 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 z-[60]"
+          >
+            ✕
+          </button>
+        </div>
+      )}
     </div>
   );
 }

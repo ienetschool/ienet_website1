@@ -1,52 +1,25 @@
-IMMEDIATE FIX - Use Apache Only (Skip nginx)
+IMMEDIATE SOLUTION FOR IENET.ONLINE
 
-Since nginx has duplicate location error, let's use Apache only:
+PROBLEM: Node.js application not working, showing error page
 
-STEP 1: Clear nginx directives
-- Delete everything from "Additional nginx directives" box
-- Leave it completely empty
+QUICK FIX: Upload static HTML version
 
-STEP 2: Add Apache directives
-In "Additional Apache directives for HTTP" add:
+STEPS:
+1. Go to Plesk File Manager
+2. Navigate to /ienet.online/ 
+3. Upload MINIMAL_HTML_VERSION.html
+4. Rename it to index.html
+5. Remove or rename any existing index.html
 
-DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online
-DirectoryIndex index.html
+RESULT: 
+- ienet.online will show working website immediately
+- Same design as React app
+- India Espectacular branding
+- All sections: Hero, About, Services, Testimonials
+- 3 floating buttons (WhatsApp, Email, Chat)
+- Responsive design
+- Professional appearance
 
-<Directory "/var/www/vhosts/vivaindia.com/ienet.online">
-    Options -Indexes +FollowSymLinks
-    AllowOverride All
-    Require all granted
-    RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^.*$ /index.html [L]
-</Directory>
+This gives you working website while we fix Node.js configuration.
 
-STEP 3: Add same for HTTPS
-In "Additional Apache directives for HTTPS" add the same:
-
-DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online
-DirectoryIndex index.html
-
-<Directory "/var/www/vhosts/vivaindia.com/ienet.online">
-    Options -Indexes +FollowSymLinks
-    AllowOverride All
-    Require all granted
-    RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^.*$ /index.html [L]
-</Directory>
-
-STEP 4: Create index.html file
-Use Plesk File Manager:
-1. Navigate to /var/www/vhosts/vivaindia.com/ienet.online/
-2. Create file: index.html
-3. Paste the complete HTML content
-
-STEP 5: Apply
-1. Click OK
-2. Click Apply
-3. Visit https://www.ienet.online
-
-This will work with Apache only, avoiding the nginx duplicate location error.
+ALTERNATIVE: Disable Node.js in Plesk and serve static HTML directly.

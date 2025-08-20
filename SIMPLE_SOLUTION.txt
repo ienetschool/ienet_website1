@@ -1,49 +1,25 @@
-SIMPLEST SOLUTION - Try This First:
+SIMPLEST SOLUTION FOR IMMEDIATE RESULTS
 
-Since mkdir is failing, let's put the file directly in the main directory:
+CURRENT STATUS: ienet.online showing error page
+CAUSE: Node.js configuration issues in Plesk
 
-=== OPTION 1: Direct File Placement ===
+IMMEDIATE ACTION:
+1. Upload MINIMAL_HTML_VERSION.html to Plesk File Manager
+2. Rename to index.html in /ienet.online/
+3. Website works instantly
 
-1. Go to Plesk File Manager
-2. Navigate to: /var/www/vhosts/vivaindia.com/ienet.online/
-3. Create file: index.html (directly in this folder, not in public)
-4. Paste the HTML content
+FEATURES INCLUDED:
+✅ India Espectacular branding
+✅ Professional design matching React app
+✅ Hero section with company info
+✅ About section with stats (25+ categories, 143+ services, 1,328 solutions)
+✅ 6 service cards with icons
+✅ Testimonials section
+✅ Contact information
+✅ 3 floating action buttons
+✅ Responsive mobile design
+✅ Smooth animations
 
-Then update nginx to:
-location / {
-    root /var/www/vhosts/vivaindia.com/ienet.online;
-    try_files $uri $uri/ /index.html;
-    index index.html;
-}
+RESULT: Professional working website in 2 minutes
 
-=== OPTION 2: Check Current Directory ===
-
-Maybe the path is different. Try these SSH commands:
-
-ls -la /var/www/vhosts/
-ls -la /var/www/vhosts/vivaindia.com/
-pwd
-
-This will show you the exact directory structure.
-
-=== OPTION 3: Use httpdocs folder ===
-
-Many Plesk setups use httpdocs:
-
-1. Navigate to: /var/www/vhosts/vivaindia.com/ienet.online/httpdocs/
-2. Create index.html there
-3. Update nginx to:
-   root /var/www/vhosts/vivaindia.com/ienet.online/httpdocs;
-
-=== TEST AFTER EACH OPTION ===
-
-After creating the file and updating nginx:
-1. Click OK in Plesk
-2. Click Apply
-3. Visit https://www.ienet.online
-
-The website should show immediately with:
-- India Espectacular branding 🇮🇳
-- 3 floating action buttons
-- Professional design
-- Production status: 1,328 pages ready
+This static solution provides immediate business continuity while Node.js issues are resolved separately.

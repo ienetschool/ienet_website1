@@ -61,9 +61,8 @@ export default function ServiceDetail() {
   });
 
   const { data: services } = useQuery({
-    queryKey: ['/api/services', category?.id],
-    queryFn: () => fetch(`/api/services/category/${category?.id}`).then(res => res.json()),
-    enabled: !!category?.id,
+    queryKey: ['/api/services', categorySlug],
+    queryFn: () => fetch(`/api/services?categorySlug=${categorySlug}`).then(res => res.json()),
   });
 
   const { data: relatedProjects } = useQuery({

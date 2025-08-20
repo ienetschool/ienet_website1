@@ -63,24 +63,30 @@ export default function FeatureDetail() {
   });
 
   const { data: service } = useQuery({
-    queryKey: ['/api/services', serviceSlug],
-    queryFn: () => fetch(`/api/services/${serviceSlug}`).then(res => res.json()),
+    queryKey: ['/api/services', categorySlug, serviceSlug],
+    queryFn: () => fetch(`/api/services/${categorySlug}/${serviceSlug}`).then(res => res.json()),
   });
 
   const { data: feature, isLoading } = useQuery({
-    queryKey: ['/api/features', featureSlug],
+    queryKey: ['/api/features', categorySlug, serviceSlug, featureSlug],
     queryFn: async () => {
-      const response = await fetch(`/api/features/${featureSlug}`);
-      if (!response.ok) {
-        throw new Error('Feature not found');
+      const response = await fetch(`/api/features/${categorySlug}/${serviceSlug}/${featureSlug}`);
+      const data = await response.json();
+      
+      // Handle redirect if feature is found in different category
+      if (data._redirectTo && data._correctCategory) {
+        console.log(`Feature found in different category, should redirect to: ${data._redirectTo}`);
+        // For now, just use the feature data but log the correct URL
+        return data;
       }
-      return response.json();
+      
+      return data;
     },
   });
 
   const { data: relatedFeatures } = useQuery({
     queryKey: ['/api/features', service?.id],
-    queryFn: () => fetch(`/api/features/service/${service.id}`).then(res => res.json()),
+    queryFn: () => service?.id ? fetch(`/api/features?serviceId=${service.id}`).then(res => res.json()) : Promise.resolve([]),
     select: (data) => data?.filter((f: any) => f.slug !== featureSlug).slice(0, 3) || [],
     enabled: !!service?.id,
   });

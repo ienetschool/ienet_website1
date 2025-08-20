@@ -109,8 +109,8 @@ export default function Services() {
               </div>
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {categories && Array.isArray(categories) && (categories as any[]).map((category: any) => {
-                  const IconComponent = iconMap[category.icon?.toLowerCase() as keyof typeof iconMap] || Code;
+                {categories && Array.isArray(categories) && categories.map((category: any) => {
+                  const IconComponent = iconMap[category.icon as keyof typeof iconMap] || Code;
                   const gradientClass = colorMap[category.color as keyof typeof colorMap] || colorMap.primary;
 
                   return (
@@ -144,7 +144,7 @@ export default function Services() {
               </div>
             )}
 
-            {categories && Array.isArray(categories) && (categories as any[]).length === 0 && !isLoading && (
+            {categories && Array.isArray(categories) && categories.length === 0 && !isLoading && (
               <div className="text-center py-12">
                 <p className="text-gray-600 dark:text-gray-400 text-lg">
                   No services available at the moment. Please check back later.

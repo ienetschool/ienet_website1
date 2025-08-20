@@ -1,0 +1,26 @@
+SIMPLE ROOT DOMAIN FIX
+
+You're right - we don't need httpdocs. Your files should work from the domain root.
+
+The 500 error on /index.html suggests the file exists but something is wrong with it.
+
+RUN THESE COMMANDS:
+
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Check if index.html actually has content
+cat index.html
+
+# Check file sizes - they should match what we uploaded
+ls -lh index.html assets/
+
+# If index.html is empty or corrupted, recreate it with simple test
+echo "<!DOCTYPE html><html><head><title>Test</title></head><body><h1>Working!</h1></body></html>" > test.html
+chown vivassh:psaserv test.html
+curl https://www.ienet.online/test.html
+
+# Check what's in the assets folder
+ls -la assets/
+
+If the test.html works but index.html doesn't, then the React index.html file was corrupted during upload and needs to be re-uploaded.

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Mail, Phone, Quote } from "lucide-react";
+import { MessageCircle, Mail, Phone, Quote, Send, User } from "lucide-react";
 import { useState } from "react";
 import ContactModal from "@/components/modals/ContactModal";
 import LiveChat from "@/components/sections/LiveChat";
@@ -37,7 +37,7 @@ export default function FloatingCTA({ onGetQuoteClick, getQuoteText }: FloatingC
         aria-label="WhatsApp Chat"
         data-testid="floating-whatsapp"
       >
-        <Phone size={28} />
+        <Send size={28} />
       </Button>
       
       {/* 2. Get in Touch Button */}
@@ -47,7 +47,7 @@ export default function FloatingCTA({ onGetQuoteClick, getQuoteText }: FloatingC
         aria-label="Get in Touch"
         data-testid="floating-get-in-touch"
       >
-        <Mail size={28} />
+        <User size={28} />
       </Button>
       
       {/* 3. Live Chat Button */}

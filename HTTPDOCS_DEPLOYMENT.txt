@@ -1,0 +1,32 @@
+HTTPDOCS DEPLOYMENT - Correct Plesk Path
+
+Target: /var/www/vhosts/vivaindia.com/ienet.online/httpdocs/
+
+Upload commands:
+
+1. Upload React files to httpdocs:
+scp -r dist/public/* root@5.181.218.15:/var/www/vhosts/vivaindia.com/ienet.online/httpdocs/
+
+2. Upload API server to domain root:
+scp production-server.cjs root@5.181.218.15:/var/www/vhosts/vivaindia.com/ienet.online/
+
+3. SSH and configure:
+ssh root@5.181.218.15
+
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+npm install mysql2
+chown -R vivaiind:psacln httpdocs/
+chmod -R 755 httpdocs/
+pkill -f "node" || true
+nohup node production-server.cjs > production.log 2>&1 &
+
+4. Verify:
+ls -la httpdocs/
+ls -la httpdocs/assets/
+
+Expected files in httpdocs/:
+- index.html
+- assets/index-4CY-Uz3T.css
+- assets/index-6-PKYvps.js
+
+This puts files in the correct Plesk httpdocs directory for web serving.

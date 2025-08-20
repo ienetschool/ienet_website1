@@ -29,7 +29,7 @@ export default function FloatingCTA({ onGetQuoteClick, getQuoteText }: FloatingC
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex space-x-3">
+    <div className="fixed bottom-6 right-6 z-50 flex space-x-3">
       {/* 1. WhatsApp Button */}
       <Button 
         onClick={handleWhatsApp}
@@ -70,14 +70,16 @@ export default function FloatingCTA({ onGetQuoteClick, getQuoteText }: FloatingC
 
       {/* Live Chat Component */}
       {showLiveChat && (
-        <div className="fixed inset-0 z-50">
-          <LiveChat hideToggleButton={true} />
-          <button 
-            onClick={() => setShowLiveChat(false)}
-            className="fixed top-4 right-4 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 z-[60]"
-          >
-            ✕
-          </button>
+        <div className="fixed inset-0 bg-black bg-opacity-30 z-[45] flex items-center justify-center">
+          <div className="relative w-full h-full max-w-md">
+            <LiveChat hideToggleButton={true} />
+            <button 
+              onClick={() => setShowLiveChat(false)}
+              className="absolute top-4 right-4 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 z-[55] shadow-lg"
+            >
+              ✕
+            </button>
+          </div>
         </div>
       )}
     </div>

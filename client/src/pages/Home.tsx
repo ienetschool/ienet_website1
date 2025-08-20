@@ -9,7 +9,7 @@ import ProjectsSection from "@/components/sections/ProjectsSection";
 import TestimonialSlider from "@/components/sections/TestimonialSlider";
 import ContactSection from "@/components/sections/ContactSection";
 import QuickContactModal from "@/components/sections/QuickContactModal";
-import LiveChat from "@/components/sections/LiveChat";
+
 import FloatingCTA from "@/components/FloatingCTA";
 import { MessageCircle, ArrowRight, Globe } from "lucide-react";
 import { Link } from "wouter";
@@ -23,8 +23,7 @@ export default function Home() {
       <TopBar />
       <ModernHeader />
 
-      {/* Live Chat Component */}
-      <LiveChat />
+
 
       <FloatingCTA 
         onGetQuoteClick={() => {

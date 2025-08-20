@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import ModernHeader from "@/components/layout/ModernHeader";
 import ModernFooter from "@/components/layout/ModernFooter";
 import QuickContactModal from "@/components/sections/QuickContactModal";
+import FloatingCTA from "@/components/FloatingCTA";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,7 +41,6 @@ import {
   Settings
 } from "lucide-react";
 import { InlineEditor, EditModeToggle } from "@/components/InlineEditor";
-import FloatingCTA from "@/components/FloatingCTA";
 import ContactModal from "@/components/modals/ContactModal";
 import { useContactModal } from "@/hooks/useContactModal";
 import LiveEditor from "@/components/page-builder/LiveEditor";
@@ -611,6 +611,15 @@ export default function SubServiceDetail() {
         onClose={closeModal}
         defaultSubject={modalOptions.subject}
         defaultMessage={modalOptions.message}
+      />
+      
+      {/* Floating CTA */}
+      <FloatingCTA 
+        onGetQuoteClick={() => openModal({
+          subject: `Get Quote for ${service.name}`,
+          message: `I would like to receive a quote for ${service.name} service. Please provide pricing details.`
+        })}
+        getQuoteText="Get Quote"
       />
 
       {/* Hidden SEO Components - Analytics only, no visual output */}

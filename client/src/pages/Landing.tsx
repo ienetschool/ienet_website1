@@ -12,6 +12,7 @@ import TestimonialSlider from "@/components/sections/TestimonialSlider";
 import ContactSection from "@/components/sections/ContactSection";
 import QuickContactModal from "@/components/sections/QuickContactModal";
 import LiveChat from "@/components/sections/LiveChat";
+import FloatingCTA from "@/components/FloatingCTA";
 import { 
   MessageCircle,
   ChevronRight,
@@ -33,19 +34,18 @@ export default function Landing() {
       <TopBar />
       <ModernHeader />
 
-      {/* Floating Quick Contact Button */}
-      <div className="fixed bottom-24 right-6 z-40">
-        <QuickContactModal 
-          trigger={
-            <div className="bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center cursor-pointer">
-              <Quote size={20} />
-            </div>
+      {/* Floating CTA */}
+      <FloatingCTA 
+        onGetQuoteClick={() => {
+          const contactSection = document.getElementById('contact-section');
+          if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            window.location.href = '/contact';
           }
-        />
-      </div>
-
-      {/* Live Chat Component */}
-      <LiveChat />
+        }}
+        getQuoteText="Get Quote"
+      />
 
       <main>
         {/* Hero Slider Section */}

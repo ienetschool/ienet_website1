@@ -20,6 +20,9 @@ CREATE TABLE `service_categories` (
   `slug` varchar(255) NOT NULL,
   `description` text,
   `icon` varchar(255),
+  `color` varchar(50),
+  `meta_title` varchar(255),
+  `meta_description` text,
   `is_active` tinyint(1) DEFAULT 1,
   `sort_order` int(11) DEFAULT 0,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -29,17 +32,17 @@ CREATE TABLE `service_categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data for table `service_categories`
-INSERT INTO `service_categories` (`id`, `name`, `slug`, `description`, `icon`, `is_active`, `sort_order`) VALUES
-(11, 'Website Design & Development', 'website-design-development', 'Professional website design and development services', 'globe', 1, 1),
-(12, 'Mobile App Development', 'mobile-app-development', 'iOS and Android mobile application development', 'smartphone', 1, 2),
-(13, 'E-commerce Solutions', 'ecommerce-solutions', 'Complete e-commerce platform development', 'shopping-cart', 1, 3),
-(14, 'Digital Marketing', 'digital-marketing', 'SEO, social media, and online marketing services', 'trending-up', 1, 4),
-(15, 'Cloud Services', 'cloud-services', 'Cloud hosting and infrastructure solutions', 'cloud', 1, 5),
-(16, 'Cybersecurity Solutions', 'cybersecurity-solutions', 'Security audits and protection services', 'shield', 1, 6),
-(17, 'AI & Machine Learning', 'ai-machine-learning', 'Artificial intelligence and ML solutions', 'brain', 1, 7),
-(18, 'DevOps & Automation', 'devops-automation', 'Development operations and automation', 'settings', 1, 8),
-(19, 'Data Analytics', 'data-analytics', 'Business intelligence and data analysis', 'bar-chart', 1, 9),
-(20, 'Consulting Services', 'consulting-services', 'Technology consulting and strategy', 'users', 1, 10);
+INSERT INTO `service_categories` (`id`, `name`, `slug`, `description`, `icon`, `color`, `meta_title`, `meta_description`, `is_active`, `sort_order`) VALUES
+(11, 'Website Design & Development', 'website-design-development', 'Professional website design and development services', 'globe', '#3B82F6', 'Website Design & Development | India Espectacular', 'Professional website design and development services by India Espectacular', 1, 1),
+(12, 'Mobile App Development', 'mobile-app-development', 'iOS and Android mobile application development', 'smartphone', '#10B981', 'Mobile App Development | India Espectacular', 'iOS and Android mobile application development services', 1, 2),
+(13, 'E-commerce Solutions', 'ecommerce-solutions', 'Complete e-commerce platform development', 'shopping-cart', '#F59E0B', 'E-commerce Solutions | India Espectacular', 'Complete e-commerce platform development services', 1, 3),
+(14, 'Digital Marketing', 'digital-marketing', 'SEO, social media, and online marketing services', 'trending-up', '#EF4444', 'Digital Marketing | India Espectacular', 'SEO, social media, and online marketing services', 1, 4),
+(15, 'Cloud Services', 'cloud-services', 'Cloud hosting and infrastructure solutions', 'cloud', '#8B5CF6', 'Cloud Services | India Espectacular', 'Cloud hosting and infrastructure solutions', 1, 5),
+(16, 'Cybersecurity Solutions', 'cybersecurity-solutions', 'Security audits and protection services', 'shield', '#06B6D4', 'Cybersecurity Solutions | India Espectacular', 'Security audits and protection services', 1, 6),
+(17, 'AI & Machine Learning', 'ai-machine-learning', 'Artificial intelligence and ML solutions', 'brain', '#EC4899', 'AI & Machine Learning | India Espectacular', 'Artificial intelligence and ML solutions', 1, 7),
+(18, 'DevOps & Automation', 'devops-automation', 'Development operations and automation', 'settings', '#84CC16', 'DevOps & Automation | India Espectacular', 'Development operations and automation services', 1, 8),
+(19, 'Data Analytics', 'data-analytics', 'Business intelligence and data analysis', 'bar-chart', '#F97316', 'Data Analytics | India Espectacular', 'Business intelligence and data analysis services', 1, 9),
+(20, 'Consulting Services', 'consulting-services', 'Technology consulting and strategy', 'users', '#6366F1', 'Consulting Services | India Espectacular', 'Technology consulting and strategy services', 1, 10);
 
 -- --------------------------------------------------------
 -- Table structure for table `services`
@@ -97,13 +100,19 @@ CREATE TABLE `projects` (
   `title` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
   `description` text,
-  `image` varchar(255),
+  `short_description` varchar(500),
+  `content` text,
+  `image_url` varchar(255),
+  `demo_url` varchar(255),
   `technologies` json,
+  `category` varchar(255),
   `client_name` varchar(255),
-  `project_url` varchar(255),
   `completion_date` date,
+  `meta_title` varchar(255),
+  `meta_description` text,
   `is_featured` tinyint(1) DEFAULT 0,
   `is_active` tinyint(1) DEFAULT 1,
+  `sort_order` int(11) DEFAULT 0,
   `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -111,10 +120,10 @@ CREATE TABLE `projects` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Data for table `projects`
-INSERT INTO `projects` (`id`, `title`, `slug`, `description`, `image`, `technologies`, `client_name`, `project_url`, `completion_date`, `is_featured`, `is_active`) VALUES
-(1, 'E-commerce Platform Redesign', 'ecommerce-platform-redesign', 'Complete redesign of e-commerce platform with modern UI/UX', '/images/projects/ecommerce.jpg', '["React", "Node.js", "MongoDB", "Stripe"]', 'TechCorp Inc.', 'https://example-ecommerce.com', '2024-12-15', 1, 1),
-(2, 'Healthcare Management System', 'healthcare-management-system', 'Comprehensive healthcare management solution', '/images/projects/healthcare.jpg', '["Vue.js", "Python", "PostgreSQL", "Docker"]', 'HealthCare Solutions', 'https://healthcare-demo.com', '2024-11-20', 1, 1),
-(3, 'Mobile Banking App', 'mobile-banking-app', 'Secure mobile banking application for iOS and Android', '/images/projects/banking.jpg', '["React Native", "Node.js", "MongoDB", "AWS"]', 'SecureBank Ltd.', 'https://securebank-app.com', '2024-10-10', 1, 1);
+INSERT INTO `projects` (`id`, `title`, `slug`, `description`, `short_description`, `content`, `image_url`, `demo_url`, `technologies`, `category`, `client_name`, `completion_date`, `meta_title`, `meta_description`, `is_featured`, `is_active`, `sort_order`) VALUES
+(1, 'E-commerce Platform Redesign', 'ecommerce-platform-redesign', 'Complete redesign of e-commerce platform with modern UI/UX and enhanced user experience', 'Modern e-commerce platform with enhanced UX', 'This comprehensive e-commerce platform features modern design, responsive layout, advanced payment integration, and optimized performance for better user engagement.', '/images/projects/ecommerce.jpg', 'https://example-ecommerce.com', '["React", "Node.js", "MongoDB", "Stripe"]', 'E-commerce', 'TechCorp Inc.', '2024-12-15', 'E-commerce Platform Redesign | India Espectacular', 'Complete redesign of e-commerce platform with modern UI/UX by India Espectacular', 1, 1, 1),
+(2, 'Healthcare Management System', 'healthcare-management-system', 'Comprehensive healthcare management solution with patient portal and analytics', 'Healthcare management with patient portal', 'Advanced healthcare management system featuring patient portals, appointment scheduling, medical records management, and comprehensive analytics dashboard.', '/images/projects/healthcare.jpg', 'https://healthcare-demo.com', '["Vue.js", "Python", "PostgreSQL", "Docker"]', 'Healthcare', 'HealthCare Solutions', '2024-11-20', 'Healthcare Management System | India Espectacular', 'Comprehensive healthcare management solution with patient portal and analytics', 1, 1, 2),
+(3, 'Mobile Banking App', 'mobile-banking-app', 'Secure mobile banking application for iOS and Android with advanced security features', 'Secure mobile banking application', 'Feature-rich mobile banking application with biometric authentication, real-time transactions, budget tracking, and enterprise-grade security measures.', '/images/projects/banking.jpg', 'https://securebank-app.com', '["React Native", "Node.js", "MongoDB", "AWS"]', 'Mobile App', 'SecureBank Ltd.', '2024-10-10', 'Mobile Banking App | India Espectacular', 'Secure mobile banking application for iOS and Android with advanced security features', 1, 1, 3);
 
 -- --------------------------------------------------------
 -- Table structure for table `testimonials`

@@ -1,0 +1,36 @@
+{
+  "site": {
+    "name": "India Espectacular",
+    "description": "Professional IT Services and Solutions",
+    "url": "https://ienet.online",
+    "domain": "ienet.online"
+  },
+  "contact": {
+    "email": "info.indiaespectacular@gmail.com",
+    "phone": "+91-9876543210",
+    "address": "Mumbai, Maharashtra, India"
+  },
+  "social": {
+    "facebook": "https://facebook.com/IndiaEspectacular",
+    "twitter": "https://twitter.com/IndiaEspectacular",
+    "linkedin": "https://linkedin.com/company/IndiaEspectacular",
+    "instagram": "https://instagram.com/IndiaEspectacular"
+  },
+  "database": {
+    "type": "mysql",
+    "host": "5.181.218.15",
+    "port": 3306,
+    "database": "ienetdb"
+  },
+  "features": {
+    "ssl": true,
+    "compression": true,
+    "caching": true,
+    "analytics": true
+  },
+  "installation": {
+    "date": "2025-08-20T00:23:04.796Z",
+    "version": "1.0.0",
+    "installer": "install.js"
+  }
+}

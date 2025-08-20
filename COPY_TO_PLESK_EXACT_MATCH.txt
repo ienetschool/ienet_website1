@@ -1,23 +1,71 @@
-EXACT FILES TO COPY TO PLESK FILE MANAGER
+EXACT SOLUTION FOR YOUR PLESK CONFIGURATION:
 
-COPY FROM production-deploy/ TO Plesk File Manager /ienet.online/:
+STEP 1: CREATE FOLDER STRUCTURE
+In Plesk File Manager, create this exact structure in /ienet.online/:
 
-1. COPY dist/ folder (contains index.js startup file)
-2. COPY plesk-package.json AS package.json
-3. COPY .env.production file
-4. COPY client/ folder (React frontend)
-5. COPY server/ folder (Express backend) 
-6. COPY shared/ folder (schemas)
+/ienet.online/
+  ├── dist/
+  │   └── index.js
+  ├── package.json
+  └── public/
+      ├── index.html
+      ├── assets/
+      │   ├── index-BOus7yXH.js
+      │   ├── index-5acz5IyP.css
+      └── IE vector logo-01_1755535165852.png
 
-PLESK NODE.JS SETTINGS:
-- Application Root: /
+STEP 2: COPY FILES
+
+File 1: /ienet.online/dist/index.js
+```javascript
+import express from 'express';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.static(join(__dirname, '..', 'public')));
+
+app.get('*', (req, res) => {
+  res.sendFile(join(__dirname, '..', 'public', 'index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`IeNet React App running on port ${PORT}`);
+});
+```
+
+File 2: /ienet.online/package.json
+```json
+{
+  "name": "ienet-production",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+```
+
+File 3: Copy COPY_THIS_TO_PLESK.html as /ienet.online/public/index.html
+
+STEP 3: COPY ASSETS
+Download plesk-dist-deployment.tar.gz and extract:
+- Copy public/assets/ folder to /ienet.online/public/assets/
+- Copy logo file to /ienet.online/public/
+
+STEP 4: PLESK SETTINGS
+Keep current settings:
 - Application Startup File: dist/index.js
-- Application Mode: production
-- Node.js Version: 18.x
+- NPM install
+- Restart App
 
-AFTER UPLOAD:
-1. Click "NPM install" in Plesk Node.js panel
-2. Click "Restart App"
-3. Check for green running status
-
-RESULT: ienet.online will show React application
+RESULT: React website shows on ienet.online

@@ -1,0 +1,33 @@
+CORRECT DEPLOYMENT - Simple Path
+
+Location: /var/www/vhosts/vivaindia.com/ienet.online/
+
+Run these commands in SSH:
+
+1. Go to correct directory:
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+2. Copy React files directly:
+cp -r ~/dist/public/* ./
+
+3. Install database dependency:
+npm install mysql2
+
+4. Start API server:
+pkill -f "node" || true
+nohup node ~/production-server.cjs > production.log 2>&1 &
+
+5. Set permissions:
+chown -R vivaiind:psacln ./*
+chmod -R 755 ./*
+
+6. Verify files:
+ls -la
+ls -la assets/
+
+Expected files in /var/www/vhosts/vivaindia.com/ienet.online/:
+- index.html
+- assets/index-4CY-Uz3T.css
+- assets/index-6-PKYvps.js
+
+This puts the React app files directly in the domain root folder.

@@ -1,29 +1,41 @@
-IMMEDIATE FIX FOR IENET.ONLINE - Run in SSH:
+NGINX CONFIGURATION FOR IENET.ONLINE
 
-# 1. Test database and create simple app
-cd /var/www/vhosts/vivaindia.com/ienet.online
-node test-mysql-connection.js
+# Add this to your nginx configuration:
 
-# 2. Install Express manually
-npm install express --save
+server {
+    listen 80;
+    server_name ienet.online www.ienet.online;
+    
+    # Document root points to React app
+    root /ienet.online/public;
+    index index.html;
+    
+    # Try files first, then proxy to Node.js
+    location / {
+        try_files $uri $uri/ @nodejs;
+    }
+    
+    # Proxy to Node.js application
+    location @nodejs {
+        proxy_pass http://localhost:3000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    # Static assets
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+    
+    # Health check
+    location /health {
+        proxy_pass http://localhost:3000;
+    }
+}
 
-# 3. Test the app locally
-node app.js
-
-# Should show: "✅ IeNet server running on port 3000"
-
-# 4. Go to Plesk Node.js panel and click "Restart App"
-
-ISSUE SUMMARY:
-- Database: ✅ Working (1,328 pages verified)
-- Problem: Complex app.js not starting with Plesk
-- Solution: Ultra-simple Express app with direct HTML response
-
-The test-mysql-connection.js creates the simplest possible working Express app that:
-- Connects to your verified MySQL database
-- Shows professional India Espectacular branding
-- Displays 3 floating action buttons
-- Works perfectly with Plesk Node.js management
-- Requires only Express (no complex dependencies)
-
-This will resolve the "something went wrong" error immediately.
+# Commands to apply:
+# sudo nginx -t
+# sudo systemctl reload nginx

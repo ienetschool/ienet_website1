@@ -1,29 +1,48 @@
-SSH Commands to Fix ienet.online Node.js Application:
+NODEJS STARTUP COMMANDS FOR YOUR SERVER:
 
-# Run this complete setup script
-cd /var/www/vhosts/vivaindia.com/ienet.online
-node single-click-setup.js
+# Navigate to application directory
+cd /ienet.online
 
-# After setup completes, test manually:
-node app.js
+# Install dependencies
+npm install
 
-# Should show: "✅ Server running on port 3000"
+# Start application (choose one method):
 
-# Then go to Plesk Node.js panel and click "Restart App"
+# Method 1: Direct start
+node index.js
 
-# The website https://www.ienet.online should work
+# Method 2: Using PM2 (recommended for production)
+npm install -g pm2
+pm2 start index.js --name ienet-app
+pm2 save
+pm2 startup
 
-ISSUE ANALYSIS:
-- Database: ✅ Working (verified 1,328 pages)
-- Files: ✅ All present
-- Dependencies: ❌ Need proper installation
-- Startup: ❌ App.js needs simplification for Plesk
+# Method 3: Using systemd service
+sudo tee /etc/systemd/system/ienet.service > /dev/null <<EOF
+[Unit]
+Description=IeNet React Application
+After=network.target
 
-SOLUTION:
-The single-click-setup.js script creates a simplified app.js that:
-1. Works specifically with Plesk Node.js management
-2. Installs exact dependencies needed
-3. Tests the application startup
-4. Provides clear next steps
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/ienet.online
+ExecStart=/usr/bin/node index.js
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+Environment=PORT=3000
 
-This should resolve the "something went wrong" error.
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable ienet
+sudo systemctl start ienet
+
+# Check status
+sudo systemctl status ienet
+
+# View logs
+sudo journalctl -u ienet -f

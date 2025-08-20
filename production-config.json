@@ -1,0 +1,22 @@
+{
+  "database": {
+    "type": "mysql",
+    "host": "5.181.218.15",
+    "port": 3306,
+    "database": "ienetdb",
+    "user": "netiedb"
+  },
+  "domain": "ienet.online",
+  "environment": "production",
+  "features": {
+    "ssl": true,
+    "compression": true,
+    "caching": true,
+    "analytics": true
+  },
+  "deployment": {
+    "status": "ready",
+    "date": "2025-08-20T00:11:41.495Z",
+    "version": "1.0.0"
+  }
+}

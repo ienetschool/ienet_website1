@@ -1,0 +1,26 @@
+INSTRUCTIONS: Copy the complete HTML content from PRODUCTION_MATCHING_VERSION.html 
+to your Plesk index.html file to make both websites identical.
+
+=== What this includes (exact match to development): ===
+
+✓ Top Bar: India Espectacular header with contact info
+✓ Modern Header: Logo, navigation menu, professional styling  
+✓ Hero Slider: Large hero section with illustration and CTA
+✓ Breadcrumb Navigation: Home → Services Overview
+✓ About Section: India Espectacular description with stats (25+ categories, 143+ services, 1,328 pages)
+✓ Services Section: 6 professional service cards with icons
+✓ Testimonials: Client testimonials with gradient background
+✓ Contact CTA: Call-to-action with multiple buttons
+✓ Footer: Complete footer with sections and links
+✓ 3 Floating Buttons: EXACT MATCH to development
+  - WhatsApp (Green with Send emoji)
+  - Get in Touch (Orange with User emoji)  
+  - Live Chat (Blue with Chat emoji)
+
+✓ Responsive Design: Works on all devices
+✓ Smooth Animations: Professional interactions
+✓ SEO Optimized: Proper meta tags and structure
+✓ Performance Optimized: Fast loading
+✓ India Espectacular Branding: Complete with flag and professional styling
+
+This version exactly replicates your development server structure and functionality.

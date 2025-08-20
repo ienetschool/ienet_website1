@@ -134,10 +134,10 @@ export default function Services() {
         </section>
 
         {/* Why Choose Us Section */}
-        <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-900">
+        <section className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/30 dark:to-indigo-900/30">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-800 via-blue-700 to-indigo-800 dark:from-slate-200 dark:via-blue-300 dark:to-indigo-200 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-700 via-purple-600 to-indigo-700 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
                 Why Choose IeNet Services?
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -151,35 +151,42 @@ export default function Services() {
                   icon: Award,
                   title: "Proven Excellence",
                   description: "99% client satisfaction rate with over 500+ successful projects delivered",
-                  color: "from-blue-500/20 to-indigo-500/20 border-blue-200 dark:border-blue-800"
+                  color: "from-blue-500 to-indigo-500",
+                  bgColor: "from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20",
+                  borderColor: "border-blue-200/50 dark:border-blue-700/50"
                 },
                 {
                   icon: Users,
                   title: "Expert Team",
                   description: "Certified professionals with 10+ years of experience in cutting-edge technologies",
-                  color: "from-emerald-500/20 to-teal-500/20 border-emerald-200 dark:border-emerald-800"
+                  color: "from-emerald-500 to-teal-500",
+                  bgColor: "from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20",
+                  borderColor: "border-emerald-200/50 dark:border-emerald-700/50"
                 },
                 {
                   icon: Zap,
                   title: "Rapid Delivery",
                   description: "Agile methodologies ensuring 40% faster project completion times",
-                  color: "from-purple-500/20 to-violet-500/20 border-purple-200 dark:border-purple-800"
+                  color: "from-purple-500 to-violet-500",
+                  bgColor: "from-purple-50 to-violet-50 dark:from-purple-900/20 dark:to-violet-900/20",
+                  borderColor: "border-purple-200/50 dark:border-purple-700/50"
                 },
                 {
                   icon: HeartHandshake,
                   title: "24/7 Support",
                   description: "Round-the-clock support and maintenance for all our solutions",
-                  color: "from-orange-500/20 to-amber-500/20 border-orange-200 dark:border-orange-800"
+                  color: "from-orange-500 to-amber-500",
+                  bgColor: "from-orange-50 to-amber-50 dark:from-orange-900/20 dark:to-amber-900/20",
+                  borderColor: "border-orange-200/50 dark:border-orange-700/50"
                 }
               ].map((item, index) => (
                 <div key={index} className="relative group">
-                  <div className={`absolute inset-0 bg-gradient-to-br ${item.color.split(' ')[0]} ${item.color.split(' ')[1]} rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300 opacity-60`} />
-                  <div className={`relative bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl p-8 border ${item.color.split(' ')[2]} ${item.color.split(' ')[3]} hover:shadow-2xl transition-all duration-300 group-hover:scale-105`}>
-                    <div className={`p-3 bg-gradient-to-br ${item.color.split(' ')[0].replace('/20', '')} ${item.color.split(' ')[1].replace('/20', '')} rounded-xl text-white shadow-lg mb-6 w-fit`}>
+                  <div className={`relative bg-gradient-to-br ${item.bgColor} rounded-2xl p-8 border ${item.borderColor} hover:shadow-lg transition-all duration-300 group-hover:scale-105`}>
+                    <div className={`p-3 bg-gradient-to-br ${item.color} rounded-xl text-white shadow-lg mb-6 w-fit group-hover:scale-110 transition-transform duration-300`}>
                       <item.icon className="h-8 w-8" />
                     </div>
-                    <h3 className="text-xl font-bold mb-4 text-slate-800 dark:text-slate-200">{item.title}</h3>
-                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{item.description}</p>
+                    <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">{item.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{item.description}</p>
                   </div>
                 </div>
               ))}
@@ -254,15 +261,7 @@ export default function Services() {
                           {category.description || `Professional ${category.name} solutions tailored for your business needs with enterprise-grade quality.`}
                         </p>
 
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center gap-1">
-                            {[1,2,3,4,5].map((star) => (
-                              <Star key={star} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                            ))}
-                            <span className="text-sm text-gray-500 dark:text-gray-400 ml-1">5.0</span>
-                          </div>
-                          <span className="text-sm text-gray-500 dark:text-gray-400">50+ Projects</span>
-                        </div>
+
 
                         <Button asChild className="w-full group-hover:bg-primary/90 transition-all duration-300 font-semibold">
                           <Link href={`/services/${category.slug}`}>
@@ -292,10 +291,10 @@ export default function Services() {
         </section>
 
         {/* Process Section */}
-        <section className="py-20 bg-gradient-to-br from-gray-50 to-slate-100 dark:from-gray-900 dark:to-slate-800">
+        <section className="py-20 bg-gradient-to-br from-slate-50 to-gray-100 dark:from-slate-900/50 dark:to-gray-800/50">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-gray-800 via-slate-700 to-gray-900 dark:from-gray-200 dark:via-slate-300 dark:to-gray-100 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-slate-700 via-gray-700 to-slate-800 dark:from-slate-300 dark:via-gray-300 dark:to-slate-200 bg-clip-text text-transparent">
                 Our Process
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -363,7 +362,7 @@ export default function Services() {
         <section className="py-20 bg-white dark:bg-gray-900">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-800 via-purple-700 to-indigo-800 dark:from-blue-200 dark:via-purple-300 dark:to-indigo-200 bg-clip-text text-transparent">
+              <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-700 via-purple-600 to-indigo-700 dark:from-blue-400 dark:via-purple-400 dark:to-indigo-400 bg-clip-text text-transparent">
                 Industries We Serve
               </h2>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -388,10 +387,10 @@ export default function Services() {
               ].map((industry, index) => (
                 <div 
                   key={index}
-                  className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-750 rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700 group hover:scale-105"
+                  className="bg-gradient-to-br from-blue-50/80 to-indigo-50/80 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl p-6 hover:shadow-lg transition-all duration-300 border border-blue-200/30 dark:border-blue-700/30 group hover:scale-105"
                 >
                   <div className="flex items-center">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-600 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
                       <Target className="text-white" size={20} />
                     </div>
                     <p className="font-semibold text-gray-900 dark:text-white text-sm">

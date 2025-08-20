@@ -1,0 +1,31 @@
+FINAL STEP - UPLOAD ASSET FILES
+
+✅ Website is working (HTTP 200 OK)
+✅ index.html serving correctly
+❌ Need to upload CSS/JS files to assets folder
+
+STEP 1 - Create assets folder:
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+mkdir -p assets
+chown vivassh:psaserv assets
+chmod 755 assets
+
+STEP 2 - Upload these 2 files to assets/ folder:
+From your Repl download and upload to server:
+
+1. dist/public/assets/index-4CY-Uz3T.css (195KB)
+2. dist/public/assets/index-6-PKYvps.js (1.8MB)
+
+STEP 3 - Set permissions after upload:
+chown vivassh:psaserv assets/*
+chmod 644 assets/*
+
+STEP 4 - Test complete website:
+curl -I https://www.ienet.online/assets/index-4CY-Uz3T.css
+curl -I https://www.ienet.online/assets/index-6-PKYvps.js
+
+Once these files are uploaded, your React application will be fully functional at:
+https://www.ienet.online
+
+The same exact website as your development server!

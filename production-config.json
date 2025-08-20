@@ -1,25 +1,36 @@
 {
-  "plesk_configuration": {
-    "application_startup_file": "app.js",
-    "application_mode": "production",
-    "node_version": "24.5.0",
-    "environment_variables": {
-      "NODE_ENV": "production",
-      "PORT": "3000",
-      "DATABASE_URL": "mysql://netiedb:h5pLF9833@localhost:3306/ienetdb",
-      "DB_HOST": "localhost",
-      "DB_PORT": "3306",
-      "DB_NAME": "ienetdb", 
-      "DB_USER": "netiedb",
-      "DB_PASSWORD": "h5pLF9833",
-      "DOMAIN": "ienet.online"
-    }
+  "deployment": {
+    "platform": "plesk",
+    "domain": "ienet.online",
+    "application_type": "node.js",
+    "startup_file": "dist/index.js",
+    "node_version": "18.x",
+    "application_mode": "production"
   },
-  "deployment_status": "ready",
-  "notes": [
-    "1. Upload all files to /var/www/vhosts/vivaindia.com/ienet.online/",
-    "2. Run: chmod +x deploy-to-production.sh && ./deploy-to-production.sh",
-    "3. In Plesk Node.js panel, click 'Restart App'",
-    "4. Application will be available at http://ienet.online"
+  "server": {
+    "port": 3000,
+    "host": "0.0.0.0",
+    "static_directory": "public",
+    "health_endpoint": "/api/health"
+  },
+  "application": {
+    "name": "IeNet React Application",
+    "title": "IeNet - India Espectacular",
+    "description": "Leading Professional IT Services Platform",
+    "type": "React SPA",
+    "framework": "Express.js"
+  },
+  "assets": {
+    "css_file": "/assets/index-5acz5IyP.css",
+    "js_file": "/assets/index-BOus7yXH.js",
+    "logo_file": "/IE vector logo-01_1755535165852.png"
+  },
+  "components": [
+    "HeroSlider",
+    "ModernHeader", 
+    "About",
+    "Services",
+    "Testimonials",
+    "FloatingCTA"
   ]
 }

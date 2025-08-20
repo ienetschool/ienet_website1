@@ -1,0 +1,23 @@
+PRODUCTION DEPLOYMENT FOR IENET.ONLINE
+
+1. Upload all files to /ienet.online/ maintaining folder structure:
+   - dist/index.js
+   - package.json  
+   - public/index.html
+   - public/assets/
+   - public/logo file
+
+2. Plesk Configuration:
+   - Application Startup File: dist/index.js
+   - Application Mode: production
+   - Node.js Version: 18.x
+
+3. Commands:
+   - NPM install
+   - Restart App
+
+4. Verification:
+   - Visit http://ienet.online
+   - Check /api/health endpoint
+
+React application will show with all components working.

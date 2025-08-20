@@ -71,7 +71,7 @@ export default function FloatingCTA({ onGetQuoteClick, getQuoteText }: FloatingC
       {/* Live Chat Component */}
       {showLiveChat && (
         <div className="fixed inset-0 z-50">
-          <LiveChat />
+          <LiveChat hideToggleButton={true} />
           <button 
             onClick={() => setShowLiveChat(false)}
             className="fixed top-4 right-4 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 z-[60]"

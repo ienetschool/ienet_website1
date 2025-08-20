@@ -12,6 +12,10 @@ interface Message {
   timestamp: Date;
 }
 
+interface LiveChatProps {
+  hideToggleButton?: boolean;
+}
+
 const predefinedResponses: Record<string, string> = {
   hello: "Hello! Welcome to IeNet. I'm here to help you with any questions about our IT services. How can I assist you today?",
   services: "We offer a wide range of IT services including:\n• Website Development\n• Mobile App Development\n• Cybersecurity Solutions\n• Cloud Infrastructure\n• AI & Machine Learning\n• E-commerce Solutions\n\nWhich service interests you most?",
@@ -29,8 +33,8 @@ const quickReplies = [
   "Connect me with an agent"
 ];
 
-export default function LiveChat() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function LiveChat({ hideToggleButton = false }: LiveChatProps) {
+  const [isOpen, setIsOpen] = useState(hideToggleButton);
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -117,20 +121,22 @@ export default function LiveChat() {
   return (
     <>
       {/* Chat Toggle Button */}
-      <div className="fixed bottom-6 right-6 z-50">
-        <Button
-          onClick={() => setIsOpen(!isOpen)}
-          data-testid="live-chat-toggle"
-          className={`relative bg-primary hover:bg-primary/90 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ${
-            isOpen ? 'scale-0' : 'scale-100'
-          }`}
-        >
-          <MessageCircle size={24} />
-          {hasNewMessage && (
-            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
-          )}
-        </Button>
-      </div>
+      {!hideToggleButton && (
+        <div className="fixed bottom-6 right-6 z-50">
+          <Button
+            onClick={() => setIsOpen(!isOpen)}
+            data-testid="live-chat-toggle"
+            className={`relative bg-primary hover:bg-primary/90 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ${
+              isOpen ? 'scale-0' : 'scale-100'
+            }`}
+          >
+            <MessageCircle size={24} />
+            {hasNewMessage && (
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+            )}
+          </Button>
+        </div>
+      )}
 
       {/* Chat Window */}
       {isOpen && (

@@ -1,50 +1,36 @@
-NGINX DUPLICATE LOCATION FIX
+NGINX SERVER FIX
 
-The error shows there's already a location "/" block. Here are the solutions:
+Your server is running Nginx, not Apache. That's why "apache2.service not found" error appeared.
 
-=== SOLUTION 1: Clear nginx directives and use only this ===
+RUN THESE COMMANDS INSTEAD:
 
-Clear the "Additional nginx directives" box completely and add ONLY this:
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
 
-location / {
-    root /var/www/vhosts/vivaindia.com/ienet.online;
-    try_files $uri $uri/ /index.html;
-    index index.html;
-}
+# Check current files
+ls -la
 
-=== SOLUTION 2: Use different location block ===
+# Restart Nginx instead of Apache
+systemctl reload nginx
 
-If Solution 1 doesn't work, try this instead:
+# Or restart Nginx completely
+systemctl restart nginx
 
-location ~ ^/(.*)$ {
-    root /var/www/vhosts/vivaindia.com/ienet.online;
-    try_files $uri $uri/ /index.html;
-}
+# Check website status
+curl -I https://www.ienet.online
 
-=== SOLUTION 3: Modify existing location ===
+# If still 403, try these permission fixes:
+chown -R nginx:nginx ./*
+# OR
+chown -R www-data:www-data ./*
 
-If there's already a location "/" block, replace the nginx box with:
+# Make sure index.html is readable
+chmod 644 index.html
+chmod -R 644 assets/*
 
-try_files $uri $uri/ /index.html;
-root /var/www/vhosts/vivaindia.com/ienet.online;
-index index.html;
+NGINX CONFIGURATION:
+Since you're using Nginx, the .htaccess file won't work. 
+The React routing needs to be configured in Nginx directly through Plesk.
 
-=== SOLUTION 4: Use Apache only ===
-
-Remove ALL nginx directives and use only Apache directives:
-
-Additional Apache directives for HTTP:
-DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online
-DirectoryIndex index.html
-
-<Directory "/var/www/vhosts/vivaindia.com/ienet.online">
-    Options -Indexes +FollowSymLinks
-    AllowOverride All
-    Require all granted
-    RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^.*$ /index.html [L]
-</Directory>
-
-Try these solutions in order. Solution 4 (Apache only) is most likely to work.
+Your files are uploaded and permissions are set. 
+The issue is likely Nginx configuration for serving React apps.

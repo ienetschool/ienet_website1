@@ -1,26 +1,23 @@
-INSTRUCTIONS: Copy the complete HTML content from PRODUCTION_MATCHING_VERSION.html 
-to your Plesk index.html file to make both websites identical.
+EXACT FILES TO COPY TO PLESK FILE MANAGER
 
-=== What this includes (exact match to development): ===
+COPY FROM production-deploy/ TO Plesk File Manager /ienet.online/:
 
-✓ Top Bar: India Espectacular header with contact info
-✓ Modern Header: Logo, navigation menu, professional styling  
-✓ Hero Slider: Large hero section with illustration and CTA
-✓ Breadcrumb Navigation: Home → Services Overview
-✓ About Section: India Espectacular description with stats (25+ categories, 143+ services, 1,328 pages)
-✓ Services Section: 6 professional service cards with icons
-✓ Testimonials: Client testimonials with gradient background
-✓ Contact CTA: Call-to-action with multiple buttons
-✓ Footer: Complete footer with sections and links
-✓ 3 Floating Buttons: EXACT MATCH to development
-  - WhatsApp (Green with Send emoji)
-  - Get in Touch (Orange with User emoji)  
-  - Live Chat (Blue with Chat emoji)
+1. COPY dist/ folder (contains index.js startup file)
+2. COPY plesk-package.json AS package.json
+3. COPY .env.production file
+4. COPY client/ folder (React frontend)
+5. COPY server/ folder (Express backend) 
+6. COPY shared/ folder (schemas)
 
-✓ Responsive Design: Works on all devices
-✓ Smooth Animations: Professional interactions
-✓ SEO Optimized: Proper meta tags and structure
-✓ Performance Optimized: Fast loading
-✓ India Espectacular Branding: Complete with flag and professional styling
+PLESK NODE.JS SETTINGS:
+- Application Root: /
+- Application Startup File: dist/index.js
+- Application Mode: production
+- Node.js Version: 18.x
 
-This version exactly replicates your development server structure and functionality.
+AFTER UPLOAD:
+1. Click "NPM install" in Plesk Node.js panel
+2. Click "Restart App"
+3. Check for green running status
+
+RESULT: ienet.online will show React application

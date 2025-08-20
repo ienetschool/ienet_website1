@@ -445,7 +445,6 @@ export default function Services() {
                   name: "Healthcare & Medical", 
                   icon: Heart, 
                   description: "HIPAA-compliant solutions, patient management systems, telemedicine platforms",
-                  projects: "120+ Projects",
                   gradient: "from-red-500 to-pink-600",
                   bgGradient: "from-red-50 to-pink-50 dark:from-red-900/10 dark:to-pink-900/10",
                   borderColor: "border-red-200/50 dark:border-red-700/30"
@@ -454,7 +453,6 @@ export default function Services() {
                   name: "Financial Services", 
                   icon: CreditCard, 
                   description: "Banking solutions, payment gateways, blockchain technology, compliance systems",
-                  projects: "85+ Projects",
                   gradient: "from-green-500 to-emerald-600",
                   bgGradient: "from-green-50 to-emerald-50 dark:from-green-900/10 dark:to-emerald-900/10",
                   borderColor: "border-green-200/50 dark:border-green-700/30"
@@ -463,7 +461,6 @@ export default function Services() {
                   name: "E-commerce & Retail", 
                   icon: ShoppingCart, 
                   description: "Online stores, inventory management, POS systems, customer analytics",
-                  projects: "150+ Projects",
                   gradient: "from-orange-500 to-amber-600",
                   bgGradient: "from-orange-50 to-amber-50 dark:from-orange-900/10 dark:to-amber-900/10",
                   borderColor: "border-orange-200/50 dark:border-orange-700/30"
@@ -472,7 +469,6 @@ export default function Services() {
                   name: "Education & E-learning", 
                   icon: GraduationCap, 
                   description: "LMS platforms, virtual classrooms, student portals, assessment tools",
-                  projects: "95+ Projects",
                   gradient: "from-blue-500 to-cyan-600",
                   bgGradient: "from-blue-50 to-cyan-50 dark:from-blue-900/10 dark:to-cyan-900/10",
                   borderColor: "border-blue-200/50 dark:border-blue-700/30"
@@ -481,7 +477,6 @@ export default function Services() {
                   name: "Real Estate", 
                   icon: Home, 
                   description: "Property management, CRM systems, virtual tours, listing platforms",
-                  projects: "70+ Projects",
                   gradient: "from-purple-500 to-violet-600",
                   bgGradient: "from-purple-50 to-violet-50 dark:from-purple-900/10 dark:to-violet-900/10",
                   borderColor: "border-purple-200/50 dark:border-purple-700/30"
@@ -490,7 +485,6 @@ export default function Services() {
                   name: "Manufacturing", 
                   icon: Factory, 
                   description: "ERP systems, supply chain management, IoT solutions, quality control",
-                  projects: "60+ Projects",
                   gradient: "from-gray-500 to-slate-600",
                   bgGradient: "from-gray-50 to-slate-50 dark:from-gray-900/10 dark:to-slate-900/10",
                   borderColor: "border-gray-200/50 dark:border-gray-700/30"
@@ -503,30 +497,33 @@ export default function Services() {
                   {/* Background decoration */}
                   <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${industry.gradient} opacity-5 rounded-full blur-2xl group-hover:opacity-10 transition-opacity duration-500`}></div>
                   
-                  <div className="relative">
+                  <div className="relative text-center">
                     {/* Header */}
-                    <div className="flex items-start justify-between mb-6">
+                    <div className="flex justify-center mb-6">
                       <div className={`p-4 bg-gradient-to-br ${industry.gradient} rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
                         <industry.icon className="text-white" size={28} />
                       </div>
-                      <Badge className="bg-white/80 text-gray-700 border-0 px-3 py-1 text-xs font-medium">
-                        {industry.projects}
-                      </Badge>
                     </div>
                     
                     {/* Content */}
                     <h3 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
                       {industry.name}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6">
+                    <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-8">
                       {industry.description}
                     </p>
                     
-                    {/* Learn More Link */}
-                    <div className="flex items-center text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors">
-                      <span>Learn More</span>
-                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
+                    {/* Action Button */}
+                    <Button 
+                      size="sm" 
+                      className={`bg-gradient-to-r ${industry.gradient} text-white hover:opacity-90 shadow-lg px-6 py-2 font-semibold transition-all duration-300 group-hover:scale-105`}
+                      asChild
+                    >
+                      <Link href="/contact">
+                        <span>Get Started</span>
+                        <ArrowRight className="ml-2 w-4 h-4" />
+                      </Link>
+                    </Button>
                   </div>
                 </div>
               ))}

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IeNet Production Setup</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+        .header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; opacity: 0.9; }
+        .form-section {
+            padding: 40px;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        .btn {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.3);
+        }
+        .status {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .progress { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .code-output {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 IeNet Production Setup</h1>
+            <p>Simple configuration tool for domain and database setup</p>
+        </div>
+        
+        <div class="form-section">
+            <form id="configForm">
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="domain">Domain Name</label>
+                        <input type="text" id="domain" value="ienet.online" placeholder="e.g., ienet.online">
+                    </div>
+                    <div class="form-group">
+                        <label for="port">Server Port</label>
+                        <input type="number" id="port" value="3001" placeholder="3001">
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="dbHost">Database Host</label>
+                        <input type="text" id="dbHost" value="5.181.218.15" placeholder="localhost or IP">
+                    </div>
+                    <div class="form-group">
+                        <label for="dbPort">Database Port</label>
+                        <input type="number" id="dbPort" value="3306" placeholder="3306">
+                    </div>
+                </div>
+
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="dbName">Database Name</label>
+                        <input type="text" id="dbName" value="ienetdb" placeholder="database name">
+                    </div>
+                    <div class="form-group">
+                        <label for="dbUser">Database User</label>
+                        <input type="text" id="dbUser" value="netiedb" placeholder="username">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="dbPassword">Database Password</label>
+                    <input type="password" id="dbPassword" value="h5pLF9833" placeholder="password">
+                </div>
+
+                <button type="submit" class="btn">🔧 Generate Production Files</button>
+            </form>
+
+            <div id="status" class="status"></div>
+            <div id="output" class="code-output"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('configForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const config = {
+                domain: document.getElementById('domain').value,
+                port: document.getElementById('port').value,
+                dbHost: document.getElementById('dbHost').value,
+                dbPort: document.getElementById('dbPort').value,
+                dbName: document.getElementById('dbName').value,
+                dbUser: document.getElementById('dbUser').value,
+                dbPassword: document.getElementById('dbPassword').value
+            };
+
+            showStatus('Generating production server files...', 'progress');
+            
+            setTimeout(() => {
+                generateFiles(config);
+            }, 1000);
+        });
+
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.className = `status ${type}`;
+            status.textContent = message;
+            status.style.display = 'block';
+        }
+
+        function generateFiles(config) {
+            // Generate production server file
+            const serverCode = `const express = require('express');
+const mysql = require('mysql2/promise');
+const app = express();
+const PORT = ${config.port};
+
+// CORS and JSON middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
+app.use(express.json());
+
+console.log('=== STARTING ${config.domain.toUpperCase()} PRODUCTION SERVER ===');
+console.log('Time:', new Date().toISOString());
+console.log('Domain: ${config.domain}');
+console.log('Port:', PORT);
+
+// MySQL database configuration
+const dbConfig = {
+  host: '${config.dbHost}',
+  port: ${config.dbPort},
+  user: '${config.dbUser}',
+  password: '${config.dbPassword}',
+  database: '${config.dbName}',
+  charset: 'utf8mb4',
+  acquireTimeout: 60000,
+  timeout: 60000
+};
+
+let db;
+
+async function connectDB() {
+  try {
+    console.log('🔌 Connecting to MySQL database...');
+    db = await mysql.createConnection(dbConfig);
+    console.log('✅ Connected to MySQL database successfully');
+    
+    const [result] = await db.execute('SELECT COUNT(*) as count FROM service_categories');
+    console.log(\`✅ Database test: \${result[0].count} service categories found\`);
+    
+    return true;
+  } catch (error) {
+    console.error('❌ Database connection failed:', error.message);
+    db = null;
+    return false;
+  }
+}
+
+connectDB();
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  console.log('🩺 Health check requested');
+  res.json({ 
+    status: 'healthy',
+    message: '${config.domain} Production Server Running',
+    timestamp: new Date().toISOString(),
+    database: db ? 'connected' : 'disconnected',
+    port: PORT
+  });
+});
+
+// Auth endpoint
+app.get('/api/auth/user', (req, res) => {
+  res.json(null);
+});
+
+// Service Categories endpoint
+app.get('/api/service-categories', async (req, res) => {
+  try {
+    if (!db) {
+      console.log('❌ Database not connected for service-categories');
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    const [rows] = await db.execute(\`
+      SELECT id, name, slug, description, icon, meta_title, meta_description 
+      FROM service_categories 
+      WHERE is_active = TRUE 
+      ORDER BY sort_order, id
+    \`);
+    
+    console.log(\`✅ Returning \${rows.length} service categories from MySQL\`);
+    res.json(rows);
+  } catch (error) {
+    console.error('❌ Service categories error:', error.message);
+    res.status(500).json({ error: 'Database error', details: error.message });
+  }
+});
+
+// Services endpoint
+app.get('/api/services', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    let sql = \`
+      SELECT id, name, slug, description, category_id as categoryId, meta_title, meta_description 
+      FROM services 
+      WHERE is_active = TRUE
+    \`;
+    let params = [];
+    
+    if (req.query.categoryId) {
+      sql += ' AND category_id = ?';
+      params.push(parseInt(req.query.categoryId));
+    }
+    
+    sql += ' ORDER BY sort_order, id';
+    const [rows] = await db.execute(sql, params);
+    
+    console.log(\`✅ Returning \${rows.length} services from MySQL\`);
+    res.json(rows);
+  } catch (error) {
+    console.error('❌ Services error:', error.message);
+    res.status(500).json({ error: 'Database error', details: error.message });
+  }
+});
+
+// Projects endpoint
+app.get('/api/projects', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    const [rows] = await db.execute(\`
+      SELECT id, title, slug, description, image_url, client_name, project_url, technologies, completion_date, is_featured 
+      FROM projects 
+      WHERE is_active = TRUE 
+      ORDER BY is_featured DESC, id DESC
+    \`);
+    
+    console.log(\`✅ Returning \${rows.length} projects from MySQL\`);
+    res.json(rows);
+  } catch (error) {
+    console.error('❌ Projects error:', error.message);
+    res.status(500).json({ error: 'Database error', details: error.message });
+  }
+});
+
+// Start server
+const server = app.listen(PORT, '127.0.0.1', () => {
+  console.log('========================================');
+  console.log('🚀 ${config.domain.toUpperCase()} PRODUCTION SERVER STARTED');
+  console.log('========================================');
+  console.log(\`✅ Server running on http://127.0.0.1:\${PORT}\`);
+  console.log(\`✅ Database: \${dbConfig.database} on \${dbConfig.host}\`);
+  console.log(\`✅ Domain: ${config.domain}\`);
+  console.log(\`✅ Time: \${new Date().toISOString()}\`);
+  console.log('========================================');
+});
+
+server.on('error', (error) => {
+  console.error('🚨 Server failed to start:', error);
+  if (error.code === 'EADDRINUSE') {
+    console.log('💡 Port ${config.port} is already in use. Kill existing process first.');
+    process.exit(1);
+  }
+});
+
+process.on('SIGINT', async () => {
+  console.log('\\n🛑 Shutting down server gracefully...');
+  if (db) {
+    await db.end();
+    console.log('✅ Database connection closed');
+  }
+  server.close(() => {
+    console.log('✅ Server shut down successfully');
+    process.exit(0);
+  });
+});`;
+
+            // Generate deployment commands
+            const deployCommands = `#!/bin/bash
+# ${config.domain} Production Deployment Commands
+
+echo "🚀 Starting ${config.domain} Production Deployment"
+echo "=========================================="
+
+# Navigate to website directory
+cd /var/www/vhosts/vivaindia.com/${config.domain}/
+
+# Kill any existing Node.js processes
+echo "🔄 Stopping existing server..."
+pkill -f node
+
+# Start the production server
+echo "🚀 Starting production server..."
+nohup node production-server.cjs > server.log 2>&1 &
+
+# Get the process ID
+PID=$!
+echo "✅ Server started with PID: $PID"
+
+# Wait a moment for server to start
+sleep 3
+
+# Check if server is running
+if ps -p $PID > /dev/null; then
+    echo "✅ Server is running successfully"
+else
+    echo "❌ Server failed to start"
+    exit 1
+fi
+
+# Test the server
+echo "🧪 Testing server endpoints..."
+
+# Test health endpoint
+echo "Testing health endpoint..."
+curl -s http://127.0.0.1:${config.port}/api/health | head -20
+
+echo ""
+echo "Testing service categories..."
+curl -s http://127.0.0.1:${config.port}/api/service-categories | head -20
+
+echo ""
+echo "=========================================="
+echo "✅ Deployment complete!"
+echo "🌐 Website: https://${config.domain}"
+echo "📊 Server running on port ${config.port}"
+echo "📋 Check logs: tail -f server.log"
+echo "=========================================="`;
+
+            // Show generated files
+            const output = document.getElementById('output');
+            output.innerHTML = `
+<h3>📁 Generated Files:</h3>
+
+<h4>1. production-server.cjs</h4>
+<pre>${serverCode}</pre>
+
+<h4>2. deploy.sh</h4>
+<pre>${deployCommands}</pre>
+
+<h3>🔧 Quick Deployment Commands:</h3>
+<pre># Upload files to server, then run:
+ssh root@${config.dbHost}
+cd /var/www/vhosts/vivaindia.com/${config.domain}/
+chmod +x deploy.sh
+./deploy.sh
+
+# Or manual deployment:
+pkill -f node
+nohup node production-server.cjs > server.log 2>&1 &
+curl http://127.0.0.1:${config.port}/api/health</pre>
+            `;
+            
+            output.style.display = 'block';
+            showStatus('✅ Production files generated successfully! Copy the files above to your server.', 'success');
+        }
+    </script>
+</body>
+</html>

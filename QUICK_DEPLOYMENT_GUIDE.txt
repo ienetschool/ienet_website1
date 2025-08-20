@@ -1,0 +1,33 @@
+EMERGENCY DEPLOYMENT - SAME WEBSITE AS DEVELOPMENT
+
+The production server is down. Here's how to fix it quickly:
+
+1. Upload the emergency package to your server:
+   scp emergency-deployment.tar.gz root@5.181.218.15:~/
+
+2. SSH to your server:
+   ssh root@5.181.218.15
+
+3. Stop any existing processes and deploy:
+   pkill -f "node" || true
+   cd ~/
+   tar -xzf emergency-deployment.tar.gz
+   node emergency-same-server.cjs
+
+4. The server should start and show:
+   ✅ Emergency Same Website Server running on port 5000
+   🔗 URL: http://ienet.online:5000
+
+This will serve the EXACT SAME React application as your development server:
+- Same CSS: index-4CY-Uz3T.css
+- Same JS: index-6-PKYvps.js  
+- Same components: HeroSlider, ModernHeader, etc.
+- Same MySQL database connectivity
+- Same authentication handling
+
+The website at ienet.online:5000 will be identical to your development version.
+
+Files included:
+- emergency-deployment.tar.gz (React build + server)
+- emergency-same-server.cjs (simplified but complete server)
+- dist/public/ (exact React build from development)

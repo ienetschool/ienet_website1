@@ -32,6 +32,7 @@ import {
   X,
   Zap
 } from "lucide-react";
+import FloatingCTA from "@/components/FloatingCTA";
 
 export default function Pricing() {
   const [isAnnual, setIsAnnual] = useState(false);
@@ -266,18 +267,15 @@ export default function Pricing() {
       />
       <ModernHeader />
 
-      {/* Floating Buttons - Horizontal Layout with 3D Effects */}
-      <div className="fixed bottom-6 right-6 z-40 flex space-x-3">
-        {/* Live Chat Button */}
-        <Button className="bg-gradient-to-br from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:via-green-600 hover:to-green-700 text-white w-16 h-16 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center transform hover:scale-110 hover:-translate-y-1">
-          <MessageCircle size={28} />
-        </Button>
-        
-        {/* Get Quote Button */}
-        <Button className="bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:via-blue-600 hover:to-blue-700 text-white w-16 h-16 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center transform hover:scale-110 hover:-translate-y-1">
-          <Quote size={28} />
-        </Button>
-      </div>
+      <FloatingCTA 
+        onGetQuoteClick={() => {
+          const contactSection = document.getElementById('contact-section');
+          if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
+        getQuoteText="Get Custom Quote"
+      />
 
       <main>
         {/* Hero Section */}

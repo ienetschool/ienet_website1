@@ -215,14 +215,16 @@ export function InlineEditor({
 // Global edit mode toggle component
 export function EditModeToggle() {
   const [editMode, setEditMode] = useState(false);
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
 
-  const canEdit = user && ((user as any).role === 'admin' || (user as any).role === 'editor');
+  // Only show if user is authenticated and has admin/editor role
+  const canEdit = !isLoading && user && 
+    ((user as any)?.role === 'admin' || (user as any)?.role === 'editor');
 
   if (!canEdit) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <div className="fixed bottom-4 left-4 z-50">
       <Button
         onClick={() => setEditMode(!editMode)}
         variant={editMode ? "default" : "outline"}

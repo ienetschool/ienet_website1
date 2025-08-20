@@ -3,7 +3,7 @@ import ModernHeader from "@/components/layout/ModernHeader";
 import TopBar from "@/components/layout/TopBar";
 import ModernFooter from "@/components/layout/ModernFooter";
 import LiveChat from "@/components/sections/LiveChat";
-import FloatingActionButtons from "@/components/ui/floating-action-buttons";
+import FloatingCTA from "@/components/FloatingCTA";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -536,7 +536,15 @@ export default function About() {
       
       {/* Add floating components */}
       <LiveChat />
-      <FloatingActionButtons />
+      <FloatingCTA 
+        onGetQuoteClick={() => {
+          const contactSection = document.getElementById('contact-section');
+          if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
+        getQuoteText="Get Started Today"
+      />
     </div>
   );
 }

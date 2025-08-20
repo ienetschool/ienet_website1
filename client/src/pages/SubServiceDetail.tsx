@@ -40,6 +40,7 @@ import {
   Settings
 } from "lucide-react";
 import { InlineEditor, EditModeToggle } from "@/components/InlineEditor";
+import FloatingCTA from "@/components/FloatingCTA";
 import ContactModal from "@/components/modals/ContactModal";
 import { useContactModal } from "@/hooks/useContactModal";
 import LiveEditor from "@/components/page-builder/LiveEditor";
@@ -157,18 +158,6 @@ export default function SubServiceDetail() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Floating Quick Contact Button */}
-      <div className="fixed bottom-24 right-6 z-40">
-        <QuickContactModal 
-          trigger={
-            <div className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer">
-              <MessageCircle size={20} />
-              <span className="hidden sm:block">Quick Contact</span>
-            </div>
-          }
-        />
-      </div>
-
       {/* Live Chat Component */}
       <LiveChat />
 
@@ -182,24 +171,13 @@ export default function SubServiceDetail() {
       <ModernHeader />
       <EditModeToggle />
 
-      {/* Floating Buttons - Horizontal Layout with 3D Effects */}
-      <div className="fixed bottom-6 right-6 z-40 flex space-x-3">
-        {/* Live Chat Button */}
-        <Button className="bg-gradient-to-br from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:via-green-600 hover:to-green-700 text-white w-16 h-16 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center transform hover:scale-110 hover:-translate-y-1">
-          <MessageCircle size={28} />
-        </Button>
-        
-        {/* Get Quote Button */}
-        <Button 
-          onClick={() => openModal({
-            subject: `Get Quote for ${service?.name}`,
-            message: `I'm interested in ${service?.name} services. Please provide a detailed quote and consultation.`
-          })}
-          className="bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 hover:from-blue-500 hover:via-blue-600 hover:to-blue-700 text-white w-16 h-16 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center transform hover:scale-110 hover:-translate-y-1"
-        >
-          <Quote size={28} />
-        </Button>
-      </div>
+      <FloatingCTA 
+        onGetQuoteClick={() => openModal({
+          subject: `Get Quote for ${service?.name}`,
+          message: `I'm interested in ${service?.name} services. Please provide a detailed quote and consultation.`
+        })}
+        getQuoteText={`Get Quote for ${service?.name}`}
+      />
 
       <main>
         {/* Breadcrumb Navigation */}

@@ -4,7 +4,7 @@ import ModernHeader from "@/components/layout/ModernHeader";
 import TopBar from "@/components/layout/TopBar";
 import ModernFooter from "@/components/layout/ModernFooter";
 import LiveChat from "@/components/sections/LiveChat";
-import FloatingActionButtons from "@/components/ui/floating-action-buttons";
+import FloatingCTA from "@/components/FloatingCTA";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -183,7 +183,15 @@ export default function Services() {
       
       {/* Add floating components */}
       <LiveChat />
-      <FloatingActionButtons />
+      <FloatingCTA 
+        onGetQuoteClick={() => {
+          const contactSection = document.getElementById('contact-section');
+          if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
+        getQuoteText="Get Custom Quote"
+      />
     </div>
   );
 }

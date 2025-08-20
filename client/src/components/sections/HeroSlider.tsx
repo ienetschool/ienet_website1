@@ -361,15 +361,8 @@ export default function HeroSlider() {
                     </div>
                   </div>
 
-                  {/* 3D Illustration */}
-                  <div className="hidden lg:flex justify-center items-center animate-fade-in-up animation-delay-800">
-                    <div className="relative transform hover:scale-105 transition-transform duration-500">
-                      <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-3xl transform rotate-1" />
-                      <div className="relative p-8 flex justify-center items-center bg-white/5 backdrop-blur-sm rounded-3xl border border-white/20">
-                        {slide.illustration}
-                      </div>
-                    </div>
-                  </div>
+                  {/* Empty space for better text layout */}
+                  <div className="hidden lg:block"></div>
                 </div>
               </div>
             </div>

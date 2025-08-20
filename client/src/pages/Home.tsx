@@ -10,6 +10,7 @@ import TestimonialSlider from "@/components/sections/TestimonialSlider";
 import ContactSection from "@/components/sections/ContactSection";
 import QuickContactModal from "@/components/sections/QuickContactModal";
 import LiveChat from "@/components/sections/LiveChat";
+import FloatingCTA from "@/components/FloatingCTA";
 import { MessageCircle, ArrowRight, Globe } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -22,20 +23,18 @@ export default function Home() {
       <TopBar />
       <ModernHeader />
 
-      {/* Floating Quick Contact Button */}
-      <div className="fixed bottom-24 right-6 z-40">
-        <QuickContactModal 
-          trigger={
-            <div className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 cursor-pointer">
-              <MessageCircle size={20} />
-              <span className="hidden sm:block">Quick Contact</span>
-            </div>
-          }
-        />
-      </div>
-
       {/* Live Chat Component */}
       <LiveChat />
+
+      <FloatingCTA 
+        onGetQuoteClick={() => {
+          const contactSection = document.getElementById('contact-section');
+          if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+          }
+        }}
+        getQuoteText="Get Quote"
+      />
 
       <main>
         {/* Welcome message for authenticated users */}

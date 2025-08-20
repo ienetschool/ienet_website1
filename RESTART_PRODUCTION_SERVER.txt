@@ -1,0 +1,44 @@
+IMMEDIATE RESTART COMMANDS
+
+The server is running but not binding to port 3001. Follow these steps:
+
+1. Upload the fixed-production-server.cjs file to your server
+
+2. Kill the current server and start the fixed version:
+   ssh root@5.181.218.15
+   cd /var/www/vhosts/vivaindia.com/ienet.online/
+   
+   # Kill existing server
+   pkill -f production-server
+   
+   # Start the fixed server
+   nohup node fixed-production-server.cjs > fixed-server.log 2>&1 &
+   
+   # Get the new process ID
+   echo "New server PID: $!"
+
+3. Verify the fix:
+   # Check if port 3001 is now listening
+   netstat -tulpn | grep 3001
+   
+   # Test local connection
+   curl http://127.0.0.1:3001/api/health
+   
+   # Check server logs
+   tail -10 fixed-server.log
+
+4. Test the website:
+   curl https://www.ienet.online/api/health
+   curl https://www.ienet.online/api/service-categories
+
+EXPECTED RESULTS:
+- Port 3001 should show as listening
+- Health endpoint returns JSON response
+- Service categories load from MySQL
+- Website shows real content instead of "Service Not Found"
+
+The fixed server has:
+- Explicit 127.0.0.1 binding
+- Enhanced error logging
+- Self-test after startup
+- Better MySQL connection handling

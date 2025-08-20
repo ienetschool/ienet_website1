@@ -1,320 +1,302 @@
 const express = require('express');
-const path = require('path');
-const { execSync } = require('child_process');
-
+const mysql = require('mysql2/promise');
 const app = express();
-const PORT = 5000;
+const PORT = 3001;
+
+console.log('=== STARTING FIXED PRODUCTION SERVER ===');
+console.log('Time:', new Date().toISOString());
+console.log('Target Host: 127.0.0.1');
+console.log('Target Port:', PORT);
+
+// CORS middleware
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
+app.use(express.json());
 
 // Database configuration
 const dbConfig = {
   host: '5.181.218.15',
+  port: 3306,
   user: 'netiedb',
   password: 'h5pLF9833',
-  database: 'ienetdb'
+  database: 'ienetdb',
+  charset: 'utf8mb4',
+  acquireTimeout: 60000,
+  timeout: 60000,
+  reconnect: true
 };
 
-// Simple database query function using mysql command
-function queryDatabase(sql) {
+let db;
+
+async function connectDB() {
   try {
-    const command = `mysql -u ${dbConfig.user} -p${dbConfig.password} -h ${dbConfig.host} -D ${dbConfig.database} -e "${sql}" --skip-column-names --silent`;
-    const result = execSync(command, { encoding: 'utf-8', timeout: 5000 });
-    return result.trim().split('\n').filter(line => line.trim());
+    console.log('🔌 Attempting MySQL connection...');
+    console.log('Host:', dbConfig.host + ':' + dbConfig.port);
+    console.log('Database:', dbConfig.database);
+    console.log('User:', dbConfig.user);
+    
+    db = await mysql.createConnection(dbConfig);
+    console.log('✅ MySQL connected successfully');
+    
+    // Test database
+    const [rows] = await db.execute('SELECT COUNT(*) as count FROM service_categories WHERE is_active = TRUE');
+    console.log(`✅ Database test passed: ${rows[0].count} active service categories`);
+    
+    return true;
   } catch (error) {
-    console.error('Database query error:', error.message);
-    return [];
+    console.error('❌ Database connection failed:', error.message);
+    console.error('Full error:', error);
+    db = null;
+    return false;
   }
 }
 
-// Middleware
-app.use(express.json());
+// Initialize database
+connectDB();
 
-// Enhanced static file serving with proper headers
-app.use(express.static('dist', {
-  setHeaders: (res, path) => {
-    // Set proper MIME types
-    if (path.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript; charset=utf-8');
-    } else if (path.endsWith('.css')) {
-      res.setHeader('Content-Type', 'text/css; charset=utf-8');
-    } else if (path.endsWith('.html')) {
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    }
-    // Disable caching for now to ensure fresh content
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-  }
-}));
-
-// Health check
+// Health check endpoint
 app.get('/api/health', (req, res) => {
-  try {
-    const test = queryDatabase('SELECT 1');
-    res.json({ 
-      status: 'healthy',
-      database: 'ienetdb',
-      timestamp: new Date().toISOString()
-    });
-  } catch (error) {
-    res.status(503).json({ status: 'unhealthy', error: error.message });
-  }
+  console.log('🩺 Health check requested');
+  const response = {
+    status: 'healthy',
+    message: 'Fixed Production Server Running',
+    timestamp: new Date().toISOString(),
+    server: 'ienet.online',
+    port: PORT,
+    database: db ? 'connected' : 'disconnected'
+  };
+  
+  console.log('Health response:', response);
+  res.json(response);
 });
 
-// Service Categories
-app.get('/api/service-categories', (req, res) => {
-  try {
-    const rows = queryDatabase('SELECT id, name, slug, description, icon, color FROM service_categories ORDER BY id');
-    const categories = rows.map(row => {
-      const [id, name, slug, description, icon, color] = row.split('\t');
-      return { id: parseInt(id), name, slug, description, icon, color };
-    });
-    res.json(categories);
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Individual Service Category
-app.get('/api/service-categories/:slug', (req, res) => {
-  try {
-    const rows = queryDatabase(`SELECT id, name, slug, description, icon, color FROM service_categories WHERE slug = '${req.params.slug}'`);
-    if (rows.length === 0) {
-      return res.status(404).json({ error: 'Service category not found' });
-    }
-    const [id, name, slug, description, icon, color] = rows[0].split('\t');
-    res.json({ id: parseInt(id), name, slug, description, icon, color });
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Service lookup with category context for hierarchical URLs
-app.get('/api/services/:categorySlug/:serviceSlug', (req, res) => {
-  try {
-    // First get the category ID
-    const categoryRows = queryDatabase(`SELECT id FROM service_categories WHERE slug = '${req.params.categorySlug}'`);
-    if (categoryRows.length === 0) {
-      return res.status(404).json({ error: 'Service category not found' });
-    }
-    const categoryId = parseInt(categoryRows[0]);
-    
-    // Then get the service in that category
-    const serviceRows = queryDatabase(`SELECT id, category_id, name, slug, description, icon FROM services WHERE slug = '${req.params.serviceSlug}' AND category_id = ${categoryId}`);
-    if (serviceRows.length === 0) {
-      return res.status(404).json({ error: 'Service not found in this category' });
-    }
-    const [id, category_id, name, slug, description, icon] = serviceRows[0].split('\t');
-    res.json({ id: parseInt(id), category_id: parseInt(category_id), name, slug, description, icon });
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Services
-app.get('/api/services', (req, res) => {
-  try {
-    const rows = queryDatabase('SELECT id, category_id, name, slug, description, icon FROM services ORDER BY category_id, id');
-    const services = rows.map(row => {
-      const [id, category_id, name, slug, description, icon] = row.split('\t');
-      return { id: parseInt(id), category_id: parseInt(category_id), name, slug, description, icon };
-    });
-    res.json(services);
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Services by Category
-app.get('/api/services/category/:categoryId', (req, res) => {
-  try {
-    const rows = queryDatabase(`SELECT id, category_id, name, slug, description, icon FROM services WHERE category_id = ${req.params.categoryId} ORDER BY id`);
-    const services = rows.map(row => {
-      const [id, category_id, name, slug, description, icon] = row.split('\t');
-      return { id: parseInt(id), category_id: parseInt(category_id), name, slug, description, icon };
-    });
-    res.json(services);
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Individual Service
-app.get('/api/services/:slug', (req, res) => {
-  try {
-    const rows = queryDatabase(`SELECT id, category_id, name, slug, description, icon FROM services WHERE slug = '${req.params.slug}'`);
-    if (rows.length === 0) {
-      return res.status(404).json({ error: 'Service not found' });
-    }
-    const [id, category_id, name, slug, description, icon] = rows[0].split('\t');
-    res.json({ id: parseInt(id), category_id: parseInt(category_id), name, slug, description, icon });
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Features
-app.get('/api/features', (req, res) => {
-  try {
-    const rows = queryDatabase('SELECT id, service_id, name, slug, description FROM features ORDER BY service_id, id');
-    const features = rows.map(row => {
-      const [id, service_id, name, slug, description] = row.split('\t');
-      return { id: parseInt(id), service_id: parseInt(service_id), name, slug, description };
-    });
-    res.json(features);
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Features by Service
-app.get('/api/features/service/:serviceId', (req, res) => {
-  try {
-    const rows = queryDatabase(`SELECT id, service_id, name, slug, description FROM features WHERE service_id = ${req.params.serviceId} ORDER BY id`);
-    const features = rows.map(row => {
-      const [id, service_id, name, slug, description] = row.split('\t');
-      return { id: parseInt(id), service_id: parseInt(service_id), name, slug, description };
-    });
-    res.json(features);
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Individual Feature
-app.get('/api/features/:slug', (req, res) => {
-  try {
-    const rows = queryDatabase(`SELECT id, service_id, name, slug, description FROM features WHERE slug = '${req.params.slug}'`);
-    if (rows.length === 0) {
-      return res.status(404).json({ error: 'Feature not found' });
-    }
-    const [id, service_id, name, slug, description] = rows[0].split('\t');
-    res.json({ id: parseInt(id), service_id: parseInt(service_id), name, slug, description });
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Feature lookup with full hierarchy for URLs like /features/category/service/feature
-app.get('/api/features/:categorySlug/:serviceSlug/:featureSlug', (req, res) => {
-  try {
-    // Get category ID
-    const categoryRows = queryDatabase(`SELECT id FROM service_categories WHERE slug = '${req.params.categorySlug}'`);
-    if (categoryRows.length === 0) {
-      return res.status(404).json({ error: 'Service category not found' });
-    }
-    const categoryId = parseInt(categoryRows[0]);
-    
-    // Get service ID in that category
-    const serviceRows = queryDatabase(`SELECT id FROM services WHERE slug = '${req.params.serviceSlug}' AND category_id = ${categoryId}`);
-    if (serviceRows.length === 0) {
-      return res.status(404).json({ error: 'Service not found in this category' });
-    }
-    const serviceId = parseInt(serviceRows[0]);
-    
-    // Get feature in that service
-    const featureRows = queryDatabase(`SELECT id, service_id, name, slug, description FROM features WHERE slug = '${req.params.featureSlug}' AND service_id = ${serviceId}`);
-    if (featureRows.length === 0) {
-      return res.status(404).json({ error: 'Feature not found in this service' });
-    }
-    const [id, service_id, name, slug, description] = featureRows[0].split('\t');
-    res.json({ id: parseInt(id), service_id: parseInt(service_id), name, slug, description });
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Projects
-app.get('/api/projects', (req, res) => {
-  try {
-    const rows = queryDatabase('SELECT id, title, slug, description, technologies, category FROM projects ORDER BY id DESC');
-    const projects = rows.map(row => {
-      const [id, title, slug, description, technologies, category] = row.split('\t');
-      return { id: parseInt(id), title, slug, description, technologies, category };
-    });
-    res.json(projects);
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Individual Project
-app.get('/api/projects/:slug', (req, res) => {
-  try {
-    const rows = queryDatabase(`SELECT id, title, slug, description, technologies, category FROM projects WHERE slug = '${req.params.slug}'`);
-    if (rows.length === 0) {
-      return res.status(404).json({ error: 'Project not found' });
-    }
-    const [id, title, slug, description, technologies, category] = rows[0].split('\t');
-    res.json({ id: parseInt(id), title, slug, description, technologies, category });
-  } catch (error) {
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Authentication endpoint (required for React app)
+// Auth endpoint
 app.get('/api/auth/user', (req, res) => {
-  // Always return 401 Unauthorized for production (no auth implemented)
-  res.status(401).json({ message: 'Unauthorized' });
+  console.log('Auth check - returning null (no authentication)');
+  res.json(null);
 });
 
-// Debug endpoint
-app.get('/api/debug', (req, res) => {
+// Service Categories endpoint
+app.get('/api/service-categories', async (req, res) => {
+  console.log('📂 Service categories requested');
+  
   try {
-    const categoryCount = queryDatabase('SELECT COUNT(*) FROM service_categories')[0];
-    const serviceCount = queryDatabase('SELECT COUNT(*) FROM services')[0];
-    const featureCount = queryDatabase('SELECT COUNT(*) FROM features')[0];
-    const projectCount = queryDatabase('SELECT COUNT(*) FROM projects')[0];
+    if (!db) {
+      console.log('❌ Database not connected');
+      return res.status(500).json({ 
+        error: 'Database not connected',
+        message: 'MySQL connection failed - check credentials'
+      });
+    }
     
-    res.json({
-      environment: 'production',
-      database: {
-        connection: 'mysql-cli',
-        serviceCategories: parseInt(categoryCount),
-        services: parseInt(serviceCount),
-        features: parseInt(featureCount),
-        projects: parseInt(projectCount),
-        status: 'connected'
-      },
-      server: {
-        staticFiles: 'Enhanced with proper headers',
-        caching: 'Disabled for testing',
-        mimeTypes: 'Correctly set'
-      },
-      timestamp: new Date().toISOString()
-    });
+    const [rows] = await db.execute(`
+      SELECT id, name, slug, description, icon, meta_title, meta_description 
+      FROM service_categories 
+      WHERE is_active = TRUE 
+      ORDER BY sort_order, id
+    `);
+    
+    console.log(`✅ Returning ${rows.length} service categories`);
+    res.json(rows);
+    
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('❌ Service categories error:', error.message);
+    res.status(500).json({ 
+      error: 'Database query failed',
+      details: error.message 
+    });
   }
 });
 
-// Handle React Router - serve index.html for all non-API routes
-app.get('*', (req, res) => {
-  // Log the route for debugging
-  console.log(`Serving React app for route: ${req.path}`);
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'), {
-    headers: {
-      'Content-Type': 'text/html; charset=utf-8',
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
-      'Pragma': 'no-cache',
-      'Expires': '0'
+// Services endpoint
+app.get('/api/services', async (req, res) => {
+  console.log('🔧 Services requested');
+  
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
     }
-  });
+    
+    let sql = `
+      SELECT id, name, slug, description, category_id as categoryId, 
+             meta_title, meta_description 
+      FROM services 
+      WHERE is_active = TRUE
+    `;
+    let params = [];
+    
+    if (req.query.categoryId) {
+      sql += ' AND category_id = ?';
+      params.push(parseInt(req.query.categoryId));
+      console.log('Filtering by category:', req.query.categoryId);
+    }
+    
+    sql += ' ORDER BY sort_order, id';
+    const [rows] = await db.execute(sql, params);
+    
+    console.log(`✅ Returning ${rows.length} services`);
+    res.json(rows);
+    
+  } catch (error) {
+    console.error('❌ Services error:', error.message);
+    res.status(500).json({ error: 'Database error', details: error.message });
+  }
+});
+
+// Projects endpoint
+app.get('/api/projects', async (req, res) => {
+  console.log('🚀 Projects requested');
+  
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    const [rows] = await db.execute(`
+      SELECT id, title, slug, description, image_url, client_name, 
+             project_url, technologies, completion_date, is_featured 
+      FROM projects 
+      WHERE is_active = TRUE 
+      ORDER BY is_featured DESC, id DESC
+    `);
+    
+    console.log(`✅ Returning ${rows.length} projects`);
+    res.json(rows);
+    
+  } catch (error) {
+    console.error('❌ Projects error:', error.message);
+    res.status(500).json({ error: 'Database error', details: error.message });
+  }
+});
+
+// Features endpoint
+app.get('/api/features', async (req, res) => {
+  console.log('⚡ Features requested');
+  
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    let sql = `
+      SELECT id, name, slug, description, service_id as serviceId,
+             meta_title, meta_description 
+      FROM features 
+      WHERE is_active = TRUE
+    `;
+    let params = [];
+    
+    if (req.query.serviceId) {
+      sql += ' AND service_id = ?';
+      params.push(parseInt(req.query.serviceId));
+    }
+    
+    sql += ' ORDER BY sort_order, id';
+    const [rows] = await db.execute(sql, params);
+    
+    console.log(`✅ Returning ${rows.length} features`);
+    res.json(rows);
+    
+  } catch (error) {
+    console.error('❌ Features error:', error.message);
+    res.status(500).json({ error: 'Database error', details: error.message });
+  }
 });
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  console.error('Server error:', err);
+app.use((error, req, res, next) => {
+  console.error('🚨 Unhandled error:', error);
   res.status(500).json({ 
     error: 'Internal server error',
-    message: err.message 
+    message: error.message 
   });
 });
 
-// Start server
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Fixed Production Server running on port ${PORT}`);
-  console.log('✅ Enhanced static file serving with proper headers');
-  console.log('✅ MySQL database connected via command line');
-  console.log('📍 React app serving from dist directory');
-  console.log('🔧 Caching disabled for debugging');
+// 404 handler
+app.use((req, res) => {
+  console.log(`❓ 404 - ${req.method} ${req.url}`);
+  res.status(404).json({ 
+    error: 'Endpoint not found',
+    path: req.url,
+    method: req.method
+  });
+});
+
+// Start server with explicit binding
+const server = app.listen(PORT, '127.0.0.1', () => {
+  console.log('========================================');
+  console.log('🚀 FIXED PRODUCTION SERVER STARTED!');
+  console.log('========================================');
+  console.log(`✅ Server listening on: http://127.0.0.1:${PORT}`);
+  console.log(`✅ Process ID: ${process.pid}`);
+  console.log(`✅ Database: ${dbConfig.database}@${dbConfig.host}`);
+  console.log(`✅ Started at: ${new Date().toISOString()}`);
+  console.log('========================================');
+  
+  // Test server immediately after start
+  setTimeout(() => {
+    const http = require('http');
+    const req = http.request({
+      hostname: '127.0.0.1',
+      port: PORT,
+      path: '/api/health',
+      method: 'GET'
+    }, (res) => {
+      console.log('✅ Self-test passed - server responding');
+    });
+    req.on('error', (err) => {
+      console.error('❌ Self-test failed:', err.message);
+    });
+    req.end();
+  }, 1000);
+});
+
+// Enhanced error handling for server startup
+server.on('error', (error) => {
+  console.error('🚨 Server startup error:', error);
+  
+  if (error.code === 'EADDRINUSE') {
+    console.log(`❌ Port ${PORT} is already in use`);
+    console.log('Run: pkill -f production-server');
+    console.log('Then restart the server');
+  } else if (error.code === 'EACCES') {
+    console.log(`❌ Permission denied to bind port ${PORT}`);
+    console.log('Try using a different port or run with elevated privileges');
+  }
+  
+  process.exit(1);
+});
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+  console.log('\n🛑 Shutting down gracefully...');
+  
+  if (db) {
+    try {
+      await db.end();
+      console.log('✅ Database connection closed');
+    } catch (err) {
+      console.error('❌ Error closing database:', err.message);
+    }
+  }
+  
+  server.close(() => {
+    console.log('✅ Server shut down successfully');
+    process.exit(0);
+  });
+});
+
+process.on('SIGTERM', async () => {
+  console.log('🔚 Received SIGTERM - shutting down');
+  if (db) await db.end();
+  server.close(() => process.exit(0));
 });

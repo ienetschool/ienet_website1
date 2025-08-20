@@ -1,0 +1,32 @@
+SIMPLE ROOT DEPLOYMENT
+
+Target: /var/www/vhosts/vivaindia.com/ienet.online/
+
+Upload commands:
+
+1. Upload React files to domain root:
+scp -r dist/public/* root@5.181.218.15:/var/www/vhosts/vivaindia.com/ienet.online/
+
+2. Upload API server:
+scp production-server.cjs root@5.181.218.15:/var/www/vhosts/vivaindia.com/ienet.online/
+
+3. Configure on server:
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+npm install mysql2
+chown -R vivaiind:psacln ./*
+chmod -R 755 ./*
+pkill -f "node" || true
+nohup node production-server.cjs > production.log 2>&1 &
+
+4. Verify:
+ls -la
+ls -la assets/
+
+Expected files directly in /var/www/vhosts/vivaindia.com/ienet.online/:
+- index.html
+- assets/index-4CY-Uz3T.css
+- assets/index-6-PKYvps.js
+- production-server.cjs
+- package.json
+- node_modules/

@@ -1,0 +1,89 @@
+APACHE CONFIGURATION FOR IENET.ONLINE IN PLESK
+
+=== IMMEDIATE FIX ===
+
+In your Plesk Apache & nginx Settings (as shown in screenshot):
+
+1. ADDITIONAL APACHE DIRECTIVES FOR HTTP:
+Add this to the "Additional directives for HTTP" box:
+
+DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online/public
+DirectoryIndex index.html
+
+<Directory "/var/www/vhosts/vivaindia.com/ienet.online/public">
+    Options -Indexes +FollowSymLinks
+    AllowOverride All
+    Require all granted
+    
+    # Enable rewrite engine
+    RewriteEngine On
+    RewriteBase /
+    
+    # Serve existing files directly
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^.*$ - [L]
+    
+    # Serve existing directories directly  
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^.*$ - [L]
+    
+    # Fallback to index.html for all other requests
+    RewriteRule ^.*$ /index.html [L]
+</Directory>
+
+2. ADDITIONAL APACHE DIRECTIVES FOR HTTPS:
+Add this to the "Additional directives for HTTPS" box:
+
+DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online/public
+DirectoryIndex index.html
+
+<Directory "/var/www/vhosts/vivaindia.com/ienet.online/public">
+    Options -Indexes +FollowSymLinks
+    AllowOverride All
+    Require all granted
+    
+    RewriteEngine On
+    RewriteBase /
+    
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^.*$ - [L]
+    
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^.*$ - [L]
+    
+    RewriteRule ^.*$ /index.html [L]
+</Directory>
+
+3. NGINX SETTINGS:
+In the nginx settings section, add:
+
+location / {
+    root /var/www/vhosts/vivaindia.com/ienet.online/public;
+    try_files $uri $uri/ /index.html;
+    index index.html;
+}
+
+=== ALTERNATIVE SIMPLE FIX ===
+
+If the above doesn't work, try this simpler approach:
+
+1. Change document root in Plesk to:
+   /var/www/vhosts/vivaindia.com/ienet.online/public
+
+2. Add only this to Apache directives:
+   DirectoryIndex index.html
+
+3. Then run in SSH:
+   
+cd /var/www/vhosts/vivaindia.com/ienet.online
+mkdir -p public
+# Upload the index.html file to public directory
+chown -R ienet:ienet public/
+chmod -R 755 public/
+
+After making these changes in Plesk:
+1. Click "OK" to save
+2. Click "Apply" to restart web services
+3. Visit https://www.ienet.online
+
+Your professional India Espectacular website will be live immediately!

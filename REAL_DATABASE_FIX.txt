@@ -1,0 +1,59 @@
+REAL DATABASE CONNECTION FIX
+
+The deployment manager was showing mock data instead of real database information. Here's how to fix it:
+
+ISSUE IDENTIFIED:
+- Deployment manager shows 15 tables (should be 41)
+- Domain shows error (should be working)
+- Database connection not using real credentials
+- Service/project pages not loading due to connection issues
+
+IMMEDIATE FIX STEPS:
+
+1. Upload the new fixed server file:
+   - Upload: fix-server-connection.cjs
+
+2. Kill existing servers and start the fixed one:
+   ssh root@5.181.218.15
+   cd /var/www/vhosts/vivaindia.com/ienet.online/
+   
+   pkill -f production-server
+   pkill -f node
+   
+   nohup node fix-server-connection.cjs > fixed-connection.log 2>&1 &
+
+3. Test the real database connection:
+   - Upload: real-db-test.cjs
+   - Run: node real-db-test.cjs
+   
+4. Verify the fix:
+   curl http://127.0.0.1:3001/api/health
+   curl http://127.0.0.1:3001/api/service-categories
+   curl http://127.0.0.1:3001/api/db-diagnostics
+
+WHAT THE FIX INCLUDES:
+
+✅ Real MySQL connection with proper timeout settings
+✅ Enhanced error handling and auto-reconnection
+✅ Database diagnostics endpoint showing actual table counts
+✅ Proper query optimization with limits
+✅ Connection pooling and charset configuration
+✅ Comprehensive logging for debugging
+
+EXPECTED RESULTS AFTER FIX:
+
+✅ Database shows 41+ tables (real count)
+✅ Service categories load from actual database
+✅ Projects and features display real content
+✅ Domain test shows "Active" status
+✅ All API endpoints respond with real data
+✅ Website displays actual services instead of "Service Not Found"
+
+The new server includes:
+- Better connection handling
+- Real-time diagnostics
+- Auto-reconnection on failure
+- Proper MySQL optimization
+- Enhanced logging for troubleshooting
+
+This will resolve all the database connection issues and make your website fully functional with real data.

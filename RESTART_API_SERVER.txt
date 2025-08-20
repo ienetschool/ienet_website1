@@ -1,32 +1,32 @@
-API SERVER NOT RUNNING PROPERLY
+API SERVER RESTART INSTRUCTIONS
 
-The website is loading but API calls are returning HTML instead of JSON.
-This means the Node.js API server is not handling requests correctly.
+From your screenshots, I can see:
+✅ Node.js is configured with mysql-production-server.cjs
+✅ mysql2 dependency is installed  
+❌ API still returning 502 errors
 
-IMMEDIATE FIX:
+NEXT STEPS:
 
-ssh root@5.181.218.15
-cd /var/www/vhosts/vivaindia.com/ienet.online/
+1. TEST DATABASE CONNECTION:
+   ssh root@5.181.218.15
+   cd /var/www/vhosts/vivaindia.com/ienet.online/
+   node check-database-status.js
 
-# Stop any existing Node.js processes
-pkill -f "node" || true
-pkill -f "production-server" || true
+2. SETUP DATABASE (if connection works):
+   node setup-mysql-database.js
 
-# Check if MySQL dependencies are installed
-npm list mysql2 2>/dev/null || npm install mysql2
+3. RESTART NODE.JS APPLICATION:
+   - Go back to Plesk Node.js panel
+   - Click "Restart App" button
+   - Wait for status to show "Running"
 
-# Restart the API server
-nohup node production-server.cjs > api.log 2>&1 &
+4. TEST API:
+   curl https://www.ienet.online/api/health
+   curl https://www.ienet.online/api/service-categories
 
-# Verify server is running
-ps aux | grep node
-tail -5 api.log
+TROUBLESHOOTING:
+- If database connection fails, check MySQL service status
+- If Node.js won't start, check application logs in Plesk
+- If 502 errors persist, verify Nginx proxy configuration
 
-# Test API endpoints
-curl https://www.ienet.online/api/health
-curl https://www.ienet.online/api/service-categories
-
-EXPECTED RESULT:
-- API should return JSON data instead of HTML
-- Service categories, projects, and features should load on website
-- Logo image should appear
+The setup script will show you exactly what's happening with your database connection and fix any missing tables or data automatically.

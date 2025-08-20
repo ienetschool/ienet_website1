@@ -1,0 +1,31 @@
+IMMEDIATE FIX COMMANDS FOR 502 ERROR
+
+The server is running (PID 13268) but not responding. Run these commands:
+
+1. Check server logs:
+   ssh root@5.181.218.15
+   cd /var/www/vhosts/vivaindia.com/ienet.online/
+   tail -20 server.log
+
+2. Test local server connection:
+   curl http://127.0.0.1:3001/api/health
+
+3. Check if port 3001 is listening:
+   netstat -tulpn | grep 3001
+
+4. If server has errors, restart it:
+   pkill -f production-server
+   nohup node production-server.cjs > server.log 2>&1 &
+
+5. Upload and run diagnostic script:
+   # Upload check-server-logs.sh to server
+   chmod +x check-server-logs.sh
+   ./check-server-logs.sh
+
+EXPECTED RESULTS:
+- Server should bind to 127.0.0.1:3001
+- Health endpoint should return JSON response
+- Nginx should successfully proxy requests
+
+If server logs show database connection errors, the MySQL credentials need verification.
+If port binding fails, another process might be using port 3001.

@@ -1,35 +1,33 @@
-NGINX 500 ERROR DIAGNOSIS
+NGINX 502 ERROR DIAGNOSIS
 
-Document root is correctly set to /ienet.online folder ✅
-Files are uploaded to correct location ✅
-Permissions should be fixed ✅
+The MySQL production server is running (PID 9363) but API calls return 502 errors.
+This indicates a communication issue between Nginx and the Node.js server.
 
-The 500 error means Nginx has a server configuration issue.
+POSSIBLE CAUSES:
+1. Node.js server running on wrong port
+2. Nginx proxy configuration incorrect
+3. Firewall blocking internal connections
+4. Server not binding to correct interface
 
-RUN THESE COMMANDS TO FIND THE ACTUAL ERROR:
+DIAGNOSTIC COMMANDS:
 
-ssh root@5.181.218.15
+1. Check if server is listening on port 3001:
+   netstat -tulpn | grep 3001
 
-# Check Nginx error logs for the exact error
-tail -20 /var/log/nginx/error.log
+2. Test local server directly:
+   curl http://127.0.0.1:3001/api/health
 
-# Check if there are domain-specific error logs
-tail -20 /var/log/nginx/domains/ienet.online_error.log 2>/dev/null
+3. Check server logs:
+   tail -20 app.log
 
-# Check Plesk-specific logs
-tail -20 /var/www/vhosts/system/ienet.online/logs/error_log 2>/dev/null
+4. Check Nginx error logs:
+   tail -20 /var/log/nginx/error.log
 
-# Verify files are actually there and readable
-cd /var/www/vhosts/vivaindia.com/ienet.online/
-ls -la
-cat index.html | head -5
+5. Verify Nginx configuration:
+   nginx -t
 
-# Test simple HTML file
-echo "<h1>Simple Test</h1>" > simple.html
-chown vivassh:psaserv simple.html
-curl https://www.ienet.online/simple.html
+LIKELY SOLUTION:
+The mysql-production-server.cjs may need to be configured to bind to 127.0.0.1:3001
+and Nginx needs to proxy /api/ requests to http://127.0.0.1:3001/api/
 
-# Check current Nginx status
-systemctl status nginx
-
-The error logs will show us exactly what's wrong with the Nginx configuration.
+If diagnostics show the server is not responding on port 3001, the issue is in the Node.js server configuration.

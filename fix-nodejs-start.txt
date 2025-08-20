@@ -1,0 +1,42 @@
+# Fix Node.js start script - Run these commands in SSH:
+
+cd /var/www/vhosts/vivaindia.com/ienet.online
+
+# Check what files were actually built
+ls -la dist/
+ls -la
+
+# Check package.json start script
+cat package.json | grep -A 5 '"scripts"'
+
+# The correct start command should be based on the actual built file
+# If dist/index.js doesn't exist, try one of these:
+
+# Option 1: Fix the start script in package.json
+npm pkg set scripts.start="node server/index.js"
+
+# Option 2: Or if the build created a different file:
+npm pkg set scripts.start="tsx server/index.ts"
+
+# Option 3: Or use the development server directly:
+npm pkg set scripts.start="NODE_ENV=production npm run dev"
+
+# Check what was actually built:
+find . -name "*.js" -type f | head -10
+
+# Try starting with tsx (TypeScript executor):
+npx tsx server/index.ts &
+
+# Or if the built file exists:
+node dist/index.js &
+
+# Check if the application is now running on port 3000:
+netstat -tlnp | grep :3000
+
+# If it's running, test it:
+curl http://localhost:3000
+
+# If successful, kill the process and start with PM2:
+pkill node
+pm2 start "npx tsx server/index.ts" --name ienet
+pm2 save

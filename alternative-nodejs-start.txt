@@ -1,0 +1,33 @@
+# Alternative Node.js Start Methods - Try these in SSH:
+
+cd /var/www/vhosts/vivaindia.com/ienet.online
+
+# Method 1: Direct TypeScript execution
+NODE_ENV=production PORT=3000 npx tsx server/index.ts &
+
+# Method 2: Check if there's a different built file
+ls -la dist/
+ls -la server/
+
+# Method 3: Start with development mode in production
+NODE_ENV=production npm run dev &
+
+# Method 4: Use the development server directly
+PORT=3000 tsx server/index.ts &
+
+# Check if any of these worked:
+ps aux | grep node
+netstat -tlnp | grep :3000
+
+# Test the application:
+curl http://localhost:3000
+
+# If working, set up PM2 properly:
+pm2 delete ienet 2>/dev/null || true
+pm2 start --name "ienet" --env NODE_ENV=production -- npx tsx server/index.ts
+pm2 save
+pm2 startup
+
+# Final test:
+curl http://ienet.online
+curl http://localhost:3000

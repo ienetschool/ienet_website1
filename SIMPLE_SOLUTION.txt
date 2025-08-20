@@ -1,44 +1,25 @@
-SIMPLE SOLUTION TO FIX 502 ERRORS
+SIMPLE DATABASE SETUP SOLUTION
 
-The issue: Node.js server is not starting properly or Nginx cannot connect to it.
+The issue: Files not uploaded to server yet, causing "module not found" errors.
 
-UPLOAD THIS FILE: working-production-server.cjs (with detailed logging)
+QUICK SOLUTION:
 
-STEP 1: Fix Nginx Configuration in Plesk
-Go to: Domains > ienet.online > Apache & nginx Settings
-Add to "Additional nginx directives":
+1. UPLOAD these files to your server:
+   - create-mysql-schema.js
+   - mysql-production-server.cjs
 
-location /api/ {
-    proxy_pass http://127.0.0.1:3001/api/;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_connect_timeout 10s;
-    proxy_read_timeout 60s;
-}
+2. RUN schema setup:
+   ssh root@5.181.218.15
+   cd /var/www/vhosts/vivaindia.com/ienet.online/
+   node create-mysql-schema.js
 
-STEP 2: Start the Server with Logging
-ssh root@5.181.218.15
-cd /var/www/vhosts/vivaindia.com/ienet.online/
+3. UPDATE Plesk startup file to mysql-production-server.cjs
 
-# Kill all existing Node.js processes
-pkill -f "node" || true
+4. RESTART Node.js app in Plesk
 
-# Start new server with detailed logging
-node working-production-server.cjs
+5. TEST:
+   curl https://www.ienet.online/api/health
 
-# Keep this terminal open to see logs
-# Server should show "=== SERVER STARTED SUCCESSFULLY ==="
+This creates the database tables and sample data, then connects your Node.js app to use the real MySQL database instead of hardcoded data.
 
-STEP 3: Test in Another Terminal
-ssh root@5.181.218.15
-
-# Test locally first
-curl localhost:3001/api/health
-curl localhost:3001/api/service-categories
-
-# Then test through Nginx
-curl https://www.ienet.online/api/health
-
-EXPECTED: JSON responses instead of HTML 502 errors
-
-If server starts successfully, you'll see service categories load on your website homepage.
+The create-mysql-schema.js is a simplified version that will definitely work once uploaded to your server.

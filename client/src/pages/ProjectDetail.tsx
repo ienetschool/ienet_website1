@@ -145,60 +145,132 @@ export default function ProjectDetail() {
         </section>
 
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20">
-          <div className="container mx-auto px-6">
-            <div className="max-w-4xl mx-auto">
-              <div className="flex flex-wrap gap-2 mb-4">
-                {project.category && <Badge variant="outline">{project.category}</Badge>}
-                {project.isFeatured && (
-                  <Badge className="bg-yellow-500 hover:bg-yellow-600">
-                    <Star className="mr-1" size={12} />
-                    Featured
-                  </Badge>
-                )}
-              </div>
-              
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                {project.title}
-              </h1>
-              
-              <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed mb-8">
-                {project.shortDescription || project.description}
-              </p>
+        <section className="relative bg-gradient-to-br from-slate-900 via-purple-900 to-slate-800 dark:from-gray-900 dark:via-purple-900 dark:to-gray-800 overflow-hidden">
+          {/* Background Pattern */}
+          <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid-16"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
+          
+          {/* Floating Elements */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+          
+          <div className="relative container mx-auto px-6 py-24">
+            <div className="max-w-5xl mx-auto">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                  {/* Badge Section */}
+                  <div className="flex flex-wrap gap-3 mb-6">
+                    {project.category && (
+                      <Badge className="bg-white/10 text-white border-white/20 hover:bg-white/20 px-4 py-2 text-sm font-medium">
+                        {project.category}
+                      </Badge>
+                    )}
+                    {project.isFeatured && (
+                      <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black hover:from-yellow-500 hover:to-orange-600 px-4 py-2 text-sm font-bold">
+                        <Star className="mr-2" size={14} />
+                        Featured Project
+                      </Badge>
+                    )}
+                  </div>
+                  
+                  {/* Title */}
+                  <h1 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                    {project.title}
+                  </h1>
+                  
+                  {/* Description */}
+                  <p className="text-xl text-gray-300 leading-relaxed mb-8 max-w-2xl">
+                    {project.shortDescription || project.description}
+                  </p>
 
-              {/* Project Meta */}
-              <div className="flex flex-wrap gap-6 mb-8">
-                {project.clientName && (
-                  <div className="flex items-center text-gray-600 dark:text-gray-300">
-                    <User className="mr-2" size={20} />
-                    <span className="font-medium">Client:</span>
-                    <span className="ml-1">{project.clientName}</span>
+                  {/* Project Meta */}
+                  <div className="grid sm:grid-cols-2 gap-6 mb-10">
+                    {project.clientName && (
+                      <div className="flex items-center bg-white/5 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10">
+                        <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center mr-3">
+                          <User className="text-blue-400" size={20} />
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-400 font-medium">Client</p>
+                          <p className="text-white font-semibold">{project.clientName}</p>
+                        </div>
+                      </div>
+                    )}
+                    {project.completionDate && (
+                      <div className="flex items-center bg-white/5 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/10">
+                        <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center mr-3">
+                          <Calendar className="text-green-400" size={20} />
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-400 font-medium">Completed</p>
+                          <p className="text-white font-semibold">{new Date(project.completionDate).toLocaleDateString()}</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                )}
-                {project.completionDate && (
-                  <div className="flex items-center text-gray-600 dark:text-gray-300">
-                    <Calendar className="mr-2" size={20} />
-                    <span className="font-medium">Completed:</span>
-                    <span className="ml-1">{new Date(project.completionDate).toLocaleDateString()}</span>
+                  
+                  {/* CTA Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 transform hover:-translate-y-1" asChild>
+                      <Link href="/contact">
+                        Request Similar Solution
+                        <ArrowRight className="ml-2" size={18} />
+                      </Link>
+                    </Button>
+                    {project.demoUrl && (
+                      <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 hover:border-white/50 px-8 py-4 rounded-xl font-semibold backdrop-blur-sm transition-all duration-300" asChild>
+                        <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                          View Live Demo
+                          <ExternalLink className="ml-2" size={18} />
+                        </a>
+                      </Button>
+                    )}
                   </div>
-                )}
-              </div>
-              
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" asChild>
-                  <Link href="/contact">
-                    Request Similar Solution
-                    <ArrowRight className="ml-2" size={16} />
-                  </Link>
-                </Button>
-                {project.demoUrl && (
-                  <Button size="lg" variant="outline" asChild>
-                    <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                      View Live Demo
-                      <ExternalLink className="ml-2" size={16} />
-                    </a>
-                  </Button>
-                )}
+                </div>
+
+                {/* Right Side - Project Visual */}
+                <div className="relative">
+                  <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm rounded-2xl border border-white/20 p-8 shadow-2xl">
+                    {project.imageUrl ? (
+                      <img 
+                        src={project.imageUrl} 
+                        alt={project.title}
+                        className="w-full h-64 lg:h-80 object-cover rounded-xl shadow-lg"
+                      />
+                    ) : (
+                      <div className="w-full h-64 lg:h-80 bg-gradient-to-br from-slate-700 to-slate-800 rounded-xl flex items-center justify-center">
+                        <div className="text-center text-white/70">
+                          <Code size={64} className="mx-auto mb-4 opacity-50" />
+                          <p className="text-lg font-medium">Project Showcase</p>
+                          <p className="text-sm opacity-75">{project.category}</p>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Technology Tags */}
+                    {technologies.length > 0 && (
+                      <div className="mt-6">
+                        <p className="text-white/80 text-sm font-medium mb-3">Technologies Used</p>
+                        <div className="flex flex-wrap gap-2">
+                          {technologies.slice(0, 4).map((tech: string, index: number) => (
+                            <Badge key={index} variant="secondary" className="bg-white/10 text-white border-white/20 px-3 py-1">
+                              {tech}
+                            </Badge>
+                          ))}
+                          {technologies.length > 4 && (
+                            <Badge variant="secondary" className="bg-white/10 text-white border-white/20 px-3 py-1">
+                              +{technologies.length - 4} more
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Decorative Elements */}
+                  <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full blur-2xl opacity-20"></div>
+                  <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full blur-2xl opacity-20"></div>
+                </div>
               </div>
             </div>
           </div>

@@ -1,103 +1,88 @@
-# IMMEDIATE DEPLOYMENT GUIDE FOR IENET.ONLINE
+# IMMEDIATE FIX - ienet.online Server Error
 
-## Current Status
-- ✅ Database: MySQL with 1,328 pages verified and ready
-- ❌ Node.js Application: Failing to start in Plesk environment
-- 🎯 Solution: Deploy static website immediately to ensure business continuity
+## Current Issue
+Website showing "We're sorry, but something went wrong" error instead of React application.
 
-## EMERGENCY DEPLOYMENT STEPS
+## Root Cause Analysis
+The error suggests:
+1. Node.js application not running properly
+2. Apache configuration issue
+3. Database connection problem
+4. File permissions or missing files
 
-### Step 1: Copy Files to Production Server
-Upload the following file to your production server:
-- Copy `public/index.html` to `/var/www/vhosts/vivaindia.com/ienet.online/public/index.html`
+## IMMEDIATE SOLUTION
 
-### Step 2: SSH Commands for Production Server (IP: 5.181.218.15)
-
+### Step 1: Check if Node.js Application is Running
 ```bash
-# Connect to server
-ssh root@5.181.218.15
+# Check if PM2 process is running
+pm2 status
 
-# Navigate to website directory
-cd /var/www/vhosts/vivaindia.com/ienet.online
-
-# Create public directory
-mkdir -p public
-
-# Create the static website file
-cat > public/index.html << 'EOF'
-[Paste the contents of public/index.html from this project]
-EOF
-
-# Set proper permissions
-chown -R ienet:ienet public/
-chmod -R 755 public/
-
-# Create .htaccess for proper routing
-cat > public/.htaccess << 'EOF'
-RewriteEngine On
-RewriteBase /
-
-# Serve static files first
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule ^.*$ - [L]
-
-# Fallback to index.html for SPA routing
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^.*$ /index.html [L]
-
-# Security headers
-<IfModule mod_headers.c>
-    Header always set X-Content-Type-Options nosniff
-    Header always set X-Frame-Options DENY
-    Header always set X-XSS-Protection "1; mode=block"
-</IfModule>
-EOF
-
-# Test the deployment
-curl -I http://localhost/
+# If not running, start it
+cd /var/www/ienet.online
+pm2 start ecosystem.config.js
 ```
 
-### Step 3: Configure Virtual Host
-Ensure your Apache/Nginx virtual host points to the `public` directory:
+### Step 2: Check Application Logs
+```bash
+# Check PM2 logs for errors
+pm2 logs ienet-production
 
-**Document Root:** `/var/www/vhosts/vivaindia.com/ienet.online/public`
+# Check if port 3000 is accessible
+netstat -tulpn | grep :3000
+```
 
-### Step 4: Verify Deployment
-Visit https://www.ienet.online - you should see:
-- Professional India Espectacular homepage with 🇮🇳 flag
-- Production status showing 1,328 pages ready
-- 3 floating action buttons (WhatsApp, Email, Live Chat)
-- Responsive design with smooth animations
+### Step 3: Test Node.js Application Directly
+```bash
+# Test if Node.js app works on port 3000
+curl http://localhost:3000
 
-## What This Deployment Includes
+# If not working, start manually to see errors
+cd /var/www/ienet.online
+NODE_ENV=production node dist/index.js
+```
 
-### ✅ Professional Features
-- **India Espectacular Branding**: Complete with Indian flag and professional styling
-- **Production Status Display**: Shows verified database with 1,328 pages
-- **Responsive Design**: Works perfectly on all devices
-- **Performance Optimized**: Fast loading with modern CSS animations
-- **SEO Ready**: Proper meta tags and structure
+### Step 4: Fix Apache Configuration
+Edit Apache virtual host:
+```apache
+<VirtualHost *:80>
+    ServerName ienet.online
+    ServerAlias www.ienet.online
+    
+    # Enable proxy modules first
+    LoadModule proxy_module modules/mod_proxy.so
+    LoadModule proxy_http_module modules/mod_proxy_http.so
+    
+    ProxyPreserveHost On
+    ProxyRequests Off
+    
+    # Proxy to Node.js application
+    ProxyPass / http://localhost:3000/
+    ProxyPassReverse / http://localhost:3000/
+    
+    ErrorLog /var/log/apache2/ienet_error.log
+    CustomLog /var/log/apache2/ienet_access.log combined
+</VirtualHost>
+```
 
-### ✅ 3 Floating Action Buttons (Exact Requirement)
-1. **WhatsApp (Green)**: Direct link to business WhatsApp
-2. **Email (Blue)**: Pre-filled professional inquiry email
-3. **Live Chat (Red)**: Shows "coming soon" message with alert
+### Step 5: Restart Services
+```bash
+systemctl restart apache2
+pm2 restart ienet-production
+```
 
-### ✅ Professional Services Showcase
-- Website Design & Development
-- Cloud Infrastructure & DevOps
-- Digital Marketing & SEO
-- E-commerce & Online Stores
-- Mobile App Development
-- IT Consulting & Strategy
+## Quick Diagnostic Commands
+```bash
+# Check if files exist
+ls -la /var/www/ienet.online/
 
-## Database Integration Ready
-Your MySQL database with 1,328 pages is ready and verified. Once the Node.js application issues are resolved, the full dynamic website can be activated while keeping this static version as a reliable fallback.
+# Check if Node.js is installed
+node --version
+npm --version
 
-## Next Steps
-1. Deploy this static version immediately for business continuity
-2. Continue troubleshooting Node.js application in parallel
-3. Switch to dynamic version once Plesk Node.js issues are resolved
+# Check Apache error logs
+tail -f /var/log/apache2/error.log
+tail -f /var/log/apache2/ienet_error.log
+```
 
-Your professional IeNet India Espectacular website will be live and working immediately with this deployment.
+## Expected Result
+After fixing, ienet.online should show your React application with HeroSlider, ModernHeader, and all components.

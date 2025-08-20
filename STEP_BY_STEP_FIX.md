@@ -1,99 +1,81 @@
-# STEP BY STEP FIX FOR IENET.ONLINE
+# Step by Step Fix for ienet.online Error
 
-## The Problem
-Your website shows "something went wrong" because:
-1. Node.js app isn't starting properly in Plesk
-2. Apache/Nginx is not configured to serve static files
-3. Document root is not pointing to the correct directory
+## Current Problem
+Website shows generic error instead of React application
 
-## The Solution
-Deploy a professional static website immediately while we fix Node.js issues.
+## Solution Path
 
-## STEP 1: Configure Apache in Plesk
+### Option 1: Fix Node.js Application (Preferred)
 
-In your Plesk panel (as shown in your screenshot):
-
-### A. Additional Apache directives for HTTP:
-```apache
-DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online/public
-DirectoryIndex index.html
-
-<Directory "/var/www/vhosts/vivaindia.com/ienet.online/public">
-    Options -Indexes +FollowSymLinks
-    AllowOverride All
-    Require all granted
-    RewriteEngine On
-    RewriteRule ^.*$ /index.html [L]
-</Directory>
-```
-
-### B. Additional Apache directives for HTTPS:
-```apache
-DocumentRoot /var/www/vhosts/vivaindia.com/ienet.online/public
-DirectoryIndex index.html
-
-<Directory "/var/www/vhosts/vivaindia.com/ienet.online/public">
-    Options -Indexes +FollowSymLinks
-    AllowOverride All
-    Require all granted
-    RewriteEngine On
-    RewriteRule ^.*$ /index.html [L]
-</Directory>
-```
-
-### C. nginx settings:
-```nginx
-location / {
-    root /var/www/vhosts/vivaindia.com/ienet.online/public;
-    try_files $uri $uri/ /index.html;
-    index index.html;
-}
-```
-
-## STEP 2: Upload the Website File
-
-### SSH Method (Easiest):
+**Step 1: Check Current Setup**
 ```bash
-ssh root@5.181.218.15
-cd /var/www/vhosts/vivaindia.com/ienet.online
-mkdir -p public
+# SSH into server or use Plesk terminal
+cd /var/www/ienet.online
+ls -la
 ```
 
-Then create the file:
+**Step 2: Verify Files Uploaded**
+Should see: client/, server/, dist/, package.json, ecosystem.config.js
+
+**Step 3: Install Dependencies**
 ```bash
-cat > public/index.html << 'EOF'
-[Copy the entire content from public/index.html in this project]
-EOF
+npm install --production
 ```
 
-Set permissions:
+**Step 4: Test Application**
 ```bash
-chown -R ienet:ienet public/
-chmod -R 755 public/
+NODE_ENV=production node dist/index.js
 ```
 
-## STEP 3: Apply Changes
+**Step 5: Start with PM2**
+```bash
+pm2 start ecosystem.config.js
+pm2 save
+```
 
-1. In Plesk, click "OK" to save Apache settings
-2. Click "Apply" to restart web services
-3. Wait 30 seconds for services to restart
+### Option 2: Quick Plesk Fix
 
-## STEP 4: Test
+**If using Plesk hosting:**
+1. Go to Plesk Panel > Hosting & DNS > Node.js
+2. Enable Node.js (version 18.x or 20.x)
+3. Set Application Root: /
+4. Set Startup File: dist/index.js
+5. Environment: production
+6. Click "Enable Node.js"
 
-Visit https://www.ienet.online
+### Option 3: Temporary Static Solution
 
-You should see:
-- Professional India Espectacular homepage with 🇮🇳
-- "Production Website Successfully Deployed & Live" status
-- 3 floating action buttons on the right
-- Smooth animations and modern design
+**If Node.js setup is complex:**
+1. Upload PRODUCTION_MATCHING_VERSION.html as index.html
+2. Provides immediate working website
+3. Shows same design while fixing Node.js
 
-## Why This Works
+## Diagnostic Commands
 
-- **Static Files**: No Node.js dependency, works immediately
-- **Professional Design**: Complete India Espectacular branding
-- **Database Ready**: Your 1,328 pages are verified and ready
-- **Business Continuity**: Website works while we fix Node.js issues
-- **SEO Optimized**: Proper meta tags and structure
+```bash
+# Check if Node.js app is running
+ps aux | grep node
 
-Your professional website will be live in minutes!
+# Check port 3000
+netstat -tulpn | grep :3000
+
+# Check Apache/Nginx logs
+tail -f /var/log/apache2/error.log
+tail -f /var/log/nginx/error.log
+
+# Test direct connection
+curl http://localhost:3000
+```
+
+## Expected Results
+
+**Success indicators:**
+- ienet.online shows React application
+- HeroSlider, ModernHeader, FloatingCTA visible
+- 3 floating buttons working
+- Database connected with 1,328 pages
+
+**Next steps after success:**
+- Test all pages and functionality
+- Verify database connection
+- Check admin dashboard access

@@ -1,39 +1,44 @@
-EMERGENCY PLESK CONFIGURATION FIX
+EMERGENCY FIX FOR IENET.ONLINE PLESK ERROR
 
-The 500 error suggests Apache directive conflicts. Let's use Plesk's default structure:
+ISSUE: Website showing "something went wrong" error
 
-=== STEP 1: Remove ALL Custom Directives ===
-In Plesk Apache & nginx Settings:
-- Delete EVERYTHING from "Additional Apache directives for HTTP" (leave empty)
-- Delete EVERYTHING from "Additional Apache directives for HTTPS" (leave empty)
-- Delete EVERYTHING from "Additional nginx directives" (leave empty)
-- Click OK and Apply
+QUICK SOLUTIONS:
 
-=== STEP 2: Use Default Plesk Structure ===
-Go to Plesk File Manager and navigate to:
-/var/www/vhosts/vivaindia.com/ienet.online/
+1. CHECK PLESK HOSTING PANEL:
+   - Log into Plesk control panel
+   - Go to ienet.online domain settings
+   - Check if Node.js is enabled
+   - Enable Node.js application support
 
-Look for these default folders and use the first one you find:
-1. httpdocs/
-2. public_html/
-3. www/
-4. html/
+2. PLESK NODE.JS SETUP:
+   - In Plesk: Hosting & DNS > Node.js
+   - Set Node.js version (18.x or 20.x)
+   - Set Application Root: /
+   - Set Application Startup File: dist/index.js
+   - Set Environment: production
 
-=== STEP 3: Create index.html in Default Folder ===
-Example: If you see httpdocs folder:
-1. Go into httpdocs/
-2. Create index.html file
-3. Paste the complete HTML content
+3. PLESK FILE MANAGER UPLOAD:
+   - Use Plesk File Manager
+   - Upload production-deploy files to httpdocs/
+   - Set correct permissions (755 for folders, 644 for files)
 
-=== STEP 4: Alternative - Check Domain Settings ===
-In Plesk:
-1. Go to Domains > ienet.online
-2. Check "Document Root" setting
-3. Put index.html in whatever path is shown there
+4. INSTALL DEPENDENCIES IN PLESK:
+   - Go to Node.js settings in Plesk
+   - Click "Install Dependencies" or run: npm install --production
 
-=== STEP 5: Last Resort - Main Directory ===
-If no default folders exist:
-1. Put index.html directly in: /var/www/vhosts/vivaindia.com/ienet.online/index.html
-2. Don't use any Apache directives at all
+5. START APPLICATION:
+   - In Plesk Node.js panel: Click "Enable Node.js"
+   - Set startup file: dist/index.js
+   - Click "Restart App"
 
-This approach uses Plesk's default configuration without any custom modifications that might cause conflicts.
+6. CHECK PLESK LOGS:
+   - Go to Logs section in Plesk
+   - Check error_log and access_log
+   - Look for Node.js application errors
+
+ALTERNATIVE - STATIC FILES BACKUP:
+If Node.js doesn't work in Plesk, temporarily upload static HTML version:
+- Copy PRODUCTION_MATCHING_VERSION.html to httpdocs/index.html
+- This gives immediate working website while fixing Node.js
+
+RESULT: Website should show React application or working static version

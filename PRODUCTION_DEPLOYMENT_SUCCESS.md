@@ -1,92 +1,41 @@
-# ✅ PRODUCTION DEPLOYMENT SUCCESSFUL
+# Production Deployment Status
 
-## Server Status: LIVE AND OPERATIONAL
+## Current Issue
+The Node.js application in Plesk shows "Application will be restarted after the first request" but the API is returning 502 errors. This means the MySQL production server isn't starting properly.
 
-### Production Server Details:
-- **Domain:** http://ienet.online:5000
-- **IP Address:** 5.181.218.15
-- **Server Environment:** Node.js v20.19.4
-- **Database:** MySQL/MariaDB (ienetdb)
-- **Status:** Production server running successfully
+## Immediate Actions Needed
 
-### Verified Endpoints:
-✅ **Main Website:** http://ienet.online:5000  
-✅ **Health Check:** http://ienet.online:5000/api/health  
-✅ **Debug Info:** http://ienet.online:5000/api/debug  
-✅ **Services API:** http://ienet.online:5000/api/services  
+### 1. Force Restart the Node.js Application
+In Plesk Node.js panel:
+- Click "Restart App" button
+- Wait for status to change to "Running"
+- If it shows errors, check the application logs
 
-### Database Configuration:
-- **Host:** 5.181.218.15:3306
-- **Database:** ienetdb
-- **User:** netiedb
-- **Connection:** Verified and working
-- **Tables:** 41 tables successfully migrated
-
-### Server Performance:
-- **Memory Usage:** 7.5GB total, 5.1GB available
-- **Process ID:** 151335 (running stable)
-- **Port:** 5000 (listening on 0.0.0.0)
-- **Uptime:** Server started successfully and responding
-
-### Configuration Summary:
+### 2. Manual Server Start (if needed)
+If Plesk restart fails:
 ```bash
-# Development Server (Replit)
-- Database: PostgreSQL (Neon)
-- Port: 5000
-- Environment: Development
-
-# Production Server (ienet.online)
-- Database: MySQL/MariaDB
-- Port: 5000
-- Environment: Production
-- Same exact application code
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+pkill -f node
+nohup node mysql-production-server.cjs > app.log 2>&1 &
 ```
 
-### API Response Examples:
-
-**Health Check Response:**
-```json
-{
-  "status": "healthy",
-  "timestamp": "2025-08-20T13:31:23.229Z",
-  "environment": "production",
-  "database": "ienetdb",
-  "server": "ienet.online"
-}
+### 3. Test the API After Restart
+```bash
+curl https://www.ienet.online/api/health
+curl https://www.ienet.online/api/service-categories
 ```
 
-**Debug Information:**
-```json
-{
-  "environment": "production",
-  "port": 5000,
-  "database": {
-    "host": "5.181.218.15",
-    "database": "ienetdb",
-    "user": "netiedb"
-  },
-  "nodeVersion": "v20.19.4",
-  "timestamp": "2025-08-20T13:31:23.656Z"
-}
-```
+## Expected Results After Fix
+- API health check returns MySQL connection status
+- Service categories load from database instead of "Service Not Found"
+- All pages (services, projects, etc.) display real content
+- Website fully functional with MySQL backend
 
-## Deployment Achievement:
+## Database Status
+✅ MySQL database configured with full schema
+✅ Sample data inserted (categories, services, features, projects)  
+✅ Production server file (mysql-production-server.cjs) ready
+❌ Node.js application needs manual restart
 
-🎯 **Mission Accomplished:** 
-- Same exact application code running on both servers
-- Development server uses PostgreSQL
-- Production server uses MySQL
-- No separate versions or demo sites created
-- All functionality preserved and operational
-
-🚀 **Production Ready:** 
-The IeNet website is now live and accessible at http://ienet.online:5000 with full database connectivity and API functionality.
-
-## Next Steps:
-1. Website is ready for public access
-2. All monitoring endpoints are functional
-3. Server is stable and performing well
-4. Database connection verified and working
-5. Ready for domain configuration if needed
-
-**Status: DEPLOYMENT COMPLETE AND SUCCESSFUL**
+The database and files are ready - just need to get the Node.js application running.

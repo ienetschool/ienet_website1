@@ -1,0 +1,63 @@
+
+
+ Build a web-based configuration and deployment tool for managing a Node.js/MySQL-based application. The tool should be a single-page HTML interface (with supporting backend APIs if needed) to configure and manage the following functionalities:
+
+> ### 🌐 1. Domain Setup
+>
+> * UI input to set or update the domain name of the application.
+> * Automatically update the domain name across all relevant configuration files (e.g., `.env`, `config.js`, etc.).
+> * Display the current domain name and last updated timestamp.
+>
+> ---
+>
+> ### 🛢️ 2. Database Setup
+>
+> * Input form for MySQL database credentials (host, port, username, password, DB name).
+> * Button to test the database connection.
+> * If connection fails, show diagnostics and suggestions to fix.
+> * Display database metadata: list of tables, rows per table, and last updated time.
+> * Save DB settings to `.env` or config files.
+> * Option to run SQL queries directly and see output.
+>
+> ---
+>
+> ### 📦 3. NPM & Server Config
+>
+> * Detect and display current versions of:
+>
+>   * Node.js
+>   * npm
+>   * Installed packages (via `package.json`)
+> * Button to run `npm install` or update packages.
+> * Display any server configuration issues or warnings.
+> * Option to restart server (if applicable).
+>
+> ---
+>
+> ### 📁 4. File Push & Update
+>
+> * File upload tool to push files to specific server directories.
+> * List recently updated files with timestamp and size.
+> * Allow overwriting or backup-before-push.
+> * Log all updates with metadata (file name, uploader, date).
+>
+> ---
+>
+> ### 🛠️ 5. Additional Features (Auto-Detect & Debug)
+>
+> * Auto-detect and alert for missing environment variables or misconfigured settings.
+> * Log viewer to tail recent server logs.
+> * Button to clear cache or temp directories.
+> * Show app health status (e.g., uptime, memory usage).
+> * Allow triggering of custom CLI commands via web interface.
+>
+> ---
+>
+> ### 💡 Notes:
+>
+> * The tool should be built using HTML, JavaScript (preferably with modern frontend framework like Vue/React if needed), and Node.js for backend logic.
+> * Keep the interface user-friendly and secure.
+> * Consider using WebSocket or AJAX polling for live feedback from backend operations like log tailing, file updates, etc.
+> * Use modular structure: each section should be independently testable and maintainable.
+> * Store all settings persistently (e.g., config file or database).
+> * Build with expandability in mind — future modules (like Docker config, API key setup, etc.) should be easy to plug in.

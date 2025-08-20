@@ -1,0 +1,46 @@
+DIRECTORY INDEX ERROR SOLUTION
+
+ERROR FOUND: "Cannot serve directory /var/www/vhosts/vivaindia.com/ienet.online/"
+
+This means Nginx can't find an index file to serve.
+
+IMMEDIATE FIX:
+
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Check what files are actually there
+ls -la
+
+# Check if index.html exists and has content
+ls -lh index.html
+head -5 index.html
+
+# If index.html is missing or empty, recreate it
+# First, backup any existing file
+mv index.html index.html.backup 2>/dev/null
+
+# Create new index.html with the exact React content
+cat > index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <script type="module" crossorigin src="/assets/index-6-PKYvps.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-4CY-Uz3T.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+EOF
+
+# Set correct permissions
+chown vivassh:psaserv index.html
+chmod 644 index.html
+
+# Test immediately
+curl -I https://www.ienet.online
+
+EXPECTED RESULT: Should return 200 OK instead of 403/500

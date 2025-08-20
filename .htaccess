@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteBase /
+
+# Handle React Router
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+
+# Serve static assets
+RewriteRule ^assets/(.*)$ assets/$1 [L]
+
+# API proxy (if Apache is handling requests)
+RewriteRule ^api/(.*)$ http://localhost:3001/api/$1 [P,L]

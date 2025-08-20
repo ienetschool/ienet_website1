@@ -1,0 +1,41 @@
+PLESK CONFIGURATION ISSUE
+
+Problem: Plesk is trying to run your React files as a Node.js application instead of serving them as static files.
+
+Error: "Web application could not be started by the Phusion Passenger application server"
+
+SOLUTION - Configure Plesk for Static Files:
+
+1. In Plesk Control Panel:
+   - Go to Domains > ienet.online
+   - Click "Hosting Settings" or "Apache & nginx Settings"
+   - Set Document Root to: /var/www/vhosts/vivaindia.com/ienet.online
+   - Disable "Node.js" if enabled
+   - Enable "Static files" serving
+
+2. Alternative - Create .htaccess file:
+   Upload this .htaccess file to /var/www/vhosts/vivaindia.com/ienet.online/:
+
+   ```
+   RewriteEngine On
+   RewriteBase /
+   
+   # Handle Angular and React Router
+   RewriteRule ^index\.html$ - [L]
+   RewriteCond %{REQUEST_FILENAME} !-f
+   RewriteCond %{REQUEST_FILENAME} !-d
+   RewriteRule . /index.html [L]
+   
+   # Serve static assets
+   RewriteRule ^assets/(.*)$ assets/$1 [L]
+   ```
+
+3. API Server Configuration:
+   The API server (production-server.cjs) should run separately:
+   
+   ssh root@5.181.218.15
+   cd /var/www/vhosts/vivaindia.com/ienet.online/
+   npm install mysql2 express
+   nohup node production-server.cjs > api.log 2>&1 &
+
+The React files are uploaded correctly, but Plesk needs to serve them as static files, not try to run them as a Node.js app.

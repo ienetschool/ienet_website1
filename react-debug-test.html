@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .debug-panel { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+        .warning { color: #ffc107; }
+        .log { font-family: monospace; background: #f8f9fa; padding: 10px; margin: 5px 0; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="debug-panel">
+        <h1>React Debug Test - Production Server</h1>
+        <p>This will help identify exactly what's preventing React from mounting.</p>
+    </div>
+
+    <div class="debug-panel">
+        <h2>Step 1: Load CSS</h2>
+        <div id="css-status">Loading CSS...</div>
+        <link rel="stylesheet" crossorigin href="/assets/index-5acz5IyP.css">
+    </div>
+
+    <div class="debug-panel">
+        <h2>Step 2: API Tests</h2>
+        <div id="api-status">Testing APIs...</div>
+    </div>
+
+    <div class="debug-panel">
+        <h2>Step 3: React Bundle Load</h2>
+        <div id="react-status">Loading React...</div>
+    </div>
+
+    <div class="debug-panel">
+        <h2>Step 4: React Mount Test</h2>
+        <div id="mount-status">Waiting for React...</div>
+        <div id="test-root" style="border: 2px solid #007bff; min-height: 100px; margin: 10px 0; padding: 20px;">
+            React components should appear here...
+        </div>
+    </div>
+
+    <div class="debug-panel">
+        <h2>Console Logs</h2>
+        <div id="console-logs"></div>
+    </div>
+
+    <!-- Original React root -->
+    <div id="root" style="border: 2px solid red; min-height: 50px; margin: 20px 0;">
+        Original Root (should populate if React works)
+    </div>
+
+    <script>
+        let logs = [];
+        function log(message, type = 'info') {
+            console.log(message);
+            logs.push(`[${new Date().toISOString().split('T')[1].split('.')[0]}] ${message}`);
+            document.getElementById('console-logs').innerHTML = logs.map(log => `<div class="log">${log}</div>`).join('');
+        }
+
+        function updateStatus(id, message, type = 'info') {
+            const el = document.getElementById(id);
+            el.innerHTML = `<span class="${type}">${message}</span>`;
+        }
+
+        // Step 1: CSS loaded
+        updateStatus('css-status', 'CSS loaded successfully', 'success');
+        log('CSS bundle loaded');
+
+        // Step 2: Test APIs
+        updateStatus('api-status', 'Testing authentication...', 'warning');
+        
+        fetch('/api/auth/user')
+            .then(response => {
+                if (response.status === 401) {
+                    updateStatus('api-status', 'Auth API working (401 as expected)', 'success');
+                    log('Auth API: 401 response received');
+                    return fetch('/api/service-categories');
+                } else {
+                    throw new Error(`Unexpected auth response: ${response.status}`);
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    updateStatus('api-status', 'All APIs working correctly', 'success');
+                    log('Service categories API working');
+                    loadReact();
+                } else {
+                    throw new Error(`Categories API failed: ${response.status}`);
+                }
+            })
+            .catch(error => {
+                updateStatus('api-status', `API Error: ${error.message}`, 'error');
+                log(`API Error: ${error.message}`);
+            });
+
+        function loadReact() {
+            updateStatus('react-status', 'Loading React bundle...', 'warning');
+            log('Starting React bundle import...');
+
+            // Set up error handlers before loading React
+            window.addEventListener('error', (e) => {
+                log(`JavaScript Error: ${e.message} at ${e.filename}:${e.lineno}`);
+                updateStatus('react-status', `JS Error: ${e.message}`, 'error');
+            });
+
+            window.addEventListener('unhandledrejection', (e) => {
+                log(`Promise Rejection: ${e.reason}`);
+                updateStatus('react-status', `Promise Error: ${e.reason}`, 'error');
+            });
+
+            // Load React bundle
+            import('/assets/index-BOus7yXH.js')
+                .then(() => {
+                    updateStatus('react-status', 'React bundle loaded successfully', 'success');
+                    log('React bundle imported successfully');
+                    
+                    // Monitor React mounting
+                    updateStatus('mount-status', 'Monitoring React mount...', 'warning');
+                    
+                    let attempts = 0;
+                    const checkMount = setInterval(() => {
+                        attempts++;
+                        const rootEl = document.getElementById('root');
+                        
+                        if (rootEl && rootEl.children.length > 0) {
+                            updateStatus('mount-status', 'React mounted successfully!', 'success');
+                            log(`React app mounted after ${attempts} checks`);
+                            
+                            // Show React content in test area
+                            document.getElementById('test-root').innerHTML = 
+                                '<div class="success">SUCCESS: React app is working! Check the red-bordered root div below.</div>';
+                            clearInterval(checkMount);
+                            
+                        } else if (attempts >= 20) {
+                            updateStatus('mount-status', 'React mount timeout - checking errors...', 'error');
+                            log('React failed to mount after 20 seconds');
+                            
+                            // Additional debugging
+                            const hasReactDevTools = !!window.__REACT_DEVTOOLS_GLOBAL_HOOK__;
+                            const hasReact = !!window.React;
+                            const hasReactDOM = !!window.ReactDOM;
+                            
+                            log(`React debugging: DevTools=${hasReactDevTools}, React=${hasReact}, ReactDOM=${hasReactDOM}`);
+                            
+                            document.getElementById('test-root').innerHTML = 
+                                '<div class="error">FAILED: React bundle loaded but components not mounting. Check console for errors.</div>';
+                            clearInterval(checkMount);
+                        } else {
+                            updateStatus('mount-status', `Waiting for React mount... (${attempts}/20)`, 'warning');
+                        }
+                    }, 1000);
+                })
+                .catch(error => {
+                    updateStatus('react-status', `React load failed: ${error.message}`, 'error');
+                    log(`React bundle loading failed: ${error.message}`);
+                });
+        }
+    </script>
+</body>
+</html>

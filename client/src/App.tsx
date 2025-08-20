@@ -39,66 +39,54 @@ import UserManagement from "@/pages/UserManagement";
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
 
+  // For production deployment: since we don't have authentication implemented,
+  // always show the public routes (Landing page as home)
+  // This ensures the website works properly in production
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
+
   return (
     <Switch>
-      {isLoading || !isAuthenticated ? (
+      {/* Public routes - always accessible in production */}
+      <Route path="/" component={Landing} />
+      <Route path="/services" component={Services} />
+      <Route path="/services/:categorySlug" component={ServiceDetail} />
+      <Route path="/services/:categorySlug/:serviceSlug" component={SubServiceDetail} />
+      <Route path="/services/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
+      <Route path="/features/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
+      <Route path="/projects" component={Projects} />
+      <Route path="/projects/:slug" component={ProjectDetail} />
+      <Route path="/industries" component={Industries} />
+      <Route path="/contact" component={Contact} />
+      <Route path="/about" component={About} />
+      <Route path="/faq" component={FAQ} />
+      <Route path="/pricing" component={Pricing} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/privacy-policy" component={PrivacyPolicy} />
+      <Route path="/terms-of-service" component={TermsOfService} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/terms" component={Terms} />
+      <Route path="/careers" component={Careers} />
+      <Route path="/sitemap-viewer" component={SitemapViewer} />
+      
+      {/* Admin routes - only accessible when authenticated */}
+      {isAuthenticated && (
         <>
-          <Route path="/" component={Landing} />
-          <Route path="/services" component={Services} />
-          <Route path="/services/:categorySlug" component={ServiceDetail} />
-          <Route path="/services/:categorySlug/:serviceSlug" component={SubServiceDetail} />
-          <Route path="/services/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
-          <Route path="/features/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
-          <Route path="/projects" component={Projects} />
-          <Route path="/projects/:slug" component={ProjectDetail} />
-          <Route path="/industries" component={Industries} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/about" component={About} />
-          <Route path="/faq" component={FAQ} />
-          <Route path="/pricing" component={Pricing} />
-          <Route path="/blog" component={Blog} />
-          <Route path="/privacy-policy" component={PrivacyPolicy} />
-          <Route path="/terms-of-service" component={TermsOfService} />
-          <Route path="/privacy" component={Privacy} />
-          <Route path="/terms" component={Terms} />
-          <Route path="/careers" component={Careers} />
-          <Route path="/sitemap-viewer" component={SitemapViewer} />
           <Route path="/performance" component={PerformanceDashboard} />
           <Route path="/admin" component={AdminDashboard} />
-          <Route path="/page-builder" component={PageBuilder} />
-          <Route path="/dashboard" component={ComprehensiveDashboard} />
-          <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />
-          <Route path="/ienetdb" component={DatabaseViewer} />
-        </>
-      ) : (
-        <>
-          <Route path="/" component={Home} />
-          <Route path="/services" component={Services} />
-          <Route path="/services/:categorySlug" component={ServiceDetail} />
-          <Route path="/services/:categorySlug/:serviceSlug" component={SubServiceDetail} />
-          <Route path="/services/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
-          <Route path="/features/:categorySlug/:serviceSlug/:featureSlug" component={FeatureDetail} />
-          <Route path="/projects" component={Projects} />
-          <Route path="/projects/:slug" component={ProjectDetail} />
-          <Route path="/industries" component={Industries} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/about" component={About} />
-          <Route path="/faq" component={FAQ} />
-          <Route path="/pricing" component={Pricing} />
-          <Route path="/blog" component={Blog} />
-          <Route path="/privacy-policy" component={PrivacyPolicy} />
-          <Route path="/terms-of-service" component={TermsOfService} />
-          <Route path="/careers" component={Careers} />
-          <Route path="/sitemap-viewer" component={SitemapViewer} />
-          <Route path="/performance" component={PerformanceDashboard} />
-          <Route path="/admin" component={AdminDashboard} />
-          <Route path="/users" component={UserManagement} />
           <Route path="/page-builder" component={PageBuilder} />
           <Route path="/dashboard" component={ComprehensiveDashboard} />
           <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />
           <Route path="/ienetdb" component={DatabaseViewer} />
         </>
       )}
+      
+      {/* Default route for unmatched paths */}
       <Route component={NotFound} />
     </Switch>
   );

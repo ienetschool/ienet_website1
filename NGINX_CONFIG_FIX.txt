@@ -1,0 +1,28 @@
+NGINX CONFIGURATION FIX
+
+Problem: Duplicate location "/" block error in Plesk Nginx configuration.
+
+SOLUTION - Use this configuration instead:
+
+In Plesk > Domains > ienet.online > Apache & nginx Settings > Additional nginx directives:
+
+REMOVE the current configuration and use this instead:
+
+location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+    expires 1y;
+    add_header Cache-Control "public, immutable";
+}
+
+location ~ ^/(?!api/) {
+    try_files $uri $uri/ /index.html;
+}
+
+This configuration:
+1. Won't conflict with existing location / block
+2. Handles static assets (JS, CSS, images)
+3. Routes all non-API requests to index.html for React Router
+4. Leaves API requests (/api/*) to be handled by your Node.js server
+
+ALTERNATIVE - Simple fix:
+Just remove ALL nginx directives from the Additional nginx directives box and click OK.
+Your React app might work with just the correct file permissions.

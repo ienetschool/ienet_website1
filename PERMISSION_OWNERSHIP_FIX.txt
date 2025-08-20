@@ -1,0 +1,31 @@
+EXACT PERMISSION FIX
+
+PROBLEM IDENTIFIED: Files have wrong ownership
+- Current: nginx:nginx (wrong)  
+- Should be: vivassh:psaserv (correct for Plesk)
+
+RUN THESE COMMANDS IN SSH:
+
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Fix ALL file/folder ownership to correct Plesk user/group
+chown -R vivassh:psaserv *
+chown -R vivassh:psaserv .*
+
+# Set correct permissions  
+chmod 755 .
+chmod 644 index.html
+chmod 755 assets/
+chmod 644 assets/*
+chmod 644 production-server.cjs
+
+# Verify the fix
+ls -la
+
+# Test the website
+curl -I https://www.ienet.online
+
+EXPECTED RESULT:
+All files should show "vivassh psaserv" ownership
+Website should load with 200 OK status instead of 403 Forbidden

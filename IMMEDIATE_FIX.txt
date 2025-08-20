@@ -1,31 +1,23 @@
-IMMEDIATE 502 FIX - NO DATABASE REQUIRED
+FINAL STEP - RESTART NODE.JS APPLICATION
 
-The problem: API server keeps crashing due to MySQL connection issues.
-SOLUTION: Use simple server with hardcoded data (same as development server).
+✅ Database schema created successfully (I can see from your screenshot)
+✅ mysql-production-server.cjs uploaded and configured as startup file
+❌ Node.js app still needs restart to use new configuration
 
-UPLOAD THIS FILE TO SERVER:
-- simple-production-server.cjs
+IMMEDIATE ACTION:
 
-RUN THESE COMMANDS:
+1. In the Plesk Node.js panel, click "Restart App" button
+2. Wait for status to show "Running"
+3. Check logs for any errors
 
-ssh root@5.181.218.15
-cd /var/www/vhosts/vivaindia.com/ienet.online/
-
-# Stop all Node.js processes
-pkill -f "node" || true
-
-# Start simple server (no database needed)
-nohup node simple-production-server.cjs > api.log 2>&1 &
-
-# Test immediately
-curl localhost:3001/api/health
+After restart, test:
 curl https://www.ienet.online/api/health
 
-EXPECTED RESULT:
-- API returns JSON (not HTML)
-- Service categories load on homepage
-- Projects section shows data
-- No more 502 errors
+This should return:
+{
+  "status": "healthy", 
+  "message": "MySQL Production server running",
+  "database": "connected"
+}
 
-This bypasses all database issues and gets your website working immediately.
-You can add MySQL database later once the basic API is working.
+And your website will load service categories from the MySQL database instead of showing "Service Not Found".

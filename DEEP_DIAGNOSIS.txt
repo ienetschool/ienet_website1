@@ -1,0 +1,39 @@
+DEEP 403 DIAGNOSIS
+
+The permissions are fixed but still 403. Let's check the actual file location and structure.
+
+RUN THESE DIAGNOSTIC COMMANDS:
+
+ssh root@5.181.218.15
+
+# Check the domain document root setting in Plesk
+grep -r "ienet.online" /var/www/vhosts/system/ienet.online/conf/ 2>/dev/null
+
+# Check what's actually in the domain folder
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+pwd
+ls -la
+
+# Check if files are in httpdocs subfolder (common Plesk setup)
+ls -la httpdocs/ 2>/dev/null
+
+# Check if index.html has content
+file index.html
+head -5 index.html 2>/dev/null
+
+# Check what Nginx is actually serving as document root
+nginx -T 2>/dev/null | grep -A 5 -B 5 ienet.online
+
+# Alternative: Check Plesk's actual document root
+plesk bin domain --info ienet.online 2>/dev/null
+
+POSSIBLE ISSUES:
+1. Files uploaded to wrong directory (should be in httpdocs/)
+2. Nginx document root pointing to different location  
+3. Files corrupted during upload
+4. SELinux or other security preventing access
+
+QUICK FIX TO TEST:
+# Try copying files to httpdocs if it exists
+cp index.html httpdocs/ 2>/dev/null
+cp -r assets httpdocs/ 2>/dev/null

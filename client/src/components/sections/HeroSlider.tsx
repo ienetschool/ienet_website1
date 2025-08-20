@@ -11,7 +11,7 @@ const slides = [
     description: "Custom website design and development services that combine stunning visuals with seamless functionality. From corporate websites to e-commerce platforms, we create digital experiences that drive results.",
     cta: "Explore Web Services",
     ctaLink: "/services/website-design-development",
-    background: "linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(139, 92, 246, 0.9))",
+    background: "linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(139, 92, 246, 0.9), rgba(236, 72, 153, 0.85))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -21,7 +21,7 @@ const slides = [
     description: "Enterprise-grade web hosting, cloud infrastructure, and server management services. Ensure your website performs optimally with our secure, fast, and reliable hosting solutions.",
     cta: "Hosting Solutions",
     ctaLink: "/services/web-hosting-infrastructure",
-    background: "linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.9))",
+    background: "linear-gradient(135deg, rgba(16, 185, 129, 0.95), rgba(5, 150, 105, 0.9), rgba(59, 130, 246, 0.85))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -31,7 +31,7 @@ const slides = [
     description: "Comprehensive cybersecurity services including vulnerability assessments, penetration testing, and 24/7 monitoring to safeguard your business from evolving cyber threats.",
     cta: "Security Solutions",
     ctaLink: "/services/cybersecurity",
-    background: "linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(185, 28, 28, 0.9))",
+    background: "linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(185, 28, 28, 0.9), rgba(249, 115, 22, 0.85))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -41,7 +41,7 @@ const slides = [
     description: "Comprehensive digital marketing strategies including SEO, social media marketing, PPC advertising, and content marketing to boost your online presence and drive conversions.",
     cta: "Marketing Solutions",
     ctaLink: "/services/digital-marketing-promotion",
-    background: "linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.9))",
+    background: "linear-gradient(135deg, rgba(245, 158, 11, 0.95), rgba(217, 119, 6, 0.9), rgba(34, 197, 94, 0.85))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -51,7 +51,7 @@ const slides = [
     description: "Custom mobile app development for iOS and Android platforms. From concept to deployment, we create engaging mobile experiences that connect with your audience.",
     cta: "App Development",
     ctaLink: "/services/mobile-app-development",
-    background: "linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(37, 99, 235, 0.9))",
+    background: "linear-gradient(135deg, rgba(59, 130, 246, 0.95), rgba(37, 99, 235, 0.9), rgba(16, 185, 129, 0.85))",
     image: "/api/placeholder/1920/800"
   },
   {
@@ -61,7 +61,7 @@ const slides = [
     description: "Complete branding solutions including logo design, brand identity, marketing materials, and graphic design services that make your business stand out in the marketplace.",
     cta: "Branding Services",
     ctaLink: "/services/business-branding-graphics",
-    background: "linear-gradient(135deg, rgba(168, 85, 247, 0.95), rgba(124, 58, 237, 0.9))",
+    background: "linear-gradient(135deg, rgba(168, 85, 247, 0.95), rgba(124, 58, 237, 0.9), rgba(219, 39, 119, 0.85))",
     image: "/api/placeholder/1920/800"
   }
 ];
@@ -116,10 +116,11 @@ export default function HeroSlider() {
             style={{ background: slide.background }}
           >
             {/* Background Pattern */}
-            <div className="absolute inset-0 bg-black/20">
-              <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent"></div>
-              <div className="absolute inset-0 opacity-30">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+            <div className="absolute inset-0 bg-black/30">
+              <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent"></div>
+              <div className="absolute inset-0 opacity-40">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-tl from-transparent via-transparent to-white/10"></div>
               </div>
             </div>
 

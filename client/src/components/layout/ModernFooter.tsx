@@ -173,10 +173,10 @@ export default function ModernFooter() {
                 </Button>
                 <Button 
                   onClick={() => window.location.href = '/contact'}
-                  className="w-12 h-12 bg-gradient-to-br from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 transition-all duration-300 rounded-xl flex items-center justify-center text-white p-0"
+                  className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg hover:shadow-xl transition-all duration-300 rounded-full flex items-center justify-center text-white p-0 transform hover:scale-110"
                   aria-label="Get Quote"
                 >
-                  <Quote size={20} />
+                  <Quote size={24} />
                 </Button>
               </div>
               

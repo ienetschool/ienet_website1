@@ -1,0 +1,16 @@
+{
+  "name": "ienet-production",
+  "version": "1.0.0",
+  "description": "IeNet Production Server",
+  "main": "production-mysql-server.cjs",
+  "scripts": {
+    "start": "node production-mysql-server.cjs"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql2": "^3.6.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

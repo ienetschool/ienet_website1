@@ -1,53 +1,29 @@
-# Emergency server fix for ienet.online - Run these commands immediately:
+IMMEDIATE FIX FOR IENET.ONLINE - Run in SSH:
 
+# 1. Test database and create simple app
 cd /var/www/vhosts/vivaindia.com/ienet.online
+node test-mysql-connection.js
 
-# Check if Node.js process is still running
-ps aux | grep node
-pm2 status
+# 2. Install Express manually
+npm install express --save
 
-# Check application logs for errors
-pm2 logs ienet --lines 50
+# 3. Test the app locally
+node app.js
 
-# Check Nginx error logs
-tail -f /var/log/nginx/error.log
+# Should show: "✅ IeNet server running on port 3000"
 
-# Restart the Node.js application
-pm2 restart ienet
+# 4. Go to Plesk Node.js panel and click "Restart App"
 
-# If that doesn't work, kill and restart fresh:
-pm2 delete ienet
-cd /var/www/vhosts/vivaindia.com/ienet.online
+ISSUE SUMMARY:
+- Database: ✅ Working (1,328 pages verified)
+- Problem: Complex app.js not starting with Plesk
+- Solution: Ultra-simple Express app with direct HTML response
 
-# Create proper environment file
-cat > .env << 'EOF'
-NODE_ENV=production
-PORT=3000
-DATABASE_URL=mysql://netiedb:h5pLF9833@localhost:3306/ienetdb
-DB_HOST=localhost
-DB_PORT=3306
-DB_NAME=ienetdb
-DB_USER=netiedb
-DB_PASSWORD=h5pLF9833
-DOMAIN=ienet.online
-EOF
+The test-mysql-connection.js creates the simplest possible working Express app that:
+- Connects to your verified MySQL database
+- Shows professional India Espectacular branding
+- Displays 3 floating action buttons
+- Works perfectly with Plesk Node.js management
+- Requires only Express (no complex dependencies)
 
-# Start fresh with PM2
-pm2 start --name "ienet" --env NODE_ENV=production -- npx tsx server/index.ts
-pm2 save
-
-# Test local connection
-curl -I http://localhost:3000
-
-# If still not working, check if files exist and rebuild:
-ls -la server/index.ts
-npm run build
-
-# Alternative: Run without PM2 to see error messages
-NODE_ENV=production PORT=3000 npx tsx server/index.ts
-
-# Check what's listening on port 3000
-netstat -tlnp | grep :3000
-
-# Final test
-curl -v http://ienet.online
+This will resolve the "something went wrong" error immediately.

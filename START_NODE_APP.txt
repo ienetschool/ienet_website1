@@ -1,0 +1,34 @@
+FINAL STEP: START THE NODE.JS APPLICATION
+
+Node.js is installed but the application needs to be started through Plesk.
+
+ACTIONS NEEDED:
+
+1. In the Node.js panel (screenshot you just shared), click "Restart App" button
+   - This will start the working-production-server.cjs file
+
+2. Check the application status
+   - Should show "Running" status
+   - Look for any error messages in the logs
+
+3. If there are errors, check the server logs:
+   - Click on the application name or logs section
+   - Look for startup messages
+
+4. Test the API after starting:
+   curl https://www.ienet.online/api/health
+
+EXPECTED RESULT:
+- Status shows "Running" in Plesk Node.js panel  
+- API calls return JSON data instead of 502 errors
+- Service categories load on homepage
+- Website fully functional
+
+TROUBLESHOOTING:
+If the app fails to start:
+- Check if the working-production-server.cjs file is in the correct location
+- Verify the Application Startup File path is correct
+- Check Node.js logs for error messages
+- Ensure the file has proper permissions
+
+The Node.js application needs to be actively running for the API to work.

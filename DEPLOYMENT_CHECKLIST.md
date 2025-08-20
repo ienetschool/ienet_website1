@@ -21,14 +21,15 @@
 
 ### 2. Environment Variables Needed
 ```env
-DATABASE_URL=mysql://netiedb:h5pLF9833@5.181.218.15:3306/ienetdb
-DB_HOST=5.181.218.15
+NODE_ENV=production
+DATABASE_URL=mysql://netiedb:h5pLF9833@localhost:3306/ienetdb
+DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=ienetdb
 DB_USER=netiedb
 DB_PASSWORD=h5pLF9833
 DOMAIN=ienet.online
-NODE_ENV=production
+PORT=3000
 ```
 
 ### 3. Application Files
@@ -53,9 +54,10 @@ NODE_ENV=production
 4. Configure web server to serve the application
 
 ### Step 3: Deploy Database
-1. Connect to MySQL server: `mysql -h 5.181.218.15 -u netiedb -p`
-2. Import backup: `mysql -h 5.181.218.15 -u netiedb -p ienetdb < ienet-mysql-backup-complete.sql`
-3. Verify tables created successfully
+1. SSH to server: `ssh root@5.181.218.15`
+2. Connect to MySQL: `mysql -h localhost -u netiedb -p`
+3. Import backup: `mysql -h localhost -u netiedb -p ienetdb < /tmp/ienet-mysql-backup-complete.sql`
+4. Verify tables created successfully
 
 ### Step 4: Configure Production Environment
 1. Set environment variables on server

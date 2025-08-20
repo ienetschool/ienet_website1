@@ -1,0 +1,58 @@
+# Server Deployment Commands for ienet.online
+# Execute these commands on the server (5.181.218.15)
+
+# 1. SSH to server
+ssh root@5.181.218.15
+# Password: &8KXC4D+Ojfhuu0LSMhE
+
+# 2. Navigate to document root
+cd /var/www/vhosts/vivaindia.com/ienet.online
+
+# 3. Remove existing files (if any)
+rm -rf *
+
+# 4. Download or copy application files here
+# (Files need to be uploaded via FTP/SCP first)
+
+# 5. Install Node.js (if not installed)
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+apt-get install -y nodejs npm
+
+# 6. Install application dependencies
+npm install
+
+# 7. Create production environment file
+cat > .env << 'EOF'
+NODE_ENV=production
+DATABASE_URL=mysql://netiedb:h5pLF9833@localhost:3306/ienetdb
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=ienetdb
+DB_USER=netiedb
+DB_PASSWORD=h5pLF9833
+DOMAIN=ienet.online
+PORT=3000
+EOF
+
+# 8. Import database backup
+mysql -h localhost -u netiedb -p ienetdb < /tmp/ienet-mysql-backup-complete.sql
+# Password: h5pLF9833
+
+# 9. Build application for production
+npm run build
+
+# 10. Fix file permissions
+chown -R www-data:www-data /var/www/vhosts/vivaindia.com/ienet.online
+chmod -R 755 /var/www/vhosts/vivaindia.com/ienet.online
+
+# 11. Configure Apache/Nginx virtual host (if needed)
+# This depends on your web server configuration
+
+# 12. Start the application
+npm start
+
+# Verification commands:
+# - Check if Node.js is running: ps aux | grep node
+# - Check database connection: mysql -h localhost -u netiedb -p
+# - Check file permissions: ls -la /var/www/vhosts/vivaindia.com/ienet.online
+# - Access website: curl http://www.ienet.online

@@ -32,7 +32,12 @@ site_settings      - Site configuration and branding
 
 ### Step 1: Connect to Your MySQL Server
 ```bash
-mysql -h 5.181.218.15 -u netiedb -p
+# Connect via SSH to server first
+ssh root@5.181.218.15
+# Password: &8KXC4D+Ojfhuu0LSMhE
+
+# Then connect to MySQL
+mysql -h localhost -u netiedb -p
 # Enter password: h5pLF9833
 ```
 
@@ -45,11 +50,17 @@ SHOW TABLES;
 
 ### Step 3: Import Backup File
 ```bash
-# From command line (recommended)
-mysql -h 5.181.218.15 -u netiedb -p ienetdb < ienet-mysql-backup-complete.sql
+# Upload backup file to server first
+scp ienet-mysql-backup-complete.sql root@5.181.218.15:/tmp/
+
+# SSH to server and import
+ssh root@5.181.218.15
+mysql -h localhost -u netiedb -p ienetdb < /tmp/ienet-mysql-backup-complete.sql
 
 # Or from MySQL prompt
-SOURCE ienet-mysql-backup-complete.sql;
+mysql -h localhost -u netiedb -p
+USE ienetdb;
+SOURCE /tmp/ienet-mysql-backup-complete.sql;
 ```
 
 ### Step 4: Verify Import
@@ -115,7 +126,9 @@ chmod +x deploy-mysql-production.sh
 
 ## Domain Configuration
 - **Production Domain:** ienet.online
-- **Database Host:** 5.181.218.15:3306
+- **Document Root:** /var/www/vhosts/vivaindia.com/ienet.online
+- **Server IP:** 5.181.218.15
+- **Database Host:** localhost:3306 (MariaDB)
 - **SSL:** Configured for production security
 - **Character Set:** UTF8MB4 (full Unicode support)
 

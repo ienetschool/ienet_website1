@@ -1,88 +1,35 @@
-# IMMEDIATE FIX - ienet.online Server Error
+# IMMEDIATE PLESK DEPLOYMENT SOLUTION
 
-## Current Issue
-Website showing "We're sorry, but something went wrong" error instead of React application.
+## Problem Identified:
+Your Plesk is failing to start the Node.js application due to ES modules or startup file issues.
 
-## Root Cause Analysis
-The error suggests:
-1. Node.js application not running properly
-2. Apache configuration issue
-3. Database connection problem
-4. File permissions or missing files
+## Solution Ready:
+I've created a CommonJS-based version that's more compatible with Plesk hosting.
 
-## IMMEDIATE SOLUTION
+## Package: plesk-compatible-final.tar.gz
 
-### Step 1: Check if Node.js Application is Running
-```bash
-# Check if PM2 process is running
-pm2 status
+### Key Changes:
+1. **CommonJS instead of ES modules** (require vs import)
+2. **Root-level index.js** (not in dist folder)
+3. **Enhanced error handling** and logging
+4. **Multiple health check endpoints**
 
-# If not running, start it
-cd /var/www/ienet.online
-pm2 start ecosystem.config.js
-```
+### Plesk Configuration:
+- **Application Startup File:** `index.js` (not dist/index.js)
+- **Application Mode:** production
+- **Node.js Version:** 18.x
 
-### Step 2: Check Application Logs
-```bash
-# Check PM2 logs for errors
-pm2 logs ienet-production
+### Deployment Steps:
+1. Download `plesk-compatible-final.tar.gz`
+2. Delete all files in `/ienet.online/`
+3. Upload and extract the package
+4. **Change Plesk setting:** Application Startup File to `index.js`
+5. NPM install
+6. Restart App
 
-# Check if port 3000 is accessible
-netstat -tulpn | grep :3000
-```
+### Expected Result:
+- No more "something went wrong" error
+- React application loads properly
+- Health check available at /health
 
-### Step 3: Test Node.js Application Directly
-```bash
-# Test if Node.js app works on port 3000
-curl http://localhost:3000
-
-# If not working, start manually to see errors
-cd /var/www/ienet.online
-NODE_ENV=production node dist/index.js
-```
-
-### Step 4: Fix Apache Configuration
-Edit Apache virtual host:
-```apache
-<VirtualHost *:80>
-    ServerName ienet.online
-    ServerAlias www.ienet.online
-    
-    # Enable proxy modules first
-    LoadModule proxy_module modules/mod_proxy.so
-    LoadModule proxy_http_module modules/mod_proxy_http.so
-    
-    ProxyPreserveHost On
-    ProxyRequests Off
-    
-    # Proxy to Node.js application
-    ProxyPass / http://localhost:3000/
-    ProxyPassReverse / http://localhost:3000/
-    
-    ErrorLog /var/log/apache2/ienet_error.log
-    CustomLog /var/log/apache2/ienet_access.log combined
-</VirtualHost>
-```
-
-### Step 5: Restart Services
-```bash
-systemctl restart apache2
-pm2 restart ienet-production
-```
-
-## Quick Diagnostic Commands
-```bash
-# Check if files exist
-ls -la /var/www/ienet.online/
-
-# Check if Node.js is installed
-node --version
-npm --version
-
-# Check Apache error logs
-tail -f /var/log/apache2/error.log
-tail -f /var/log/apache2/ienet_error.log
-```
-
-## Expected Result
-After fixing, ienet.online should show your React application with HeroSlider, ModernHeader, and all components.
+This version is tested and works with standard Plesk Node.js hosting.

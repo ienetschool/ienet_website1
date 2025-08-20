@@ -1,54 +1,52 @@
-# PLESK NODE.JS CONFIGURATION FIX
+# PLESK NODE.JS STARTUP FIX
 
-## Current Issue
-- Node.js is configured in Plesk but showing "No such file or directory" for dist/index.js
-- PM2 shows no processes running
-- Application not starting properly
+The error shows Plesk can't start your Node.js application. Let me create a simplified solution.
 
-## IMMEDIATE FIX
+## Problem: 
+Plesk Node.js application failing to start, showing "something went wrong" error.
 
-### Step 1: Upload Correct Files to Plesk
-Upload these files from production-deploy/ to your Plesk File Manager at /ienet.online:
+## Solution:
+Change startup approach to use simpler configuration that Plesk can handle.
 
-**Required Files:**
-- dist/index.js (the built Node.js application)
-- package.json (with start script)
-- .env.production (environment variables)
-- client/ folder (React frontend files)
-- server/ folder (Express backend)
-- shared/ folder (shared schemas)
+## New Startup File (index.js in root):
+```javascript
+const express = require('express');
+const path = require('path');
 
-### Step 2: Plesk Node.js Configuration
-In your Plesk Node.js panel, set:
-- **Application Root:** `/` (current setting is correct)
-- **Application Startup File:** `dist/index.js` 
-- **Application Mode:** `production`
-- **Node.js Version:** 18.x or 20.x
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-### Step 3: Install Dependencies in Plesk
-1. In Plesk Node.js panel, click "NPM install" 
-2. Or use SSH terminal: `npm install --production`
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
 
-### Step 4: Start Application
-1. Click "Restart App" in Plesk Node.js panel
-2. Verify the green status indicator appears
+// Health check
+app.get('/health', (req, res) => {
+  res.json({ status: 'OK', app: 'IeNet React', port: PORT });
+});
 
-## Files You Need to Upload
+// Serve React app
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
-From the production-deploy folder, make sure these exist in your Plesk file manager:
-
-```
-/ienet.online/
-├── dist/
-│   └── index.js ✓ (This is the startup file)
-├── package.json ✓
-├── .env.production ✓
-├── client/ ✓
-├── server/ ✓
-└── shared/ ✓
+app.listen(PORT, () => {
+  console.log(`IeNet app running on port ${PORT}`);
+});
 ```
 
-## Expected Result
-- Plesk Node.js panel shows green "running" status
-- PM2 status shows ienet-production process
-- ienet.online displays React application with HeroSlider, ModernHeader, FloatingCTA
+## Package.json (CommonJS instead of ES modules):
+```json
+{
+  "name": "ienet-production",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
+```
+
+This uses CommonJS which is more compatible with Plesk hosting.

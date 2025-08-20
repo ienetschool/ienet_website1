@@ -1,0 +1,40 @@
+FINAL DEPLOYMENT COMMANDS - Copy and paste these exactly:
+
+Since you have SSH access, run these commands in your terminal:
+
+# 1. Kill any existing processes
+pkill -f "node" 2>/dev/null || true
+
+# 2. Download the working deployment (run this from your local machine)
+scp final-working-deployment.tar.gz root@5.181.218.15:~/
+
+# 3. SSH to server and run these commands:
+ssh root@5.181.218.15
+
+# 4. Once connected to server, run:
+cd ~/
+tar -xzf final-working-deployment.tar.gz
+ls -la dist/public/
+
+# 5. Start the server:
+node simple-working-server.cjs
+
+Expected output:
+- Server running on http://0.0.0.0:5000
+- External URL: http://ienet.online:5000
+- Database connected: 25 service categories found
+- Server startup complete!
+
+# 6. Test in another terminal:
+curl http://localhost:5000/api/health
+
+# 7. If everything works, run it in background:
+nohup node simple-working-server.cjs > server.log 2>&1 &
+
+The website at http://ienet.online:5000 should now show the exact same content as your development server.
+
+This deployment includes:
+- Exact React build (index-4CY-Uz3T.css, index-6-PKYvps.js)
+- Working MySQL database connection
+- All API endpoints functional
+- Same authentication handling as development

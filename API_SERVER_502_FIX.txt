@@ -1,0 +1,40 @@
+502 BAD GATEWAY FIX
+
+The 502 error means Nginx can't connect to the Node.js server on port 3001.
+This indicates the API server is not running or crashed.
+
+IMMEDIATE FIXES:
+
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Check if Node.js process is running
+ps aux | grep node
+
+# Check the API log for errors
+tail -10 api.log
+
+# If server crashed, restart it
+pkill -f "node" || true
+nohup node production-server.cjs > api.log 2>&1 &
+
+# Test if server responds locally
+curl localhost:3001/api/health
+
+# Check for MySQL connection errors
+tail -20 api.log | grep -i error
+
+COMMON ISSUES:
+1. MySQL connection failed (wrong password/user)
+2. MySQL dependencies not installed
+3. Server crashed due to database error
+4. Port 3001 is blocked or in use
+
+QUICK TEST:
+# Install dependencies again
+npm install mysql2 express
+
+# Check MySQL connection manually
+mysql -h 5.181.218.15 -u netiedb -p'h5pLF9833' ienetdb -e "SELECT 1;"
+
+Once the API server is running, the 502 error will be fixed.

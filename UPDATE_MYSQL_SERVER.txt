@@ -1,0 +1,46 @@
+MYSQL DATABASE CONNECTION FIX
+
+Problem: Node.js app running but using hardcoded data instead of MySQL database
+Solution: Updated server to connect to your MySQL database
+
+DATABASE CREDENTIALS CONFIGURED:
+- Host: 5.181.218.15:3306
+- Database: ienetdb
+- Username: netiedb
+- Password: h5pLF9833
+
+UPLOAD NEW FILE: mysql-production-server.cjs
+
+INSTRUCTIONS:
+
+1. UPLOAD the new mysql-production-server.cjs to your server
+
+2. UPDATE Plesk Node.js settings:
+   - Go to Node.js panel in Plesk
+   - Change "Application Startup File" from working-production-server.cjs to mysql-production-server.cjs
+   - Click Apply
+
+3. RESTART the application:
+   - Click "Restart App" in Plesk Node.js panel
+
+4. INSTALL mysql2 dependency:
+   ssh root@5.181.218.15
+   cd /var/www/vhosts/vivaindia.com/ienet.online/
+   npm install mysql2
+
+5. TEST the connection:
+   curl https://www.ienet.online/api/health
+   curl https://www.ienet.online/api/service-categories
+
+EXPECTED RESULTS:
+- API health check shows "database: connected"
+- Service categories load from MySQL database
+- Projects section shows real data
+- Homepage displays actual service categories
+- "Service Not Found" error resolved
+
+The new server will:
+- Connect to your MySQL database using provided credentials
+- Create tables if they don't exist
+- Insert sample data if tables are empty
+- Return real data from database instead of hardcoded values

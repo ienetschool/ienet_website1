@@ -1,0 +1,36 @@
+DIRECT 403 FORBIDDEN FIX
+
+The Nginx configuration is working now, but you're still getting 403 Forbidden.
+This means the files aren't in the right location or don't have correct permissions.
+
+RUN THESE COMMANDS IN SSH:
+
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+
+# Check what files are actually there
+ls -la
+
+# Check if index.html exists and is readable
+cat index.html | head -5
+
+# Check the directory structure
+pwd
+ls -la ../
+
+# Possible fixes:
+# 1. Files might be in wrong location - check if they should be in httpdocs/
+ls -la httpdocs/ 2>/dev/null
+
+# 2. Set correct ownership for Nginx/Plesk
+chown -R psaserv:psacln ./
+chmod -R 755 ./
+chmod 644 index.html
+chmod -R 644 assets/*
+
+# 3. Test direct file access
+curl -I https://www.ienet.online/index.html
+
+EXPECTED OUTPUT:
+You should see your React app's index.html file content when running 'cat index.html'
+If the file is empty or missing, that's the problem.

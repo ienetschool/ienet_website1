@@ -1,0 +1,35 @@
+NGINX 500 ERROR DIAGNOSIS
+
+Document root is correctly set to /ienet.online folder ✅
+Files are uploaded to correct location ✅
+Permissions should be fixed ✅
+
+The 500 error means Nginx has a server configuration issue.
+
+RUN THESE COMMANDS TO FIND THE ACTUAL ERROR:
+
+ssh root@5.181.218.15
+
+# Check Nginx error logs for the exact error
+tail -20 /var/log/nginx/error.log
+
+# Check if there are domain-specific error logs
+tail -20 /var/log/nginx/domains/ienet.online_error.log 2>/dev/null
+
+# Check Plesk-specific logs
+tail -20 /var/www/vhosts/system/ienet.online/logs/error_log 2>/dev/null
+
+# Verify files are actually there and readable
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+ls -la
+cat index.html | head -5
+
+# Test simple HTML file
+echo "<h1>Simple Test</h1>" > simple.html
+chown vivassh:psaserv simple.html
+curl https://www.ienet.online/simple.html
+
+# Check current Nginx status
+systemctl status nginx
+
+The error logs will show us exactly what's wrong with the Nginx configuration.

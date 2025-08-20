@@ -37,16 +37,46 @@ import {
   Globe,
   Lightbulb,
   Settings,
-  HeartHandshake
+  HeartHandshake,
+  Palette,
+  ShoppingCart,
+  Cloud,
+  Brain,
+  Lock,
+  BarChart,
+  Wrench,
+  Search,
+  Megaphone,
+  Monitor,
+  FileText,
+  Headphones,
+  BookOpen,
+  TrendingDown,
+  Gamepad2
 } from "lucide-react";
 
-const iconMap = {
+const iconMap: { [key: string]: any } = {
   code: Code,
   server: Server,
   shield: Shield,
   smartphone: Smartphone,
   database: Database,
   cog: Cog,
+  palette: Palette,
+  "shopping-cart": ShoppingCart,
+  cloud: Cloud,
+  brain: Brain,
+  lock: Lock,
+  "bar-chart": BarChart,
+  wrench: Wrench,
+  search: Search,
+  megaphone: Megaphone,
+  monitor: Monitor,
+  "file-text": FileText,
+  headphones: Headphones,
+  "book-open": BookOpen,
+  "trending-down": TrendingDown,
+  gamepad: Gamepad2
 };
 
 const colorMap = {
@@ -223,7 +253,28 @@ export default function Services() {
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {categories && Array.isArray(categories) && categories.map((category: any, index: number) => {
-                  const IconComponent = iconMap[category.icon as keyof typeof iconMap] || Code;
+                  // Map service categories to specific icons
+                  const getIconForCategory = (categoryName: string) => {
+                    const name = categoryName.toLowerCase();
+                    if (name.includes('web') || name.includes('website')) return Monitor;
+                    if (name.includes('mobile') || name.includes('app')) return Smartphone;
+                    if (name.includes('cyber') || name.includes('security')) return Shield;
+                    if (name.includes('cloud')) return Cloud;
+                    if (name.includes('ai') || name.includes('machine')) return Brain;
+                    if (name.includes('data') || name.includes('database')) return Database;
+                    if (name.includes('design') || name.includes('ui')) return Palette;
+                    if (name.includes('ecommerce') || name.includes('commerce')) return ShoppingCart;
+                    if (name.includes('digital') || name.includes('marketing')) return Megaphone;
+                    if (name.includes('seo')) return Search;
+                    if (name.includes('support') || name.includes('maintenance')) return Headphones;
+                    if (name.includes('consulting') || name.includes('strategy')) return FileText;
+                    if (name.includes('analytics')) return BarChart;
+                    if (name.includes('gaming')) return Gamepad2;
+                    if (name.includes('integration')) return Wrench;
+                    return Code; // Default fallback
+                  };
+                  
+                  const IconComponent = getIconForCategory(category.name || '');
                   const gradientClass = colorMap[category.color as keyof typeof colorMap] || colorMap.primary;
                   
                   const cardColors = [
@@ -404,31 +455,31 @@ export default function Services() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-24 bg-gradient-to-br from-primary-600 to-primary-800 dark:from-primary-700 dark:to-primary-900 relative overflow-hidden">
+        <section className="py-24 bg-gradient-to-br from-slate-800 via-blue-900 to-indigo-900 dark:from-slate-900 dark:via-blue-950 dark:to-indigo-950 relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 bg-grid-white/[0.05] bg-grid-16"></div>
-          <div className="absolute top-20 left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-20 w-80 h-80 bg-white/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-20 left-20 w-64 h-64 bg-blue-400/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-400/10 rounded-full blur-3xl"></div>
           
           <div className="container mx-auto px-6 text-center relative">
             <div className="max-w-4xl mx-auto">
-              <Badge className="bg-white/20 text-white border-white/30 px-4 py-2 text-sm font-medium mb-6">
+              <Badge className="bg-blue-100/20 text-blue-100 border-blue-200/30 px-4 py-2 text-sm font-medium mb-6">
                 Ready to Get Started?
               </Badge>
               
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
                 Transform Your Business with <br className="hidden md:block" />
-                <span className="bg-gradient-to-r from-yellow-200 to-yellow-400 bg-clip-text text-transparent">Professional IT Solutions</span>
+                <span className="bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent">Professional IT Solutions</span>
               </h2>
               
-              <p className="text-xl text-blue-100 mb-12 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl text-slate-200 mb-12 max-w-3xl mx-auto leading-relaxed">
                 Join over 500+ satisfied clients who have accelerated their growth with our comprehensive IT services. Get started with a free consultation today.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                 <Button 
                   size="lg" 
-                  className="bg-white text-primary hover:bg-gray-100 px-8 py-4 text-lg font-semibold shadow-2xl hover:shadow-white/25 transition-all duration-300 transform hover:-translate-y-1"
+                  className="bg-white text-slate-800 hover:bg-blue-50 px-8 py-4 text-lg font-semibold shadow-2xl hover:shadow-white/25 transition-all duration-300 transform hover:-translate-y-1"
                   asChild
                 >
                   <Link href="/contact">
@@ -454,19 +505,19 @@ export default function Services() {
               <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div className="text-white/90">
                   <div className="text-3xl font-bold mb-2">500+</div>
-                  <div className="text-blue-200 text-sm">Projects Completed</div>
+                  <div className="text-slate-300 text-sm">Projects Completed</div>
                 </div>
                 <div className="text-white/90">
                   <div className="text-3xl font-bold mb-2">99%</div>
-                  <div className="text-blue-200 text-sm">Client Satisfaction</div>
+                  <div className="text-slate-300 text-sm">Client Satisfaction</div>
                 </div>
                 <div className="text-white/90">
                   <div className="text-3xl font-bold mb-2">24/7</div>
-                  <div className="text-blue-200 text-sm">Support Available</div>
+                  <div className="text-slate-300 text-sm">Support Available</div>
                 </div>
                 <div className="text-white/90">
                   <div className="text-3xl font-bold mb-2">10+</div>
-                  <div className="text-blue-200 text-sm">Years Experience</div>
+                  <div className="text-slate-300 text-sm">Years Experience</div>
                 </div>
               </div>
             </div>

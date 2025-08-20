@@ -27,6 +27,7 @@ import {
   Code,
   Globe,
   MessageCircle,
+  Quote,
   Shield,
   Star,
   TrendingUp,
@@ -219,10 +220,9 @@ export default function ServiceDetail() {
             subject: `Get Quote for ${category?.name} Services`,
             message: `I'm interested in ${category?.name} services. Please provide a detailed quote and consultation.`
           })}
-          className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2"
+          className="bg-primary hover:bg-primary/90 text-white p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
         >
-          <MessageCircle size={20} />
-          <span className="hidden sm:block">Get Quote</span>
+          <Quote size={20} />
         </Button>
       </div>
       

@@ -37,6 +37,7 @@ import {
   FileText,
   Globe,
   MessageCircle,
+  Quote,
   Shield,
   Star,
   Target,
@@ -697,10 +698,9 @@ export default function FeatureDetail() {
                     subject: `Get Quote for ${feature.name}`,
                     message: `I would like to receive a quote for ${feature.name} implementation. Please provide pricing details.`
                   })}
-                  className="bg-transparent border-white text-white hover:bg-white hover:text-primary"
+                  className="bg-transparent border-white text-white hover:bg-white hover:text-primary p-3 rounded-full"
                 >
-                  <DollarSign className="mr-2 h-5 w-5" />
-                  Get Quote
+                  <Quote className="h-5 w-5" />
                 </Button>
               </div>
             </div>

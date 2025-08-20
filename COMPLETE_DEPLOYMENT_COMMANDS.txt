@@ -1,0 +1,28 @@
+COMPLETE MYSQL PRODUCTION DEPLOYMENT
+
+I've created a comprehensive installation script just like the PostgreSQL install files we used before.
+
+UPLOAD AND RUN:
+
+1. UPLOAD install-mysql-production.js to your server
+
+2. RUN the complete installation:
+   ssh root@5.181.218.15
+   cd /var/www/vhosts/vivaindia.com/ienet.online/
+   node install-mysql-production.js
+
+This complete script will:
+✅ Test database connection with full error handling
+✅ Create all tables with proper indexes and foreign keys  
+✅ Insert comprehensive sample data (categories, services, features, projects)
+✅ Validate all relationships and data integrity
+✅ Generate production configuration file
+✅ Provide detailed success/error reporting
+
+3. RESTART Node.js application in Plesk
+
+4. TEST the complete setup:
+   curl https://www.ienet.online/api/health
+   curl https://www.ienet.online/api/service-categories
+
+This is a complete, production-ready installation that mirrors the comprehensive setup we used for PostgreSQL development.

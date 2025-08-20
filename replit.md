@@ -34,6 +34,8 @@ AUTHENTICATION INFINITE LOOP ISSUE RESOLVED (Aug 20, 2025): CRITICAL FIX - Ident
 
 PRODUCTION DEPLOYMENT PLAN (Aug 20, 2025): User provided comprehensive deployment plan to move website from https://www.ienet.online:5000 to root domain https://www.ienet.online (port 443). Key tasks: 1) Configure web server (Nginx/Apache) to proxy app at root, 2) Fix broken pages especially sub-services and project pages, 3) Ensure full MySQL connectivity, 4) Complete manual testing checklist. User emphasized keeping development server unchanged and focusing solely on production deployment. Need to identify web server type, app stack, access method, and current database status.
 
+ROOT DOMAIN DEPLOYMENT SUCCESS (Aug 20, 2025): Successfully moved website from port 5000 to root domain. User configured Nginx to serve React static files from /var/www/html/ and API server on port 3001. Website now accessible at ienet.online without port number. However, user reports seeing "wrong version" - needs to ensure complete React application components are properly deployed to match development server exactly.
+
 ## System Architecture
 
 ### Frontend Architecture

@@ -1,0 +1,30 @@
+IMMEDIATE PRODUCTION SERVER FIX COMMANDS
+=========================================
+
+From your SSH terminal, run these commands:
+
+1. First, check what files exist in the directory:
+   ls -la
+
+2. Look for any .js or .cjs files:
+   ls -la *.js *.cjs
+
+3. If mysql-production-server.cjs doesn't exist, look for alternatives:
+   find . -name "*.cjs" -o -name "*server*.js" -o -name "*production*.js"
+
+4. Check if there's a package.json with start scripts:
+   cat package.json
+
+5. If you find the correct server file, start it:
+   nohup node [SERVER_FILE_NAME] > server.log 2>&1 &
+
+6. Verify it's running:
+   ps aux | grep node
+   curl http://localhost:3001/api/service-categories
+
+If the server file is missing, you may need to:
+- Upload the mysql-production-server.cjs file from your local project
+- Or check if there's a different server file name
+- Or install dependencies first with: npm install
+
+Please run 'ls -la' first and tell me what files you see.

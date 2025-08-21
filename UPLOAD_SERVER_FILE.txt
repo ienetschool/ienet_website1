@@ -1,0 +1,25 @@
+SERVER FILE UPLOAD INSTRUCTIONS
+================================
+
+If the mysql-production-server.cjs file is missing from your production server, 
+you need to upload it from this development environment.
+
+The file exists here and is working properly. You can:
+
+1. OPTION 1 - Copy via SCP:
+   scp mysql-production-server.cjs username@your-server:/var/www/vhosts/ienet.online/httpdocs/
+
+2. OPTION 2 - Copy/Paste Content:
+   - View the file content in this development environment
+   - Create the file manually on production server using nano or vi
+   - Copy the entire content
+
+3. OPTION 3 - Use Plesk File Manager:
+   - Go to Plesk Panel > File Manager
+   - Navigate to httpdocs directory
+   - Upload the mysql-production-server.cjs file
+
+The file contains all the MySQL database connections and API endpoints needed for the production server to work.
+
+Once uploaded, run:
+nohup node mysql-production-server.cjs > server.log 2>&1 &

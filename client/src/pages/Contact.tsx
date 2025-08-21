@@ -94,8 +94,8 @@ export default function Contact() {
     {
       icon: MapPin,
       title: "Visit Our India Office",
-      content: "101 Laxman Nagar Via Chadi",
-      secondary: "Laxman Nagar Road Siyolnagar, SIYOLENAGAR Phalodi, JODHPUR 342312",
+      content: "101 SIYOL NAGAR, Laxman Nagar Road Via Chadi",
+      secondary: "Phalodi, JODHPUR 342312",
       action: "Get Directions"
     },
     {
@@ -243,8 +243,8 @@ export default function Contact() {
                       <MapPin className="w-7 h-7 text-white" />
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Visit India Office</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-1">101 Laxman Nagar Via Chadi</p>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Laxman Nagar Road Siyolnagar, SIYOLENAGAR Phalodi, JODHPUR 342312</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-1">101 SIYOL NAGAR, Laxman Nagar Road Via Chadi</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Phalodi, JODHPUR 342312</p>
                     <Button variant="outline" size="sm" className="w-full border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">
                       Get Directions
                     </Button>

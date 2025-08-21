@@ -124,9 +124,8 @@ export default function Footer() {
                 <MapPin className="text-primary mt-1" size={16} />
                 <div className="text-gray-400 text-sm">
                   <div className="font-semibold">India Office:</div>
-                  <div>101 Laxman Nagar Via Chadi</div>
-                  <div>Laxman Nagar Road Siyolnagar</div>
-                  <div>SIYOLENAGAR Phalodi</div>
+                  <div>101 SIYOL NAGAR, Laxman Nagar Road</div>
+                  <div>Via Chadi, Phalodi</div>
                   <div>JODHPUR 342312</div>
                 </div>
               </div>

@@ -250,7 +250,7 @@ export default function Privacy() {
                         <MapPin className="w-6 h-6 text-orange-600" />
                       </div>
                       <h3 className="font-semibold text-gray-900 dark:text-white">India Office</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">101 Laxman Nagar Via Chadi<br />Laxman Nagar Road Siyolnagar<br />SIYOLENAGAR Phalodi<br />JODHPUR 342312</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">101 SIYOL NAGAR, Laxman Nagar Road<br />Via Chadi, Phalodi<br />JODHPUR 342312</p>
                     </div>
                     
                     <div className="text-center">

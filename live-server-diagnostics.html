@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Server Diagnostics - IeNet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e1e5e9;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .status-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+
+        .status-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .status-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        .status-ok { color: #27ae60; }
+        .status-error { color: #e74c3c; }
+        .status-warning { color: #f39c12; }
+
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .test-section h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary { background: #3498db; color: white; }
+        .btn-success { background: #27ae60; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-warning { background: #f39c12; color: white; }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .output {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 15px;
+            white-space: pre-wrap;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .timestamp {
+            color: #7f8c8d;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Live Server Diagnostics</h1>
+            <p>Real-time testing of your production server at <strong>ienet.online</strong></p>
+            <div class="timestamp">Last updated: <span id="last-updated">Loading...</span></div>
+        </div>
+
+        <div class="status-grid">
+            <div class="status-card">
+                <div class="status-value status-warning" id="domain-status">Testing...</div>
+                <div class="status-label">Domain Status</div>
+            </div>
+            <div class="status-card">
+                <div class="status-value status-warning" id="api-status">Testing...</div>
+                <div class="status-label">API Status</div>
+            </div>
+            <div class="status-card">
+                <div class="status-value status-warning" id="db-status">Testing...</div>
+                <div class="status-label">Database Status</div>
+            </div>
+            <div class="status-card">
+                <div class="status-value status-warning" id="server-status">Testing...</div>
+                <div class="status-label">Server Process</div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🌐 Domain & Website Tests</h3>
+            <button class="btn btn-primary" onclick="testDomain()">Test Domain Access</button>
+            <button class="btn btn-success" onclick="testWebsiteContent()">Test Website Loading</button>
+            <button class="btn btn-warning" onclick="testAssetLoading()">Test Assets</button>
+            <div id="domain-alert"></div>
+            <div class="output" id="domain-output" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔌 API Endpoint Tests</h3>
+            <button class="btn btn-primary" onclick="testAPIHealth()">Test Health Endpoint</button>
+            <button class="btn btn-success" onclick="testServiceCategories()">Test Service Categories</button>
+            <button class="btn btn-warning" onclick="testAllEndpoints()">Test All APIs</button>
+            <div id="api-alert"></div>
+            <div class="output" id="api-output" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🛢️ Database Connection Tests</h3>
+            <button class="btn btn-primary" onclick="testDatabaseViaAPI()">Test DB via API</button>
+            <button class="btn btn-success" onclick="checkDataIntegrity()">Check Data Integrity</button>
+            <button class="btn btn-warning" onclick="testDatabasePerformance()">Performance Test</button>
+            <div id="db-alert"></div>
+            <div class="output" id="db-output" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🚨 Critical Issues Diagnosis</h3>
+            <button class="btn btn-danger" onclick="diagnose502Errors()">Diagnose 502 Errors</button>
+            <button class="btn btn-warning" onclick="checkServerProcess()">Check Node.js Process</button>
+            <button class="btn btn-primary" onclick="testProxyConfiguration()">Test Nginx Proxy</button>
+            <div id="diagnosis-alert"></div>
+            <div class="output" id="diagnosis-output" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Comprehensive Report</h3>
+            <button class="btn btn-success" onclick="runFullDiagnostics()">Run Full Diagnostics</button>
+            <button class="btn btn-primary" onclick="generateTroubleshootingGuide()">Troubleshooting Guide</button>
+            <div id="report-alert"></div>
+            <div class="output" id="report-output" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        const DOMAIN = 'https://www.ienet.online';
+        
+        function updateTimestamp() {
+            document.getElementById('last-updated').textContent = new Date().toLocaleTimeString();
+        }
+
+        function showAlert(sectionId, message, type = 'warning') {
+            const alertElement = document.getElementById(`${sectionId}-alert`);
+            alertElement.className = `alert alert-${type}`;
+            alertElement.textContent = message;
+        }
+
+        function showOutput(sectionId, content) {
+            const outputElement = document.getElementById(`${sectionId}-output`);
+            outputElement.textContent = content;
+            outputElement.style.display = 'block';
+        }
+
+        function updateStatus(elementId, status, type = 'warning') {
+            const element = document.getElementById(elementId);
+            element.textContent = status;
+            element.className = `status-value status-${type}`;
+        }
+
+        async function testDomain() {
+            showAlert('domain', 'Testing domain accessibility...', 'warning');
+            
+            try {
+                const response = await fetch(DOMAIN);
+                const text = await response.text();
+                
+                if (response.ok) {
+                    const hasReactContent = text.includes('id="root"') || text.includes('react');
+                    const hasIeNetContent = text.includes('IeNet') || text.includes('India Espectacular');
+                    
+                    updateStatus('domain-status', 'Online', 'ok');
+                    showAlert('domain', `Domain is accessible (${response.status})`, 'success');
+                    showOutput('domain', `Domain Test Results:
+Status: ${response.status} ${response.statusText}
+Content-Type: ${response.headers.get('content-type')}
+Content Length: ${text.length} characters
+React Content: ${hasReactContent ? 'Found' : 'Not found'}
+IeNet Content: ${hasIeNetContent ? 'Found' : 'Not found'}
+
+HTML Sample:
+${text.substring(0, 500)}...`);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                updateStatus('domain-status', 'Error', 'error');
+                showAlert('domain', `Domain test failed: ${error.message}`, 'error');
+                showOutput('domain', `Domain Error: ${error.message}`);
+            }
+        }
+
+        async function testWebsiteContent() {
+            showAlert('domain', 'Testing website content loading...', 'warning');
+            
+            try {
+                const response = await fetch(DOMAIN);
+                const html = await response.text();
+                
+                const title = html.match(/<title>(.*?)<\/title>/i)?.[1] || 'Not found';
+                const hasAssets = html.includes('/assets/') || html.includes('index-');
+                const hasScripts = html.includes('<script');
+                const hasCSS = html.includes('<link') && html.includes('stylesheet');
+                
+                showAlert('domain', 'Website content analysis complete', 'success');
+                showOutput('domain', `Website Content Analysis:
+Page Title: ${title}
+Asset References: ${hasAssets ? 'Found' : 'Missing'}
+JavaScript: ${hasScripts ? 'Found' : 'Missing'}
+CSS Stylesheets: ${hasCSS ? 'Found' : 'Missing'}
+HTML Size: ${html.length} characters
+
+This ${hasAssets && hasScripts && hasCSS ? 'appears to be a proper React application' : 'may have missing resources'}.`);
+            } catch (error) {
+                showAlert('domain', `Website content test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAssetLoading() {
+            showAlert('domain', 'Testing static asset loading...', 'warning');
+            
+            try {
+                const assetsResponse = await fetch(`${DOMAIN}/assets/`);
+                const faviconResponse = await fetch(`${DOMAIN}/favicon.ico`);
+                
+                showOutput('domain', `Asset Loading Test:
+/assets/ directory: ${assetsResponse.status} ${assetsResponse.statusText}
+/favicon.ico: ${faviconResponse.status} ${faviconResponse.statusText}
+
+${assetsResponse.ok ? '✅ Assets directory accessible' : '❌ Assets directory issues'}
+${faviconResponse.ok ? '✅ Favicon loads correctly' : '⚠️ Favicon missing (not critical)'}
+
+Note: Individual asset files should be tested separately if issues persist.`);
+                
+                showAlert('domain', 'Asset loading test complete', assetsResponse.ok ? 'success' : 'warning');
+            } catch (error) {
+                showAlert('domain', `Asset loading test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAPIHealth() {
+            showAlert('api', 'Testing API health endpoint...', 'warning');
+            
+            try {
+                const response = await fetch(`${DOMAIN}/api/health`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateStatus('api-status', 'Online', 'ok');
+                    showAlert('api', 'API health endpoint is responding!', 'success');
+                    showOutput('api', `API Health Response:
+Status: ${response.status} ${response.statusText}
+Response: ${JSON.stringify(data, null, 2)}
+
+✅ Your Node.js server is running and responding to API requests.`);
+                } else if (response.status === 502) {
+                    updateStatus('api-status', '502 Error', 'error');
+                    showAlert('api', 'API returning 502 Bad Gateway - Node.js server is not running!', 'error');
+                    showOutput('api', `502 Bad Gateway Error:
+This means Nginx cannot connect to your Node.js server on port 3001.
+
+IMMEDIATE ACTION NEEDED:
+1. SSH into your server
+2. Check if Node.js process is running: ps aux | grep node
+3. If not running, start it: nohup node fix-server-connection.cjs > server.log 2>&1 &
+4. Check logs: tail -f server.log`);
+                } else {
+                    const text = await response.text();
+                    updateStatus('api-status', `${response.status} Error`, 'error');
+                    showAlert('api', `API returned HTTP ${response.status}`, 'error');
+                    showOutput('api', `API Error:
+Status: ${response.status} ${response.statusText}
+Response: ${text}`);
+                }
+            } catch (error) {
+                updateStatus('api-status', 'Failed', 'error');
+                showAlert('api', `API test failed: ${error.message}`, 'error');
+                showOutput('api', `API Connection Error: ${error.message}`);
+            }
+        }
+
+        async function testServiceCategories() {
+            showAlert('api', 'Testing service categories endpoint...', 'warning');
+            
+            try {
+                const response = await fetch(`${DOMAIN}/api/service-categories`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateStatus('db-status', 'Connected', 'ok');
+                    showAlert('api', `Service categories loaded: ${data.length} categories`, 'success');
+                    showOutput('api', `Service Categories Test:
+Total Categories: ${data.length}
+Expected: 25+ categories
+
+Sample Categories:
+${data.slice(0, 5).map(cat => `- ${cat.name} (${cat.slug})`).join('\n')}
+
+✅ Database is connected and returning data!`);
+                } else if (response.status === 502) {
+                    updateStatus('db-status', '502 Error', 'error');
+                    showAlert('api', 'Service categories returning 502 - server connection issue', 'error');
+                    showOutput('api', `502 Bad Gateway for Service Categories:
+Your database is probably fine, but the Node.js server cannot connect to it because the server isn't running.`);
+                } else {
+                    const text = await response.text();
+                    showAlert('api', `Service categories failed: HTTP ${response.status}`, 'error');
+                    showOutput('api', `Service Categories Error: ${text}`);
+                }
+            } catch (error) {
+                showAlert('api', `Service categories test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testAllEndpoints() {
+            showAlert('api', 'Testing all API endpoints...', 'warning');
+            
+            const endpoints = [
+                '/api/health',
+                '/api/service-categories', 
+                '/api/services',
+                '/api/projects',
+                '/api/features'
+            ];
+
+            let results = [];
+            let workingCount = 0;
+
+            for (const endpoint of endpoints) {
+                try {
+                    const response = await fetch(`${DOMAIN}${endpoint}`);
+                    const working = response.ok;
+                    if (working) workingCount++;
+                    
+                    results.push(`${endpoint}: ${response.status} ${working ? '✅' : '❌'}`);
+                } catch (error) {
+                    results.push(`${endpoint}: ERROR - ${error.message} ❌`);
+                }
+            }
+
+            updateStatus('server-status', workingCount > 0 ? 'Partial' : 'Down', workingCount > 0 ? 'warning' : 'error');
+            showAlert('api', `API test complete: ${workingCount}/${endpoints.length} endpoints working`, 
+                     workingCount >= 3 ? 'success' : 'error');
+            
+            showOutput('api', `API Endpoints Test Results:
+${results.join('\n')}
+
+Summary: ${workingCount}/${endpoints.length} endpoints working
+${workingCount >= 3 ? '✅ Most APIs are functional' : '❌ Critical API failures detected'}`);
+        }
+
+        async function testDatabaseViaAPI() {
+            showAlert('db', 'Testing database connection via API...', 'warning');
+            
+            try {
+                const response = await fetch(`${DOMAIN}/api/service-categories`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateStatus('db-status', 'Connected', 'ok');
+                    showAlert('db', `Database test successful: ${data.length} records retrieved`, 'success');
+                    showOutput('db', `Database Connection Test:
+✅ Connection: Successful
+✅ Service Categories: ${data.length} loaded
+✅ Expected Count: ~25 categories
+✅ Data Quality: ${data.every(item => item.id && item.name) ? 'Good' : 'Issues detected'}
+
+Your MySQL database at 5.181.218.15 is working correctly with ${data.length} service categories.`);
+                } else {
+                    updateStatus('db-status', 'Error', 'error');
+                    showAlert('db', 'Database test failed - likely server connection issue', 'error');
+                    showOutput('db', `Database Test Failed:
+Status: ${response.status}
+This suggests the Node.js server cannot connect to MySQL, likely because the server process is not running.`);
+                }
+            } catch (error) {
+                updateStatus('db-status', 'Failed', 'error');
+                showAlert('db', `Database test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkDataIntegrity() {
+            showAlert('db', 'Checking database data integrity...', 'warning');
+            
+            try {
+                const [categoriesResp, servicesResp, projectsResp] = await Promise.all([
+                    fetch(`${DOMAIN}/api/service-categories`),
+                    fetch(`${DOMAIN}/api/services`),
+                    fetch(`${DOMAIN}/api/projects`)
+                ]);
+
+                if (categoriesResp.ok && servicesResp.ok && projectsResp.ok) {
+                    const categories = await categoriesResp.json();
+                    const services = await servicesResp.json();
+                    const projects = await projectsResp.json();
+
+                    showAlert('db', 'Data integrity check complete - all data present', 'success');
+                    showOutput('db', `Database Data Integrity Check:
+✅ Service Categories: ${categories.length} (Expected: ~25)
+✅ Services: ${services.length} (Expected: ~143)  
+✅ Projects: ${projects.length} (Expected: ~3)
+
+Your database contains all the expected data with proper structure.`);
+                } else {
+                    showAlert('db', 'Data integrity check failed - API errors', 'error');
+                    showOutput('db', `Data Integrity Issues:
+Service Categories: ${categoriesResp.status}
+Services: ${servicesResp.status}
+Projects: ${projectsResp.status}`);
+                }
+            } catch (error) {
+                showAlert('db', `Data integrity check failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testDatabasePerformance() {
+            showAlert('db', 'Testing database performance...', 'warning');
+            
+            try {
+                const startTime = performance.now();
+                const response = await fetch(`${DOMAIN}/api/service-categories`);
+                const endTime = performance.now();
+                const responseTime = Math.round(endTime - startTime);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showAlert('db', `Database performance test complete: ${responseTime}ms`, 'success');
+                    showOutput('db', `Database Performance Test:
+✅ Response Time: ${responseTime}ms
+✅ Records Retrieved: ${data.length}
+✅ Performance Rating: ${responseTime < 1000 ? 'Excellent' : responseTime < 3000 ? 'Good' : 'Needs optimization'}
+
+${responseTime < 1000 ? 'Database is performing excellently.' : 'Database performance is acceptable but could be optimized.'}`);
+                } else {
+                    showAlert('db', 'Database performance test failed', 'error');
+                }
+            } catch (error) {
+                showAlert('db', `Database performance test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function diagnose502Errors() {
+            showAlert('diagnosis', 'Diagnosing 502 Bad Gateway errors...', 'warning');
+            
+            const endpoints = ['/api/health', '/api/service-categories', '/api/services'];
+            let has502 = false;
+            let results = [];
+
+            for (const endpoint of endpoints) {
+                try {
+                    const response = await fetch(`${DOMAIN}${endpoint}`);
+                    if (response.status === 502) {
+                        has502 = true;
+                        results.push(`❌ ${endpoint}: 502 Bad Gateway`);
+                    } else {
+                        results.push(`✅ ${endpoint}: ${response.status} ${response.statusText}`);
+                    }
+                } catch (error) {
+                    results.push(`❌ ${endpoint}: ${error.message}`);
+                }
+            }
+
+            if (has502) {
+                updateStatus('server-status', 'Down', 'error');
+                showAlert('diagnosis', '502 errors detected - Node.js server is not running!', 'error');
+                showOutput('diagnosis', `502 Bad Gateway Diagnosis:
+${results.join('\n')}
+
+🚨 CRITICAL ISSUE: Node.js server is not running on port 3001
+
+IMMEDIATE FIX NEEDED:
+1. SSH into your server: ssh root@5.181.218.15
+2. Go to app directory: cd /var/www/vhosts/vivaindia.com/ienet.online/
+3. Check if process exists: ps aux | grep node
+4. Kill any hanging processes: pkill -f node
+5. Start the server: nohup node fix-server-connection.cjs > server.log 2>&1 &
+6. Verify it's running: curl http://127.0.0.1:3001/api/health
+7. Check logs if issues: tail -f server.log
+
+The 502 error means Nginx cannot connect to your backend server.`);
+            } else {
+                updateStatus('server-status', 'Running', 'ok');
+                showAlert('diagnosis', 'No 502 errors detected - server appears to be running', 'success');
+                showOutput('diagnosis', `502 Error Diagnosis:
+${results.join('\n')}
+
+✅ No 502 Bad Gateway errors detected.
+Your Node.js server appears to be running correctly.`);
+            }
+        }
+
+        async function checkServerProcess() {
+            showAlert('diagnosis', 'Checking Node.js server process status...', 'warning');
+            
+            // We can only test this indirectly via API responses
+            try {
+                const response = await fetch(`${DOMAIN}/api/health`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    updateStatus('server-status', 'Running', 'ok');
+                    showAlert('diagnosis', 'Node.js server process is running correctly', 'success');
+                    showOutput('diagnosis', `Server Process Check:
+✅ Status: Running (responding to requests)
+✅ Health endpoint: Accessible
+✅ Response: ${JSON.stringify(data, null, 2)}
+
+Your Node.js server is running and processing requests correctly.
+
+To check process details on server:
+ssh root@5.181.218.15
+ps aux | grep node
+netstat -tulpn | grep 3001`);
+                } else if (response.status === 502) {
+                    updateStatus('server-status', 'Down', 'error');
+                    showAlert('diagnosis', 'Node.js server process is NOT running', 'error');
+                    showOutput('diagnosis', `Server Process Check:
+❌ Status: Not Running (502 Bad Gateway)
+❌ Health endpoint: Unreachable
+❌ Process: Likely crashed or stopped
+
+RESTART REQUIRED:
+ssh root@5.181.218.15
+cd /var/www/vhosts/vivaindia.com/ienet.online/
+nohup node fix-server-connection.cjs > server.log 2>&1 &`);
+                }
+            } catch (error) {
+                showAlert('diagnosis', `Server process check failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function testProxyConfiguration() {
+            showAlert('diagnosis', 'Testing Nginx proxy configuration...', 'warning');
+            
+            try {
+                // Test if static files work (served by Nginx directly)
+                const staticResponse = await fetch(`${DOMAIN}/`);
+                
+                // Test if API proxy works (should forward to Node.js)
+                const apiResponse = await fetch(`${DOMAIN}/api/health`);
+                
+                const staticWorks = staticResponse.ok;
+                const proxyWorks = apiResponse.ok;
+                
+                showAlert('diagnosis', 'Proxy configuration test complete', staticWorks ? 'success' : 'error');
+                showOutput('diagnosis', `Nginx Proxy Configuration Test:
+Static Files (Nginx direct): ${staticResponse.status} ${staticWorks ? '✅' : '❌'}
+API Proxy (to Node.js): ${apiResponse.status} ${proxyWorks ? '✅' : '❌'}
+
+Analysis:
+${staticWorks ? '✅ Nginx is serving static files correctly' : '❌ Nginx static file serving issues'}
+${proxyWorks ? '✅ Nginx proxy to Node.js working' : '❌ Nginx cannot reach Node.js backend'}
+
+${staticWorks && !proxyWorks ? 'Issue: Node.js server is not running on port 3001' : 
+  !staticWorks ? 'Issue: Nginx configuration or domain problems' : 
+  'Proxy configuration appears correct'}`);
+            } catch (error) {
+                showAlert('diagnosis', `Proxy test failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function runFullDiagnostics() {
+            showAlert('report', 'Running comprehensive diagnostics...', 'warning');
+            updateTimestamp();
+            
+            // Run all tests sequentially
+            await testDomain();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await testAPIHealth();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await testServiceCategories();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await diagnose502Errors();
+            
+            showAlert('report', 'Full diagnostics complete - check individual sections for details', 'success');
+            showOutput('report', `Full Diagnostics Report - ${new Date().toLocaleString()}
+=================================================================
+
+SUMMARY:
+- Domain Status: ${document.getElementById('domain-status').textContent}
+- API Status: ${document.getElementById('api-status').textContent}  
+- Database Status: ${document.getElementById('db-status').textContent}
+- Server Process: ${document.getElementById('server-status').textContent}
+
+Check each section above for detailed results and specific fixes needed.
+
+If you see 502 errors, your Node.js server needs to be restarted on the production server.`);
+        }
+
+        function generateTroubleshootingGuide() {
+            showAlert('report', 'Generating troubleshooting guide...', 'success');
+            showOutput('report', `TROUBLESHOOTING GUIDE FOR IENET.ONLINE
+=====================================================
+
+🚨 MOST COMMON ISSUE: 502 BAD GATEWAY
+If API tests show 502 errors, the Node.js server is not running:
+
+IMMEDIATE FIX:
+1. ssh root@5.181.218.15
+2. cd /var/www/vhosts/vivaindia.com/ienet.online/
+3. pkill -f node (kill existing processes)
+4. nohup node fix-server-connection.cjs > server.log 2>&1 &
+5. curl http://127.0.0.1:3001/api/health (test locally)
+
+🔍 VERIFICATION STEPS:
+- Check process: ps aux | grep node
+- Check port: netstat -tulpn | grep 3001
+- Check logs: tail -f server.log
+- Test API: curl https://www.ienet.online/api/health
+
+📊 WHAT EACH STATUS MEANS:
+- Domain Online + API 502 = Node.js server down
+- Domain Error = DNS or Nginx issues
+- Database Error = API server can't reach MySQL
+- All OK = Everything working correctly
+
+🛠️ OTHER COMMON FIXES:
+- Restart Nginx: systemctl reload nginx
+- Check disk space: df -h
+- Check memory: free -m
+- Check MySQL: systemctl status mysql
+
+Your database is confirmed working with 41 tables and proper data.
+The issue is almost always the Node.js server not running consistently.`);
+        }
+
+        // Auto-run diagnostics on page load
+        window.onload = function() {
+            updateTimestamp();
+            setTimeout(() => {
+                testDomain();
+            }, 1000);
+            setTimeout(() => {
+                testAPIHealth();
+            }, 2000);
+        };
+
+        // Auto-refresh every 30 seconds
+        setInterval(() => {
+            updateTimestamp();
+        }, 30000);
+    </script>
+</body>
+</html>

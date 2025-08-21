@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Server Management Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+        }
+        
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+        
+        .card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e74c3c;
+        }
+        
+        .status-dot.green {
+            background: #27ae60;
+        }
+        
+        .status-dot.yellow {
+            background: #f39c12;
+        }
+        
+        .btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin: 5px 5px 5px 0;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-1px);
+        }
+        
+        .btn.danger {
+            background: #e74c3c;
+        }
+        
+        .btn.danger:hover {
+            background: #c0392b;
+        }
+        
+        .btn.success {
+            background: #27ae60;
+        }
+        
+        .btn.success:hover {
+            background: #219a52;
+        }
+        
+        .code-box {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .info-box {
+            background: #e8f4fd;
+            border: 1px solid #bee5eb;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        
+        .steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .steps li {
+            counter-increment: step-counter;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+            position: relative;
+        }
+        
+        .steps li::before {
+            content: counter(step-counter);
+            background: #3498db;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            position: absolute;
+            left: -12px;
+            top: 15px;
+            font-size: 12px;
+        }
+        
+        .file-upload {
+            border: 2px dashed #3498db;
+            padding: 30px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 15px 0;
+            background: #f8f9fa;
+        }
+        
+        .terminal {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            min-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .domain-test {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .domain-test input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Production Server Management</h1>
+            <p>Deploy and manage your ienet.online server with one-click tools</p>
+        </div>
+        
+        <div class="dashboard">
+            <!-- Server Status -->
+            <div class="card">
+                <h3>📊 Server Status</h3>
+                <div class="status">
+                    <div class="status-dot" id="server-status"></div>
+                    <span id="server-status-text">Checking...</span>
+                </div>
+                <button class="btn" onclick="checkServerStatus()">Check Status</button>
+                <button class="btn danger" onclick="restartServer()">Restart Server</button>
+                <div id="server-info" class="info-box" style="display: none;"></div>
+            </div>
+            
+            <!-- Domain Testing -->
+            <div class="card">
+                <h3>🌐 Domain Testing</h3>
+                <div class="domain-test">
+                    <input type="text" id="test-url" placeholder="Enter endpoint to test" value="/api/services/digital-marketing-seo/search-engine-optimization">
+                    <button class="btn" onclick="testEndpoint()">Test</button>
+                </div>
+                <div id="endpoint-result" class="terminal" style="display: none;"></div>
+            </div>
+            
+            <!-- File Upload -->
+            <div class="card">
+                <h3>📁 Deploy Server File</h3>
+                <div class="file-upload">
+                    <p>Drop your server file here or click to upload</p>
+                    <input type="file" id="server-file" accept=".js,.cjs" style="margin-top: 10px;">
+                    <button class="btn success" onclick="deployFile()">Deploy & Restart</button>
+                </div>
+                <div id="deploy-status"></div>
+            </div>
+            
+            <!-- Database Testing -->
+            <div class="card">
+                <h3>🗄️ Database Connection</h3>
+                <button class="btn" onclick="testDatabase()">Test Database</button>
+                <button class="btn" onclick="showTables()">Show Tables</button>
+                <div id="db-result" class="code-box" style="display: none;"></div>
+            </div>
+            
+            <!-- Quick Fixes -->
+            <div class="card">
+                <h3>🔧 Quick Fixes</h3>
+                <button class="btn" onclick="fixPermissions()">Fix Permissions</button>
+                <button class="btn" onclick="clearCache()">Clear Cache</button>
+                <button class="btn" onclick="updateDependencies()">Update Dependencies</button>
+                <div class="warning-box">
+                    <strong>Problem:</strong> API endpoints returning "Endpoint not found"<br>
+                    <strong>Solution:</strong> Upload new server file and restart
+                </div>
+            </div>
+            
+            <!-- Manual Instructions -->
+            <div class="card" style="grid-column: span 2;">
+                <h3>📋 Manual Deployment Steps</h3>
+                <div class="info-box">
+                    <strong>Current Issue:</strong> Production server missing API endpoints that work on development
+                </div>
+                
+                <ol class="steps">
+                    <li>
+                        <strong>Stop Current Server</strong>
+                        <div class="code-box">pkill -f node</div>
+                    </li>
+                    <li>
+                        <strong>Backup Old File</strong>
+                        <div class="code-box">mv mysql-production-server.cjs mysql-production-server.cjs.backup</div>
+                    </li>
+                    <li>
+                        <strong>Upload New File</strong>
+                        <div class="code-box">
+                            # Download EXACT_SAME_PRODUCTION_SERVER.cjs from Replit<br>
+                            # Upload to production server<br>
+                            # Rename to: mysql-production-server.cjs
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Start New Server</strong>
+                        <div class="code-box">nohup node mysql-production-server.cjs > server.log 2>&1 &</div>
+                    </li>
+                    <li>
+                        <strong>Verify Working</strong>
+                        <div class="code-box">curl "https://www.ienet.online/api/services/digital-marketing-seo/search-engine-optimization"</div>
+                    </li>
+                </ol>
+                
+                <div class="success-box">
+                    <strong>Expected Result:</strong> All API endpoints will work exactly like development server
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Server status checking
+        async function checkServerStatus() {
+            const statusDot = document.getElementById('server-status');
+            const statusText = document.getElementById('server-status-text');
+            const serverInfo = document.getElementById('server-info');
+            
+            statusText.textContent = 'Checking...';
+            statusDot.className = 'status-dot yellow';
+            
+            try {
+                const response = await fetch('https://www.ienet.online/api/health');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    statusDot.className = 'status-dot green';
+                    statusText.textContent = 'Server Online';
+                    serverInfo.innerHTML = `
+                        <strong>Status:</strong> ${data.status}<br>
+                        <strong>Message:</strong> ${data.message}<br>
+                        <strong>Database:</strong> ${data.database || 'Unknown'}<br>
+                        <strong>Timestamp:</strong> ${data.timestamp}
+                    `;
+                    serverInfo.style.display = 'block';
+                } else {
+                    throw new Error('Server unhealthy');
+                }
+            } catch (error) {
+                statusDot.className = 'status-dot';
+                statusText.textContent = 'Server Offline';
+                serverInfo.innerHTML = `<strong>Error:</strong> ${error.message}`;
+                serverInfo.style.display = 'block';
+            }
+        }
+        
+        // Test specific endpoints
+        async function testEndpoint() {
+            const url = document.getElementById('test-url').value;
+            const result = document.getElementById('endpoint-result');
+            
+            result.style.display = 'block';
+            result.textContent = 'Testing endpoint...';
+            
+            try {
+                const fullUrl = `https://www.ienet.online${url}`;
+                const response = await fetch(fullUrl);
+                const data = await response.json();
+                
+                result.textContent = `Status: ${response.status}\n\n${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                result.textContent = `Error: ${error.message}`;
+            }
+        }
+        
+        // Database testing
+        async function testDatabase() {
+            const result = document.getElementById('db-result');
+            result.style.display = 'block';
+            result.textContent = 'Testing database connection...';
+            
+            // This would need to be implemented on the server side
+            result.textContent = 'Database test would need server-side implementation';
+        }
+        
+        // File deployment
+        function deployFile() {
+            const fileInput = document.getElementById('server-file');
+            const status = document.getElementById('deploy-status');
+            
+            if (!fileInput.files[0]) {
+                status.innerHTML = '<div class="warning-box">Please select a file first</div>';
+                return;
+            }
+            
+            status.innerHTML = '<div class="info-box">File deployment would need server-side implementation</div>';
+        }
+        
+        // Restart server
+        function restartServer() {
+            alert('Server restart would need server-side implementation via SSH');
+        }
+        
+        // Other functions
+        function showTables() {
+            document.getElementById('db-result').style.display = 'block';
+            document.getElementById('db-result').textContent = 'Show tables would need server-side implementation';
+        }
+        
+        function fixPermissions() {
+            alert('Permission fix would need server-side implementation');
+        }
+        
+        function clearCache() {
+            alert('Cache clear would need server-side implementation');
+        }
+        
+        function updateDependencies() {
+            alert('Dependency update would need server-side implementation');
+        }
+        
+        // Auto-check status on load
+        window.onload = function() {
+            checkServerStatus();
+        };
+    </script>
+</body>
+</html>

@@ -1,38 +1,23 @@
-IMMEDIATE PRODUCTION SERVER RESTART COMMANDS
-==============================================
+RESTART PRODUCTION SERVER NOW
+============================
 
-The issue is that the Node.js backend server on ienet.online has crashed.
-This is causing 502 Bad Gateway errors for all API endpoints.
+You uploaded the file correctly, but the server needs to be restarted.
 
-IMMEDIATE FIX COMMANDS:
-----------------------
+IN YOUR SSH TERMINAL, RUN:
+-------------------------
 
-1. SSH into your production server:
-   ssh username@your-server-ip
-
-2. Navigate to website directory:
-   cd /var/www/vhosts/ienet.online/httpdocs
-
-3. Kill any existing Node.js processes:
+1. Stop the old server:
    pkill -f node
-   pkill -f "mysql-production-server"
 
-4. Restart the production server:
+2. Start the new server:
    nohup node mysql-production-server.cjs > server.log 2>&1 &
 
-5. Verify it's running:
+3. Check if it's running:
    ps aux | grep node
-   curl http://localhost:3001/api/service-categories
-
-6. Check the logs if needed:
-   tail -f server.log
 
 VERIFICATION:
 ------------
-After restart, these should work:
-- https://www.ienet.online/api/service-categories
-- https://www.ienet.online/services/digital-marketing-seo/search-engine-optimization
-- All page titles and content should load properly
+After restart, test this URL:
+curl "https://www.ienet.online/api/services/digital-marketing-seo/search-engine-optimization"
 
-The development server works because it's running.
-The production server doesn't work because the Node.js process stopped.
+It should return service data instead of "Endpoint not found".

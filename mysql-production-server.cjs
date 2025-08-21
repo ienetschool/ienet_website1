@@ -315,7 +315,20 @@ app.get('/api/features/:categorySlug/:serviceSlug/:featureSlug', async (req, res
   }
 });
 
+// Serve static files from httpdocs  
+app.use(express.static(path.join(__dirname, 'httpdocs')));
 
+// Catch-all route for React app (MUST be last)
+app.get('*', (req, res) => {
+  // Skip API routes - they should have been handled above
+  if (req.path.startsWith('/api/')) {
+    console.log(`❓ 404 - GET ${req.path}`);
+    return res.status(404).json({ error: 'API endpoint not found' });
+  }
+  
+  console.log(`🌍 Serving React app for: ${req.path}`);
+  res.sendFile(path.join(__dirname, 'httpdocs', 'index.html'));
+});
 
 // Error handling
 app.use((error, req, res, next) => {

@@ -304,7 +304,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteUser(id: string): Promise<boolean> {
     const result = await db.delete(users).where(eq(users.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount || 0) > 0;
   }
 
   // Service Category operations
@@ -606,16 +606,20 @@ export class DatabaseStorage implements IStorage {
 
   // Page component operations
   async getPageComponents(pageType?: string, pageId?: string): Promise<PageComponent[]> {
-    let query = db.select().from(pageComponents).where(eq(pageComponents.isActive, true));
+    const conditions = [eq(pageComponents.isActive, true)];
     
     if (pageType) {
-      query = query.where(eq(pageComponents.pageType, pageType));
+      conditions.push(eq(pageComponents.pageType, pageType));
     }
     if (pageId) {
-      query = query.where(eq(pageComponents.pageId, pageId));
+      conditions.push(eq(pageComponents.pageId, pageId));
     }
     
-    return await query.orderBy(asc(pageComponents.sortOrder));
+    return await db
+      .select()
+      .from(pageComponents)
+      .where(and(...conditions))
+      .orderBy(asc(pageComponents.sortOrder));
   }
 
   async getPageComponent(id: number): Promise<PageComponent | undefined> {
@@ -1270,9 +1274,8 @@ export class DatabaseStorage implements IStorage {
     };
   }
 
-  // Site settings operations
-  async getSiteSettings() {
-    // In a real implementation, this would be stored in a siteSettings table
+  // Mock site settings for performance optimization features
+  async getOptimizationSettings() {
     return {
       siteName: 'IeNet',
       siteDescription: 'Professional IT Services Platform',
@@ -1288,13 +1291,13 @@ export class DatabaseStorage implements IStorage {
     };
   }
 
-  async updateSiteSettings(updates: any) {
+  async updateOptimizationSettings(updates: any) {
     // In a real implementation, this would update a siteSettings table
-    console.log('Site settings updated:', updates);
+    console.log('Optimization settings updated:', updates);
     return true;
   }
 
-  async getAllUsers() {
+  async getMockUsers() {
     // Mock users data - in real implementation, this would come from users table
     return [
       {

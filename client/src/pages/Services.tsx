@@ -262,7 +262,7 @@ export default function Services() {
               </div>
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {categories && Array.isArray(categories) && categories.map((category: any, index: number) => {
+                {(categories && Array.isArray(categories) && (categories as any[]).map((category: any, index: number) => {
                   // Map service categories to specific icons
                   const getIconForCategory = (categoryName: string) => {
                     const name = categoryName.toLowerCase();
@@ -333,11 +333,11 @@ export default function Services() {
                       </CardContent>
                     </Card>
                   );
-                })}
+                })) || []}
               </div>
             )}
 
-            {categories && Array.isArray(categories) && categories.length === 0 && !isLoading && (
+            {(categories && Array.isArray(categories) && categories.length === 0 && !isLoading) ? (
               <div className="text-center py-16 bg-gray-50 dark:bg-gray-800 rounded-3xl">
                 <div className="w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-6">
                   <Settings className="w-12 h-12 text-gray-400" />
@@ -347,7 +347,7 @@ export default function Services() {
                   We're preparing an amazing portfolio of services. Check back soon for updates!
                 </p>
               </div>
-            )}
+            ) : null}
           </div>
         </section>
 

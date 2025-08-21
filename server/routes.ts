@@ -136,6 +136,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Individual category route for direct category access
+  app.get('/api/categories/:slug', async (req, res) => {
+    try {
+      const category = await storage.getServiceCategory(req.params.slug);
+      if (!category) {
+        return res.status(404).json({ message: "Service category not found" });
+      }
+      res.json(category);
+    } catch (error) {
+      console.error("Error fetching service category:", error);
+      res.status(500).json({ message: "Failed to fetch service category" });
+    }
+  });
+
   // Services
   app.get('/api/services', async (req, res) => {
     try {

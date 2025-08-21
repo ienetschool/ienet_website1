@@ -7,6 +7,7 @@ import { registerPerformanceRoutes } from "./routes/performance";
 import { registerDashboardRoutes } from "./routes/dashboard";
 import { registerUserRoutes } from "./routes/users";
 import { registerPageRoutes } from "./routes/pages";
+import { registerTemplateRoutes } from "./routes/templates";
 import { 
   insertServiceCategorySchema,
   insertServiceSchema,
@@ -54,6 +55,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Register page management routes
   registerPageRoutes(app);
 
+  // Register content template routes
+  registerTemplateRoutes(app);
+
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
@@ -92,9 +96,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.put('/api/pages/:id', async (req, res) => {
     try {
-      const pageId = parseInt(req.params.id);
+      const { id } = req.params;
       const pageData = req.body;
-      const page = await storage.updatePageBuilderPage(pageId, pageData);
+      const page = await storage.updatePageBuilderPage(id, pageData);
       res.json(page);
     } catch (error) {
       console.error("Error updating page:", error);
@@ -104,8 +108,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete('/api/pages/:id', async (req, res) => {
     try {
-      const pageId = parseInt(req.params.id);
-      await storage.deletePageBuilderPage(pageId);
+      const { id } = req.params;
+      await storage.deletePageBuilderPage(id);
       res.json({ success: true });
     } catch (error) {
       console.error("Error deleting page:", error);

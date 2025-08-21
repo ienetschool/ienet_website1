@@ -756,6 +756,19 @@ export const pageBlocks = pgTable("page_blocks", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Content templates for rapid page creation
+export const contentTemplates = pgTable("content_templates", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: varchar("name").notNull(),
+  description: text("description"),
+  content: jsonb("content").notNull(),
+  category: varchar("category"),
+  thumbnail: varchar("thumbnail"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Advanced SEO & Analytics Tables
 export const seoSettings = pgTable("seo_settings", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -945,6 +958,12 @@ export const insertPageSchema = createInsertSchema(pages).omit({
   viewCount: true,
 });
 
+export const insertContentTemplateSchema = createInsertSchema(contentTemplates).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export const insertLeadSchema = createInsertSchema(leads).omit({
   id: true,
   createdAt: true,
@@ -974,6 +993,8 @@ export const insertABTestSchema = createInsertSchema(abTests).omit({
 // Advanced Export Types
 export type Page = typeof pages.$inferSelect;
 export type InsertPage = z.infer<typeof insertPageSchema>;
+export type ContentTemplate = typeof contentTemplates.$inferSelect;
+export type InsertContentTemplate = z.infer<typeof insertContentTemplateSchema>;
 export type Lead = typeof leads.$inferSelect;
 export type InsertLead = z.infer<typeof insertLeadSchema>;
 export type AdvancedSlider = typeof advancedSliders.$inferSelect;

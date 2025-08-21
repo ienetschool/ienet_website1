@@ -27,6 +27,7 @@ import {
   pages,
   pageVersions,
   pageBlocks,
+  contentTemplates,
   type User,
   type UpsertUser,
   type InsertUser,
@@ -80,6 +81,8 @@ import {
   type InsertActivityLog,
   type Page,
   type InsertPage,
+  type ContentTemplate,
+  type InsertContentTemplate,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, asc, like, sql, or } from "drizzle-orm";
@@ -170,6 +173,15 @@ export interface IStorage {
   createPageBuilderPage(pageData: InsertPage): Promise<Page>;
   deletePageBuilderPage(pageId: string): Promise<{ success: boolean }>;
   getPageBySlug(slug: string): Promise<Page | undefined>;
+  bulkUpdatePages(updates: Array<{id: string, data: Partial<InsertPage>}>): Promise<void>;
+  bulkDeletePages(pageIds: string[]): Promise<void>;
+
+  // Content Template operations  
+  getContentTemplates(): Promise<ContentTemplate[]>;
+  getContentTemplate(id: string): Promise<ContentTemplate | undefined>;
+  createContentTemplate(templateData: InsertContentTemplate): Promise<ContentTemplate>;
+  updateContentTemplate(id: string, templateData: Partial<InsertContentTemplate>): Promise<ContentTemplate>;
+  deleteContentTemplate(id: string): Promise<void>;
 
   // FAQ operations
   getFaqs(category?: string): Promise<Faq[]>;
@@ -1758,7 +1770,7 @@ Sitemap: https://ienet.app/sitemap.xml`;
 
   async getPageVersions(pageId: string) {
     try {
-      const result = await this.db.select().from(pageVersions).where(eq(pageVersions.pageId, pageId));
+      const result = await db.select().from(pageVersions).where(eq(pageVersions.pageId, pageId));
       return result;
     } catch (error) {
       console.error('Error fetching page versions:', error);
@@ -1768,7 +1780,7 @@ Sitemap: https://ienet.app/sitemap.xml`;
 
   async updatePageBuilderPage(pageId: string, pageData: any) {
     try {
-      const [updatedPage] = await this.db
+      const [updatedPage] = await db
         .update(pages)
         .set({ ...pageData, updatedAt: new Date() })
         .where(eq(pages.id, pageId))
@@ -1782,7 +1794,7 @@ Sitemap: https://ienet.app/sitemap.xml`;
 
   async getPageBySlug(slug: string): Promise<Page | undefined> {
     try {
-      const [page] = await this.db.select().from(pages).where(eq(pages.slug, slug));
+      const [page] = await db.select().from(pages).where(eq(pages.slug, slug));
       return page;
     } catch (error) {
       console.error('Error fetching page by slug:', error);
@@ -1790,9 +1802,85 @@ Sitemap: https://ienet.app/sitemap.xml`;
     }
   }
 
+  async bulkUpdatePages(updates: Array<{id: string, data: Partial<InsertPage>}>): Promise<void> {
+    try {
+      for (const update of updates) {
+        await db.update(pages)
+          .set({ ...update.data, updatedAt: new Date() })
+          .where(eq(pages.id, update.id));
+      }
+    } catch (error) {
+      console.error('Error bulk updating pages:', error);
+      throw error;
+    }
+  }
+
+  async bulkDeletePages(pageIds: string[]): Promise<void> {
+    try {
+      await db.delete(pages).where(sql`${pages.id} = ANY(${pageIds})`);
+    } catch (error) {
+      console.error('Error bulk deleting pages:', error);
+      throw error;
+    }
+  }
+
+  // Content Template operations
+  async getContentTemplates(): Promise<ContentTemplate[]> {
+    try {
+      const result = await db.select().from(contentTemplates).where(eq(contentTemplates.isActive, true));
+      return result;
+    } catch (error) {
+      console.error('Error fetching content templates:', error);
+      return [];
+    }
+  }
+
+  async getContentTemplate(id: string): Promise<ContentTemplate | undefined> {
+    try {
+      const [template] = await db.select().from(contentTemplates).where(eq(contentTemplates.id, id));
+      return template;
+    } catch (error) {
+      console.error('Error fetching content template:', error);
+      return undefined;
+    }
+  }
+
+  async createContentTemplate(templateData: InsertContentTemplate): Promise<ContentTemplate> {
+    try {
+      const [template] = await db.insert(contentTemplates).values(templateData).returning();
+      return template;
+    } catch (error) {
+      console.error('Error creating content template:', error);
+      throw error;
+    }
+  }
+
+  async updateContentTemplate(id: string, templateData: Partial<InsertContentTemplate>): Promise<ContentTemplate> {
+    try {
+      const [template] = await db
+        .update(contentTemplates)
+        .set({ ...templateData, updatedAt: new Date() })
+        .where(eq(contentTemplates.id, id))
+        .returning();
+      return template;
+    } catch (error) {
+      console.error('Error updating content template:', error);
+      throw error;
+    }
+  }
+
+  async deleteContentTemplate(id: string): Promise<void> {
+    try {
+      await db.delete(contentTemplates).where(eq(contentTemplates.id, id));
+    } catch (error) {
+      console.error('Error deleting content template:', error);
+      throw error;
+    }
+  }
+
   async createPageBuilderPage(pageData: any) {
     try {
-      const [newPage] = await this.db
+      const [newPage] = await db
         .insert(pages)
         .values({
           ...pageData,
@@ -1809,7 +1897,7 @@ Sitemap: https://ienet.app/sitemap.xml`;
 
   async deletePageBuilderPage(pageId: string) {
     try {
-      await this.db.delete(pages).where(eq(pages.id, pageId));
+      await db.delete(pages).where(eq(pages.id, pageId));
       return { success: true };
     } catch (error) {
       console.error('Error deleting page:', error);

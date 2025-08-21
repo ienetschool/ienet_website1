@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { storage } from "../storage";
-import { isAuthenticated } from "../replitAuth";
+import { isAuthenticated } from "../simple-auth";
 import { z } from "zod";
 import { insertPageSchema } from "@shared/schema";
 
@@ -98,6 +98,62 @@ export function registerPageRoutes(app: Express) {
     } catch (error) {
       console.error('Error fetching page versions:', error);
       res.status(500).json({ error: 'Failed to fetch page versions' });
+    }
+  });
+
+  // Bulk operations
+  app.post("/api/pages/bulk", isAuthenticated, async (req, res) => {
+    try {
+      const { action, pageIds, data } = req.body;
+
+      switch (action) {
+        case "delete":
+          if (!pageIds || !Array.isArray(pageIds)) {
+            return res.status(400).json({ message: "Page IDs are required for bulk delete" });
+          }
+          await storage.bulkDeletePages(pageIds);
+          res.json({ success: true, message: `Deleted ${pageIds.length} pages` });
+          break;
+
+        case "update":
+          if (!pageIds || !Array.isArray(pageIds) || !data) {
+            return res.status(400).json({ message: "Page IDs and data are required for bulk update" });
+          }
+          const updates = pageIds.map(id => ({ id, data }));
+          await storage.bulkUpdatePages(updates);
+          res.json({ success: true, message: `Updated ${pageIds.length} pages` });
+          break;
+
+        case "publish":
+          if (!pageIds || !Array.isArray(pageIds)) {
+            return res.status(400).json({ message: "Page IDs are required for bulk publish" });
+          }
+          const publishUpdates = pageIds.map(id => ({ 
+            id, 
+            data: { status: "published", publishedAt: new Date() } 
+          }));
+          await storage.bulkUpdatePages(publishUpdates);
+          res.json({ success: true, message: `Published ${pageIds.length} pages` });
+          break;
+
+        case "unpublish":
+          if (!pageIds || !Array.isArray(pageIds)) {
+            return res.status(400).json({ message: "Page IDs are required for bulk unpublish" });
+          }
+          const unpublishUpdates = pageIds.map(id => ({ 
+            id, 
+            data: { status: "draft", publishedAt: null } 
+          }));
+          await storage.bulkUpdatePages(unpublishUpdates);
+          res.json({ success: true, message: `Unpublished ${pageIds.length} pages` });
+          break;
+
+        default:
+          res.status(400).json({ message: "Invalid bulk action" });
+      }
+    } catch (error) {
+      console.error("Error performing bulk operation:", error);
+      res.status(500).json({ message: "Failed to perform bulk operation" });
     }
   });
 

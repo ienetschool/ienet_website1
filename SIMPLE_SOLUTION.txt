@@ -1,25 +1,34 @@
-SIMPLE DATABASE SETUP SOLUTION
+SIMPLE SOLUTION - MANUAL FILE REPLACEMENT
+========================================
 
-The issue: Files not uploaded to server yet, causing "module not found" errors.
+The production server needs the new file. Here's the simple fix:
 
-QUICK SOLUTION:
+STEP 1: STOP PRODUCTION SERVER
+------------------------------
+SSH into your production server and run:
+pkill -f node
 
-1. UPLOAD these files to your server:
-   - create-mysql-schema.js
-   - mysql-production-server.cjs
+STEP 2: BACKUP OLD FILE
+-----------------------
+mv mysql-production-server.cjs mysql-production-server.cjs.old
 
-2. RUN schema setup:
-   ssh root@5.181.218.15
-   cd /var/www/vhosts/vivaindia.com/ienet.online/
-   node create-mysql-schema.js
+STEP 3: UPLOAD NEW FILE
+-----------------------
+Upload the file "EXACT_SAME_PRODUCTION_SERVER.cjs" from this Replit to your production server.
+Rename it to: mysql-production-server.cjs
 
-3. UPDATE Plesk startup file to mysql-production-server.cjs
+STEP 4: START NEW SERVER
+------------------------
+nohup node mysql-production-server.cjs > server.log 2>&1 &
 
-4. RESTART Node.js app in Plesk
+VERIFICATION:
+-------------
+After restart, test:
+curl "https://www.ienet.online/api/services/digital-marketing-seo/search-engine-optimization"
 
-5. TEST:
-   curl https://www.ienet.online/api/health
+This should return the service data instead of "Endpoint not found".
 
-This creates the database tables and sample data, then connects your Node.js app to use the real MySQL database instead of hardcoded data.
-
-The create-mysql-schema.js is a simplified version that will definitely work once uploaded to your server.
+WHY THIS WORKS:
+---------------
+The new file contains the exact same working routes from the development server,
+just adapted for MySQL database with proper field mapping.

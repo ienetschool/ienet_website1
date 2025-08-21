@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-const mysql = require('mysql2/promise');
-const fs = require('fs').promises;
-const path = require('path');
+import mysql from 'mysql2/promise';
+import { promises as fs } from 'fs';
+import path from 'path';
+import { execSync } from 'child_process';
 
 // Database configurations
 const DEV_DB = process.env.DATABASE_URL; // PostgreSQL for development
@@ -29,7 +30,6 @@ async function syncServers() {
     
     if (!distExists) {
       console.log('🔨 Building application first...');
-      const { execSync } = require('child_process');
       execSync('npm run build', { stdio: 'inherit' });
       console.log('✅ Application built successfully');
     }

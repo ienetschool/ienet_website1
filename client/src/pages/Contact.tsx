@@ -467,7 +467,7 @@ export default function Contact() {
                     <CardHeader>
                       <CardTitle className="flex items-center text-2xl">
                         <Building2 className="w-8 h-8 mr-3 text-purple-600" />
-                        India Espectacular
+                        IeNet
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-6">
@@ -535,7 +535,7 @@ export default function Contact() {
                 Ready to Start Your Project?
               </h2>
               <p className="text-xl text-indigo-100 mb-8">
-                Join hundreds of satisfied clients who trust India Espectacular for their technology needs.
+                Join hundreds of satisfied clients who trust IeNet for their technology needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-white text-purple-600 hover:bg-purple-50 font-semibold">

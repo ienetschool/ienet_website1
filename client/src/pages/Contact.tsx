@@ -93,16 +93,16 @@ export default function Contact() {
   const contactInfo = [
     {
       icon: MapPin,
-      title: "Visit Our Office",
-      content: "Sandy Babb Street, Kitty",
-      secondary: "Georgetown, Guyana",
+      title: "Visit Our India Office",
+      content: "101 Laxman Nagar Via Chadi",
+      secondary: "Laxman Nagar Road Siyolnagar, SIYOLENAGAR Phalodi, JODHPUR 342312",
       action: "Get Directions"
     },
     {
       icon: Phone,
       title: "Call Us Today",
       content: "+592 750-3901",
-      secondary: "Monday - Friday, 9AM - 6PM",
+      secondary: "Monday - Friday, 9AM - 6PM IST",
       action: "Call Now"
     },
     {
@@ -115,8 +115,8 @@ export default function Contact() {
     {
       icon: Clock,
       title: "Office Hours",
-      content: "Monday - Friday: 9AM - 6PM",
-      secondary: "Saturday: 10AM - 2PM",
+      content: "Monday - Friday: 9AM - 6PM IST",
+      secondary: "Saturday: 10AM - 2PM IST",
       action: "Schedule Meeting"
     }
   ];
@@ -202,7 +202,7 @@ export default function Contact() {
           <div className="container mx-auto px-6">
             <div className="text-center max-w-4xl mx-auto">
               <h1 className="text-5xl font-bold text-white mb-6">
-                Contact <span className="text-yellow-300">India Espectacular</span>
+                Contact <span className="text-yellow-300">IeNet</span>
               </h1>
               <p className="text-xl text-purple-100 mb-8">
                 Ready to transform your business with cutting-edge technology? Get in touch with our expert team for a free consultation and project quote.

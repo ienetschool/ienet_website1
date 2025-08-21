@@ -51,7 +51,7 @@ export default function Terms() {
                 Terms of Service
               </h1>
               <p className="text-xl text-emerald-100 mb-8">
-                These terms and conditions outline the rules and regulations for the use of India Espectacular's services and website. By accessing and using our services, you accept these terms in full.
+                These terms and conditions outline the rules and regulations for the use of IeNet's services and website, governed by Indian law. By accessing and using our services, you accept these terms in full.
               </p>
               <p className="text-emerald-200">
                 Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -76,7 +76,7 @@ export default function Terms() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-300">
                     <p className="text-lg">
-                      By accessing and using India Espectacular's website and services, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
+                      By accessing and using IeNet's website and services, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
                     </p>
                     <ul className="list-disc list-inside space-y-2">
                       <li>These terms apply to all visitors, users, and others who access our services</li>
@@ -99,7 +99,7 @@ export default function Terms() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-300">
                     <p className="text-lg">
-                      India Espectacular provides comprehensive IT consulting and digital transformation services including:
+                      IeNet provides comprehensive IT consulting and digital transformation services including:
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <ul className="list-disc list-inside space-y-2">
@@ -241,7 +241,7 @@ export default function Terms() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-300">
                     <p className="text-lg">
-                      India Espectacular's liability is limited as follows:
+                      IeNet's liability is limited as follows, in accordance with Indian Contract Act, 1872:
                     </p>
                     <ul className="list-disc list-inside space-y-2">
                       <li>Total liability limited to the amount paid for services in the preceding 12 months</li>
@@ -265,13 +265,13 @@ export default function Terms() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-300">
                     <p className="text-lg">
-                      These terms are governed by the laws of Guyana. Any disputes will be resolved through:
+                      These terms are governed by the laws of India. Any disputes will be resolved through:
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <ul className="list-disc list-inside space-y-2">
                         <li>Initial attempt at mediation and negotiation</li>
                         <li>Binding arbitration if mediation fails</li>
-                        <li>Jurisdiction in Georgetown, Guyana courts</li>
+                        <li>Jurisdiction in Jodhpur District Courts, Rajasthan, India</li>
                       </ul>
                       <ul className="list-disc list-inside space-y-2">
                         <li>English language for all proceedings</li>
@@ -314,8 +314,8 @@ export default function Terms() {
                       <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center mx-auto mb-3">
                         <MapPin className="w-6 h-6 text-orange-600" />
                       </div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white">Address</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Sandy Babb Street, Kitty<br />Georgetown, Guyana</p>
+                      <h3 className="font-semibold text-gray-900 dark:text-white">India Office</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">101 Laxman Nagar Via Chadi<br />Laxman Nagar Road Siyolnagar<br />SIYOLENAGAR Phalodi<br />JODHPUR 342312</p>
                     </div>
                     
                     <div className="text-center">
@@ -323,7 +323,7 @@ export default function Terms() {
                         <Clock className="w-6 h-6 text-purple-600" />
                       </div>
                       <h3 className="font-semibold text-gray-900 dark:text-white">Hours</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Mon-Fri: 9AM-6PM<br />Sat: 10AM-2PM</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Mon-Fri: 9AM-6PM IST<br />Sat: 10AM-2PM IST</p>
                     </div>
                   </div>
                   

@@ -51,7 +51,7 @@ export default function Privacy() {
                 Privacy Policy
               </h1>
               <p className="text-xl text-blue-100 mb-8">
-                At India Espectacular, we are committed to protecting your privacy and ensuring the security of your personal information. This policy explains how we collect, use, and safeguard your data.
+                At IeNet, we are committed to protecting your privacy and ensuring the security of your personal information. This policy explains how we collect, use, and safeguard your data in accordance with Indian data protection laws.
               </p>
               <p className="text-blue-200">
                 Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -139,7 +139,7 @@ export default function Privacy() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-300">
                     <p className="text-lg">
-                      India Espectacular does not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:
+                      IeNet does not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:
                     </p>
                     <ul className="list-disc list-inside space-y-2">
                       <li><strong>Service Providers:</strong> Trusted partners who assist in delivering our services</li>
@@ -249,8 +249,8 @@ export default function Privacy() {
                       <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center mx-auto mb-3">
                         <MapPin className="w-6 h-6 text-orange-600" />
                       </div>
-                      <h3 className="font-semibold text-gray-900 dark:text-white">Address</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Sandy Babb Street, Kitty<br />Georgetown, Guyana</p>
+                      <h3 className="font-semibold text-gray-900 dark:text-white">India Office</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">101 Laxman Nagar Via Chadi<br />Laxman Nagar Road Siyolnagar<br />SIYOLENAGAR Phalodi<br />JODHPUR 342312</p>
                     </div>
                     
                     <div className="text-center">
@@ -258,7 +258,7 @@ export default function Privacy() {
                         <Clock className="w-6 h-6 text-purple-600" />
                       </div>
                       <h3 className="font-semibold text-gray-900 dark:text-white">Hours</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">Mon-Fri: 9AM-6PM<br />Sat: 10AM-2PM</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">Mon-Fri: 9AM-6PM IST<br />Sat: 10AM-2PM IST</p>
                     </div>
                   </div>
                   

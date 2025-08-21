@@ -91,6 +91,21 @@ export default function Footer() {
                   Contact
                 </Link>
               </li>
+              <li>
+                <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/refund" className="text-gray-400 hover:text-white transition-colors duration-300">
+                  Refund Policy
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -99,15 +114,21 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Mail className="text-primary" size={16} />
-                <span className="text-gray-400">hello@ienet.com</span>
+                <span className="text-gray-400">info.indiaespectacular@gmail.com</span>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="text-primary" size={16} />
-                <span className="text-gray-400">+1 (555) 123-4567</span>
+                <span className="text-gray-400">+592 750-3901</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <MapPin className="text-primary" size={16} />
-                <span className="text-gray-400">New York, NY</span>
+              <div className="flex items-start space-x-3">
+                <MapPin className="text-primary mt-1" size={16} />
+                <div className="text-gray-400 text-sm">
+                  <div className="font-semibold">India Office:</div>
+                  <div>101 Laxman Nagar Via Chadi</div>
+                  <div>Laxman Nagar Road Siyolnagar</div>
+                  <div>SIYOLENAGAR Phalodi</div>
+                  <div>JODHPUR 342312</div>
+                </div>
               </div>
             </div>
           </div>

@@ -174,30 +174,7 @@ app.get('/api/service-categories', async (req, res) => {
   }
 });
 
-// Services from MySQL
-app.get('/api/services', async (req, res) => {
-  try {
-    if (!db) {
-      return res.status(500).json({ error: 'Database not connected' });
-    }
-    
-    let sql = 'SELECT id, name, slug, description, category_id as categoryId FROM services';
-    let params = [];
-    
-    if (req.query.categoryId) {
-      sql += ' WHERE category_id = ?';
-      params.push(parseInt(req.query.categoryId));
-    }
-    
-    sql += ' ORDER BY id';
-    const [rows] = await db.execute(sql, params);
-    console.log(`Returning ${rows.length} services from MySQL`);
-    res.json(rows);
-  } catch (error) {
-    console.error('Services error:', error);
-    res.status(500).json({ error: 'Database error' });
-  }
-});
+
 
 // Features from MySQL
 app.get('/api/features', async (req, res) => {
@@ -236,6 +213,104 @@ app.get('/api/projects', async (req, res) => {
     res.json(rows);
   } catch (error) {
     console.error('Projects error:', error);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+// Individual Service Category
+app.get('/api/service-categories/:slug', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    const [rows] = await db.execute('SELECT id, name, slug, description, icon FROM service_categories WHERE slug = ?', [req.params.slug]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Service category not found' });
+    }
+    console.log(`Returning service category: ${req.params.slug}`);
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Service category error:', error);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+// Individual Service
+app.get('/api/services/:categorySlug/:serviceSlug', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    const [rows] = await db.execute(`
+      SELECT s.id, s.name, s.slug, s.description, s.category_id as categoryId
+      FROM services s
+      JOIN service_categories c ON s.category_id = c.id
+      WHERE c.slug = ? AND s.slug = ?
+    `, [req.params.categorySlug, req.params.serviceSlug]);
+    
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Service not found' });
+    }
+    console.log(`Returning service: ${req.params.categorySlug}/${req.params.serviceSlug}`);
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Service error:', error);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+// Individual Feature
+app.get('/api/features/:categorySlug/:serviceSlug/:featureSlug', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    const [rows] = await db.execute(`
+      SELECT f.id, f.name, f.slug, f.description, f.service_id as serviceId
+      FROM features f
+      JOIN services s ON f.service_id = s.id
+      JOIN service_categories c ON s.category_id = c.id
+      WHERE c.slug = ? AND s.slug = ? AND f.slug = ?
+    `, [req.params.categorySlug, req.params.serviceSlug, req.params.featureSlug]);
+    
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Feature not found' });
+    }
+    console.log(`Returning feature: ${req.params.categorySlug}/${req.params.serviceSlug}/${req.params.featureSlug}`);
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Feature error:', error);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+// Services by category slug
+app.get('/api/services', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    let sql = 'SELECT s.id, s.name, s.slug, s.description, s.category_id as categoryId FROM services s';
+    let params = [];
+    
+    if (req.query.categorySlug) {
+      sql += ' JOIN service_categories c ON s.category_id = c.id WHERE c.slug = ?';
+      params.push(req.query.categorySlug);
+    } else if (req.query.categoryId) {
+      sql += ' WHERE s.category_id = ?';
+      params.push(parseInt(req.query.categoryId));
+    }
+    
+    sql += ' ORDER BY s.id';
+    const [rows] = await db.execute(sql, params);
+    console.log(`Returning ${rows.length} services from MySQL`);
+    res.json(rows);
+  } catch (error) {
+    console.error('Services error:', error);
     res.status(500).json({ error: 'Database error' });
   }
 });

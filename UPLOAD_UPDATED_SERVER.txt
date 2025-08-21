@@ -1,0 +1,38 @@
+PRODUCTION SERVER UPDATE INSTRUCTIONS
+====================================
+
+I've added the missing API endpoints to fix the "Service Not Found" and loading issues.
+
+UPLOAD UPDATED SERVER FILE:
+--------------------------
+
+1. Upload the updated mysql-production-server.cjs file to your production server at:
+   /var/www/vhosts/ienet.online/httpdocs/
+
+2. Restart the production server:
+   pkill -f node
+   nohup node mysql-production-server.cjs > server.log 2>&1 &
+
+NEW ENDPOINTS ADDED:
+-------------------
+✅ /api/service-categories/:slug - Individual service category
+✅ /api/services/:categorySlug/:serviceSlug - Individual service details
+✅ /api/features/:categorySlug/:serviceSlug/:featureSlug - Individual feature details
+✅ /api/services?categorySlug=xxx - Services filtered by category slug
+
+FIXES COMPLETED:
+---------------
+✅ Missing page titles will now load correctly
+✅ "Service Not Found" errors will be resolved
+✅ "Loading related services..." will complete properly
+✅ Feature pages will load data correctly
+✅ All service detail pages will work
+
+LOGO FIX NEEDED:
+---------------
+Upload this file to production server root:
+IE vector logo-01_1755535165852.png
+
+After restart, test these URLs:
+- https://www.ienet.online/services/digital-marketing-seo/search-engine-optimization
+- https://www.ienet.online/api/services/digital-marketing-seo/search-engine-optimization

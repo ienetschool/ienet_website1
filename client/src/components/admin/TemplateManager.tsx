@@ -42,7 +42,12 @@ import { Plus, Edit, Trash2, Image, FileText, Layout, Search, Filter } from "luc
 import { apiRequest } from "@/lib/queryClient";
 import { z } from "zod";
 
-const templateFormSchema = insertContentTemplateSchema.extend({
+const templateFormSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  description: z.string().optional(),
+  category: z.string().optional(),
+  thumbnail: z.string().optional(),
+  isActive: z.boolean().default(true),
   content: z.object({
     blocks: z.array(z.object({
       type: z.string(),
@@ -64,7 +69,7 @@ export function TemplateManager() {
   });
 
   const createTemplateMutation = useMutation({
-    mutationFn: (data: InsertContentTemplate) => apiRequest("/api/templates", "POST", data),
+    mutationFn: (data: any) => apiRequest("/api/templates", "POST", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/templates"] });
       toast({ title: "Success", description: "Template created successfully" });
@@ -76,7 +81,7 @@ export function TemplateManager() {
   });
 
   const updateTemplateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<InsertContentTemplate> }) => 
+    mutationFn: ({ id, data }: { id: string; data: any }) => 
       apiRequest(`/api/templates/${id}`, "PUT", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/templates"] });
@@ -146,14 +151,14 @@ export function TemplateManager() {
     }
   };
 
-  const filteredTemplates = templates.filter((template: ContentTemplate) => {
+  const filteredTemplates = (templates as ContentTemplate[]).filter((template: ContentTemplate) => {
     const matchesSearch = template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          (template.description && template.description.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesCategory = selectedCategory === "all" || template.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  const categories = Array.from(new Set(templates.map((t: ContentTemplate) => t.category).filter(Boolean)));
+  const categories = Array.from(new Set((templates as ContentTemplate[]).map((t: ContentTemplate) => t.category).filter(Boolean)));
 
   const getTemplateIcon = (category: string) => {
     switch (category) {

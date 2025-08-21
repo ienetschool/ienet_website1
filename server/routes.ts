@@ -8,6 +8,7 @@ import { registerDashboardRoutes } from "./routes/dashboard";
 import { registerUserRoutes } from "./routes/users";
 import { registerPageRoutes } from "./routes/pages";
 import { registerTemplateRoutes } from "./routes/templates";
+import { registerBulkRoutes } from "./routes/bulk-operations";
 import { 
   insertServiceCategorySchema,
   insertServiceSchema,
@@ -57,6 +58,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Register content template routes
   registerTemplateRoutes(app);
+
+  // Register bulk operation routes
+  registerBulkRoutes(app);
 
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {

@@ -87,8 +87,11 @@ import { BulkActionToolbar } from "@/components/admin/BulkActionToolbar";
 import { WYSIWYGEditor } from "@/components/admin/WYSIWYGEditor";
 import { TemplateManager } from "@/components/admin/TemplateManager";
 
-const pageFormSchema = insertPageSchema.extend({
+const pageFormSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  slug: z.string().min(1, "Slug is required"),
   content: z.any().optional(),
+  status: z.enum(["draft", "published", "archived"]).default("draft"),
   seoSettings: z.object({
     metaTitle: z.string().optional(),
     metaDescription: z.string().optional(),
@@ -122,7 +125,7 @@ export default function EnhancedPagesManagement() {
 
   // Mutations
   const createPageMutation = useMutation({
-    mutationFn: (data: InsertPage) => apiRequest("/api/pages", "POST", data),
+    mutationFn: (data: any) => apiRequest("/api/pages", "POST", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/pages"] });
       toast({ title: "Success", description: "Page created successfully" });
@@ -134,7 +137,7 @@ export default function EnhancedPagesManagement() {
   });
 
   const updatePageMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<InsertPage> }) => 
+    mutationFn: ({ id, data }: { id: string; data: any }) => 
       apiRequest(`/api/pages/${id}`, "PUT", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/pages"] });
@@ -178,7 +181,7 @@ export default function EnhancedPagesManagement() {
 
   // Filter and sort pages
   const filteredAndSortedPages = useMemo(() => {
-    let filtered = pages.filter((page: Page) => {
+    let filtered = (pages as Page[]).filter((page: Page) => {
       const matchesSearch = page.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            page.slug.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesStatus = statusFilter === "all" || page.status === statusFilter;
@@ -219,7 +222,7 @@ export default function EnhancedPagesManagement() {
   }, [pages, searchTerm, statusFilter, sortBy, sortOrder]);
 
   // Handle form submission
-  const handleSubmit = (values: z.infer<typeof pageFormSchema>) => {
+  const handleSubmit = (values: any) => {
     const pageData = {
       ...values,
       metaTitle: values.seoSettings?.metaTitle,
@@ -233,7 +236,7 @@ export default function EnhancedPagesManagement() {
     if (editingPage) {
       updatePageMutation.mutate({ id: editingPage.id, data: pageData });
     } else {
-      createPageMutation.mutate(pageData as InsertPage);
+      createPageMutation.mutate(pageData);
     }
   };
 
@@ -256,7 +259,7 @@ export default function EnhancedPagesManagement() {
 
   // Handle template application
   const applyTemplate = (templateId: string) => {
-    const template = templates.find((t: ContentTemplate) => t.id === templateId);
+    const template = (templates as ContentTemplate[]).find((t: ContentTemplate) => t.id === templateId);
     if (template) {
       form.setValue("content", template.content);
       toast({ title: "Template Applied", description: `"${template.name}" template has been applied` });
@@ -270,7 +273,7 @@ export default function EnhancedPagesManagement() {
       .replace(/[^a-z0-9\s-]/g, '')
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
-      .trim('-');
+      .replace(/^-|-$/g, '');
   };
 
   return (
@@ -701,11 +704,11 @@ function PageForm({
             />
 
             {/* Template Selection */}
-            {templates.length > 0 && (
+            {(templates as ContentTemplate[]).length > 0 && (
               <div>
                 <h4 className="text-sm font-medium mb-3">Apply Template</h4>
                 <div className="grid grid-cols-3 gap-3">
-                  {templates.slice(0, 6).map((template: ContentTemplate) => (
+                  {(templates as ContentTemplate[]).slice(0, 6).map((template: ContentTemplate) => (
                     <Button
                       key={template.id}
                       type="button"

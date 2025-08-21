@@ -33,6 +33,7 @@ import ComprehensiveDashboard from "@/pages/ComprehensiveDashboard";
 import DashboardHelper from "@/pages/DashboardHelper";
 import DatabaseViewer from "@/pages/DatabaseViewer";
 import PageBuilder from "@/pages/dashboard/PageBuilder";
+import EnhancedPagesManagement from "@/pages/dashboard/EnhancedPagesManagement";
 
 import EditingDemo from "@/components/EditingDemo";
 import UserManagement from "@/pages/UserManagement";
@@ -68,6 +69,7 @@ function Router() {
           <Route path="/performance" component={PerformanceDashboard} />
           <Route path="/admin" component={AdminDashboard} />
           <Route path="/page-builder" component={PageBuilder} />
+          <Route path="/pages-management" component={EnhancedPagesManagement} />
           <Route path="/dashboard" component={ComprehensiveDashboard} />
           <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />
           <Route path="/ienetdb" component={DatabaseViewer} />
@@ -99,6 +101,7 @@ function Router() {
           <Route path="/admin" component={AdminDashboard} />
           <Route path="/users" component={UserManagement} />
           <Route path="/page-builder" component={PageBuilder} />
+          <Route path="/pages-management" component={EnhancedPagesManagement} />
           <Route path="/dashboard" component={ComprehensiveDashboard} />
           <Route path="/dashboard/:section*" component={ComprehensiveDashboard} />
           <Route path="/ienetdb" component={DatabaseViewer} />

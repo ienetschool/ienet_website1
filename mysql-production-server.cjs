@@ -217,6 +217,34 @@ app.get('/api/projects', async (req, res) => {
   }
 });
 
+// Services from MySQL - Enhanced with category slug support (MUST BE FIRST)
+app.get('/api/services', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    let sql = 'SELECT s.id, s.name, s.slug, s.description, s.category_id as categoryId FROM services s';
+    let params = [];
+    
+    if (req.query.categorySlug) {
+      sql += ' JOIN service_categories c ON s.category_id = c.id WHERE c.slug = ?';
+      params.push(req.query.categorySlug);
+    } else if (req.query.categoryId) {
+      sql += ' WHERE s.category_id = ?';
+      params.push(parseInt(req.query.categoryId));
+    }
+    
+    sql += ' ORDER BY s.id';
+    const [rows] = await db.execute(sql, params);
+    console.log(`Returning ${rows.length} services from MySQL`);
+    res.json(rows);
+  } catch (error) {
+    console.error('Services error:', error);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
 // Individual Service Category
 app.get('/api/service-categories/:slug', async (req, res) => {
   try {
@@ -257,34 +285,6 @@ app.get('/api/services/:categorySlug/:serviceSlug', async (req, res) => {
     res.json(rows[0]);
   } catch (error) {
     console.error('Service error:', error);
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Services from MySQL - Enhanced with category slug support
-app.get('/api/services', async (req, res) => {
-  try {
-    if (!db) {
-      return res.status(500).json({ error: 'Database not connected' });
-    }
-    
-    let sql = 'SELECT s.id, s.name, s.slug, s.description, s.category_id as categoryId FROM services s';
-    let params = [];
-    
-    if (req.query.categorySlug) {
-      sql += ' JOIN service_categories c ON s.category_id = c.id WHERE c.slug = ?';
-      params.push(req.query.categorySlug);
-    } else if (req.query.categoryId) {
-      sql += ' WHERE s.category_id = ?';
-      params.push(parseInt(req.query.categoryId));
-    }
-    
-    sql += ' ORDER BY s.id';
-    const [rows] = await db.execute(sql, params);
-    console.log(`Returning ${rows.length} services from MySQL`);
-    res.json(rows);
-  } catch (error) {
-    console.error('Services error:', error);
     res.status(500).json({ error: 'Database error' });
   }
 });

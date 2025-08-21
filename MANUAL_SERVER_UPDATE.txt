@@ -1,0 +1,55 @@
+MANUAL SERVER FILE UPDATE - COPY/PASTE METHOD
+============================================
+
+Since the file upload isn't working properly, let's create the server file manually.
+
+STEPS:
+------
+
+1. In your SSH terminal, create a backup:
+   cp mysql-production-server.cjs mysql-production-server.cjs.backup
+
+2. Edit the file manually:
+   nano mysql-production-server.cjs
+
+3. Find this section (around line 240-290):
+   // Individual Service
+   app.get('/api/services/:categorySlug/:serviceSlug'
+
+4. AFTER the Individual Service section, ADD these missing endpoints:
+
+// Services from MySQL - Enhanced with category slug support
+app.get('/api/services', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    let sql = 'SELECT s.id, s.name, s.slug, s.description, s.category_id as categoryId FROM services s';
+    let params = [];
+    
+    if (req.query.categorySlug) {
+      sql += ' JOIN service_categories c ON s.category_id = c.id WHERE c.slug = ?';
+      params.push(req.query.categorySlug);
+    } else if (req.query.categoryId) {
+      sql += ' WHERE s.category_id = ?';
+      params.push(parseInt(req.query.categoryId));
+    }
+    
+    sql += ' ORDER BY s.id';
+    const [rows] = await db.execute(sql, params);
+    console.log(`Returning ${rows.length} services from MySQL`);
+    res.json(rows);
+  } catch (error) {
+    console.error('Services error:', error);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+5. Save and exit (Ctrl+X, Y, Enter)
+
+6. Restart:
+   pkill -f node
+   nohup node mysql-production-server.cjs > server.log 2>&1 &
+
+This will add the missing /api/services endpoint that's needed for the pages to work.

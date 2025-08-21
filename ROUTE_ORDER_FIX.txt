@@ -1,0 +1,34 @@
+ROUTE ORDER ISSUE DETECTED
+=========================
+
+The problem is ROUTE ORDER in Express.js!
+
+ISSUE:
+------
+The specific route /api/services/:categorySlug/:serviceSlug 
+must come AFTER the general route /api/services
+
+CURRENT ORDER (WRONG):
+1. /api/services/:categorySlug/:serviceSlug  (specific)
+2. /api/services  (general)
+
+CORRECT ORDER NEEDED:
+1. /api/services  (general) 
+2. /api/services/:categorySlug/:serviceSlug  (specific)
+
+QUICK FIX:
+----------
+In your SSH terminal:
+
+1. Edit the server file:
+   nano mysql-production-server.cjs
+
+2. Move the /api/services route to BEFORE the /api/services/:categorySlug/:serviceSlug route
+
+3. Or simply delete lines 264-290 (the /api/services route) and restart
+
+4. Restart server:
+   pkill -f node
+   nohup node mysql-production-server.cjs > server.log 2>&1 &
+
+Express.js matches routes in order, so the specific route is catching all requests!

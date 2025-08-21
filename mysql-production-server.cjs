@@ -261,33 +261,7 @@ app.get('/api/services/:categorySlug/:serviceSlug', async (req, res) => {
   }
 });
 
-// Individual Feature
-app.get('/api/features/:categorySlug/:serviceSlug/:featureSlug', async (req, res) => {
-  try {
-    if (!db) {
-      return res.status(500).json({ error: 'Database not connected' });
-    }
-    
-    const [rows] = await db.execute(`
-      SELECT f.id, f.name, f.slug, f.description, f.service_id as serviceId
-      FROM features f
-      JOIN services s ON f.service_id = s.id
-      JOIN service_categories c ON s.category_id = c.id
-      WHERE c.slug = ? AND s.slug = ? AND f.slug = ?
-    `, [req.params.categorySlug, req.params.serviceSlug, req.params.featureSlug]);
-    
-    if (rows.length === 0) {
-      return res.status(404).json({ error: 'Feature not found' });
-    }
-    console.log(`Returning feature: ${req.params.categorySlug}/${req.params.serviceSlug}/${req.params.featureSlug}`);
-    res.json(rows[0]);
-  } catch (error) {
-    console.error('Feature error:', error);
-    res.status(500).json({ error: 'Database error' });
-  }
-});
-
-// Services by category slug
+// Services from MySQL - Enhanced with category slug support
 app.get('/api/services', async (req, res) => {
   try {
     if (!db) {
@@ -314,6 +288,34 @@ app.get('/api/services', async (req, res) => {
     res.status(500).json({ error: 'Database error' });
   }
 });
+
+// Individual Feature
+app.get('/api/features/:categorySlug/:serviceSlug/:featureSlug', async (req, res) => {
+  try {
+    if (!db) {
+      return res.status(500).json({ error: 'Database not connected' });
+    }
+    
+    const [rows] = await db.execute(`
+      SELECT f.id, f.name, f.slug, f.description, f.service_id as serviceId
+      FROM features f
+      JOIN services s ON f.service_id = s.id
+      JOIN service_categories c ON s.category_id = c.id
+      WHERE c.slug = ? AND s.slug = ? AND f.slug = ?
+    `, [req.params.categorySlug, req.params.serviceSlug, req.params.featureSlug]);
+    
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Feature not found' });
+    }
+    console.log(`Returning feature: ${req.params.categorySlug}/${req.params.serviceSlug}/${req.params.featureSlug}`);
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Feature error:', error);
+    res.status(500).json({ error: 'Database error' });
+  }
+});
+
+
 
 // Error handling
 app.use((error, req, res, next) => {

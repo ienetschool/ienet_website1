@@ -51,7 +51,7 @@ export default function Privacy() {
                 Privacy Policy
               </h1>
               <p className="text-xl text-blue-100 mb-8">
-                At IeNet, we are committed to protecting your privacy and ensuring the security of your personal information. This policy explains how we collect, use, and safeguard your data in accordance with Indian data protection laws.
+                At India Espectacular, we are committed to protecting your privacy and ensuring the security of your personal information. This policy explains how we collect, use, and safeguard your data in accordance with Indian data protection laws.
               </p>
               <p className="text-blue-200">
                 Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -139,7 +139,7 @@ export default function Privacy() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-300">
                     <p className="text-lg">
-                      IeNet does not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:
+                      India Espectacular does not sell, trade, or rent your personal information to third parties. We may share your information only in the following circumstances:
                     </p>
                     <ul className="list-disc list-inside space-y-2">
                       <li><strong>Service Providers:</strong> Trusted partners who assist in delivering our services</li>

@@ -51,7 +51,7 @@ export default function Terms() {
                 Terms of Service
               </h1>
               <p className="text-xl text-emerald-100 mb-8">
-                These terms and conditions outline the rules and regulations for the use of IeNet's services and website, governed by Indian law. By accessing and using our services, you accept these terms in full.
+                These terms and conditions outline the rules and regulations for the use of India Espectacular's services and website, governed by Indian law. By accessing and using our services, you accept these terms in full.
               </p>
               <p className="text-emerald-200">
                 Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
@@ -76,7 +76,7 @@ export default function Terms() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-300">
                     <p className="text-lg">
-                      By accessing and using IeNet's website and services, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
+                      By accessing and using India Espectacular's website and services, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.
                     </p>
                     <ul className="list-disc list-inside space-y-2">
                       <li>These terms apply to all visitors, users, and others who access our services</li>
@@ -99,7 +99,7 @@ export default function Terms() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-300">
                     <p className="text-lg">
-                      IeNet provides comprehensive IT consulting and digital transformation services including:
+                      India Espectacular provides comprehensive IT consulting and digital transformation services including:
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <ul className="list-disc list-inside space-y-2">
@@ -241,7 +241,7 @@ export default function Terms() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-300">
                     <p className="text-lg">
-                      IeNet's liability is limited as follows, in accordance with Indian Contract Act, 1872:
+                      India Espectacular's liability is limited as follows, in accordance with Indian Contract Act, 1872:
                     </p>
                     <ul className="list-disc list-inside space-y-2">
                       <li>Total liability limited to the amount paid for services in the preceding 12 months</li>

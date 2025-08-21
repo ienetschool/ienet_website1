@@ -51,7 +51,7 @@ export default function Refund() {
                 Cancellation & Refund Policy
               </h1>
               <p className="text-xl text-rose-100 mb-8">
-                At IeNet, we strive for complete customer satisfaction. This policy outlines our cancellation and refund procedures for all services provided under Indian law.
+                At India Espectacular, we strive for complete customer satisfaction. This policy outlines our cancellation and refund procedures for all services provided under Indian law.
               </p>
               <p className="text-rose-200">
                 Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}

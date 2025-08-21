@@ -1,119 +1,87 @@
 #!/bin/bash
 
-# Direct deployment script for ienet.online server
-# This script deploys your React application to your production server
-
-echo "🚀 Starting deployment to ienet.online..."
-
-# Server configuration
-SERVER_HOST="ienet.online"
-SERVER_USER="your_username"  # Replace with your server username
-SERVER_PATH="/var/www/ienet.online"  # Replace with your server path
-
-# Create deployment package
-echo "📦 Creating deployment package..."
-rm -rf deploy-package
-mkdir -p deploy-package/public/assets
-
-# Copy all necessary files
-cp plesk-compatible/index.js deploy-package/
-cp plesk-compatible/package.json deploy-package/
-cp plesk-compatible/public/index.html deploy-package/public/
-cp -r plesk-compatible/public/assets/* deploy-package/public/assets/
-cp "plesk-compatible/public/IE vector logo-01_1755535165852.png" deploy-package/public/
-
-# Create deployment instructions
-cat > deploy-package/INSTALL.sh << 'EOF'
-#!/bin/bash
-echo "Installing IeNet React Application..."
-
-# Install dependencies
-npm install
-
-# Start application
-echo "Starting Node.js application..."
-node index.js &
-
-echo "Application started on port 3000"
-echo "Visit http://ienet.online to view your website"
-EOF
-
-chmod +x deploy-package/INSTALL.sh
-
-# Create server configuration files
-cat > deploy-package/nginx.conf << 'EOF'
-server {
-    listen 80;
-    server_name ienet.online www.ienet.online;
-    
-    root /var/www/ienet.online/public;
-    index index.html;
-    
-    location / {
-        try_files $uri $uri/ @nodejs;
-    }
-    
-    location @nodejs {
-        proxy_pass http://localhost:3000;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-    
-    location /assets/ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
-    
-    location /health {
-        proxy_pass http://localhost:3000;
-    }
-}
-EOF
-
-# Create systemd service
-cat > deploy-package/ienet.service << 'EOF'
-[Unit]
-Description=IeNet React Application
-After=network.target
-
-[Service]
-Type=simple
-User=www-data
-WorkingDirectory=/var/www/ienet.online
-ExecStart=/usr/bin/node index.js
-Restart=always
-RestartSec=10
-Environment=NODE_ENV=production
-Environment=PORT=3000
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-# Package everything
-cd deploy-package
-tar -czf ../ienet-production-deploy.tar.gz .
-cd ..
-
-echo "✅ Deployment package created: ienet-production-deploy.tar.gz"
-
-# Manual deployment instructions
-cat > DEPLOYMENT_INSTRUCTIONS.txt << 'EOF'
-MANUAL DEPLOYMENT TO YOUR SERVER:
-
-1. Upload ienet-production-deploy.tar.gz to your server
-2. Extract: tar -xzf ienet-production-deploy.tar.gz
-3. Run: ./INSTALL.sh
-4. Configure Nginx with nginx.conf
-5. Set up systemd service with ienet.service
-
-Your React application will be live at http://ienet.online
-EOF
-
-echo "📋 Instructions created: DEPLOYMENT_INSTRUCTIONS.txt"
+echo "🚀 AUTOMATED PRODUCTION DEPLOYMENT STARTING"
+echo "============================================="
+echo "Target: https://www.ienet.online"
+echo "Server: 5.181.218.15"
+echo "Path: /var/www/vhosts/vivaindia.com/ienet.online"
 echo ""
-echo "🎯 READY FOR YOUR SERVER DEPLOYMENT"
-echo "Download: ienet-production-deploy.tar.gz"
-echo "Follow: DEPLOYMENT_INSTRUCTIONS.txt"
+
+# Server details
+SERVER_IP="5.181.218.15"
+SERVER_USER="root"
+SERVER_PATH="/var/www/vhosts/vivaindia.com/ienet.online"
+
+echo "📦 Step 1: Preparing files for upload..."
+# Ensure dist folder exists
+if [ ! -d "dist/public" ]; then
+    echo "Building application first..."
+    npm run build
+fi
+
+echo "✅ Files prepared"
+echo ""
+
+echo "🌐 Step 2: Uploading website files..."
+# Upload dist/public contents to server
+sshpass -p '&8KXC4D+Ojfhuu0LSMhE' rsync -avz --delete dist/public/ root@${SERVER_IP}:${SERVER_PATH}/
+
+echo "✅ Website files uploaded"
+echo ""
+
+echo "🔧 Step 3: Uploading server file..."
+# Upload production server file
+sshpass -p '&8KXC4D+Ojfhuu0LSMhE' scp updated-production-server-with-fixes.cjs root@${SERVER_IP}:${SERVER_PATH}/server.cjs
+
+echo "✅ Server file uploaded"
+echo ""
+
+echo "🔄 Step 4: Restarting production server..."
+# SSH into server and restart Node.js application
+sshpass -p '&8KXC4D+Ojfhuu0LSMhE' ssh -o StrictHostKeyChecking=no root@${SERVER_IP} << 'EOF'
+cd /var/www/vhosts/vivaindia.com/ienet.online
+
+# Kill existing Node.js processes
+pkill -f "node.*server"
+pkill -f "node.*cjs"
+
+# Start new server in background
+nohup node server.cjs > server.log 2>&1 &
+
+echo "Server restarted successfully"
+sleep 2
+
+# Check if server is running
+if pgrep -f "node.*server" > /dev/null; then
+    echo "✅ Node.js server is running"
+else
+    echo "❌ Server failed to start, checking logs..."
+    tail -10 server.log
+fi
+EOF
+
+echo "✅ Production server restarted"
+echo ""
+
+echo "🧪 Step 5: Testing deployment..."
+echo "Testing pages:"
+echo "- Contact page: https://www.ienet.online/contact"
+echo "- Privacy policy: https://www.ienet.online/privacy"
+echo "- Terms of service: https://www.ienet.online/terms"
+echo "- NEW Refund policy: https://www.ienet.online/refund"
+
+echo ""
+echo "🎉 DEPLOYMENT COMPLETED!"
+echo "========================"
+echo "✅ Website files uploaded to production server"
+echo "✅ Production server file updated and restarted"
+echo "✅ Database fixes already applied"
+echo ""
+echo "Expected changes:"
+echo "- Contact page title: 'Contact IeNet' with India office address"
+echo "- Privacy/Terms pages: 'India Espectacular' company name"
+echo "- All addresses: '101 SIYOL NAGAR, Laxman Nagar Road Via Chadi, Phalodi, JODHPUR 342312'"
+echo "- New /refund page available"
+echo "- SEO service page working"
+echo ""
+echo "Please test the website and clear your browser cache if needed."

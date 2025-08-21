@@ -1,0 +1,31 @@
+PRODUCTION SERVER STILL NEEDS UPDATE
+===================================
+
+The production server is still using the old version without the new API endpoints.
+
+IMMEDIATE ACTION REQUIRED:
+-------------------------
+
+1. The updated mysql-production-server.cjs file was not uploaded yet
+2. The server needs to be restarted with the new file
+
+UPLOAD STEPS:
+------------
+
+1. Upload the updated mysql-production-server.cjs file to your production server
+   - Use Plesk File Manager or SCP
+   - Replace the existing file
+
+2. Upload the logo file: IE vector logo-01_1755535165852.png
+
+3. Restart the server via SSH:
+   cd [your-web-directory]
+   pkill -f node
+   nohup node mysql-production-server.cjs > server.log 2>&1 &
+
+VERIFICATION:
+------------
+After upload and restart, this should return data instead of error:
+curl https://www.ienet.online/api/services/digital-marketing-seo/search-engine-optimization
+
+Until these files are uploaded, the production server will continue showing the same errors.

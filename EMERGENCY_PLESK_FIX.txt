@@ -1,32 +1,33 @@
-EMERGENCY SOLUTION - GUARANTEED TO WORK
+EMERGENCY PLESK SERVER FIX
+=========================
 
-PROBLEM: Static production page showing instead of React app
+PROBLEM: Server not responding after file replacement
+SOLUTION: Use Plesk File Manager to fix directly
 
-IMMEDIATE FIX:
+PLESK FILE MANAGER STEPS:
+========================
 
-DOWNLOAD: static-react-emergency.tar.gz
+1. Login to your Plesk Control Panel
+2. Go to "File Manager" 
+3. Navigate to your domain folder (ienet.online)
+4. Find mysql-production-server.cjs
 
-STEPS:
-1. Login to Plesk File Manager
-2. Go to /ienet.online/ folder  
-3. DELETE all existing files
-4. Upload static-react-emergency.tar.gz
-5. Extract the archive
-6. DONE - NO Node.js configuration needed
+5. IF FILE IS CORRUPTED:
+   - Delete mysql-production-server.cjs
+   - Upload a fresh copy of EXACT_SAME_PRODUCTION_SERVER.cjs
+   - Rename it to mysql-production-server.cjs
 
-WHAT THIS DOES:
-- Serves React app directly through Apache
-- No Node.js server required
-- Uses .htaccess for React routing
-- Works immediately after upload
+6. RESTART NODE.JS IN PLESK:
+   - Go to "Node.js" section in Plesk
+   - Find your application
+   - Click "Restart"
+   - OR use "npm start" or your startup command
 
-RESULT: 
-ienet.online shows your React application with:
-- HeroSlider with website development theme
-- ModernHeader with navigation
-- About section with company stats  
-- Services section with 6 service cards
-- Testimonials with gradient background
-- 3 FloatingCTA buttons (WhatsApp, Get in Touch, Live Chat)
+ALTERNATIVE - QUICK RECOVERY:
+============================
+If you have backup file:
+1. Delete current mysql-production-server.cjs
+2. Rename mysql-production-server.cjs.backup to mysql-production-server.cjs
+3. Restart Node.js application in Plesk
 
-This bypasses any Node.js issues and serves your React app directly.
+This will restore the working server while we debug the new file.

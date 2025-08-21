@@ -1,0 +1,47 @@
+# PRODUCTION SERVER RESTART COMMANDS
+
+## If using Plesk Control Panel:
+1. Go to "Node.js" section
+2. Click "Restart App" 
+3. Wait for restart confirmation
+
+## If using SSH/Command Line:
+```bash
+# Find and kill existing Node.js processes
+ps aux | grep node
+kill [process_id]
+
+# Or kill all node processes
+pkill -f node
+
+# Start your updated server
+cd /path/to/your/website
+node updated-production-server-with-fixes.cjs
+```
+
+## If using PM2:
+```bash
+pm2 restart all
+# Or specific app
+pm2 restart your-app-name
+```
+
+## If using hosting panel:
+1. Look for "Node.js Apps" or "Application Manager"
+2. Click "Restart" button
+3. Verify it shows "Running" status
+
+## Verify Server Started:
+Check that your server shows this message:
+```
+=== STARTING MYSQL PRODUCTION SERVER ===
+✅ Connected to MySQL database successfully
+Server running on port 3001
+```
+
+## After restart, test:
+- https://www.ienet.online/contact (should show "Contact IeNet")
+- https://www.ienet.online/privacy (should show "India Espectacular")  
+- https://www.ienet.online/refund (should load new page)
+
+**Most common issue: Server not restarted after file upload!**

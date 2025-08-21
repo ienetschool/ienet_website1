@@ -140,7 +140,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/services', async (req, res) => {
     try {
       const categoryId = req.query.categoryId ? parseInt(req.query.categoryId as string) : undefined;
-      const services = await storage.getServices(categoryId);
+      const categorySlug = req.query.categorySlug as string;
+      
+      let services;
+      if (categorySlug) {
+        // Get category by slug first, then get services
+        const category = await storage.getServiceCategory(categorySlug);
+        if (category) {
+          services = await storage.getServices(category.id);
+        } else {
+          return res.status(404).json({ message: "Service category not found" });
+        }
+      } else {
+        services = await storage.getServices(categoryId);
+      }
+      
       res.json(services);
     } catch (error) {
       console.error("Error fetching services:", error);

@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { PagesManagement } from "./dashboard/PagesManagement";
+import PagesManagement from "./dashboard/PagesManagement";
 import { ServicesManagement } from "./dashboard/ServicesManagement";
 import { SubServicesManagement } from "./dashboard/SubServicesManagement";
 import { FeaturesManagement } from "./dashboard/FeaturesManagement";

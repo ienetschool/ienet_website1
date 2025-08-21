@@ -24,6 +24,9 @@ import {
   menuItems,
   pricingPlans,
   activityLogs,
+  pages,
+  pageVersions,
+  pageBlocks,
   type User,
   type UpsertUser,
   type InsertUser,
@@ -75,6 +78,8 @@ import {
   type InsertPricingPlan,
   type ActivityLog,
   type InsertActivityLog,
+  type Page,
+  type InsertPage,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, asc, like, sql, or } from "drizzle-orm";
@@ -157,6 +162,14 @@ export interface IStorage {
   createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
   updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost>;
   deleteBlogPost(id: number): Promise<void>;
+
+  // Page Builder operations
+  getPageBuilderPages(): Promise<Page[]>;
+  getPageVersions(pageId: string): Promise<any[]>;
+  updatePageBuilderPage(pageId: string, pageData: Partial<InsertPage>): Promise<Page>;
+  createPageBuilderPage(pageData: InsertPage): Promise<Page>;
+  deletePageBuilderPage(pageId: string): Promise<{ success: boolean }>;
+  getPageBySlug(slug: string): Promise<Page | undefined>;
 
   // FAQ operations
   getFaqs(category?: string): Promise<Faq[]>;
@@ -1383,45 +1396,7 @@ export class DatabaseStorage implements IStorage {
     ];
   }
 
-  // Dashboard-specific implementations
-  async getPageBuilderPages() {
-    return [
-      {
-        id: 1,
-        title: "Home Page",
-        slug: "home",
-        content: "[]",
-        status: "published",
-        lastModified: new Date().toISOString(),
-        author: "Admin"
-      },
-      {
-        id: 2,
-        title: "About Us",
-        slug: "about",
-        content: "[]",
-        status: "draft",
-        lastModified: new Date().toISOString(),
-        author: "Admin"
-      }
-    ];
-  }
 
-  async getPageVersions(pageId: number) {
-    return [
-      {
-        id: 1,
-        pageId,
-        version: "v1.0",
-        createdAt: new Date().toISOString(),
-        author: "Admin"
-      }
-    ];
-  }
-
-  async updatePageBuilderPage(pageId: number, pageData: any) {
-    return { id: pageId, ...pageData };
-  }
 
   async getSEOPages() {
     return [
@@ -1781,51 +1756,65 @@ Sitemap: https://ienet.app/sitemap.xml`;
     ];
   }
 
-  async getPageVersions(pageId: number) {
-    return [
-      {
-        id: 1,
-        pageId: pageId,
-        version: '1.0.0',
-        title: 'Initial version',
-        status: 'published',
-        createdAt: new Date().toISOString(),
-        createdBy: 'admin'
-      },
-      {
-        id: 2,
-        pageId: pageId,
-        version: '1.1.0',
-        title: 'Added pricing section',
-        status: 'draft',
-        createdAt: new Date().toISOString(),
-        createdBy: 'admin'
-      }
-    ];
+  async getPageVersions(pageId: string) {
+    try {
+      const result = await this.db.select().from(pageVersions).where(eq(pageVersions.pageId, pageId));
+      return result;
+    } catch (error) {
+      console.error('Error fetching page versions:', error);
+      return [];
+    }
   }
 
-  async updatePageBuilderPage(pageId: number, pageData: any) {
-    console.log(`Updating page ${pageId} with data:`, pageData);
-    return {
-      ...pageData,
-      id: pageId,
-      updatedAt: new Date().toISOString()
-    };
+  async updatePageBuilderPage(pageId: string, pageData: any) {
+    try {
+      const [updatedPage] = await this.db
+        .update(pages)
+        .set({ ...pageData, updatedAt: new Date() })
+        .where(eq(pages.id, pageId))
+        .returning();
+      return updatedPage;
+    } catch (error) {
+      console.error('Error updating page:', error);
+      throw error;
+    }
+  }
+
+  async getPageBySlug(slug: string): Promise<Page | undefined> {
+    try {
+      const [page] = await this.db.select().from(pages).where(eq(pages.slug, slug));
+      return page;
+    } catch (error) {
+      console.error('Error fetching page by slug:', error);
+      return undefined;
+    }
   }
 
   async createPageBuilderPage(pageData: any) {
-    const newPage = {
-      ...pageData,
-      id: Date.now(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
-    };
-    console.log('Created new page:', newPage);
-    return newPage;
+    try {
+      const [newPage] = await this.db
+        .insert(pages)
+        .values({
+          ...pageData,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+        .returning();
+      return newPage;
+    } catch (error) {
+      console.error('Error creating page:', error);
+      throw error;
+    }
   }
 
-  async deletePageBuilderPage(pageId: number) {
-    console.log(`Deleted page ${pageId}`);
+  async deletePageBuilderPage(pageId: string) {
+    try {
+      await this.db.delete(pages).where(eq(pages.id, pageId));
+      return { success: true };
+    } catch (error) {
+      console.error('Error deleting page:', error);
+      throw error;
+    }
   }
 }
 

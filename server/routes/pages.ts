@@ -1,104 +1,126 @@
-import { Router } from 'express';
+import type { Express } from "express";
+import { storage } from "../storage";
+import { isAuthenticated } from "../replitAuth";
+import { z } from "zod";
+import { insertPageSchema } from "@shared/schema";
 
-const router = Router();
-
-// Mock pages data for demonstration
-const mockPages = [
-  {
-    id: '1',
-    title: 'Home Page',
-    slug: 'home',
-    type: 'page',
-    status: 'published',
-    lastModified: new Date().toISOString(),
-    elements: [],
-    seoData: {},
-    schemaData: []
-  },
-  {
-    id: '2',
-    title: 'About Us',
-    slug: 'about',
-    type: 'page',
-    status: 'published',
-    lastModified: new Date().toISOString(),
-    elements: [],
-    seoData: {},
-    schemaData: []
-  },
-  {
-    id: '3',
-    title: 'Contact',
-    slug: 'contact',
-    type: 'page',
-    status: 'draft',
-    lastModified: new Date().toISOString(),
-    elements: [],
-    seoData: {},
-    schemaData: []
-  }
-];
-
-// GET /api/pages - Get all pages
-router.get('/', (req, res) => {
-  res.json({
-    data: mockPages,
-    total: mockPages.length
+export function registerPageRoutes(app: Express) {
+  // Get all pages (with optional filtering)
+  app.get('/api/pages', isAuthenticated, async (req, res) => {
+    try {
+      const pages = await storage.getPageBuilderPages();
+      res.json(pages);
+    } catch (error) {
+      console.error('Error fetching pages:', error);
+      res.status(500).json({ error: 'Failed to fetch pages' });
+    }
   });
-});
 
-// GET /api/pages/:id - Get single page
-router.get('/:id', (req, res) => {
-  const page = mockPages.find(p => p.id === req.params.id);
-  if (!page) {
-    return res.status(404).json({ error: 'Page not found' });
-  }
-  res.json(page);
-});
+  // Get page by slug
+  app.get('/api/pages/slug/:slug', async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const page = await storage.getPageBySlug(slug);
+      
+      if (!page) {
+        return res.status(404).json({ error: 'Page not found' });
+      }
+      
+      res.json(page);
+    } catch (error) {
+      console.error('Error fetching page:', error);
+      res.status(500).json({ error: 'Failed to fetch page' });
+    }
+  });
 
-// POST /api/pages - Create new page
-router.post('/', (req, res) => {
-  const newPage = {
-    id: Date.now().toString(),
-    title: req.body.title || 'New Page',
-    slug: req.body.slug || `page-${Date.now()}`,
-    type: req.body.type || 'page',
-    status: req.body.status || 'draft',
-    lastModified: new Date().toISOString(),
-    elements: req.body.elements || [],
-    seoData: req.body.seoData || {},
-    schemaData: req.body.schemaData || []
-  };
-  
-  mockPages.push(newPage);
-  res.status(201).json(newPage);
-});
+  // Create new page
+  app.post('/api/pages', isAuthenticated, async (req, res) => {
+    try {
+      const pageData = insertPageSchema.parse(req.body);
+      
+      // Check if slug already exists
+      const existingPage = await storage.getPageBySlug(pageData.slug);
+      if (existingPage) {
+        return res.status(400).json({ error: 'Page with this slug already exists' });
+      }
+      
+      const newPage = await storage.createPageBuilderPage(pageData);
+      res.status(201).json(newPage);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ error: 'Validation error', details: error.errors });
+      }
+      console.error('Error creating page:', error);
+      res.status(500).json({ error: 'Failed to create page' });
+    }
+  });
 
-// PUT /api/pages/:id - Update page
-router.put('/:id', (req, res) => {
-  const pageIndex = mockPages.findIndex(p => p.id === req.params.id);
-  if (pageIndex === -1) {
-    return res.status(404).json({ error: 'Page not found' });
-  }
-  
-  mockPages[pageIndex] = {
-    ...mockPages[pageIndex],
-    ...req.body,
-    lastModified: new Date().toISOString()
-  };
-  
-  res.json(mockPages[pageIndex]);
-});
+  // Update page
+  app.put('/api/pages/:id', isAuthenticated, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updateData = req.body;
+      
+      // If slug is being updated, check for duplicates
+      if (updateData.slug) {
+        const existingPage = await storage.getPageBySlug(updateData.slug);
+        if (existingPage && existingPage.id !== id) {
+          return res.status(400).json({ error: 'Page with this slug already exists' });
+        }
+      }
+      
+      const updatedPage = await storage.updatePageBuilderPage(id, updateData);
+      res.json(updatedPage);
+    } catch (error) {
+      console.error('Error updating page:', error);
+      res.status(500).json({ error: 'Failed to update page' });
+    }
+  });
 
-// DELETE /api/pages/:id - Delete page
-router.delete('/:id', (req, res) => {
-  const pageIndex = mockPages.findIndex(p => p.id === req.params.id);
-  if (pageIndex === -1) {
-    return res.status(404).json({ error: 'Page not found' });
-  }
-  
-  mockPages.splice(pageIndex, 1);
-  res.status(204).send();
-});
+  // Delete page
+  app.delete('/api/pages/:id', isAuthenticated, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deletePageBuilderPage(id);
+      res.json({ success: true });
+    } catch (error) {
+      console.error('Error deleting page:', error);
+      res.status(500).json({ error: 'Failed to delete page' });
+    }
+  });
 
-export default router;
+  // Get page versions
+  app.get('/api/pages/:id/versions', isAuthenticated, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const versions = await storage.getPageVersions(id);
+      res.json(versions);
+    } catch (error) {
+      console.error('Error fetching page versions:', error);
+      res.status(500).json({ error: 'Failed to fetch page versions' });
+    }
+  });
+
+  // Publish/unpublish page
+  app.patch('/api/pages/:id/status', isAuthenticated, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+      
+      if (!['draft', 'published', 'archived'].includes(status)) {
+        return res.status(400).json({ error: 'Invalid status' });
+      }
+      
+      const updateData: any = { status };
+      if (status === 'published') {
+        updateData.publishedAt = new Date();
+      }
+      
+      const updatedPage = await storage.updatePageBuilderPage(id, updateData);
+      res.json(updatedPage);
+    } catch (error) {
+      console.error('Error updating page status:', error);
+      res.status(500).json({ error: 'Failed to update page status' });
+    }
+  });
+}

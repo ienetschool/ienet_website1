@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import PagesManagement from "./dashboard/PagesManagement";
+import EnhancedPagesManagement from "./dashboard/EnhancedPagesManagement";
 import { ServicesManagement } from "./dashboard/ServicesManagement";
 import { SubServicesManagement } from "./dashboard/SubServicesManagement";
 import { FeaturesManagement } from "./dashboard/FeaturesManagement";
@@ -256,7 +257,7 @@ export default function ComprehensiveDashboard() {
       case '':
         return <DashboardOverview stats={stats} />;
       case 'pages':
-        return <PagesManagement />;
+        return <EnhancedPagesManagement />;
       case 'services':  
         return <ServicesManagement />;
       case 'sub-services':

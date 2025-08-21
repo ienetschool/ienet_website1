@@ -143,12 +143,38 @@ export default function SubServiceDetail() {
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
               Service Not Found
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 mb-8">
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
               The service you're looking for doesn't exist or has been moved.
             </p>
-            <Button asChild>
-              <Link href="/services">Back to Services</Link>
-            </Button>
+            {category && (
+              <div className="mb-8">
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  Available services in <strong>{category.name}</strong>:
+                </p>
+                <div className="grid gap-4 max-w-2xl mx-auto">
+                  {relatedServices?.slice(0, 6).map((service: any) => (
+                    <Link
+                      key={service.id}
+                      href={`/services/${categorySlug}/${service.slug}`}
+                      className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:shadow-md transition-shadow text-left"
+                    >
+                      <h3 className="font-semibold text-gray-900 dark:text-white">{service.name}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{service.description}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+            <div className="space-x-4">
+              <Button asChild>
+                <Link href="/services">All Services</Link>
+              </Button>
+              {category && (
+                <Button variant="outline" asChild>
+                  <Link href={`/services/${categorySlug}`}>Back to {category.name}</Link>
+                </Button>
+              )}
+            </div>
           </div>
         </main>
         <ModernFooter />

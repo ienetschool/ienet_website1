@@ -1,38 +1,76 @@
 #!/bin/bash
 
-echo "Deploying React files to httpdocs - Correct Plesk Path"
+echo "🚀 DEPLOYING TO HTTPDOCS DIRECTORY"
+echo "================================="
 
-# Upload React files directly to httpdocs
-scp -r dist/public/* root@5.181.218.15:/var/www/vhosts/vivaindia.com/ienet.online/httpdocs/
+# Upload to the correct httpdocs directory where the website is served from
+sshpass -p '&8KXC4D+Ojfhuu0LSMhE' ssh -o StrictHostKeyChecking=no root@5.181.218.15 << 'EOF'
 
-# Upload API server to domain root
-scp production-server.cjs root@5.181.218.15:/var/www/vhosts/vivaindia.com/ienet.online/
+cd /var/www/vhosts/vivaindia.com/ienet.online
 
-echo "Configuring httpdocs deployment..."
-ssh root@5.181.218.15 << 'EOF'
+# Create httpdocs if it doesn't exist
+mkdir -p httpdocs
 
-# Go to domain directory
-cd /var/www/vhosts/vivaindia.com/ienet.online/
+# Clear old files from httpdocs
+echo "Clearing old files from httpdocs..."
+rm -rf httpdocs/*
 
-# Install dependencies
-npm install mysql2
+echo "Current files to copy:"
+ls -la
 
-# Set permissions for httpdocs
-chown -R vivaiind:psacln httpdocs/
+# Copy all React build files to httpdocs
+echo "Copying React build files to httpdocs..."
+if [ -f "index.html" ]; then
+    cp index.html httpdocs/
+    echo "✅ index.html copied"
+fi
+
+if [ -d "assets" ]; then
+    cp -r assets/ httpdocs/
+    echo "✅ assets/ directory copied"
+fi
+
+if [ -f "IE vector logo-01_1755535165852.png" ]; then
+    cp "IE vector logo-01_1755535165852.png" httpdocs/
+    echo "✅ Logo file copied"
+fi
+
+# Set proper permissions
+chown -R www-data:www-data httpdocs/
 chmod -R 755 httpdocs/
 
-# Stop existing processes and start API server
-pkill -f "production-server.cjs" || true
-nohup node production-server.cjs > production.log 2>&1 &
-
-# Verify deployment
-echo "Files in httpdocs:"
+echo ""
+echo "Files now in httpdocs:"
 ls -la httpdocs/
-ls -la httpdocs/assets/
 
-echo "API server status:"
-ps aux | grep production-server.cjs | grep -v grep
+echo ""
+echo "Testing website response:"
+curl -I http://localhost/
+
+echo ""
+echo "✅ Website files deployed to httpdocs!"
+echo "The website should now show the updated content."
 
 EOF
 
-echo "Deployment to httpdocs complete!"
+echo ""
+echo "🧪 Testing production website..."
+sleep 2
+
+# Test the actual website
+echo "Home page status:"
+curl -o /dev/null -s -w "%{http_code}\n" https://www.ienet.online
+
+echo "Contact page content check:"
+contact_response=$(curl -s https://www.ienet.online/contact)
+if echo "$contact_response" | grep -q "Contact IeNet"; then
+    echo "✅ Contact page shows 'Contact IeNet'"
+elif echo "$contact_response" | grep -q "Contact India Espectacular"; then
+    echo "❌ Still shows 'Contact India Espectacular' - cache issue"
+else
+    echo "❓ Contact page content unclear"
+fi
+
+echo ""
+echo "🎉 DEPLOYMENT TO HTTPDOCS COMPLETED!"
+echo "Clear your browser cache and test: https://www.ienet.online/contact"

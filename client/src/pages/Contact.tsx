@@ -81,7 +81,7 @@ export default function Contact() {
       answer: "You can get a project quote by filling out our contact form with your project details, calling us directly, or scheduling a free consultation through our website."
     },
     {
-      question: "What is India Espectacular's response time?",
+      question: "What is IeNet's response time?",
       answer: "We typically respond to all inquiries within 24 hours during business days. For urgent matters, you can call our support line for immediate assistance."
     },
     {
@@ -152,7 +152,7 @@ export default function Contact() {
         pageName="Contact"
       />
       <LocalSEO 
-        serviceArea="Contact India Espectacular"
+        serviceArea="Contact IeNet"
         services={["IT Consulting", "Web Development", "Cloud Services", "Cybersecurity"]}
       />
       <TopBar />
@@ -242,9 +242,9 @@ export default function Contact() {
                     <div className="w-14 h-14 bg-purple-600 hover:bg-purple-700 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-all duration-300">
                       <MapPin className="w-7 h-7 text-white" />
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Visit Office</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-1">Sandy Babb Street, Kitty</p>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Georgetown, Guyana</p>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Visit India Office</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-1">101 Laxman Nagar Via Chadi</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Laxman Nagar Road Siyolnagar, SIYOLENAGAR Phalodi, JODHPUR 342312</p>
                     <Button variant="outline" size="sm" className="w-full border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white">
                       Get Directions
                     </Button>
@@ -259,7 +259,7 @@ export default function Contact() {
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Call Us</h3>
                     <p className="text-gray-900 dark:text-white font-medium mb-1">+592 750-3901</p>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Mon-Fri: 9AM-6PM</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Mon-Fri: 9AM-6PM IST</p>
                     <Button variant="outline" size="sm" className="w-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
                       Call Now
                     </Button>
@@ -288,8 +288,8 @@ export default function Contact() {
                       <Clock className="w-7 h-7 text-white" />
                     </div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Office Hours</h3>
-                    <p className="text-gray-900 dark:text-white font-medium mb-1 text-sm">Mon-Fri: 9AM-6PM</p>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Sat: 10AM-2PM</p>
+                    <p className="text-gray-900 dark:text-white font-medium mb-1 text-sm">Mon-Fri: 9AM-6PM IST</p>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">Sat: 10AM-2PM IST</p>
                     <Button variant="outline" size="sm" className="w-full border-green-600 text-green-600 hover:bg-green-600 hover:text-white">
                       Schedule Meeting
                     </Button>

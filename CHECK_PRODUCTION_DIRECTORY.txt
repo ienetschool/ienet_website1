@@ -1,0 +1,32 @@
+PRODUCTION DIRECTORY VERIFICATION
+=================================
+
+You're right to question the /httpdocs path. Let's verify the correct directory structure.
+
+In your SSH terminal, please run these commands to find the correct path:
+
+1. Check your current directory:
+   pwd
+
+2. List files to see what's there:
+   ls -la
+
+3. Check if you're already in the web root:
+   ls -la index.html 2>/dev/null || echo "No index.html found"
+
+4. Find where the React build files are located:
+   find /var/www -name "index.html" 2>/dev/null | head -5
+
+5. Check common web root locations:
+   ls -la /var/www/html/ 2>/dev/null || echo "No /var/www/html"
+   ls -la /var/www/vhosts/ienet.online/public_html/ 2>/dev/null || echo "No public_html"
+   ls -la /var/www/vhosts/ienet.online/httpdocs/ 2>/dev/null || echo "No httpdocs"
+
+UPLOAD TO THE CORRECT DIRECTORY:
+===============================
+Upload the files to wherever you see:
+- index.html (React app)
+- assets/ folder
+- Other website files
+
+This is your actual web root directory where the files should go.

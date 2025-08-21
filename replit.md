@@ -17,7 +17,7 @@ CRITICAL USER REQUIREMENT - User explicitly stated "keep same development server
 ✅ DEVELOPMENT SERVER FIXES: All TypeScript compilation errors resolved in Services.tsx, website logo working correctly, all 25 service categories loading with real database data
 ✅ API STRUCTURE CONFIRMED: Services (143+), Features (1160+), Projects (3) all loading correctly on development server with proper routing and data structure
 ✅ LOGO RESOLUTION: Fixed logo path issues on both development and production servers, logo files properly deployed
-❌ CRITICAL PRODUCTION ISSUE: Node.js backend server stopped running (502 Bad Gateway), causing missing page titles and loading errors for features/services on production server - requires manual restart of mysql-production-server.cjs on port 3001
+❌ CRITICAL PRODUCTION ISSUE CONFIRMED: Node.js backend server crashed on ienet.online (502 Bad Gateway), causing "Service Not Found" errors even for valid URLs that work perfectly on development server - production server mysql-production-server.cjs on port 3001 requires immediate manual restart via SSH
 
 ## System Architecture
 

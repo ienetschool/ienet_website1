@@ -1,44 +1,38 @@
-IMMEDIATE RESTART COMMANDS
+IMMEDIATE PRODUCTION SERVER RESTART COMMANDS
+==============================================
 
-The server is running but not binding to port 3001. Follow these steps:
+The issue is that the Node.js backend server on ienet.online has crashed.
+This is causing 502 Bad Gateway errors for all API endpoints.
 
-1. Upload the fixed-production-server.cjs file to your server
+IMMEDIATE FIX COMMANDS:
+----------------------
 
-2. Kill the current server and start the fixed version:
-   ssh root@5.181.218.15
-   cd /var/www/vhosts/vivaindia.com/ienet.online/
-   
-   # Kill existing server
-   pkill -f production-server
-   
-   # Start the fixed server
-   nohup node fixed-production-server.cjs > fixed-server.log 2>&1 &
-   
-   # Get the new process ID
-   echo "New server PID: $!"
+1. SSH into your production server:
+   ssh username@your-server-ip
 
-3. Verify the fix:
-   # Check if port 3001 is now listening
-   netstat -tulpn | grep 3001
-   
-   # Test local connection
-   curl http://127.0.0.1:3001/api/health
-   
-   # Check server logs
-   tail -10 fixed-server.log
+2. Navigate to website directory:
+   cd /var/www/vhosts/ienet.online/httpdocs
 
-4. Test the website:
-   curl https://www.ienet.online/api/health
-   curl https://www.ienet.online/api/service-categories
+3. Kill any existing Node.js processes:
+   pkill -f node
+   pkill -f "mysql-production-server"
 
-EXPECTED RESULTS:
-- Port 3001 should show as listening
-- Health endpoint returns JSON response
-- Service categories load from MySQL
-- Website shows real content instead of "Service Not Found"
+4. Restart the production server:
+   nohup node mysql-production-server.cjs > server.log 2>&1 &
 
-The fixed server has:
-- Explicit 127.0.0.1 binding
-- Enhanced error logging
-- Self-test after startup
-- Better MySQL connection handling
+5. Verify it's running:
+   ps aux | grep node
+   curl http://localhost:3001/api/service-categories
+
+6. Check the logs if needed:
+   tail -f server.log
+
+VERIFICATION:
+------------
+After restart, these should work:
+- https://www.ienet.online/api/service-categories
+- https://www.ienet.online/services/digital-marketing-seo/search-engine-optimization
+- All page titles and content should load properly
+
+The development server works because it's running.
+The production server doesn't work because the Node.js process stopped.
